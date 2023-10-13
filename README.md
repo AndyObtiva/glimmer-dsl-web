@@ -3,9 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-**UPCOMING (NOT RELEASED YET)**
-
-Current README-write-up/code is copied-from/inspired-by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal), which you can check out until we have a release of Glimmer DSL for Web. This project is similar in enabling frontend GUI development with Ruby, but it mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby (enabling transfer of HTML/CSS/JS skills) instead of adopting a desktop GUI DSL that is webified. Also, it will begin by supporting [Opal Ruby](https://opalrb.com/), but it might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
+This project is inspired-by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby, but it mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby (enabling transfer of HTML/CSS/JS skills) instead of adopting a desktop GUI DSL that is webified. Also, it will begin by supporting [Opal Ruby](https://opalrb.com/), but it might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
 
 ### You can finally live in pure Rubyland on the web!
 
@@ -13,12 +11,11 @@ Current README-write-up/code is copied-from/inspired-by [Glimmer DSL for Opal](h
 
 **Hello, World! Sample**
 
-**UPCOMING (NOT RELEASED YET)**
-
 Initial HTML Markup:
 
 ```html
-<div id="application"></div>
+<div id="app-container">
+</div>
 ```
 
 Glimmer GUI code:
@@ -29,7 +26,7 @@ require 'glimmer-dsl-web'
 include Glimmer
 
 # This will hook into element #application and then build HTML inside it using Ruby DSL code
-div('#application') {
+div(root: '#app-container') {
   label(class: 'greeting') {
     'Hello, World!'
   }
@@ -39,16 +36,18 @@ div('#application') {
 That produces:
 
 ```html
-<div id="application">
-  <label class="greeting">
-    Hello, World!
-  </label>
+<div id="app-container">
+  <div root="#app-container" id="element-1" class="element">
+    <label class="greeting element" id="element-2">
+      Hello, World!
+    </label>
+  </div>
 </div>
 ```
 
 **Hello, Button! Sample**
 
-**UPCOMING (NOT RELEASED YET)**
+**UPCOMING (NOT RELEASED OR SUPPORTED YET)**
 
 Glimmer GUI code demonstrating MVC + Glimmer Web Components (Views) + Data-Binding:
 
@@ -81,7 +80,7 @@ class HelloButton
       
       button {
         # Unidirectional Data-Binding indicating that on every change to @counter.count, the value
-        # is read and converted to "Click To Increment: #{value}  ", and then automatically 
+        # is read and converted to "Click To Increment: #{value}  ", and then automatically
         # copied to button innerText (content) to display to the user
         inner_text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
         
@@ -165,19 +164,11 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Setup
 
-**UPCOMING (NOT RELEASED YET)**
-
-DO NOT USE THESE SETUP INSTRUCTIONS YET AS THEY WERE COPIED FROM GLIMMER DSL FOR OPAL, BUT WILL BE UPDATED ONCE VERSION 0.0.1 IS RELEASED!
-
 (NOTE: Keep in mind this is a very early experimental and incomplete **alpha**. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
 
 The [glimmer-dsl-web](https://rubygems.org/gems/glimmer-dsl-web) gem is a [Rails Engine](https://guides.rubyonrails.org/engines.html) gem that includes assets.
 
 ### Rails 7
-
-**UPCOMING (NOT RELEASED YET)**
-
-DO NOT USE THESE SETUP INSTRUCTIONS YET AS THEY WERE COPIED FROM GLIMMER DSL FOR OPAL, BUT WILL BE UPDATED ONCE VERSION 0.0.1 IS RELEASED!
 
 Please follow the following steps to setup.
 
@@ -264,7 +255,8 @@ Example to confirm setup is working:
 Initial HTML Markup:
 
 ```html
-<div id="application"></div>
+<div id="app-container">
+</div>
 ```
 
 Glimmer GUI code:
@@ -275,7 +267,7 @@ require 'glimmer-dsl-web'
 include Glimmer
 
 # This will hook into element #application and then build HTML inside it using Ruby DSL code
-div('#application') {
+div(root: '#app-container') {
   label(class: 'greeting') {
     'Hello, World!'
   }
@@ -285,10 +277,12 @@ div('#application') {
 That produces:
 
 ```html
-<div id="application">
-  <label class="greeting">
-    Hello, World!
-  </label>
+<div id="app-container">
+  <div root="#app-container" id="element-1" class="element">
+    <label class="greeting element" id="element-2">
+      Hello, World!
+    </label>
+  </div>
 </div>
 ```
 
@@ -303,15 +297,11 @@ You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake). It is also hosted online (proving that it works): https://sample-glimmer-dsl-web-rails7.herokuapp.com/
+If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake).
 
 Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
 
 ### Rails 6
-
-**UPCOMING (NOT RELEASED YET)**
-
-DO NOT USE THESE SETUP INSTRUCTIONS YET AS THEY WERE COPIED FROM GLIMMER DSL FOR OPAL, BUT WILL BE UPDATED ONCE VERSION 0.0.1 IS RELEASED!
 
 Please follow the following steps to setup.
 
@@ -405,12 +395,11 @@ require 'glimmer-dsl-web' # brings opal and other dependencies automatically
 
 Example to confirm setup is working:
 
-**UPCOMING (NOT RELEASED YET)**
-
 Initial HTML Markup:
 
 ```html
-<div id="application"></div>
+<div id="app-container">
+</div>
 ```
 
 Glimmer GUI code:
@@ -421,7 +410,7 @@ require 'glimmer-dsl-web'
 include Glimmer
 
 # This will hook into element #application and then build HTML inside it using Ruby DSL code
-div('#application') {
+div(root: '#app-container') {
   label(class: 'greeting') {
     'Hello, World!'
   }
@@ -431,10 +420,12 @@ div('#application') {
 That produces:
 
 ```html
-<div id="application">
-  <label class="greeting">
-    Hello, World!
-  </label>
+<div id="app-container">
+  <div root="#app-container" id="element-1" class="element">
+    <label class="greeting element" id="element-2">
+      Hello, World!
+    </label>
+  </div>
 </div>
 ```
 
@@ -449,62 +440,35 @@ You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 6 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails6-app) project (in case I forgot to include some setup steps by mistake). It is also hosted online (proving that it works): https://sample-glimmer-dsl-web-rails6.herokuapp.com/
+**NOT RELEASED OR SUPPORTED YET**
+
+If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 6 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails6-app) project (in case I forgot to include some setup steps by mistake).
 
 Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
 
 ## Supported Glimmer DSL Keywords
 
-**UPCOMING (NOT RELEASED YET)**
-
-The following keywords from [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) have fully functional partial support in Opal:
-
 All HTML elements.
 
 All HTML attributes.
 
-Data-Binding/Observers:
-- `bind`: featured in [Hello, Computed!](#hello-computed) / [Hello, Combo!](#hello-combo) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox) / [Hello, Button!](#hello-button) / [Hello, Table!](#hello-table) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Hello, Group!](#hello-group) / [Hello, Date Time!](#hello-date-time) / [Hello, Custom Widget!](#hello-custom-widget) / [Hello, Custom Shell!](#hello-custom-shell) / [Login](#login) / [Contact Manager](#contact-manager) / [Tic Tac Toe](#tic-tac-toe)
-- `observe`: featured in [Hello, Table!](#hello-table) / [Tic Tac Toe](#tic-tac-toe)
-- `on_widget_selected`: featured in [Hello, Combo!](#hello-combo) / [Hello, Checkbox Group!](#hello-checkbox-group) / [Hello, Checkbox!](#hello-checkbox) / [Hello, Button!](#hello-button) / [Hello, Table!](#hello-table) / [Hello, Radio Group!](#hello-radio-group) / [Hello, Radio!](#hello-radio) / [Hello, Pop Up Context Menu!](#hello-pop-up-context-menu) / [Hello, Message Box!](#hello-message-box) / [Hello, Menu Bar!](#hello-menu-bar) / [Hello, List Single Selection!](#hello-list-single-selection) / [Hello, List Multi Selection!](#hello-list-multi-selection) / [Hello, Group!](#hello-group) / [Contact Manager](#contact-manager) / [Login](#login) / [Tic Tac Toe](#tic-tac-toe)
-- `on_modify_text`
-- `on_key_pressed` (and SWT alias `on_swt_keydown`) - featured in [Login](#login) / [Contact Manager](#contact-manager)
-- `on_key_released` (and SWT alias `on_swt_keyup`)
-- `on_mouse_down` (and SWT alias `on_swt_mousedown`)
-- `on_mouse_up` (and SWT alias `on_swt_mouseup`) - featured in [Hello, Custom Shell!](#hello-custom-shell) / [Contact Manager](#contact-manager)
-
 ## Samples
-
-Follow the instructions below to try out [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) samples webified via [glimmer-dsl-web](https://rubygems.org/gems/glimmer-dsl-web)
-
-The [Hello samples](#hello-samples) demonstrate tiny building blocks (widgets) for building full fledged applications.
-
-The [Elaborate samples](#elaborate-samples) demonstrate more advanced sample applications that assemble multiple building blocks.
 
 This external sample app contains all the samples mentioned below configured inside a Rails [Opal](https://opalrb.com/) app with all the prerequisites ready to go for convenience:
 
 https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
-https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails-app
-
-You may visit a Heroku hosted version at:
-
-https://sample-glimmer-dsl-web-rails7.herokuapp.com/
-
-https://sample-glimmer-dsl-web-app.herokuapp.com/
-
-Note: Some of the screenshots might be out of date with updates done to samples in both [glimmer-dsl-swt](https://github.com/AndyObtiva/glimmer-dsl-swt) and [glimmer-dsl-web ](https://github.com/AndyObtiva/glimmer-dsl-web ).
+**[NOT RELEASED OR SUPPORTED YET]** https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails-app
 
 ### Hello Samples
 
 #### Hello, World!
 
-**UPCOMING (NOT RELEASED YET)**
-
 Initial HTML Markup:
 
 ```html
-<div id="application"></div>
+<div id="app-container">
+</div>
 ```
 
 Glimmer GUI code:
@@ -515,7 +479,7 @@ require 'glimmer-dsl-web'
 include Glimmer
 
 # This will hook into element #application and then build HTML inside it using Ruby DSL code
-div('#application') {
+div(root: '#application') {
   label(class: 'greeting') {
     'Hello, World!'
   }
@@ -525,16 +489,18 @@ div('#application') {
 That produces:
 
 ```html
-<div id="application">
-  <label class="greeting">
-    Hello, World!
-  </label>
+<div id="app-container">
+  <div root="#app-container" id="element-1" class="element">
+    <label class="greeting element" id="element-2">
+      Hello, World!
+    </label>
+  </div>
 </div>
 ```
 
 #### Hello, Button!
 
-**UPCOMING (NOT RELEASED YET)**
+**UPCOMING (NOT RELEASED OR SUPPORTED YET)**
 
 Glimmer GUI code demonstrating MVC + Glimmer Web Components (Views) + Data-Binding:
 
@@ -567,7 +533,7 @@ class HelloButton
       
       button {
         # Unidirectional Data-Binding indicating that on every change to @counter.count, the value
-        # is read and converted to "Click To Increment: #{value}  ", and then automatically 
+        # is read and converted to "Click To Increment: #{value}  ", and then automatically
         # copied to button innerText (content) to display to the user
         inner_text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
         

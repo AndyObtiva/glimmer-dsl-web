@@ -48,25 +48,18 @@ if RUBY_ENGINE == 'opal'
   require 'opal-async'
   require 'async/ext'
   require 'to_collection'
-  require 'pure-struct'
-  require 'os'
-  require 'cgi'
-  require 'file'
-  require 'display'
-  require 'glimmer-dsl-opal/vendor/jquery'
+  require 'pure-struct' # TODO double check if the latest Opal implemented everything below already
+  require 'glimmer-dsl-web/vendor/jquery'
   require 'opal-jquery'
   require 'opal/jquery/local_storage'
   require 'promise'
  
   require 'facets/hash/symbolize_keys'
   require 'facets/string/underscore'
-  require 'glimmer-dsl-opal/ext/class'
-  require 'glimmer-dsl-opal/ext/file'
+  require 'glimmer-dsl-web/ext/class'
   require 'glimmer'
-  require 'glimmer-dsl-opal/ext/exception'
-  require 'glimmer-dsl-opal/ext/date'
-  require 'glimmer-dsl-opal/ext/glimmer/dsl/engine'
-  require 'uri'
+  require 'glimmer-dsl-web/ext/exception'
+  require 'glimmer-dsl-web/ext/date'
   
   # Spiking async logging
 #   logger = Glimmer::Config.logger
@@ -78,16 +71,17 @@ if RUBY_ENGINE == 'opal'
 #     end
 #   end
       
-  require 'glimmer/dsl/opal/dsl'
+  require 'glimmer/dsl/web/dsl'
   require 'glimmer/config/opal_logger'
   require 'glimmer-dsl-xml'
   require 'glimmer-dsl-css'
   
+  # TODO double check if alias native calls below have been added to jQuery-Opal (remove if so)
   Element.alias_native :replace_with, :replaceWith
   Element.alias_native :select
-  Element.alias_native :dialog
+#   Element.alias_native :dialog
     
-  Glimmer::Config.loop_max_count = 250 # TODO disable
+  Glimmer::Config.loop_max_count = 150 # TODO disable
   
   original_logger_level = Glimmer::Config.logger.level
   Glimmer::Config.logger = Glimmer::Config::OpalLogger.new(STDOUT)
@@ -98,7 +92,8 @@ if RUBY_ENGINE == 'opal'
     result ||= method == '<<'
     result ||= method == 'handle'
   end
-else
-  require_relative 'glimmer/config'
-  require_relative 'glimmer/engine'
+  
+# else # TODO enable when ready to include a Rails engine in the gem
+#   require_relative 'glimmer/config'
+#   require_relative 'glimmer/engine'
 end

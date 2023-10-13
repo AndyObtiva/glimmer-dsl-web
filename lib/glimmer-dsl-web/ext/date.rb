@@ -1,3 +1,4 @@
+# TODO double check if the latest Opal implemented everything below already
 require 'date'
 require 'time'
 

@@ -21,7 +21,7 @@ unless jeweler_required.nil?
     gem.homepage = "http://github.com/AndyObtiva/glimmer-dsl-web"
     gem.license = "MIT"
     gem.summary = %Q{Glimmer DSL for Web}
-    gem.description = %Q{Glimmer DSL for Web (Ruby in the Browser Web GUI Library)}
+    gem.description = %Q{Glimmer DSL for Web (Ruby in the Browser Web GUI Library) - Enables frontend GUI development with Ruby by adopting a DSL that follows web-like HTML syntax, enabling the transfer of HTML/CSS/JS skills to Ruby frontend development. This library relies on Opal Ruby.}
     gem.email = "andy.am@gmail.com"
     gem.authors = ["Andy Maleh"]
     gem.executables = []

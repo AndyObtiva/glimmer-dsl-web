@@ -2,16 +2,9 @@
 
 Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
-## Next (0.0.1)
+## Next (0.0.2)
 
-- Designate an HTML element via CSS as the Glimmer DSL root element (body) in Ruby code to hook into and populate with markup
-- Support HTML elements and attributes
-- Hello, World! sample
-
-- Remove unnecessary JS libraries and images like calendar and twojs
-
-## 0.0.2
-
+- Add Hello, World! sample as a Ruby file (not just in README)
 - Component support (aka custom element)
 - Support JS listeners like `onclick`
 - Hello, Button! sample
@@ -35,6 +28,9 @@ inner_html(*data_binding_options) { |data_binding_value|
 
 ## Soon
 
+- Consider using descendants_tracker gem instead of implementing descendants manually
+- Glimmer Engine with `GlimmerHelper#glimmer_component`
+- Content Generators
 
 ## Future
 
