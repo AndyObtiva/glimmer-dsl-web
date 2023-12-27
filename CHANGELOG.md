@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.2
+
+- Rename element `:root` option to `:parent` option
+- Set `body` as parent by default if `:parent` option is not specified for a root element
+- `glimmer-dsl-web/samples/hello/hello_world.rb`
+
 ## 0.0.1
 
 - Render top-level HTML element + attributes under a root parent element by specifying `root: 'css_selector'` option (e.g. `div(root: 'css_selector')`)

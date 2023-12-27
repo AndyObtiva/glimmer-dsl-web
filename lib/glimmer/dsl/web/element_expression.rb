@@ -9,10 +9,9 @@ module Glimmer
         include ParentExpression
         
         def can_interpret?(parent, keyword, *args, &block)
-          # TODO automatically pass root as element if not passed instead of rejecting elements without a paraent nor root
+          # TODO automatically pass parent option as element if not passed instead of rejecting elements without a paraent nor root
           # TODO raise a proper error if root is an element that is not found (maybe do this in model)
-          options = args.last.is_a?(Hash) ? args.last : {}
-          (parent or options[:root])
+          true
         end
 
         def interpret(parent, keyword, *args, &block)

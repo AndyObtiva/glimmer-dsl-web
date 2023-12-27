@@ -197,8 +197,9 @@ module Glimmer
       def parent_dom_element
         if parent_path
           Document.find(parent_path)
-        elsif options[:root]
-          Document.find(options[:root])
+        else
+          options[:parent] ||= 'body'
+          Document.find(options[:parent])
         end
       end
       
@@ -269,6 +270,7 @@ module Glimmer
       def dom
         body_id = id
         body_class = ([name] + css_classes.to_a).join(' ')
+        # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
         html_options = options.dup
         html_options[:id] ||= body_id
         html_options[:class] ||= ''

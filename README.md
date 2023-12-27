@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.1
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.2 (Early Alpha)
 ## Ruby in the Browser Web GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -9,13 +9,15 @@ This project is inspired-by [Glimmer DSL for Opal](https://github.com/AndyObtiva
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web is an upcoming **pre-alpha** [gem](https://rubygems.org/gems/glimmer-dsl-web) that enables building web GUI in pure Ruby via [Opal](https://opalrb.com/) on [Rails](https://rubyonrails.org/) (and potentially [Ruby WASM](https://github.com/ruby/ruby.wasm) in the future).
 
-**Hello, World! Sample**
+**Sample**
 
 Initial HTML Markup:
 
 ```html
+...
 <div id="app-container">
 </div>
+...
 ```
 
 Glimmer GUI code:
@@ -25,8 +27,8 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
-# This will hook into element #application and then build HTML inside it using Ruby DSL code
-div(root: '#app-container') {
+# This will hook into element #app-container and then build HTML inside it using Ruby DSL code
+div(parent: '#app-container') {
   label(class: 'greeting') {
     'Hello, World!'
   }
@@ -37,12 +39,38 @@ That produces:
 
 ```html
 <div id="app-container">
-  <div root="#app-container" id="element-1" class="element">
+  <div parent="#app-container" id="element-1" class="element">
     <label class="greeting element" id="element-2">
       Hello, World!
     </label>
   </div>
 </div>
+```
+
+**Hello, World! Sample**
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+include Glimmer
+
+Document.ready? do
+  div {
+    'Hello, World!'
+  }.render
+end
+```
+
+That produces the following under `<body></body>`:
+
+```html
+<body>
+  <div parent="body" id="element-1" class="element">
+    Hello, World!
+  </div>
+</body>
 ```
 
 **Hello, Button! Sample**
@@ -74,7 +102,7 @@ class HelloButton
   end
   
   markup {
-    # This will hook into element #application and then build HTML inside it using Ruby DSL code
+    # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
     div(root_css_selector) {
       text 'Hello, Button!'
       
@@ -92,7 +120,7 @@ class HelloButton
   }
 end
 
-HelloButton.render('#application')
+HelloButton.render('#app-container')
 ```
 
 That produces:
@@ -191,7 +219,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.1'
+gem 'glimmer-dsl-web', '~> 0.0.2'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -266,8 +294,8 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
-# This will hook into element #application and then build HTML inside it using Ruby DSL code
-div(root: '#app-container') {
+# This will hook into element #app-container and then build HTML inside it using Ruby DSL code
+div(parent: '#app-container') {
   label(class: 'greeting') {
     'Hello, World!'
   }
@@ -278,7 +306,7 @@ That produces:
 
 ```html
 <div id="app-container">
-  <div root="#app-container" id="element-1" class="element">
+  <div parent="#app-container" id="element-1" class="element">
     <label class="greeting element" id="element-2">
       Hello, World!
     </label>
@@ -330,7 +358,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.1'
+gem 'glimmer-dsl-web', '~> 0.0.2'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -409,8 +437,8 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
-# This will hook into element #application and then build HTML inside it using Ruby DSL code
-div(root: '#app-container') {
+# This will hook into element #app-container and then build HTML inside it using Ruby DSL code
+div(parent: '#app-container') {
   label(class: 'greeting') {
     'Hello, World!'
   }
@@ -421,7 +449,7 @@ That produces:
 
 ```html
 <div id="app-container">
-  <div root="#app-container" id="element-1" class="element">
+  <div parent="#app-container" id="element-1" class="element">
     <label class="greeting element" id="element-2">
       Hello, World!
     </label>
@@ -464,13 +492,6 @@ https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
 #### Hello, World!
 
-Initial HTML Markup:
-
-```html
-<div id="app-container">
-</div>
-```
-
 Glimmer GUI code:
 
 ```ruby
@@ -478,23 +499,18 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
-# This will hook into element #application and then build HTML inside it using Ruby DSL code
-div(root: '#application') {
-  label(class: 'greeting') {
+Document.ready? do
+  div {
     'Hello, World!'
-  }
-}
+  }.render
+end
 ```
 
-That produces:
+That produces the following under `<body></body>`:
 
 ```html
-<div id="app-container">
-  <div root="#app-container" id="element-1" class="element">
-    <label class="greeting element" id="element-2">
-      Hello, World!
-    </label>
-  </div>
+<div parent="body" id="element-1" class="element">
+  Hello, World!
 </div>
 ```
 
@@ -527,7 +543,7 @@ class HelloButton
   end
   
   markup {
-    # This will hook into element #application and then build HTML inside it using Ruby DSL code
+    # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
     div(root_css_selector) {
       text 'Hello, Button!'
       
@@ -545,7 +561,7 @@ class HelloButton
   }
 end
 
-HelloButton.render('#application')
+HelloButton.render('#app-container')
 ```
 
 That produces:

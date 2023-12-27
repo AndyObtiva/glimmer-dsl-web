@@ -4,6 +4,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next (0.0.2)
 
+- Convert known attributes to data attributes
 - Add Hello, World! sample as a Ruby file (not just in README)
 - Component support (aka custom element)
 - Support JS listeners like `onclick`

@@ -19,11 +19,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer-dsl-web'
+
 include Glimmer
 
-shell {
-  text 'Glimmer'
-  label {
-    text 'Hello, World!'
-  }
-}.open
+Document.ready? do
+  div {
+    'Hello, World!'
+  }.render
+end
