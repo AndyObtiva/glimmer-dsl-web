@@ -2,17 +2,10 @@
 
 Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
-## Next (0.0.2)
+## Next
 
-- Convert known attributes to data attributes
-- Add Hello, World! sample as a Ruby file (not just in README)
-- Component support (aka custom element)
-- Support JS listeners like `onclick`
+- Support JS listeners like `onclick` by nesting an `on_someeventname` block under an element
 - Hello, Button! sample
-
-## 0.0.3
-
-- <%= glimmer_component("glimmer_subdirectory/component_name", **options) %>
 
 ## 0.0.4
 
@@ -20,12 +13,20 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## 0.0.5
 
-- Shortened unidirectional data-binding syntax (useful for inner_html property as it requires hierarchical markup as content)
-inner_html(*data_binding_options) { |data_binding_value|
+- Content data-binding support:
+content(*data_binding_options) { |data_binding_value|
   span {
     data_binding_value
   }
 }
+
+## 0.0.6
+
+- Component support (aka custom element)
+
+## 0.0.7
+
+- <%= glimmer_component("glimmer_subdirectory/component_name", **options) %>
 
 ## Soon
 

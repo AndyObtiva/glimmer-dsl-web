@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.2 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.3 (Early Alpha)
 ## Ruby in the Browser Web GUI Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -29,12 +29,14 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
-# This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-div(parent: '#app-container') {
-  label(class: 'greeting') {
-    'Hello, World!'
-  }
-}
+Document.ready? do
+  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
+  div(parent: '#app-container') {
+    label(class: 'greeting') {
+      'Hello, World!'
+    }
+  }.render
+end
 ```
 
 That produces:
@@ -221,7 +223,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.2'
+gem 'glimmer-dsl-web', '~> 0.0.3'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -298,12 +300,14 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
-# This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-div(parent: '#app-container') {
-  label(class: 'greeting') {
-    'Hello, World!'
-  }
-}
+Document.ready? do
+  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
+  div(parent: '#app-container') {
+    label(class: 'greeting') {
+      'Hello, World!'
+    }
+  }.render
+end
 ```
 
 That produces:
@@ -364,7 +368,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.2'
+gem 'glimmer-dsl-web', '~> 0.0.3'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -445,12 +449,14 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
-# This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-div(parent: '#app-container') {
-  label(class: 'greeting') {
-    'Hello, World!'
-  }
-}
+Document.ready? do
+  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
+  div(parent: '#app-container') {
+    label(class: 'greeting') {
+      'Hello, World!'
+    }
+  }.render
+end
 ```
 
 That produces:

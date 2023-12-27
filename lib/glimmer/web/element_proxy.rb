@@ -68,8 +68,10 @@ module Glimmer
       
       include Glimmer
       include PropertyOwner
-            
+      
       Event = Struct.new(:widget, keyword_init: true)
+      
+      GLIMMER_ATTRIBUTES = [:parent]
     
       attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :focus, :removed?, :rendered
       alias rendered? rendered
@@ -198,6 +200,7 @@ module Glimmer
         if parent_selector
           Document.find(parent_selector)
         else
+          # TODO consider moving this to initializer
           options[:parent] ||= 'body'
           Document.find(options[:parent])
         end
@@ -270,9 +273,6 @@ module Glimmer
       def dom
         body_class = ([name, element_id] + css_classes.to_a).join(' ')
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
-        html_options = options.dup
-        html_options[:class] ||= ''
-        html_options[:class] = "#{html_options[:class]} #{body_class}".strip
         @dom ||= html {
           send(keyword, html_options) {
             # TODO consider supporting the idea of dynamic CSS building on close of shell that adds only as much CSS as needed for widgets that were mentioned
@@ -288,6 +288,18 @@ module Glimmer
 #             end
           }
         }.to_s
+      end
+      
+      def html_options
+        html_options = options.dup
+        GLIMMER_ATTRIBUTES.each do |attribute|
+          next unless html_options.include?(attribute)
+          data_normalized_attribute = attribute.split('_').join('-')
+          html_options["data-#{data_normalized_attribute}"] = html_options.delete(attribute)
+        end
+        html_options[:class] ||= ''
+        html_options[:class] = "#{html_options[:class]} #{body_class}".strip
+        html_options
       end
       
       def content(&block)

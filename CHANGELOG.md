@@ -1,11 +1,15 @@
 # Change Log
 
+## 0.0.3
+
+- Set Glimmer specific element attributes (e.g. `parent`) as data attributes on generated HTML elements
+
 ## 0.0.2
 
 - Rename element `:root` option to `:parent` option
 - Set `body` as parent by default if `:parent` option is not specified for a root element
-- `glimmer-dsl-web/samples/hello/hello_world.rb`
 - Set `class` instead of `id` on generated HTML elements to identify them (e.g. `element-2`).
+- New Hello, World! Sample: `require 'glimmer-dsl-web/samples/hello/hello_world'`
 
 ## 0.0.1
 
