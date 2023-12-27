@@ -5,6 +5,8 @@
 
 This project is inspired-by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby, but it mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby (enabling transfer of HTML/CSS/JS skills) instead of adopting a desktop GUI DSL that is webified. Also, it will begin by supporting [Opal Ruby](https://opalrb.com/), but it might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
 
+Note that the library is an Early Alpha and its APIs might change frequently until hitting a minor release at least.
+
 ### You can finally live in pure Rubyland on the web!
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web is an upcoming **pre-alpha** [gem](https://rubygems.org/gems/glimmer-dsl-web) that enables building web GUI in pure Ruby via [Opal](https://opalrb.com/) on [Rails](https://rubyonrails.org/) (and potentially [Ruby WASM](https://github.com/ruby/ruby.wasm) in the future).
@@ -38,13 +40,15 @@ div(parent: '#app-container') {
 That produces:
 
 ```html
+...
 <div id="app-container">
-  <div parent="#app-container" id="element-1" class="element">
-    <label class="greeting element" id="element-2">
+  <div parent="#app-container" class="element element-1">
+    <label class="greeting element element-2">
       Hello, World!
     </label>
   </div>
 </div>
+...
 ```
 
 **Hello, World! Sample**
@@ -66,11 +70,9 @@ end
 That produces the following under `<body></body>`:
 
 ```html
-<body>
-  <div parent="body" id="element-1" class="element">
-    Hello, World!
-  </div>
-</body>
+<div parent="body" class="element element-1">
+  Hello, World!
+</div>
 ```
 
 **Hello, Button! Sample**
@@ -283,8 +285,10 @@ Example to confirm setup is working:
 Initial HTML Markup:
 
 ```html
+...
 <div id="app-container">
 </div>
+...
 ```
 
 Glimmer GUI code:
@@ -305,13 +309,15 @@ div(parent: '#app-container') {
 That produces:
 
 ```html
+...
 <div id="app-container">
-  <div parent="#app-container" id="element-1" class="element">
-    <label class="greeting element" id="element-2">
+  <div parent="#app-container" class="element element-1">
+    <label class="greeting element element-2">
       Hello, World!
     </label>
   </div>
 </div>
+...
 ```
 
 Start the Rails server:
@@ -426,8 +432,10 @@ Example to confirm setup is working:
 Initial HTML Markup:
 
 ```html
+...
 <div id="app-container">
 </div>
+...
 ```
 
 Glimmer GUI code:
@@ -448,13 +456,15 @@ div(parent: '#app-container') {
 That produces:
 
 ```html
+...
 <div id="app-container">
-  <div parent="#app-container" id="element-1" class="element">
-    <label class="greeting element" id="element-2">
+  <div parent="#app-container" class="element element-1">
+    <label class="greeting element element-2">
       Hello, World!
     </label>
   </div>
 </div>
+...
 ```
 
 Start the Rails server:
@@ -509,7 +519,7 @@ end
 That produces the following under `<body></body>`:
 
 ```html
-<div parent="body" id="element-1" class="element">
+<div parent="body" class="element element-1">
   Hello, World!
 </div>
 ```

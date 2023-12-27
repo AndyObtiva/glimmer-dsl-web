@@ -5,6 +5,7 @@
 - Rename element `:root` option to `:parent` option
 - Set `body` as parent by default if `:parent` option is not specified for a root element
 - `glimmer-dsl-web/samples/hello/hello_world.rb`
+- Set `class` instead of `id` on generated HTML elements to identify them (e.g. `element-2`).
 
 ## 0.0.1
 

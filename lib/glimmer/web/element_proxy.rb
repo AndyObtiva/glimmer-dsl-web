@@ -71,7 +71,7 @@ module Glimmer
             
       Event = Struct.new(:widget, keyword_init: true)
     
-      attr_reader :keyword, :parent, :args, :options, :path, :children, :enabled, :foreground, :background, :focus, :removed?, :rendered
+      attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :focus, :removed?, :rendered
       alias rendered? rendered
       
       def initialize(keyword, parent, args, block)
@@ -106,7 +106,7 @@ module Glimmer
       
       def remove
         remove_all_listeners
-        Document.find(path).remove
+        dom_element.remove
         parent&.post_remove_child(self)
 #         children.each(:remove) # TODO enable this safely
         @removed = true
@@ -128,10 +128,10 @@ module Glimmer
         end
       end
       
-      def path
-        "#{parent_path} #{element}##{id}.#{name}"
+      # Subclasses can override with their own selector
+      def selector
+        ".#{element_id}"
       end
-      alias widget_path path # pure path without subchildren modifications
 
       # Root element representing widget. Must be overridden by subclasses if different from div
       def element
@@ -190,13 +190,13 @@ module Glimmer
       end
       alias setFocus set_focus
       
-      def parent_path
-        @parent&.path
+      def parent_selector
+        @parent&.selector
       end
 
       def parent_dom_element
-        if parent_path
-          Document.find(parent_path)
+        if parent_selector
+          Document.find(parent_selector)
         else
           options[:parent] ||= 'body'
           Document.find(options[:parent])
@@ -268,11 +268,9 @@ module Glimmer
       end
             
       def dom
-        body_id = id
-        body_class = ([name] + css_classes.to_a).join(' ')
+        body_class = ([name, element_id] + css_classes.to_a).join(' ')
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
         html_options = options.dup
-        html_options[:id] ||= body_id
         html_options[:class] ||= ''
         html_options[:class] = "#{html_options[:class]} #{body_class}".strip
         @dom ||= html {
@@ -659,20 +657,11 @@ module Glimmer
         self.class.name.split('::').last.underscore.sub(/_proxy$/, '').gsub('_', '-')
       end
       
-      def id
-        return options[:id] if options.include?(:id)
-        @id ||= "#{name}-#{ElementProxy.next_id_number_for(name)}"
-      end
-            
-      # Sets id explicitly. Useful in cases of wanting to maintain a stable id
-      def id=(value)
-        # TODO delete this method if it is not needed and isn't accurate in what it does
-        @id = value
-      end
-            
-      # Subclasses can override with their own selector
-      def selector
-        "#{name}##{id}"
+      # element ID is used as a css class to identify the element.
+      # It is intentionally not set as the actual HTML element ID to let software engineers
+      # specify their own IDs if they wanted
+      def element_id
+        @element_id ||= "element-#{ElementProxy.next_id_number_for(name)}"
       end
       
       def add_css_class(css_class)
@@ -701,7 +690,7 @@ module Glimmer
       
       def dom_element
         # TODO consider making this pick an element in relation to its parent, allowing unhooked dom elements to be built if needed (unhooked to the visible page dom)
-        Document.find(path)
+        Document.find(selector)
       end
       
       # TODO consider adding a default #dom method implementation for the common case, automatically relying on #element and other methods to build the dom html
@@ -720,12 +709,12 @@ module Glimmer
         element
       end
       
-      def listener_path
-        path
+      def listener_selector
+        selector
       end
       
       def listener_dom_element
-        Document.find(listener_path)
+        Document.find(listener_selector)
       end
       
       def observation_requests
