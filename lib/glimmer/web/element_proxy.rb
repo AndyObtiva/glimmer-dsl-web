@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Andy Maleh
+# Copyright (c) 2023 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -271,7 +271,6 @@ module Glimmer
       end
             
       def dom
-        body_class = ([name, element_id] + css_classes.to_a).join(' ')
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
         @dom ||= html {
           send(keyword, html_options) {
@@ -286,11 +285,13 @@ module Glimmer
 #                 }
 #               end
 #             end
+            args.first if args.first.is_a?(String)
           }
         }.to_s
       end
       
       def html_options
+        body_class = ([name, element_id] + css_classes.to_a).join(' ')
         html_options = options.dup
         GLIMMER_ATTRIBUTES.each do |attribute|
           next unless html_options.include?(attribute)

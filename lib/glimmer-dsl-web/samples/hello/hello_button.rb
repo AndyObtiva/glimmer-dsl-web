@@ -1,0 +1,91 @@
+# Copyright (c) 2023 Andy Maleh
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+require 'glimmer-dsl-web'
+
+include Glimmer
+
+Document.ready? do
+  div {
+    h1('Contact Form')
+    form {
+      div(class: 'field-row') {
+        label('Name: ', for: 'name-field')
+        @name_input = input(id: 'name-field', class: 'field', type: 'text')
+      }
+      div(class: 'field-row') {
+        label('Email: ', for: 'email-field')
+        @email_input = input(id: 'email-field', class: 'field', type: 'email')
+      }
+      @add_button = button('Add Contact', class: 'submit-button') {
+#           on_click do
+#             @table.content {
+#               tr {
+#                 td { @name_input.value }
+#                 td { @email_input.value }
+#               }
+#             }
+#           end
+      }
+    }
+    h1('Contacts Table')
+    @table = table {
+      tr {
+        th('Name')
+        th('Email')
+      }
+      tr {
+        th('John Doe')
+        th('johndoe@example.com')
+      }
+      tr {
+        th('Jane Doe')
+        th('janedoe@example.com')
+      }
+    }
+    
+    # CSS Styles
+    style {
+      <<~CSS
+        .field-row {
+          margin: 5px;
+        }
+        .field {
+          margin-left: 5px;
+        }
+        .submit-button {
+          display: block;
+          margin: 5px;
+        }
+        table {
+          border:1px solid grey;
+          border-spacing: 0;
+        }
+        table tr td, table tr th {
+          padding: 5px;
+        }
+        table tr:nth-child(even) {
+          background: #ccc;
+        }
+      CSS
+    }
+  }.render
+end

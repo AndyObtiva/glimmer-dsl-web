@@ -3,6 +3,8 @@
 ## 0.0.3
 
 - Set Glimmer specific element attributes (e.g. `parent`) as data attributes on generated HTML elements
+- Support setting text content by passing as first argument to an element as an alternative to block return value
+- New Hello, Button! Sample: `require 'glimmer-dsl-web/samples/hello/hello_button'`
 
 ## 0.0.2
 
