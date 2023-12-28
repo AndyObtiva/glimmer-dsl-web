@@ -29,21 +29,29 @@ Document.ready? do
     form {
       div(class: 'field-row') {
         label('Name: ', for: 'name-field')
-        @name_input = input(id: 'name-field', class: 'field', type: 'text')
+        @name_input = input(id: 'name-field', class: 'field', type: 'text', required: true)
       }
       div(class: 'field-row') {
         label('Email: ', for: 'email-field')
-        @email_input = input(id: 'email-field', class: 'field', type: 'email')
+        @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
       }
       @add_button = button('Add Contact', class: 'submit-button') {
-#           on_click do
-#             @table.content {
-#               tr {
-#                 td { @name_input.value }
-#                 td { @email_input.value }
-#               }
-#             }
-#           end
+        on_click do
+          if ([@name_input, @email_input].all? {|input| input.check_validity })
+            @table.content {
+              tr {
+                td { @name_input.value }
+                td { @email_input.value }
+              }
+            }
+            @email_input.value = @name_input.value = ''
+          else
+            error_messages = []
+            error_messages << "Name is not valid! Make sure it is filled." if !@name_input.check_validity
+            error_messages << "Email is not valid! Make sure it is filled and has a valid format." if !@email_input.check_validity
+            $$.alert(error_messages.join("\n"))
+          end
+        end
       }
     }
     h1('Contacts Table')
@@ -53,12 +61,12 @@ Document.ready? do
         th('Email')
       }
       tr {
-        th('John Doe')
-        th('johndoe@example.com')
+        td('John Doe')
+        td('johndoe@example.com')
       }
       tr {
-        th('Jane Doe')
-        th('janedoe@example.com')
+        td('Jane Doe')
+        td('janedoe@example.com')
       }
     }
     
@@ -66,14 +74,14 @@ Document.ready? do
     style {
       <<~CSS
         .field-row {
-          margin: 5px;
+          margin: 10px 5px;
         }
         .field {
           margin-left: 5px;
         }
         .submit-button {
           display: block;
-          margin: 5px;
+          margin: 10px 5px;
         }
         table {
           border:1px solid grey;

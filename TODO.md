@@ -4,14 +4,16 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-- Proxy method and attribute invocations on an element to the HTML element (like `input.value`) or maybe proxy to jQuery element only
-- Support JS listeners like `onclick` by nesting an `on_someeventname` block under an element
+### 0.0.4
 
-## 0.0.4
+- Support cleanup of listeners when an element is deleted
+- Support element attributes by nest attributes and their values under an element (e.g. `input { value 'something' }`)
+
+### 0.0.5
 
 - Simple attribute unidirectional/bidirectional data-binding
 
-## 0.0.5
+### 0.0.6
 
 - Content data-binding support:
 content(*data_binding_options) { |data_binding_value|
@@ -20,11 +22,11 @@ content(*data_binding_options) { |data_binding_value|
   }
 }
 
-## 0.0.6
+### 0.0.7
 
 - Component support (aka custom element)
 
-## 0.0.7
+### 0.0.8
 
 - Glimmer Rails Engine to support `GlimmerHelper#glimmer_component`
 - <%= glimmer_component("glimmer_subdirectory/component_name", **options) %>

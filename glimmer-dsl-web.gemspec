@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2023-12-27"
+  s.date = "2023-12-28"
   s.description = "Glimmer DSL for Web (Ruby in the Browser Web GUI Library) - Enables frontend GUI development with Ruby by adopting a DSL that follows web-like HTML syntax, enabling the transfer of HTML/CSS/JS skills to Ruby frontend development. This library relies on Opal Ruby.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/ext/class.rb",
     "lib/glimmer-dsl-web/ext/date.rb",
     "lib/glimmer-dsl-web/ext/exception.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_button.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_world.rb",
     "lib/glimmer-dsl-web/vendor/jquery.js",
     "lib/glimmer/config/opal_logger.rb",
@@ -37,9 +38,11 @@ Gem::Specification.new do |s|
     "lib/glimmer/data_binding/observable_element.rb",
     "lib/glimmer/dsl/web/dsl.rb",
     "lib/glimmer/dsl/web/element_expression.rb",
+    "lib/glimmer/dsl/web/listener_expression.rb",
     "lib/glimmer/util/proc_tracker.rb",
     "lib/glimmer/web.rb",
     "lib/glimmer/web/element_proxy.rb",
+    "lib/glimmer/web/listener_proxy.rb",
     "lib/glimmer/web/property_owner.rb"
   ]
   s.homepage = "http://github.com/AndyObtiva/glimmer-dsl-web".freeze

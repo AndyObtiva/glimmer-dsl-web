@@ -4,6 +4,8 @@
 
 - Set Glimmer specific element attributes (e.g. `parent`) as data attributes on generated HTML elements
 - Support setting text content by passing as first argument to an element as an alternative to block return value
+- Proxy method/attribute invocations on an element to its HTML element (e.g. `input_element.check_validity` proxies to `checkValidity` JS function)
+- Support JS listeners like `onclick` by nesting an `on_someeventname` block under an element (e.g. `on_click { ... }`)
 - New Hello, Button! Sample: `require 'glimmer-dsl-web/samples/hello/hello_button'`
 
 ## 0.0.2

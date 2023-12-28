@@ -21,6 +21,7 @@
 
 # require 'glimmer/web/event_listener_proxy'
 require 'glimmer/web/property_owner'
+require 'glimmer/web/listener_proxy'
 
 # TODO implement menu (which delays building it till render using add_content_on_render)
 
@@ -72,7 +73,7 @@ module Glimmer
       Event = Struct.new(:widget, keyword_init: true)
       
       GLIMMER_ATTRIBUTES = [:parent]
-    
+      
       attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :focus, :removed?, :rendered
       alias rendered? rendered
       
@@ -243,7 +244,7 @@ module Glimmer
       end
       
       def add_text_content(text)
-        dom_element.append(text)
+        dom_element.append(text.to_s)
       end
       
       def content_on_render_blocks
@@ -266,7 +267,7 @@ module Glimmer
         # TODO consider passing parent element instead and having table item include a table cell widget only for opal
         @dom = nil
         @dom = dom # TODO unify how to build dom for most widgets based on element, id, and name (class)
-        @dom = @parent.get_layout.dom(@dom) if @parent.respond_to?(:layout) && @parent.get_layout
+#         @dom = @parent.get_layout.dom(@dom) if @parent.respond_to?(:layout) && @parent.get_layout
         @dom
       end
             
@@ -758,58 +759,69 @@ module Glimmer
         listeners[listener_event.to_s] ||= []
       end
       
-      def can_handle_observation_request?(observation_request)
+      def can_handle_observation_request?(keyword)
         # TODO sort this out for Opal
-        observation_request = observation_request.to_s
-        if observation_request.start_with?('on_swt_')
-          constant_name = observation_request.sub(/^on_swt_/, '')
-          SWTProxy.has_constant?(constant_name)
-        elsif observation_request.start_with?('on_')
-#           event = observation_request.sub(/^on_/, '')
-#           can_add_listener?(event) || can_handle_drag_observation_request?(observation_request) || can_handle_drop_observation_request?(observation_request)
-          true # TODO filter by valid listeners only in the future
-        end
+        keyword = keyword.to_s
+        keyword.start_with?('on_')
+#         if keyword.start_with?('on_swt_')
+#           constant_name = keyword.sub(/^on_swt_/, '')
+#           SWTProxy.has_constant?(constant_name)
+#         elsif keyword.start_with?('on_')
+#           # event = keyword.sub(/^on_/, '')
+#           # can_add_listener?(event) || can_handle_drag_observation_request?(keyword) || can_handle_drop_observation_request?(keyword)
+#           true # TODO filter by valid listeners only in the future
+#         end
       end
       
       def handle_observation_request(keyword, original_event_listener)
-        case keyword
-        when 'on_widget_removed'
-          listeners_for(keyword.sub(/^on_/, '')) << original_event_listener.to_proc
-        else
+#         case keyword
+#         when 'on_widget_removed'
+#           listeners_for(keyword.sub(/^on_/, '')) << original_event_listener.to_proc
+#         else
           handle_javascript_observation_request(keyword, original_event_listener)
-        end
+#         end
       end
       
       def handle_javascript_observation_request(keyword, original_event_listener)
-        return unless effective_observation_request_to_event_mapping.keys.include?(keyword)
-        event = nil
-        delegate = nil
-        effective_observation_request_to_event_mapping[keyword].to_collection.each do |mapping|
-          observation_requests[keyword] ||= Set.new
-          observation_requests[keyword] << original_event_listener
-          event = mapping[:event]
-          event_handler = mapping[:event_handler]
-          event_element_css_selector = mapping[:event_element_css_selector]
-          potential_event_listener = event_handler&.call(original_event_listener)
-          event_listener = potential_event_listener || original_event_listener
-          async_event_listener = proc do |event|
-            # TODO look into the issue with using async::task.new here. maybe put it in event listener (like not being able to call preventDefault or return false successfully )
-            # maybe consider pushing inside the widget classes instead where needed only or implement universal doit support correctly to bypass this issue
-#             Async::Task.new do
-            @@widget_handling_listener = self
-            # TODO also make sure to disable all widgets for suspension
-            event_listener.call(event) unless dialog_ancestor&.event_handling_suspended?
-            @widget_handling_listener = nil
-#             end
-          end
-          the_listener_dom_element = event_element_css_selector ? Element[event_element_css_selector] : listener_dom_element
-          unless the_listener_dom_element.empty?
-            the_listener_dom_element.on(event, &async_event_listener)
-            # TODO ensure uniqueness of insertion (perhaps adding equals/hash method to event listener proxy)
-            
-            event_listener_proxies << EventListenerProxy.new(element_proxy: self, selector: selector, dom_element: the_listener_dom_element, event: event, listener: async_event_listener, original_event_listener: original_event_listener)
-          end
-        end
+        listener = ListenerProxy.new(
+          element_proxy: self,
+          selector: selector,
+          dom_element: dom_element,
+          event: keyword.sub(/^on_/, ''),
+          listener: original_event_listener,
+          original_event_listener: original_event_listener
+        )
+        listener.register
+        listener
+#         return unless effective_observation_request_to_event_mapping.keys.include?(keyword)
+#         event = nil
+#         delegate = nil
+#         effective_observation_request_to_event_mapping[keyword].to_collection.each do |mapping|
+#           observation_requests[keyword] ||= Set.new
+#           observation_requests[keyword] << original_event_listener
+#           event = mapping[:event]
+#           event_handler = mapping[:event_handler]
+#           event_element_css_selector = mapping[:event_element_css_selector]
+#           potential_event_listener = event_handler&.call(original_event_listener)
+#           event_listener = potential_event_listener || original_event_listener
+#           async_event_listener = proc do |event|
+            ## TODO look into the issue with using async::task.new here. maybe put it in event listener (like not being able to call preventDefault or return false successfully )
+            ## maybe consider pushing inside the widget classes instead where needed only or implement universal doit support correctly to bypass this issue
+            ## Async::Task.new do
+#             @@widget_handling_listener = self
+            ## TODO also make sure to disable all widgets for suspension
+#             event_listener.call(event) unless dialog_ancestor&.event_handling_suspended?
+#             @widget_handling_listener = nil
+            ## end
+#           end
+#           the_listener_dom_element = event_element_css_selector ? Element[event_element_css_selector] : listener_dom_element
+#           unless the_listener_dom_element.empty?
+#             the_listener_dom_element.on(event, &async_event_listener)
+            ## TODO ensure uniqueness of insertion (perhaps adding equals/hash method to event listener proxy)
+#
+#             event_listener_proxies << EventListenerProxy.new(element_proxy: self, selector: selector, dom_element: the_listener_dom_element, event: event, listener: async_event_listener, original_event_listener: original_event_listener)
+#           end
+#         end
       end
       
       def remove_event_listener_proxies
@@ -832,11 +844,27 @@ module Glimmer
         super(attribute_name, *args) # PropertyOwner
       end
       
-      def method_missing(method, *args, &block)
-        if method.to_s.start_with?('on_')
-          handle_observation_request(method, block)
+      def respond_to_missing?(method_name, include_private = false)
+        super(method_name, include_private) ||
+          (dom_element && dom_element.length > 0 && Native.call(dom_element, '0').respond_to?(method_name, include_private)) ||
+          dom_element.respond_to?(method_name, include_private) ||
+          method_name.to_s.start_with?('on_')
+      end
+      
+      def method_missing(method_name, *args, &block)
+        if method_name.to_s.start_with?('on_')
+          handle_observation_request(method_name, block)
+        elsif dom_element.respond_to?(method_name)
+          dom_element.send(method_name, *args, &block)
+        elsif dom_element && dom_element.length > 0
+          begin
+            js_args = block.nil? ? args : (args + [block])
+            Native.call(dom_element, '0').method_missing(method_name.to_s.camelcase, *js_args)
+          rescue Exception
+            super(method_name, *args, &block)
+          end
         else
-          super(method, *args, &block)
+          super(method_name, *args, &block)
         end
       end
       

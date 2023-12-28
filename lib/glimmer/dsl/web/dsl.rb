@@ -1,13 +1,14 @@
 require 'glimmer/dsl/engine'
 # Dir[File.expand_path('../*_expression.rb', __FILE__)].each {|f| require f}
 require 'glimmer/dsl/web/element_expression'
+require 'glimmer/dsl/web/listener_expression'
 
 module Glimmer
   module DSL
     module Web
       # TODO implement all those expressions
 #        %w[
-#          event_listener
+#          listener
 #          data_binding
 #          attribute
 #          shine_data_binding
@@ -16,6 +17,7 @@ module Glimmer
       Engine.add_dynamic_expressions(
        Web,
        %w[
+         listener
          element
        ]
       )
