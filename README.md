@@ -1,5 +1,5 @@
 # [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.3 (Early Alpha)
-## Ruby in the Browser Web GUI Library
+## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -44,7 +44,7 @@ That produces:
 ```html
 ...
 <div id="app-container">
-  <div parent="#app-container" class="element element-1">
+  <div data-parent="#app-container" class="element element-1">
     <label class="greeting element element-2">
       Hello, World!
     </label>
@@ -74,7 +74,7 @@ end
 That produces the following under `<body></body>`:
 
 ```html
-<div parent="body" class="element element-1">
+<div data-parent="body" class="element element-1">
   Hello, World!
 </div>
 ```
@@ -362,6 +362,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Prerequisites
 
+- Ruby 3.0 (newer Ruby versions are not supported at this time)
 - Rails 6-7: [https://github.com/rails/rails](https://github.com/rails/rails)
 - Opal 1.4.1 for Rails 6-7 or Opal 1.0.5 for Rails 5: [https://github.com/opal/opal](https://github.com/opal/opal)
 - Opal-Rails 2.0.2 for Rails 6-7 or Opal-Rails 1.1.2 for Rails 5: [https://github.com/opal/opal-rails](https://github.com/opal/opal-rails)
@@ -488,7 +489,7 @@ That produces:
 ```html
 ...
 <div id="app-container">
-  <div parent="#app-container" class="element element-1">
+  <div data-parent="#app-container" class="element element-1">
     <label class="greeting element element-2">
       Hello, World!
     </label>
@@ -637,7 +638,7 @@ That produces:
 ```html
 ...
 <div id="app-container">
-  <div parent="#app-container" class="element element-1">
+  <div data-parent="#app-container" class="element element-1">
     <label class="greeting element element-2">
       Hello, World!
     </label>
@@ -698,7 +699,7 @@ end
 That produces the following under `<body></body>`:
 
 ```html
-<div parent="body" class="element element-1">
+<div data-parent="body" class="element element-1">
   Hello, World!
 </div>
 ```
