@@ -108,10 +108,10 @@ module Glimmer
       end
       
       def remove
+#         children.each(:remove) # TODO enable this safely
         remove_all_listeners
         dom_element.remove
         parent&.post_remove_child(self)
-#         children.each(:remove) # TODO enable this safely
         @removed = true
 #         listeners_for('widget_removed').each {|listener| listener.call(Event.new(widget: self))}
       end
@@ -825,17 +825,25 @@ module Glimmer
       end
       
       def respond_to_missing?(method_name, include_private = false)
+        property_name = property_name_for(method_name)
         super(method_name, include_private) ||
-          (dom_element && dom_element.length > 0 && Native.call(dom_element, '0').respond_to?(method_name, include_private)) ||
           dom_element.respond_to?(method_name, include_private) ||
+          !dom_element.prop(property_name).nil? ||
           method_name.to_s.start_with?('on_')
       end
       
       def method_missing(method_name, *args, &block)
+        property_name = property_name_for(method_name)
         if method_name.to_s.start_with?('on_')
           handle_observation_request(method_name, block)
         elsif dom_element.respond_to?(method_name)
           dom_element.send(method_name, *args, &block)
+        elsif !dom_element.prop(property_name).nil?
+          if method_name.end_with?('=')
+            dom_element.prop(property_name, *args)
+          else
+            dom_element.prop(property_name)
+          end
         elsif dom_element && dom_element.length > 0
           begin
             js_args = block.nil? ? args : (args + [block])
@@ -846,6 +854,10 @@ module Glimmer
         else
           super(method_name, *args, &block)
         end
+      end
+      
+      def property_name_for(method_name)
+        method_name.end_with?('=') ? method_name.to_s[0...-1].camelcase : method_name.to_s.camelcase
       end
       
       def swt_widget

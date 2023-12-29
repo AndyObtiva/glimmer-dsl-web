@@ -2,6 +2,7 @@ require 'glimmer/dsl/engine'
 # Dir[File.expand_path('../*_expression.rb', __FILE__)].each {|f| require f}
 require 'glimmer/dsl/web/element_expression'
 require 'glimmer/dsl/web/listener_expression'
+require 'glimmer/dsl/web/property_expression'
 
 module Glimmer
   module DSL
@@ -10,7 +11,7 @@ module Glimmer
 #        %w[
 #          listener
 #          data_binding
-#          attribute
+#          property
 #          shine_data_binding
 #          element
 #        ]
@@ -18,6 +19,7 @@ module Glimmer
        Web,
        %w[
          listener
+         property
          element
        ]
       )

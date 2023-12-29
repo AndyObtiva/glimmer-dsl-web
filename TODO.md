@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.0.4
-
-- Support element attributes by nest attributes and their values under an element (e.g. `input { value 'something' }`)
-
 ### 0.0.5
 
 - Simple attribute unidirectional/bidirectional data-binding
@@ -36,6 +32,7 @@ content(*data_binding_options) { |data_binding_value|
 - Remove pure-struct if no longer needed
 - Support custom listeners on elements
 - Support remove listener on element
+- Support setting `style` CSS properties on element more conveniently like with `style.background somevalue`, `style-background somevalue`, `style { background something }`, or something similar.
 
 ## Future
 
