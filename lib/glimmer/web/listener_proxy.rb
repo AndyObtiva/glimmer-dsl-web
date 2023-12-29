@@ -28,7 +28,8 @@ module Glimmer
       alias reregister register
       
       def unregister
-        @dom_element.off(@event, &@js_listener)
+        # TODO contribute fix to opal to allow passing observer with & to off with selector not specified as nil
+        @dom_element.off(@event, @js_listener)
       end
       alias unobserve unregister
       alias deregister unregister

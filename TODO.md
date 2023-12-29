@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.4
 
-- Support cleanup of listeners when an element is deleted
 - Support element attributes by nest attributes and their values under an element (e.g. `input { value 'something' }`)
 
 ### 0.0.5
@@ -34,6 +33,9 @@ content(*data_binding_options) { |data_binding_value|
 ## Soon
 
 - Consider using descendants_tracker gem instead of implementing descendants manually
+- Remove pure-struct if no longer needed
+- Support custom listeners on elements
+- Support remove listener on element
 
 ## Future
 

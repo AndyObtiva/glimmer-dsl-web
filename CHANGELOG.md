@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.4
+
+- Support cleanup of listeners when an element is removed (e.g. calling `button.remove` automatically unregisters `on_click` listener)
+
 ## 0.0.3
 
 - Set Glimmer specific element attributes (e.g. `parent`) as data attributes on generated HTML elements

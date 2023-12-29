@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.3 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.4 (Early Alpha)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -102,7 +102,7 @@ Document.ready? do
         label('Email: ', for: 'email-field')
         @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
       }
-      @add_button = button('Add Contact', class: 'submit-button') {
+      button('Add Contact', class: 'submit-button') {
         on_click do
           if ([@name_input, @email_input].all? {|input| input.check_validity })
             @table.content {
@@ -397,7 +397,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.3'
+gem 'glimmer-dsl-web', '~> 0.0.4'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -542,7 +542,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.3'
+gem 'glimmer-dsl-web', '~> 0.0.4'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -725,7 +725,7 @@ Document.ready? do
         label('Email: ', for: 'email-field')
         @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
       }
-      @add_button = button('Add Contact', class: 'submit-button') {
+      button('Add Contact', class: 'submit-button') {
         on_click do
           if ([@name_input, @email_input].all? {|input| input.check_validity })
             @table.content {

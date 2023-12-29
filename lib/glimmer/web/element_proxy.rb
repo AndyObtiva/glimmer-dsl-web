@@ -113,21 +113,12 @@ module Glimmer
         parent&.post_remove_child(self)
 #         children.each(:remove) # TODO enable this safely
         @removed = true
-        listeners_for('widget_removed').each {|listener| listener.call(Event.new(widget: self))}
+#         listeners_for('widget_removed').each {|listener| listener.call(Event.new(widget: self))}
       end
       
       def remove_all_listeners
-        effective_observation_request_to_event_mapping.keys.each do |keyword|
-          effective_observation_request_to_event_mapping[keyword].to_collection.each do |mapping|
-            observation_requests[keyword].to_a.each do |event_listener|
-              event = mapping[:event]
-              event_handler = mapping[:event_handler]
-              event_element_css_selector = mapping[:event_element_css_selector]
-              the_listener_dom_element = event_element_css_selector ? Element[event_element_css_selector] : listener_dom_element
-              the_listener_dom_element.off(event, event_listener)
-              # TODO improve to precisely remove the listeners that were added, no more no less. (or use the event_listener_proxies method instead or in collaboration)
-            end
-          end
+        listeners.each do |event, event_listeners|
+          event_listeners.each(&:unregister)
         end
       end
       
@@ -267,7 +258,6 @@ module Glimmer
         # TODO consider passing parent element instead and having table item include a table cell widget only for opal
         @dom = nil
         @dom = dom # TODO unify how to build dom for most widgets based on element, id, and name (class)
-#         @dom = @parent.get_layout.dom(@dom) if @parent.respond_to?(:layout) && @parent.get_layout
         @dom
       end
             
@@ -275,17 +265,6 @@ module Glimmer
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
         @dom ||= html {
           send(keyword, html_options) {
-            # TODO consider supporting the idea of dynamic CSS building on close of shell that adds only as much CSS as needed for widgets that were mentioned
-#             style(class: 'common-style') {
-#               style_dom_css
-#             }
-#             [LayoutProxy, WidgetProxy].map(&:descendants).reduce(:+).each do |style_class|
-#               if style_class.constants.include?('STYLE')
-#                 style(class: "#{style_class.name.split(':').last.underscore.gsub('_', '-').sub(/-proxy$/, '')}-style") {
-#                   style_class::STYLE
-#                 }
-#               end
-#             end
             args.first if args.first.is_a?(String)
           }
         }.to_s
@@ -792,6 +771,7 @@ module Glimmer
           original_event_listener: original_event_listener
         )
         listener.register
+        listeners_for(keyword) << listener
         listener
 #         return unless effective_observation_request_to_event_mapping.keys.include?(keyword)
 #         event = nil
