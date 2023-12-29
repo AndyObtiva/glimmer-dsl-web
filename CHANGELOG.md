@@ -3,7 +3,7 @@
 ## 0.0.4
 
 - Support nesting attributes/properties under element (e.g. `input { value 'something'; dir 'rtl' }`)
-- Support cleanup of listeners when an element is removed (e.g. calling `button.remove` automatically unregisters `on_click` listener)
+- Ensure when calling `element#remove`, all its listeners and children are removed cleanly too (e.g. calling `button.remove` automatically unregisters `on_click` listener)
 
 ## 0.0.3
 

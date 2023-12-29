@@ -95,7 +95,7 @@ module Glimmer
       
       # Executes for the parent of a child that just got removed
       def post_remove_child(child)
-        @children&.delete(child)
+        @children.delete(child)
       end
       
       # Executes at the closing of a parent widget curly braces after all children/properties have been added/set
@@ -108,7 +108,9 @@ module Glimmer
       end
       
       def remove
-#         children.each(:remove) # TODO enable this safely
+        @children.dup.each do |child|
+          child.remove
+        end
         remove_all_listeners
         dom_element.remove
         parent&.post_remove_child(self)
