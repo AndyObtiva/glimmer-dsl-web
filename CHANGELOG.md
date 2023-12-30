@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.5
+
+- Support `p` element as it was overriden by Ruby's `p` method.
+
 ## 0.0.4
 
 - Support nesting attributes/properties under element (e.g. `input { value 'something'; dir 'rtl' }`)

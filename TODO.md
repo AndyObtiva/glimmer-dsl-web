@@ -6,7 +6,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.5
 
-- Implement `p` element since it is overriden by Ruby's `p` method right now.
+- Wrap listener event argument with Glimmer Ruby Event object
+- Update listener syntax to be `onclick` instead of `on_click`
 - Simple attribute unidirectional/bidirectional data-binding
 
 ### 0.0.6
@@ -36,6 +37,7 @@ content(*data_binding_options) { |data_binding_value|
 
 - Consider using descendants_tracker gem instead of implementing descendants manually
 - Remove pure-struct if no longer needed
+= Remove jQuery if possible switching to pure JS Document calls via Opal
 - Support custom listeners on elements
 - Support setting `style` CSS properties on element more conveniently like with `style.background somevalue`, `style-background somevalue`, `style { background something }`, or something similar.
 

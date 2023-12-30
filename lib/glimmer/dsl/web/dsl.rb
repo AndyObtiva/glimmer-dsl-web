@@ -3,6 +3,7 @@ require 'glimmer/dsl/engine'
 require 'glimmer/dsl/web/element_expression'
 require 'glimmer/dsl/web/listener_expression'
 require 'glimmer/dsl/web/property_expression'
+require 'glimmer/dsl/web/p_expression'
 
 module Glimmer
   module DSL
