@@ -31,11 +31,11 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/ext/date.rb",
     "lib/glimmer-dsl-web/ext/exception.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_button.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_form.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_world.rb",
     "lib/glimmer-dsl-web/vendor/jquery.js",
     "lib/glimmer/config/opal_logger.rb",
     "lib/glimmer/data_binding/element_binding.rb",
-    "lib/glimmer/data_binding/observable_element.rb",
     "lib/glimmer/dsl/web/dsl.rb",
     "lib/glimmer/dsl/web/element_expression.rb",
     "lib/glimmer/dsl/web/listener_expression.rb",
@@ -44,6 +44,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/util/proc_tracker.rb",
     "lib/glimmer/web.rb",
     "lib/glimmer/web/element_proxy.rb",
+    "lib/glimmer/web/event_proxy.rb",
     "lib/glimmer/web/listener_proxy.rb",
     "lib/glimmer/web/property_owner.rb"
   ]

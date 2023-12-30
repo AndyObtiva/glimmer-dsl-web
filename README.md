@@ -77,9 +77,43 @@ That produces the following under `<body></body>`:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
+**Hello, Button!**
+
+Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to `window` to invoke functions like `alert`.
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+include Glimmer
+
+Document.ready? do
+  div {
+    button('Greet') {
+      onclick do
+        $$.alert('Hello, Button!')
+      end
+    }
+  }.render
+end
+```
+
+That produces the following under `<body></body>`:
+
+```html
+<div data-parent="body" class="element element-1">
+  <button class="element element-2">Greet</button>
+</div>
+```
+
+Screenshot:
+
+![Hello, Button!](/images/glimmer-dsl-web-samples-hello-hello-button.gif)
+
 **Hello, Form!**
 
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) enables you to leverage your existing HTML/CSS/JavaScript skills while writing the simplest code possible in Ruby. You get access to all Web Browser built-in features like HTML form validations, element focus, and element events from a very terse and productive Ruby GUI DSL.
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby GUI DSL.
 
 Glimmer GUI code:
 
@@ -786,6 +820,38 @@ That produces the following under `<body></body>`:
 ```
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
+
+#### Hello, Button!
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+include Glimmer
+
+Document.ready? do
+  div {
+    button('Greet') {
+      onclick do
+        $$.alert('Hello, Button!')
+      end
+    }
+  }.render
+end
+```
+
+That produces the following under `<body></body>`:
+
+```html
+<div data-parent="body" class="element element-1">
+  <button class="element element-2">Greet</button>
+</div>
+```
+
+Screenshot:
+
+![Hello, Button!](/images/glimmer-dsl-web-samples-hello-hello-button.gif)
 
 #### Hello, Form!
 

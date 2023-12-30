@@ -8,6 +8,7 @@
 - Rename Hello Button! Sample to Hello, Form! Sample: `require 'glimmer-dsl-web/samples/hello/hello_form'`
 - Update Hello, Form! Sample to display browser native validation errors and have automatic focus support on the name field
 - Event listeners do not call `prevent_default` by default anymore, leaving it to the consumer of the library to decide
+- New Hello, Button! Sample (replacing older one): `require 'glimmer-dsl-web/samples/hello/hello_button'`
 
 ## 0.0.4
 

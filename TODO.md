@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.0.5
-
-- New Hello, Button! Sample (replacing older one): `require 'glimmer-dsl-web/samples/hello/hello_button'`
-
 ### 0.0.6
 
 - Simple attribute unidirectional/bidirectional data-binding
@@ -17,6 +13,7 @@ content(*data_binding_options) { |data_binding_value|
     data_binding_value
   }
 }
+- Document capabilities like reusing serverside code and principles of Glimmer DSL for Web (some borrowed from Glimmer libui library)
 
 ### 0.0.7
 
