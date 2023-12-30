@@ -6,6 +6,7 @@ module Glimmer
       def initialize(element_proxy:, event:, dom_element:, selector:, listener:)
         @element_proxy = element_proxy
         @event = event
+        @jquery_event = event.sub(/^on/, '')
         @dom_element = dom_element
         @selector = selector
         @listener = listener
@@ -22,14 +23,14 @@ module Glimmer
       end
       
       def register
-        @dom_element.on(@event, &@js_listener)
+        @dom_element.on(@jquery_event, &@js_listener)
       end
       alias observe register
       alias reregister register
       
       def unregister
         # TODO contribute fix to opal to allow passing observer with & to off with selector not specified as nil
-        @dom_element.off(@event, @js_listener)
+        @dom_element.off(@jquery_event, @js_listener)
         @element_proxy.listeners_for(@event).delete(self)
       end
       alias unobserve unregister

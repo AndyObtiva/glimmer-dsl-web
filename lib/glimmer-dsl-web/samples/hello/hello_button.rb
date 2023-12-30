@@ -36,7 +36,7 @@ Document.ready? do
         @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
       }
       button('Add Contact', class: 'submit-button') {
-        on_click do
+        onclick do
           if ([@name_input, @email_input].all? {|input| input.check_validity })
             @table.content {
               tr {

@@ -11,7 +11,7 @@ module Glimmer
         def can_interpret?(parent, keyword, *args, &block)
           # TODO automatically pass parent option as element if not passed instead of rejecting elements without a paraent nor root
           # TODO raise a proper error if root is an element that is not found (maybe do this in model)
-          !keyword.to_s.start_with?('on_')
+          !keyword.to_s.start_with?('on')
         end
 
         def interpret(parent, keyword, *args, &block)

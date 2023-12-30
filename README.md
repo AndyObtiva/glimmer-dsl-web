@@ -103,7 +103,7 @@ Document.ready? do
         @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
       }
       button('Add Contact', class: 'submit-button') {
-        on_click do
+        onclick do
           if ([@name_input, @email_input].all? {|input| input.check_validity })
             @table.content {
               tr {
@@ -288,7 +288,7 @@ class HelloButton
         # copied to button innerText (content) to display to the user
         inner_text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
         
-        on_click {
+        onclick {
           @counter.increment!
         }
       }
@@ -669,19 +669,19 @@ Otherwise, if you still cannot setup successfully (even with the help of the sam
 
 Glimmer DSL for Web offers a GUI DSL for building HTML Web User Interfaces declaratively in Ruby.
 
-1- Keywords (HTML Elements)
+1- **Keywords (HTML Elements)**
 
 You can declare any HTML element by simply using the lowercase underscored version of its name (Ruby convention for method names) like `div`, `span`, `form`, `input`, `button`, `table`, `tr`, `th`, and `td`.
 
 Under the hood, HTML element DSL keywords are invoked as Ruby methods.
 
-2- Arguments (HTML Attributes + Text Content)
+2- **Arguments (HTML Attributes + Text Content)**
 
 You can set any HTML element attributes by passing as keyword arguments to element methods like `div(id: 'container', class: 'stack')` or `input(type: 'email', required: true)`
 
 Also, if the element has a little bit of text content that can fit in one line, it can be passed as the 1st argument like `label('Name: ', for: 'name_field')`, `button('Calculate', class: 'round-button')`, or `span('Mr')`
 
-3- Content Block (Properties + Listeners + Nested Elements + Text Content)
+3- **Content Block (Properties + Listeners + Nested Elements + Text Content)**
 
 Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code.
 
@@ -693,11 +693,11 @@ input(type: 'text') {
 }
 ```
 
-You can nest HTML event listeners under an element by using a more friendly underscored version of listener properties (e.g. `onclick` becomes `on_click`):
+You can nest HTML event listeners under an element by using the HTML event listener name (e.g. `onclick`, `onchange`, `onblur`):
 
 ```ruby
 button('Add') {
-  on_click do
+  onclick do
     @model.add_selected_element
   end
 }
@@ -718,7 +718,7 @@ form {
     input(id: 'email-field', class: 'field', type: 'email', required: true)
   }
   button('Add Contact', class: 'submit-button') {
-    on_click do
+    onclick do
       ...
     end
   }
@@ -732,6 +732,10 @@ p(class: 'summary') {
   'This text content is going into the body of the span element'
 }
 ```
+
+4- **Operations (Properties + Functions)**
+
+You can get/set any element property or invoke any element function by simply calling the lowercase underscored version of their name in Ruby like `input.check_validity`, `input.value`, and `input.id`.
 
 ## Supported Glimmer DSL Keywords
 
@@ -821,7 +825,7 @@ Document.ready? do
         @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
       }
       button('Add Contact', class: 'submit-button') {
-        on_click do
+        onclick do
           if ([@name_input, @email_input].all? {|input| input.check_validity })
             @table.content {
               tr {
@@ -1006,7 +1010,7 @@ class HelloButton
         # copied to button innerText (content) to display to the user
         inner_text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
         
-        on_click {
+        onclick {
           @counter.increment!
         }
       }

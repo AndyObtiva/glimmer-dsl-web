@@ -7,7 +7,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ### 0.0.5
 
 - Wrap listener event argument with Glimmer Ruby Event object
-- Update listener syntax to be `onclick` instead of `on_click`
 - Simple attribute unidirectional/bidirectional data-binding
 
 ### 0.0.6

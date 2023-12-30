@@ -743,7 +743,7 @@ module Glimmer
       def can_handle_observation_request?(keyword)
         # TODO sort this out for Opal
         keyword = keyword.to_s
-        keyword.start_with?('on_')
+        keyword.start_with?('on')
 #         if keyword.start_with?('on_swt_')
 #           constant_name = keyword.sub(/^on_swt_/, '')
 #           SWTProxy.has_constant?(constant_name)
@@ -768,7 +768,7 @@ module Glimmer
           element_proxy: self,
           selector: selector,
           dom_element: dom_element,
-          event: keyword.sub(/^on_/, ''),
+          event: keyword,
           listener: original_event_listener,
           original_event_listener: original_event_listener
         )

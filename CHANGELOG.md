@@ -3,6 +3,7 @@
 ## 0.0.5
 
 - Support `p` element as it was overriden by Ruby's `p` method.
+- Update listener syntax to be the original HTML event name (e.g. `onclick`) without being underscored to keep the transition to the Glimmer GUI DSL simple (e.g. `onclick` not `on_click`)
 
 ## 0.0.4
 
