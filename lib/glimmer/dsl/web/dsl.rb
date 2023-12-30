@@ -4,6 +4,9 @@ require 'glimmer/dsl/web/element_expression'
 require 'glimmer/dsl/web/listener_expression'
 require 'glimmer/dsl/web/property_expression'
 require 'glimmer/dsl/web/p_expression'
+require 'glimmer/dsl/web/bind_expression'
+require 'glimmer/dsl/web/data_binding_expression'
+require 'glimmer/dsl/web/shine_data_binding_expression'
 
 module Glimmer
   module DSL
@@ -20,7 +23,9 @@ module Glimmer
        Web,
        %w[
          listener
+         data_binding
          property
+         shine_data_binding
          element
        ]
       )

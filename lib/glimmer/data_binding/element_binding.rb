@@ -4,7 +4,6 @@ require 'glimmer/data_binding/observer'
 module Glimmer
   module DataBinding
     class ElementBinding
-      # TODO consider renaming to WidgetBinding since it's no longer dealing with elements directly yet widgets instead
       include Glimmer
       include Observable
       include Observer
@@ -15,7 +14,8 @@ module Glimmer
         @property = property
         @translator = translator || proc {|value| value}
 
-        # TODO see if this is needed in Opal
+        # TODO implement automatic cleanup upon calling element.remove
+        # Alternatively, have this be built into ElementProxy and remove this code
 #         if @element.respond_to?(:dispose)
 #           @element.on_widget_disposed do |dispose_event|
 #             unregister_all_observables
@@ -25,7 +25,7 @@ module Glimmer
       
       def call(value)
         converted_value = translated_value = @translator.call(value)
-        @element.set_attribute(@property, converted_value) unless evaluate_property == converted_value
+        @element.send("#{@property}=", converted_value) unless evaluate_property == converted_value
       end
       
       def evaluate_property

@@ -48,7 +48,6 @@ if RUBY_ENGINE == 'opal'
   require 'opal-async'
   require 'async/ext'
   require 'to_collection'
-  require 'pure-struct' # TODO double check if the latest Opal implemented everything below already
   require 'glimmer-dsl-web/vendor/jquery'
   require 'opal-jquery'
   require 'opal/jquery/local_storage'

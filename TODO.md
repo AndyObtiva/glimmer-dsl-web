@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.6
 
-- Simple attribute unidirectional/bidirectional data-binding
 - Content data-binding support:
 content(*data_binding_options) { |data_binding_value|
   span {
@@ -14,6 +13,7 @@ content(*data_binding_options) { |data_binding_value|
   }
 }
 - Document capabilities like reusing serverside code and principles of Glimmer DSL for Web (some borrowed from Glimmer libui library)
+- Add a Glimmer Meta-Sample app
 
 ### 0.0.7
 
@@ -33,7 +33,6 @@ content(*data_binding_options) { |data_binding_value|
 ## Soon
 
 - Consider using descendants_tracker gem instead of implementing descendants manually
-- Remove pure-struct if no longer needed
 = Remove jQuery if possible switching to pure JS Document calls via Opal
 - Support custom listeners on elements
 - Support setting `style` CSS properties on element more conveniently like with `style.background somevalue`, `style-background somevalue`, `style { background something }`, or something similar.
@@ -43,6 +42,8 @@ content(*data_binding_options) { |data_binding_value|
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 - Try to package dependencies as gem dependencies instead of asking people to add in Rails Gemfile manually
+- Automatic cleanup of element observers upon calling element.remove & Automatic cleanup of data-binding observers upon calling element.remove
+- Support an automatic router and a manual router
 
 ## Future
 
@@ -54,6 +55,7 @@ content(*data_binding_options) { |data_binding_value|
 ## Maybe
 
 - Consider supporting higher abstraction flavors of data-binding for various elements like `table` and `select`
+- Consider supporting data-binding changes on focus out instead of direct change, by specifying an extra option
 
 ## Issues
 

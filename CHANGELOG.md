@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.0.6
+
+- Support attribute unidirectional/bidirectional data-binding
+- Remove pure-struct gem dependency as the latest Opal fixed the implementation of Struct
+
 ## 0.0.5
 
 - Support `p` element as it was overriden by Ruby's `p` method.

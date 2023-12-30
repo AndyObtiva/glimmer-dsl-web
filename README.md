@@ -728,8 +728,6 @@ This external sample app contains all the samples mentioned below configured ins
 
 https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
-**[NOT RELEASED OR SUPPORTED YET]** https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails-app
-
 ### Hello Samples
 
 #### Hello, World!
@@ -758,7 +756,7 @@ That produces the following under `<body></body>`:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-Alternative syntax when an element only has text content:
+Alternative syntax (useful when an element has text content that fits in one line):
 
 ```ruby
 require 'glimmer-dsl-web'

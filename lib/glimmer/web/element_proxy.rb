@@ -803,11 +803,19 @@ module Glimmer
         event_listener_proxies.clear
       end
       
-      def add_observer(observer, property_name)
-        property_listener_installers = self.class&.ancestors&.to_a.map {|ancestor| widget_property_listener_installers[ancestor]}.compact
-        widget_listener_installers = property_listener_installers.map{|installer| installer[property_name.to_s.to_sym]}.compact if !property_listener_installers.empty?
-        widget_listener_installers.to_a.each do |widget_listener_installer|
-          widget_listener_installer.call(observer)
+      def data_bind(property, model_binding)
+        element_binding_parameters = [self, property]
+        element_binding = DataBinding::ElementBinding.new(*element_binding_parameters)
+        element_binding.call(model_binding.evaluate_property)
+        #TODO make this options observer dependent and all similar observers in element specific data binding handlers
+        element_binding.observe(model_binding)
+        unless model_binding.binding_options[:read_only]
+          # TODO add guards against nil cases for hash below
+          listener_keyword = data_binding_element_keyword_to_property_listener_map[keyword][property]
+          data_binding_read_listener = lambda do |event|
+            model_binding.call(send(property))
+          end
+          handle_observation_request(listener_keyword, data_binding_read_listener)
         end
       end
       
@@ -923,144 +931,17 @@ module Glimmer
         }
       end
       
-      def widget_property_listener_installers
-        @swt_widget_property_listener_installers ||= {
-#           WidgetProxy => {
-#             :focus => proc do |observer|
-#               on_focus_gained { |focus_event|
-#                 observer.call(true)
-#               }
-#               on_focus_lost { |focus_event|
-#                 observer.call(false)
-#               }
-#             end,
-#           },
-          MenuItemProxy => {
-            :selection => proc do |observer|
-              on_widget_selected { |selection_event|
-                # TODO look into validity of this and perhaps move toggle logic to MenuItemProxy
-                if check?
-                  observer.call(!selection)
-                else
-                  observer.call(selection)
-                end
-              }
-            end
+      def data_binding_element_keyword_to_property_listener_map
+        @data_binding_element_keyword_to_property_listener_map ||= {
+          'input' => {
+            'value' => 'oninput',
           },
-          ScaleProxy => {
-            :selection => proc do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(selection)
-              }
-            end
+          'select' => {
+            'value' => 'onchange',
           },
-          SliderProxy => {
-            :selection => proc do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(selection)
-              }
-            end
+          'textarea' => {
+            'value' => 'onchange',
           },
-          SpinnerProxy => {
-            :selection => proc do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(selection)
-              }
-            end
-          },
-          TextProxy => {
-            :text => proc do |observer|
-              on_modify_text { |modify_event|
-                observer.call(text)
-              }
-            end,
-#             :caret_position => proc do |observer|
-#               on_event_keydown { |event|
-#                 observer.call(getCaretPosition)
-#               }
-#               on_event_keyup { |event|
-#                 observer.call(getCaretPosition)
-#               }
-#               on_event_mousedown { |event|
-#                 observer.call(getCaretPosition)
-#               }
-#               on_event_mouseup { |event|
-#                 observer.call(getCaretPosition)
-#               }
-#             end,
-#             :selection => proc do |observer|
-#               on_event_keydown { |event|
-#                 observer.call(getSelection)
-#               }
-#               on_event_keyup { |event|
-#                 observer.call(getSelection)
-#               }
-#               on_event_mousedown { |event|
-#                 observer.call(getSelection)
-#               }
-#               on_event_mouseup { |event|
-#                 observer.call(getSelection)
-#               }
-#             end,
-#             :selection_count => proc do |observer|
-#               on_event_keydown { |event|
-#                 observer.call(getSelectionCount)
-#               }
-#               on_event_keyup { |event|
-#                 observer.call(getSelectionCount)
-#               }
-#               on_event_mousedown { |event|
-#                 observer.call(getSelectionCount)
-#               }
-#               on_event_mouseup { |event|
-#                 observer.call(getSelectionCount)
-#               }
-#             end,
-#             :top_index => proc do |observer|
-#               @last_top_index = getTopIndex
-#               on_paint_control { |event|
-#                 if getTopIndex != @last_top_index
-#                   @last_top_index = getTopIndex
-#                   observer.call(@last_top_index)
-#                 end
-#               }
-#             end,
-          },
-#           Java::OrgEclipseSwtCustom::StyledText => {
-#             :text => proc do |observer|
-#               on_modify_text { |modify_event|
-#                 observer.call(getText)
-#               }
-#             end,
-#           },
-          DateTimeProxy => {
-            :date_time => proc do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(date_time)
-              }
-            end
-          },
-          RadioProxy => { #radio?
-            :selection => proc do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(selection)
-              }
-            end
-          },
-          TableProxy => {
-            :selection => proc do |observer|
-              on_widget_selected { |selection_event|
-                observer.call(selection_event.table_item.get_data)  # TODO ensure selection doesn't conflict with editing
-              }
-            end,
-          },
-#           Java::OrgEclipseSwtWidgets::MenuItem => {
-#             :selection => proc do |observer|
-#               on_widget_selected { |selection_event|
-#                 observer.call(getSelection)
-#               }
-#             end
-#           },
         }
       end
       
