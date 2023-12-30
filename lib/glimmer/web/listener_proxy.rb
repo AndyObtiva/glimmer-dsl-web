@@ -11,13 +11,10 @@ module Glimmer
         @selector = selector
         @listener = listener
         @js_listener = lambda do |event|
-          event.prevent
-          event.prevent_default
-          event.stop_propagation
-          event.stop_immediate_propagation
           # TODO wrap event with a Ruby Event object before passing to listener
-          listener.call(event)
-          false
+          result = listener.call(event)
+          result = true if result.nil?
+          result
         end
         @original_event_listener = original_event_listener
       end

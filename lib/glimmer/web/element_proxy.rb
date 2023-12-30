@@ -74,7 +74,7 @@ module Glimmer
       
       GLIMMER_ATTRIBUTES = [:parent]
       
-      attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :focus, :removed?, :rendered
+      attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :removed?, :rendered
       alias rendered? rendered
       
       def initialize(keyword, parent, args, block)
@@ -176,16 +176,6 @@ module Glimmer
         dom_element.css('background-color', background.to_css) unless background.nil?
       end
       
-      def focus=(value)
-        @focus = value
-        dom_element.focus # TODO consider if a delay or async_exec is needed here
-      end
-      
-      def set_focus
-        self.focus = true
-      end
-      alias setFocus set_focus
-      
       def parent_selector
         @parent&.selector
       end
@@ -226,7 +216,7 @@ module Glimmer
           end
         end
       end
-      alias redraw render
+      alias rerender render
         
       def attach(the_parent_dom_element)
         the_parent_dom_element.append(@dom)

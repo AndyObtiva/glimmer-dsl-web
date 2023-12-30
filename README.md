@@ -81,174 +81,6 @@ That produces the following under `<body></body>`:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-**Hello, Button! Sample**
-
-Glimmer GUI code:
-
-```ruby
-require 'glimmer-dsl-web'
-
-include Glimmer
-
-Document.ready? do
-  div {
-    h1('Contact Form')
-    form {
-      div(class: 'field-row') {
-        label('Name: ', for: 'name-field')
-        @name_input = input(id: 'name-field', class: 'field', type: 'text', required: true)
-      }
-      div(class: 'field-row') {
-        label('Email: ', for: 'email-field')
-        @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
-      }
-      button('Add Contact', class: 'submit-button') {
-        onclick do
-          if ([@name_input, @email_input].all? {|input| input.check_validity })
-            @table.content {
-              tr {
-                td { @name_input.value }
-                td { @email_input.value }
-              }
-            }
-            @email_input.value = @name_input.value = ''
-          else
-            error_messages = []
-            error_messages << "Name is not valid! Make sure it is filled." if !@name_input.check_validity
-            error_messages << "Email is not valid! Make sure it is filled and has a valid format." if !@email_input.check_validity
-            $$.alert(error_messages.join("\n"))
-          end
-        end
-      }
-    }
-    h1('Contacts Table')
-    @table = table {
-      tr {
-        th('Name')
-        th('Email')
-      }
-      tr {
-        td('John Doe')
-        td('johndoe@example.com')
-      }
-      tr {
-        td('Jane Doe')
-        td('janedoe@example.com')
-      }
-    }
-    
-    # CSS Styles
-    style {
-      <<~CSS
-        .field-row {
-          margin: 10px 5px;
-        }
-        .field {
-          margin-left: 5px;
-        }
-        .submit-button {
-          display: block;
-          margin: 10px 5px;
-        }
-        table {
-          border:1px solid grey;
-          border-spacing: 0;
-        }
-        table tr td, table tr th {
-          padding: 5px;
-        }
-        table tr:nth-child(even) {
-          background: #ccc;
-        }
-      CSS
-    }
-  }.render
-end
-```
-
-That produces the following under `<body></body>`:
-
-```html
-<div data-parent="body" class="element element-1">
-  <h1 class="element element-2">Contact Form</h1>
-  <form class="element element-3">
-    <div class="field-row element element-4">
-      <label for="name-field" class="element element-5">Name: </label>
-      <input id="name-field" class="field element element-6" type="text" required="true">
-    </div>
-    <div class="field-row element element-7">
-      <label for="email-field" class="element element-8">Email: </label>
-      <input id="email-field" class="field element element-9" type="email" required="true">
-    </div>
-    <button class="submit-button element element-10">Add Contact</button>
-  </form>
-  <h1 class="element element-11">Contacts Table</h1>
-  <table class="element element-12">
-    <tr class="element element-13">
-      <th class="element element-14">Name</th>
-      <th class="element element-15">Email</th>
-    </tr>
-    <tr class="element element-16">
-      <td class="element element-17">John Doe</td>
-      <td class="element element-18">johndoe@example.com</td>
-    </tr>
-    <tr class="element element-19">
-      <td class="element element-20">Jane Doe</td>
-      <td class="element element-21">janedoe@example.com</td>
-    </tr>
-  </table>
-  <style class="element element-22">.field-row {
-    margin: 10px 5px;
-  }
-  .field {
-    margin-left: 5px;
-  }
-  .submit-button {
-    display: block;
-    margin: 10px 5px;
-  }
-  table {
-    border:1px solid grey;
-    border-spacing: 0;
-  }
-  table tr td, table tr th {
-    padding: 5px;
-  }
-  table tr:nth-child(even) {
-    background: #ccc;
-  }
-  </style>
-</div>
-```
-
-Screenshots:
-
----
-
-***Hello, Button!***
-
-![Hello, Button!](/images/glimmer-dsl-web-samples-hello-hello-button.png)
-
----
-
-***Hello, Button! Submitted Invalid Data***
-
-![Hello, Button! Invalid Data](/images/glimmer-dsl-web-samples-hello-hello-button-invalid-data.png)
-
----
-
-***Hello, Button! Filled Valid Name and Email***
-
-![Hello, Button! Filled](/images/glimmer-dsl-web-samples-hello-hello-button-filled-name-and-email.png)
-
----
-
-***Hello, Button! Added Contact***
-
-![Hello, Button! Added Contact](/images/glimmer-dsl-web-samples-hello-hello-button-added-contact.png)
-
----
-
 **Button Counter Sample**
 
 **UPCOMING (NOT RELEASED OR SUPPORTED YET)**
@@ -279,7 +111,7 @@ class HelloButton
   
   markup {
     # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-    div(root_css_selector) {
+    div(parent: parent_selector) {
       text 'Button Counter'
       
       button {
@@ -349,7 +181,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
   - [Samples](#samples)
     - [Hello Samples](#hello-samples)
       - [Hello, World!](#hello-world)
-      - [Hello, Button!](#hello-button)
+      - [Hello, Form!](#hello-form)
       - [Button Counter](#button-counter)
   - [Glimmer Process](#glimmer-process)
   - [Help](#help)
@@ -803,7 +635,7 @@ That produces the following under `<body></body>`:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-#### Hello, Button!
+#### Hello, Form!
 
 Glimmer GUI code:
 
@@ -815,44 +647,50 @@ include Glimmer
 Document.ready? do
   div {
     h1('Contact Form')
+    
     form {
-      div(class: 'field-row') {
+      div {
         label('Name: ', for: 'name-field')
-        @name_input = input(id: 'name-field', class: 'field', type: 'text', required: true)
+        @name_input = input(type: 'text', id: 'name-field', required: true, autofocus: true)
       }
-      div(class: 'field-row') {
+      
+      div {
         label('Email: ', for: 'email-field')
-        @email_input = input(id: 'email-field', class: 'field', type: 'email', required: true)
+        @email_input = input(type: 'email', id: 'email-field', required: true)
       }
-      button('Add Contact', class: 'submit-button') {
-        onclick do
-          if ([@name_input, @email_input].all? {|input| input.check_validity })
-            @table.content {
-              tr {
-                td { @name_input.value }
-                td { @email_input.value }
+      
+      div {
+        input(type: 'submit', value: 'Add Contact') {
+          onclick do |event|
+            if ([@name_input, @email_input].all? {|input| input.check_validity })
+              # re-open table content and add row
+              @table.content {
+                tr {
+                  td { @name_input.value }
+                  td { @email_input.value }
+                }
               }
-            }
-            @email_input.value = @name_input.value = ''
-          else
-            error_messages = []
-            error_messages << "Name is not valid! Make sure it is filled." if !@name_input.check_validity
-            error_messages << "Email is not valid! Make sure it is filled and has a valid format." if !@email_input.check_validity
-            $$.alert(error_messages.join("\n"))
+              @email_input.value = @name_input.value = ''
+              @name_input.focus
+            end
           end
-        end
+        }
       }
     }
+    
     h1('Contacts Table')
+    
     @table = table {
       tr {
         th('Name')
         th('Email')
       }
+      
       tr {
         td('John Doe')
         td('johndoe@example.com')
       }
+      
       tr {
         td('Jane Doe')
         td('janedoe@example.com')
@@ -862,15 +700,11 @@ Document.ready? do
     # CSS Styles
     style {
       <<~CSS
-        .field-row {
-          margin: 10px 5px;
+        input {
+          margin: 5px;
         }
-        .field {
-          margin-left: 5px;
-        }
-        .submit-button {
-          display: block;
-          margin: 10px 5px;
+        input[type=submit] {
+          margin: 5px 0;
         }
         table {
           border:1px solid grey;
@@ -893,83 +727,66 @@ That produces the following under `<body></body>`:
 ```html
 <div data-parent="body" class="element element-1">
   <h1 class="element element-2">Contact Form</h1>
+  
   <form class="element element-3">
-    <div class="field-row element element-4">
+    <div class="element element-4">
       <label for="name-field" class="element element-5">Name: </label>
-      <input id="name-field" class="field element element-6" type="text" required="true">
+      <input type="text" id="name-field" required="true" autofocus="true" class="element element-6">
     </div>
-    <div class="field-row element element-7">
+    
+    <div class="element element-7">
       <label for="email-field" class="element element-8">Email: </label>
-      <input id="email-field" class="field element element-9" type="email" required="true">
+      <input type="email" id="email-field" required="true" class="element element-9">
     </div>
-    <button class="submit-button element element-10">Add Contact</button>
+    
+    <div class="element element-10">
+      <input type="submit" value="Add Contact" class="element element-11">
+    </div>
   </form>
-  <h1 class="element element-11">Contacts Table</h1>
-  <table class="element element-12">
-    <tr class="element element-13">
-      <th class="element element-14">Name</th>
-      <th class="element element-15">Email</th>
+  
+  <h1 class="element element-12">Contacts Table</h1>
+  
+  <table class="element element-13">
+    <tr class="element element-14">
+      <th class="element element-15">Name</th>
+      <th class="element element-16">Email</th>
     </tr>
-    <tr class="element element-16">
-      <td class="element element-17">John Doe</td>
-      <td class="element element-18">johndoe@example.com</td>
+    
+    <tr class="element element-17">
+      <td class="element element-18">John Doe</td>
+      <td class="element element-19">johndoe@example.com</td>
     </tr>
-    <tr class="element element-19">
-      <td class="element element-20">Jane Doe</td>
-      <td class="element element-21">janedoe@example.com</td>
+    
+    <tr class="element element-20">
+      <td class="element element-21">Jane Doe</td>
+      <td class="element element-22">janedoe@example.com</td>
     </tr>
   </table>
-  <style class="element element-22">.field-row {
-    margin: 10px 5px;
-  }
-  .field {
-    margin-left: 5px;
-  }
-  .submit-button {
-    display: block;
-    margin: 10px 5px;
-  }
-  table {
-    border:1px solid grey;
-    border-spacing: 0;
-  }
-  table tr td, table tr th {
-    padding: 5px;
-  }
-  table tr:nth-child(even) {
-    background: #ccc;
-  }
+  
+  <style class="element element-23">
+    input {
+      margin: 5px;
+    }
+    input[type=submit] {
+      margin: 5px 0;
+    }
+    table {
+      border:1px solid grey;
+      border-spacing: 0;
+    }
+    table tr td, table tr th {
+      padding: 5px;
+    }
+    table tr:nth-child(even) {
+      background: #ccc;
+    }
   </style>
 </div>
 ```
 
-Screenshots:
+Screenshot:
 
----
-
-***Hello, Button!***
-
-![Hello, Button!](/images/glimmer-dsl-web-samples-hello-hello-button.png)
-
----
-
-***Hello, Button! Submitted Invalid Data***
-
-![Hello, Button! Invalid Data](/images/glimmer-dsl-web-samples-hello-hello-button-invalid-data.png)
-
----
-
-***Hello, Button! Filled Valid Name and Email***
-
-![Hello, Button! Filled](/images/glimmer-dsl-web-samples-hello-hello-button-filled-name-and-email.png)
-
----
-
-***Hello, Button! Added Contact***
-
-![Hello, Button! Added Contact](/images/glimmer-dsl-web-samples-hello-hello-button-added-contact.png)
-
----
+![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
 
 #### Button Counter
 
@@ -1001,7 +818,7 @@ class HelloButton
   
   markup {
     # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-    div(root_css_selector) {
+    div(parent: parent_selector) {
       text 'Button Counter'
       
       button {

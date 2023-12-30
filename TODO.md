@@ -6,11 +6,12 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.5
 
-- Wrap listener event argument with Glimmer Ruby Event object
-- Simple attribute unidirectional/bidirectional data-binding
+- Wrap listener event argument with Glimmer Ruby Event object, which proxies calls to event.originalEvent when needed
+- New Hello, Button! Sample:
 
 ### 0.0.6
 
+- Simple attribute unidirectional/bidirectional data-binding
 - Content data-binding support:
 content(*data_binding_options) { |data_binding_value|
   span {
@@ -21,6 +22,7 @@ content(*data_binding_options) { |data_binding_value|
 ### 0.0.7
 
 - Component support (aka custom element)
+- Consider changing where we pass parent selector, making it `render(selector)` method
 
 ### 0.0.8
 
@@ -39,6 +41,8 @@ content(*data_binding_options) { |data_binding_value|
 = Remove jQuery if possible switching to pure JS Document calls via Opal
 - Support custom listeners on elements
 - Support setting `style` CSS properties on element more conveniently like with `style.background somevalue`, `style-background somevalue`, `style { background something }`, or something similar.
+- Add examples of form submitting via ajax request
+- Add examples of talking to web APIs to populate GUI data via ajax requests
 
 ## Future
 
