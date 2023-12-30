@@ -5,8 +5,6 @@
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest frontend library in existence. You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
-This project is inspired by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby. [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby to facilitate leveraging existing HTML/CSS/JS skills instead of adopting a desktop GUI DSL that is webified.
-
 **Sample**
 
 Initial HTML Markup:
@@ -363,6 +361,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
   - [Setup](#setup)
   - [Usage](#usage)
   - [Supported Glimmer DSL Keywords](#supported-glimmer-dsl-keywords)
+  - [Coming from Glimmer DSL for Opal](#coming-from-glimmer-dsl-for-opal)
   - [Samples](#samples)
     - [Hello Samples](#hello-samples)
       - [Hello, World!](#hello-world)
@@ -757,11 +756,15 @@ You can get/set any element property or invoke any element function by simply ca
 
 ## Supported Glimmer DSL Keywords
 
-[All HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+[All HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element), following the Ruby method name standard of lowercase and underscored names.
 
-[All HTML attributes](https://www.w3schools.com/html/html_attributes.asp).
+[All HTML attributes](https://www.w3schools.com/html/html_attributes.asp), following the Ruby method name standard of lowercase and underscored names.
 
-[All HTML events](https://www.w3schools.com/tags/ref_eventattributes.asp).
+[All HTML events](https://www.w3schools.com/tags/ref_eventattributes.asp), same event attribute names as in HTML.
+
+## Coming from Glimmer DSL for Opal
+
+This project is inspired by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby. [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby to facilitate leveraging existing HTML/CSS/JS skills instead of adopting a desktop GUI DSL that is webified. As a result, applications written in Glimmer DSL for Opal are not compatible with Glimmer DSL for Web.
 
 ## Samples
 
