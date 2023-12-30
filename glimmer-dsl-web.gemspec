@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2023-12-29"
+  s.date = "2023-12-30"
   s.description = "Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library) - Enables frontend GUI development with Ruby by adopting a DSL that follows web-like HTML syntax, enabling the transfer of HTML/CSS/JS skills to Ruby frontend development. This library relies on Opal Ruby.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [

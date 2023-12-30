@@ -829,8 +829,9 @@ module Glimmer
       def respond_to_missing?(method_name, include_private = false)
         property_name = property_name_for(method_name)
         super(method_name, include_private) ||
+          (dom_element && dom_element.length > 0 && Native.call(dom_element, '0').respond_to?(method_name.to_s.camelcase, include_private)) ||
           dom_element.respond_to?(method_name, include_private) ||
-          !dom_element.prop(property_name).nil? ||
+          (!dom_element.prop(property_name).nil? && !dom_element.prop(property_name).is_a?(Proc)) ||
           method_name.to_s.start_with?('on_')
       end
       
@@ -840,7 +841,7 @@ module Glimmer
           handle_observation_request(method_name, block)
         elsif dom_element.respond_to?(method_name)
           dom_element.send(method_name, *args, &block)
-        elsif !dom_element.prop(property_name).nil?
+        elsif !dom_element.prop(property_name).nil? && !dom_element.prop(property_name).is_a?(Proc)
           if method_name.end_with?('=')
             dom_element.prop(property_name, *args)
           else
@@ -850,7 +851,7 @@ module Glimmer
           begin
             js_args = block.nil? ? args : (args + [block])
             Native.call(dom_element, '0').method_missing(method_name.to_s.camelcase, *js_args)
-          rescue Exception
+          rescue Exception => e
             super(method_name, *args, &block)
           end
         else
