@@ -3,13 +3,9 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This project is inspired-by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby, but it mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby (enabling transfer of HTML/CSS/JS skills) instead of adopting a desktop GUI DSL that is webified. Also, it will begin by supporting [Opal Ruby](https://opalrb.com/), but it might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest frontend library in existence. You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
-Note that the library is an Early Alpha and its APIs might change frequently until hitting a minor release at least.
-
-### You can finally live in pure Rubyland on the web!
-
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web is an upcoming **pre-alpha** [gem](https://rubygems.org/gems/glimmer-dsl-web) that enables building web GUI in pure Ruby via [Opal](https://opalrb.com/) on [Rails](https://rubyonrails.org/) (and potentially [Ruby WASM](https://github.com/ruby/ruby.wasm) in the future).
+This project is inspired by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby. [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby to facilitate leveraging existing HTML/CSS/JS skills instead of adopting a desktop GUI DSL that is webified.
 
 **Sample**
 
@@ -80,6 +76,161 @@ That produces the following under `<body></body>`:
 ```
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
+
+**Hello, Form!**
+
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) enables you to leverage your existing HTML/CSS/JavaScript skills while writing the simplest code possible in Ruby. You get access to all Web Browser built-in features like HTML form validations, element focus, and element events from a very terse and productive Ruby GUI DSL.
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+include Glimmer
+
+Document.ready? do
+  div {
+    h1('Contact Form')
+    
+    form {
+      div {
+        label('Name: ', for: 'name-field')
+        @name_input = input(type: 'text', id: 'name-field', required: true, autofocus: true)
+      }
+      
+      div {
+        label('Email: ', for: 'email-field')
+        @email_input = input(type: 'email', id: 'email-field', required: true)
+      }
+      
+      div {
+        input(type: 'submit', value: 'Add Contact') {
+          onclick do |event|
+            if ([@name_input, @email_input].all? {|input| input.check_validity })
+              # re-open table content and add row
+              @table.content {
+                tr {
+                  td { @name_input.value }
+                  td { @email_input.value }
+                }
+              }
+              @email_input.value = @name_input.value = ''
+              @name_input.focus
+            end
+          end
+        }
+      }
+    }
+    
+    h1('Contacts Table')
+    
+    @table = table {
+      tr {
+        th('Name')
+        th('Email')
+      }
+      
+      tr {
+        td('John Doe')
+        td('johndoe@example.com')
+      }
+      
+      tr {
+        td('Jane Doe')
+        td('janedoe@example.com')
+      }
+    }
+    
+    # CSS Styles
+    style {
+      <<~CSS
+        input {
+          margin: 5px;
+        }
+        input[type=submit] {
+          margin: 5px 0;
+        }
+        table {
+          border:1px solid grey;
+          border-spacing: 0;
+        }
+        table tr td, table tr th {
+          padding: 5px;
+        }
+        table tr:nth-child(even) {
+          background: #ccc;
+        }
+      CSS
+    }
+  }.render
+end
+```
+
+That produces the following under `<body></body>`:
+
+```html
+<div data-parent="body" class="element element-1">
+  <h1 class="element element-2">Contact Form</h1>
+  
+  <form class="element element-3">
+    <div class="element element-4">
+      <label for="name-field" class="element element-5">Name: </label>
+      <input type="text" id="name-field" required="true" autofocus="true" class="element element-6">
+    </div>
+    
+    <div class="element element-7">
+      <label for="email-field" class="element element-8">Email: </label>
+      <input type="email" id="email-field" required="true" class="element element-9">
+    </div>
+    
+    <div class="element element-10">
+      <input type="submit" value="Add Contact" class="element element-11">
+    </div>
+  </form>
+  
+  <h1 class="element element-12">Contacts Table</h1>
+  
+  <table class="element element-13">
+    <tr class="element element-14">
+      <th class="element element-15">Name</th>
+      <th class="element element-16">Email</th>
+    </tr>
+    
+    <tr class="element element-17">
+      <td class="element element-18">John Doe</td>
+      <td class="element element-19">johndoe@example.com</td>
+    </tr>
+    
+    <tr class="element element-20">
+      <td class="element element-21">Jane Doe</td>
+      <td class="element element-22">janedoe@example.com</td>
+    </tr>
+  </table>
+  
+  <style class="element element-23">
+    input {
+      margin: 5px;
+    }
+    input[type=submit] {
+      margin: 5px 0;
+    }
+    table {
+      border:1px solid grey;
+      border-spacing: 0;
+    }
+    table tr td, table tr th {
+      padding: 5px;
+    }
+    table tr:nth-child(even) {
+      background: #ccc;
+    }
+  </style>
+</div>
+```
+
+Screenshot:
+
+![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
 
 **Button Counter Sample**
 
@@ -195,11 +346,12 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Prerequisites
 
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) will begin by supporting [Opal Ruby](https://opalrb.com/) on [Rails](https://rubyonrails.org/). [Opal](https://opalrb.com/) is a lightweight Ruby to JavaScript transpiler that results in small downloadables compared to WASM. In the future, the project might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
+
 - Ruby 3.0 (newer Ruby versions are not supported at this time)
 - Rails 6-7: [https://github.com/rails/rails](https://github.com/rails/rails)
-- Opal 1.4.1 for Rails 6-7 or Opal 1.0.5 for Rails 5: [https://github.com/opal/opal](https://github.com/opal/opal)
-- Opal-Rails 2.0.2 for Rails 6-7 or Opal-Rails 1.1.2 for Rails 5: [https://github.com/opal/opal-rails](https://github.com/opal/opal-rails)
-- jQuery 3 (included): [https://code.jquery.com/](https://code.jquery.com/) (jQuery 3.6.0 is included in the [glimmer-dsl-web](https://rubygems.org/gems/glimmer-dsl-web) gem)
+- Opal 1.4.1 for Rails 6-7: [https://github.com/opal/opal](https://github.com/opal/opal)
+- Opal-Rails 2.0.2 for Rails 6-7: [https://github.com/opal/opal-rails](https://github.com/opal/opal-rails)
 
 ## Setup
 

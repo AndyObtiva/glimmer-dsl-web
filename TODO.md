@@ -6,8 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.5
 
-- Wrap listener event argument with Glimmer Ruby Event object, which proxies calls to event.originalEvent when needed
-- New Hello, Button! Sample:
+- New Hello, Button! Sample (replacing older one): `require 'glimmer-dsl-web/samples/hello/hello_button'`
 
 ### 0.0.6
 
@@ -43,11 +42,16 @@ content(*data_binding_options) { |data_binding_value|
 - Support setting `style` CSS properties on element more conveniently like with `style.background somevalue`, `style-background somevalue`, `style { background something }`, or something similar.
 - Add examples of form submitting via ajax request
 - Add examples of talking to web APIs to populate GUI data via ajax requests
+- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
+- Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
+- Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
+- Try to package dependencies as gem dependencies instead of asking people to add in Rails Gemfile manually
 
 ## Future
 
 - Support Ruby WASM: https://github.com/ruby/ruby.wasm
 - JavaScript Canvas API
+- Improvements in Glimmer DSL for CSS
 
 ## Maybe
 

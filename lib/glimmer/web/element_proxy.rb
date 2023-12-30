@@ -755,10 +755,10 @@ module Glimmer
       
       def handle_javascript_observation_request(keyword, original_event_listener)
         listener = ListenerProxy.new(
-          element_proxy: self,
+          element: self,
           selector: selector,
           dom_element: dom_element,
-          event: keyword,
+          event_attribute: keyword,
           listener: original_event_listener,
           original_event_listener: original_event_listener
         )
@@ -817,6 +817,7 @@ module Glimmer
       end
       
       def respond_to_missing?(method_name, include_private = false)
+        # TODO consider doing more correct checking of availability of properties/methods using native `` ticks
         property_name = property_name_for(method_name)
         super(method_name, include_private) ||
           (dom_element && dom_element.length > 0 && Native.call(dom_element, '0').respond_to?(method_name.to_s.camelcase, include_private)) ||
@@ -826,6 +827,7 @@ module Glimmer
       end
       
       def method_missing(method_name, *args, &block)
+        # TODO consider doing more correct checking of availability of properties/methods using native `` ticks
         property_name = property_name_for(method_name)
         if method_name.to_s.start_with?('on_')
           handle_observation_request(method_name, block)

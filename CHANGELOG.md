@@ -4,6 +4,7 @@
 
 - Support `p` element as it was overriden by Ruby's `p` method.
 - Update listener syntax to be the original HTML event name (e.g. `onclick`) without being underscored to keep the transition to the Glimmer GUI DSL simple (e.g. `onclick` not `on_click`)
+- Wrap listener `event` argument with `Glimmer::Web::Event` object, which proxies calls to JS event when needed
 - Rename Hello Button! Sample to Hello, Form! Sample: `require 'glimmer-dsl-web/samples/hello/hello_form'`
 - Update Hello, Form! Sample to display browser native validation errors and have automatic focus support on the name field
 - Event listeners do not call `prevent_default` by default anymore, leaving it to the consumer of the library to decide

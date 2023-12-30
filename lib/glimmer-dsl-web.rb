@@ -76,12 +76,7 @@ if RUBY_ENGINE == 'opal'
   require 'glimmer-dsl-xml'
   require 'glimmer-dsl-css'
   
-  # TODO double check if alias native calls below have been added to jQuery-Opal (remove if so)
-  Element.alias_native :replace_with, :replaceWith
-  Element.alias_native :select
-#   Element.alias_native :dialog
-    
-  Glimmer::Config.loop_max_count = 150 # TODO disable
+  Glimmer::Config.loop_max_count = 150 # TODO consider disabling if preferred
   
   original_logger_level = Glimmer::Config.logger.level
   Glimmer::Config.logger = Glimmer::Config::OpalLogger.new(STDOUT)
