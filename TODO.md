@@ -49,8 +49,11 @@ content(*data_binding_options) { |data_binding_value|
 - Support Ruby WASM: https://github.com/ruby/ruby.wasm
 - JavaScript Canvas API
 - Improvements in Glimmer DSL for CSS
+- Build a HTML to Glimmer GUI DSL converter to enable Software Engineers to reuse older HTML in a Glimmer DSL for Web app
 
 ## Maybe
+
+- Consider supporting higher abstraction flavors of data-binding for various elements like `table` and `select`
 
 ## Issues
 

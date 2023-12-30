@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.5 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.6 (Early Alpha)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -371,7 +371,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.5'
+gem 'glimmer-dsl-web', '~> 0.0.6'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -516,7 +516,7 @@ gem 'opal', '1.4.1'
 gem 'opal-rails', '2.0.2'
 gem 'opal-async', '~> 1.4.0'
 gem 'opal-jquery', '~> 0.4.6'
-gem 'glimmer-dsl-web', '~> 0.0.5'
+gem 'glimmer-dsl-web', '~> 0.0.6'
 gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
 gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
@@ -656,7 +656,7 @@ Also, if the element has a little bit of text content that can fit in one line, 
 
 3- **Content Block (Properties + Listeners + Nested Elements + Text Content)**
 
-Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code.
+Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code (intentionally breaking away from Ruby imperative code conventions given this code is in the realm of a declarative GUI DSL, not imperative Ruby code).
 
 You can nest HTML element properties under an element like:
 
@@ -698,7 +698,7 @@ form {
 }
 ```
 
-You can nest text content underneath an element's Ruby block, like:
+You can nest text content underneath an element's Ruby block provided it is the return value of the block (last declared value), like:
 
 ```ruby
 p(class: 'summary') {
