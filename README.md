@@ -344,6 +344,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
   - [Background](#background)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
+  - [Usage](#usage)
   - [Supported Glimmer DSL Keywords](#supported-glimmer-dsl-keywords)
   - [Samples](#samples)
     - [Hello Samples](#hello-samples)
@@ -664,11 +665,79 @@ If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Ra
 
 Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
 
+## Usage
+
+Glimmer DSL for Web offers a GUI DSL for building HTML Web User Interfaces declaratively in Ruby.
+
+1- Keywords (HTML Elements)
+
+You can declare any HTML element by simply using the lowercase underscored version of its name (Ruby convention for method names) like `div`, `span`, `form`, `input`, `button`, `table`, `tr`, `th`, and `td`.
+
+Under the hood, HTML element DSL keywords are invoked as Ruby methods.
+
+2- Arguments (HTML Attributes + Text Content)
+
+You can set any HTML element attributes by passing as keyword arguments to element methods like `div(id: 'container', class: 'stack')` or `input(type: 'email', required: true)`
+
+Also, if the element has a little bit of text content that can fit in one line, it can be passed as the 1st argument like `label('Name: ', for: 'name_field')`, `button('Calculate', class: 'round-button')`, or `span('Mr')`
+
+3- Content Block (Properties + Listeners + Nested Elements + Text Content)
+
+Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code.
+
+You can nest HTML element properties under an element like:
+
+```ruby
+input(type: 'text') {
+  content_editable false
+}
+```
+
+You can nest HTML event listeners under an element by using a more friendly underscored version of listener properties (e.g. `onclick` becomes `on_click`):
+
+```ruby
+button('Add') {
+  on_click do
+    @model.add_selected_element
+  end
+}
+```
+
+Given that listener code is imperative, it uses a `do; end` style for Ruby blocks to separate it from declarative GUI structure code and enable quicker readability of the code.
+
+You can nest other HTML elements under an HTML element the same way you do so in HTML, like:
+
+```ruby
+form {
+  div(class: 'field-row') {
+    label('Name: ', for: 'name-field')
+    input(id: 'name-field', class: 'field', type: 'text', required: true)
+  }
+  div(class: 'field-row') {
+    label('Email: ', for: 'email-field')
+    input(id: 'email-field', class: 'field', type: 'email', required: true)
+  }
+  button('Add Contact', class: 'submit-button') {
+    on_click do
+      ...
+    end
+  }
+}
+```
+
+You can nest text content underneath an element's Ruby block, like:
+
+```ruby
+span(class: 'summary') {
+  'This text content is going into the body of the span element'
+}
+```
+
 ## Supported Glimmer DSL Keywords
 
-All HTML elements.
+[All HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
 
-All HTML attributes.
+[All HTML attributes](https://www.w3schools.com/html/html_attributes.asp).
 
 ## Samples
 
@@ -703,6 +772,30 @@ That produces the following under `<body></body>`:
   Hello, World!
 </div>
 ```
+
+![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
+
+Alternative syntax when an element only has text content:
+
+```ruby
+require 'glimmer-dsl-web'
+
+include Glimmer
+
+Document.ready? do
+  div('Hello, World!').render
+end
+```
+
+That produces the following under `<body></body>`:
+
+```html
+<div data-parent="body" class="element element-1">
+  Hello, World!
+</div>
+```
+
+![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
 #### Hello, Button!
 

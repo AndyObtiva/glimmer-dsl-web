@@ -120,7 +120,7 @@ module Glimmer
       
       def remove_all_listeners
         listeners.each do |event, event_listeners|
-          event_listeners.each(&:unregister)
+          event_listeners.dup.each(&:unregister)
         end
       end
       
