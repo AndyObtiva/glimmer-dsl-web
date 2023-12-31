@@ -5,50 +5,6 @@
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest frontend library in existence. You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
-**Sample**
-
-Initial HTML Markup:
-
-```html
-...
-<div id="app-container">
-</div>
-...
-```
-
-Glimmer GUI code:
-
-```ruby
-require 'glimmer-dsl-web'
-
-include Glimmer
-
-Document.ready? do
-  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-  div(parent: '#app-container') {
-    label(class: 'greeting') {
-      'Hello, World!'
-    }
-  }.render
-end
-```
-
-That produces:
-
-```html
-...
-<div id="app-container">
-  <div data-parent="#app-container" class="element element-1">
-    <label class="greeting element element-2">
-      Hello, World!
-    </label>
-  </div>
-</div>
-...
-```
-
-![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
-
 **Hello, World! Sample**
 
 Glimmer GUI code:
