@@ -656,7 +656,7 @@ Also, if the element has a little bit of text content that can fit in one line, 
 
 3- **Content Block (Properties + Listeners + Nested Elements + Text Content)**
 
-Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code (intentionally breaking away from Ruby imperative code conventions given this code is in the realm of a declarative GUI DSL, not imperative Ruby code).
+Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code (intentionally breaking away from Ruby imperative code conventions given this is a declarative GUI DSL, meaning a different language that has its own conventions, embedded within Ruby).
 
 You can nest HTML element properties under an element like:
 
