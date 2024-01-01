@@ -156,8 +156,10 @@ Document.ready? do
     }
   
     div(style: 'margin: 5px') {
-      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes update div.inner_text
-      # as computed by changes to the address member attributes + state_code address custom attribute
+      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes
+      # automatically update div.inner_text
+      # (computed by changes to address attributes, meaning if street changes,
+      # @address.summary is automatically recomputed.)
       inner_text <= [@address, :summary,
                       computed_by: @address.members + ['state_code']
                     ]

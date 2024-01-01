@@ -22,7 +22,6 @@ content(*data_binding_options) { |data_binding_value|
     data_binding_value
   }
 }
-- Add a Glimmer Meta-Sample app
 
 ### 0.0.x
 
@@ -39,6 +38,10 @@ content(*data_binding_options) { |data_binding_value|
 - Treat HTML text formatting elements differently (e.g. `b`, `i`, `strong`, `em`, `sub`, `sup`, `del`, `ins`, `small`, `mark`) by not appending to their parent content, yet having them generate a String with `to_s` that can be embedded in a `String` that is the text content of another normal element like `p` or `div`.
 - Treat `span` as a special text formatting element if included inside a `p` and as a normal element outside a `p`.
 
+### 0.1.0
+
+- Automatic cleanup of element observers upon calling element.remove & Automatic cleanup of data-binding observers upon calling element.remove
+
 ## Soon
 
 - Consider using descendants_tracker gem instead of implementing descendants manually
@@ -51,7 +54,6 @@ content(*data_binding_options) { |data_binding_value|
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 - Try to package dependencies as gem dependencies instead of asking people to add in Rails Gemfile manually
-- Automatic cleanup of element observers upon calling element.remove & Automatic cleanup of data-binding observers upon calling element.remove
 - Support an automatic router and a manual router
 - Document how to reuse server-side Ruby code (backend) client-side (frontend)
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)

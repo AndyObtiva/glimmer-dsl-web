@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) while supporting both Unidirectional (One-Way) Data-Binding (using `<=`) and Bidirectional (Two-Way) Data-Binding (using `<=>`). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, and most straight-forward frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) while supporting both Unidirectional (One-Way) Data-Binding (using `<=`) and Bidirectional (Two-Way) Data-Binding (using `<=>`). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 **Hello, World! Sample**
 
@@ -306,8 +306,10 @@ Document.ready? do
     }
   
     div(style: 'margin: 5px') {
-      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes update div.inner_text
-      # as computed by changes to the address member attributes + state_code address custom attribute
+      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes
+      # automatically update div.inner_text
+      # (computed by changes to address attributes, meaning if street changes,
+      # @address.summary is automatically recomputed.)
       inner_text <= [@address, :summary,
                       computed_by: @address.members + ['state_code']
                     ]
@@ -446,7 +448,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Setup
 
-(NOTE: Keep in mind this is a very early experimental and incomplete **alpha**. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
+(NOTE: Keep in mind this is an Early Alpha. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
 
 The [glimmer-dsl-web](https://rubygems.org/gems/glimmer-dsl-web) gem is a [Rails Engine](https://guides.rubyonrails.org/engines.html) gem that includes assets.
 
@@ -1067,6 +1069,8 @@ Screenshot:
 
 #### Hello, Data-Binding!
 
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
+
 Glimmer GUI code:
 
 ```ruby
@@ -1207,8 +1211,10 @@ Document.ready? do
     }
   
     div(style: 'margin: 5px') {
-      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes update div.inner_text
-      # as computed by changes to the address member attributes + state_code address custom attribute
+      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes
+      # automatically update div.inner_text
+      # (computed by changes to address attributes, meaning if street changes,
+      # @address.summary is automatically recomputed.)
       inner_text <= [@address, :summary,
                       computed_by: @address.members + ['state_code']
                     ]
