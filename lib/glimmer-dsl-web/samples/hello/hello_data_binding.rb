@@ -22,6 +22,72 @@
 require 'glimmer-dsl-web'
 
 Address = Struct.new(:street, :city, :state, :zip_code, keyword_init: true) do
+  STATES = [
+    ["AK", "Alaska"],
+    ["AL", "Alabama"],
+    ["AR", "Arkansas"],
+    ["AS", "American Samoa"],
+    ["AZ", "Arizona"],
+    ["CA", "California"],
+    ["CO", "Colorado"],
+    ["CT", "Connecticut"],
+    ["DC", "District of Columbia"],
+    ["DE", "Delaware"],
+    ["FL", "Florida"],
+    ["GA", "Georgia"],
+    ["GU", "Guam"],
+    ["HI", "Hawaii"],
+    ["IA", "Iowa"],
+    ["ID", "Idaho"],
+    ["IL", "Illinois"],
+    ["IN", "Indiana"],
+    ["KS", "Kansas"],
+    ["KY", "Kentucky"],
+    ["LA", "Louisiana"],
+    ["MA", "Massachusetts"],
+    ["MD", "Maryland"],
+    ["ME", "Maine"],
+    ["MI", "Michigan"],
+    ["MN", "Minnesota"],
+    ["MO", "Missouri"],
+    ["MS", "Mississippi"],
+    ["MT", "Montana"],
+    ["NC", "North Carolina"],
+    ["ND", "North Dakota"],
+    ["NE", "Nebraska"],
+    ["NH", "New Hampshire"],
+    ["NJ", "New Jersey"],
+    ["NM", "New Mexico"],
+    ["NV", "Nevada"],
+    ["NY", "New York"],
+    ["OH", "Ohio"],
+    ["OK", "Oklahoma"],
+    ["OR", "Oregon"],
+    ["PA", "Pennsylvania"],
+    ["PR", "Puerto Rico"],
+    ["RI", "Rhode Island"],
+    ["SC", "South Carolina"],
+    ["SD", "South Dakota"],
+    ["TN", "Tennessee"],
+    ["TX", "Texas"],
+    ["UT", "Utah"],
+    ["VA", "Virginia"],
+    ["VI", "Virgin Islands"],
+    ["VT", "Vermont"],
+    ["WA", "Washington"],
+    ["WI", "Wisconsin"],
+    ["WV", "West Virginia"],
+    ["WY", "Wyoming"]
+  ].to_h
+  
+  def state_code
+    STATES.invert[state]
+  end
+  
+  def state_code=(value)
+    self.state = STATES[value]
+  end
+
   def summary
     values.map(&:to_s).reject(&:empty?).join(', ')
   end
@@ -45,9 +111,12 @@ Document.ready? do
       }
       
       label('State: ', for: 'state-field')
-      # TODO switch to a select
-      input(id: 'state-field') {
-        value <=> [@address, :state]
+      select(id: 'state-field') {
+        Address::STATES.each do |state_code, state|
+          option(value: state_code) { state }
+        end
+        
+        value <=> [@address, :state_code]
       }
       
       label('Zip Code: ', for: 'zip-code-field')
@@ -56,7 +125,7 @@ Document.ready? do
       }
     
       div(style: 'grid-column: 1 / span 2') {
-        inner_text <= [@address, :summary, computed_by: @address.members]
+        inner_text <= [@address, :summary, computed_by: @address.members + ['state_code']]
       }
       
       style {
