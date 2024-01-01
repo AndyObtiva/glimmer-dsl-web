@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2023-12-30"
+  s.date = "2024-01-01"
   s.description = "Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library) - Enables frontend GUI development with Ruby by adopting a DSL that follows web-like HTML syntax, enabling the transfer of HTML/CSS/JS skills to Ruby frontend development. This library relies on Opal Ruby.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -31,16 +31,22 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/ext/date.rb",
     "lib/glimmer-dsl-web/ext/exception.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_button.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_form.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_world.rb",
     "lib/glimmer-dsl-web/vendor/jquery.js",
     "lib/glimmer/config/opal_logger.rb",
     "lib/glimmer/data_binding/element_binding.rb",
+    "lib/glimmer/dsl/web/bind_expression.rb",
+    "lib/glimmer/dsl/web/data_binding_expression.rb",
     "lib/glimmer/dsl/web/dsl.rb",
     "lib/glimmer/dsl/web/element_expression.rb",
+    "lib/glimmer/dsl/web/general_element_expression.rb",
     "lib/glimmer/dsl/web/listener_expression.rb",
     "lib/glimmer/dsl/web/p_expression.rb",
     "lib/glimmer/dsl/web/property_expression.rb",
+    "lib/glimmer/dsl/web/select_expression.rb",
+    "lib/glimmer/dsl/web/shine_data_binding_expression.rb",
     "lib/glimmer/util/proc_tracker.rb",
     "lib/glimmer/web.rb",
     "lib/glimmer/web/element_proxy.rb",
@@ -60,7 +66,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<glimmer-dsl-css>.freeze, ["~> 1.2.2".freeze])
   s.add_runtime_dependency(%q<opal-async>.freeze, ["~> 1.4.0".freeze])
   s.add_runtime_dependency(%q<to_collection>.freeze, [">= 2.0.1".freeze, "< 3.0.0".freeze])
-  s.add_runtime_dependency(%q<pure-struct>.freeze, [">= 1.0.2".freeze, "< 2.0.0".freeze])
   s.add_development_dependency(%q<puts_debuggerer>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<rake>.freeze, [">= 10.1.0".freeze, "< 14.0.0".freeze])
   s.add_development_dependency(%q<rake-tui>.freeze, [">= 0".freeze])

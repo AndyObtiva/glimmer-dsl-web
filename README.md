@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest frontend library in existence. You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) while supporting both Unidirectional (One-Way) Data-Binding (using `<=`) and Bidirectional (Two-Way) Data-Binding (using `<=>`). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 **Hello, World! Sample**
 
@@ -220,6 +220,106 @@ Screenshot:
 
 ![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
 
+**Hello, Data-Binding!**
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: true) do
+  STATES = {...} # contains US States
+  
+  def state_code
+    STATES.invert[state]
+  end
+  
+  def state_code=(value)
+    self.state = STATES[value]
+  end
+
+  def summary
+    values.map(&:to_s).reject(&:empty?).join(', ')
+  end
+end
+
+@address = Address.new(
+  street: '123 Main St',
+  street2: 'Apartment 3C, 2nd door to the right',
+  city: 'San Diego',
+  state: 'California',
+  zip_code: '91911'
+)
+
+include Glimmer
+
+Document.ready? do
+  div {
+    form(style: 'display: grid; grid-auto-columns: 80px 200px;') { |address_form|
+      label('Street: ', for: 'street-field')
+      input(id: 'street-field') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
+        # automatically stay in sync when either side changes
+        value <=> [@address, :street]
+      }
+      
+      label('Street 2: ', for: 'street2-field')
+      textarea(id: 'street2-field') {
+        value <=> [@address, :street2]
+      }
+      
+      label('City: ', for: 'city-field')
+      input(id: 'city-field') {
+        value <=> [@address, :city]
+      }
+      
+      label('State: ', for: 'state-field')
+      select(id: 'state-field') {
+        Address::STATES.each do |state_code, state|
+          option(value: state_code) { state }
+        end
+        
+        value <=> [@address, :state_code]
+      }
+      
+      label('Zip Code: ', for: 'zip-code-field')
+      input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.zip_code
+        # automatically stay in sync when either side changes
+        # on_write option specifies :to_s method to invoke on value before writing to model attribute
+        # to ensure the numeric zip code value is stored as a String
+        value <=> [@address, :zip_code,
+                    on_write: :to_s
+                  ]
+      }
+      
+      style {
+        <<~CSS
+          .#{address_form.element_id} * {
+            margin: 5px;
+          }
+          .#{address_form.element_id} input, .#{address_form.element_id} select {
+            grid-column: 2;
+          }
+        CSS
+      }
+    }
+  
+    div(style: 'margin: 5px') {
+      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes update div.inner_text
+      # as computed by changes to the address member attributes + state_code address custom attribute
+      inner_text <= [@address, :summary,
+                      computed_by: @address.members + ['state_code']
+                    ]
+    }
+  }.render
+end
+```
+
+Screenshot:
+
+![Hello, Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-data-binding.gif)
+
 **Button Counter Sample**
 
 **UPCOMING (NOT RELEASED OR SUPPORTED YET)**
@@ -302,7 +402,7 @@ When clicked 7 times:
 
 
 
-NOTE: Glimmer DSL for Web is a pre-alpha project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still an early alpha, so the more feedback and issues you report the better.
+NOTE: Glimmer DSL for Web is an Early Alpha project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still an early alpha, so the more feedback and issues you report the better.
 
 Learn more about the differences between various [Glimmer](https://github.com/AndyObtiva/glimmer) DSLs by looking at:
 
@@ -321,7 +421,9 @@ Learn more about the differences between various [Glimmer](https://github.com/An
   - [Samples](#samples)
     - [Hello Samples](#hello-samples)
       - [Hello, World!](#hello-world)
+      - [Hello, Button!](#hello-button)
       - [Hello, Form!](#hello-form)
+      - [Hello, Data-Binding!](#hello-data-binding)
       - [Button Counter](#button-counter)
   - [Glimmer Process](#glimmer-process)
   - [Help](#help)
@@ -962,6 +1064,162 @@ That produces the following under `<body></body>`:
 Screenshot:
 
 ![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
+
+#### Hello, Data-Binding!
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: true) do
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
+  
+  def state_code
+    STATES.invert[state]
+  end
+  
+  def state_code=(value)
+    self.state = STATES[value]
+  end
+
+  def summary
+    values.map(&:to_s).reject(&:empty?).join(', ')
+  end
+end
+
+@address = Address.new(
+  street: '123 Main St',
+  street2: 'Apartment 3C, 2nd door to the right',
+  city: 'San Diego',
+  state: 'California',
+  zip_code: '91911'
+)
+
+include Glimmer
+
+Document.ready? do
+  div {
+    form(style: 'display: grid; grid-auto-columns: 80px 200px;') { |address_form|
+      label('Street: ', for: 'street-field')
+      input(id: 'street-field') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
+        # automatically stay in sync when either side changes
+        value <=> [@address, :street]
+      }
+      
+      label('Street 2: ', for: 'street2-field')
+      textarea(id: 'street2-field') {
+        value <=> [@address, :street2]
+      }
+      
+      label('City: ', for: 'city-field')
+      input(id: 'city-field') {
+        value <=> [@address, :city]
+      }
+      
+      label('State: ', for: 'state-field')
+      select(id: 'state-field') {
+        Address::STATES.each do |state_code, state|
+          option(value: state_code) { state }
+        end
+        
+        value <=> [@address, :state_code]
+      }
+      
+      label('Zip Code: ', for: 'zip-code-field')
+      input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.zip_code
+        # automatically stay in sync when either side changes
+        # on_write option specifies :to_s method to invoke on value before writing to model attribute
+        # to ensure the numeric zip code value is stored as a String
+        value <=> [@address, :zip_code,
+                    on_write: :to_s
+                  ]
+      }
+      
+      style {
+        <<~CSS
+          .#{address_form.element_id} * {
+            margin: 5px;
+          }
+          .#{address_form.element_id} input, .#{address_form.element_id} select {
+            grid-column: 2;
+          }
+        CSS
+      }
+    }
+  
+    div(style: 'margin: 5px') {
+      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes update div.inner_text
+      # as computed by changes to the address member attributes + state_code address custom attribute
+      inner_text <= [@address, :summary,
+                      computed_by: @address.members + ['state_code']
+                    ]
+    }
+  }.render
+end
+```
+
+Screenshot:
+
+![Hello, Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-data-binding.gif)
 
 #### Button Counter
 

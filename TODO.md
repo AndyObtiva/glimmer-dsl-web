@@ -22,7 +22,6 @@ content(*data_binding_options) { |data_binding_value|
     data_binding_value
   }
 }
-- Document capabilities like reusing serverside code and principles of Glimmer DSL for Web (some borrowed from Glimmer libui library)
 - Add a Glimmer Meta-Sample app
 
 ### 0.0.x
@@ -54,6 +53,9 @@ content(*data_binding_options) { |data_binding_value|
 - Try to package dependencies as gem dependencies instead of asking people to add in Rails Gemfile manually
 - Automatic cleanup of element observers upon calling element.remove & Automatic cleanup of data-binding observers upon calling element.remove
 - Support an automatic router and a manual router
+- Document how to reuse server-side Ruby code (backend) client-side (frontend)
+- Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
+- Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
 
 ## Future
 
