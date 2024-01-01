@@ -1351,7 +1351,7 @@ These features have been suggested. You might see them in a future version of Gl
 
 [MIT](https://opensource.org/licenses/MIT)
 
-Copyright (c) 2023 - Andy Maleh.
+Copyright (c) 2023-2024 - Andy Maleh.
 See [LICENSE.txt](LICENSE.txt) for further details.
 
 --
