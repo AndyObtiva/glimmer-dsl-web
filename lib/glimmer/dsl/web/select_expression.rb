@@ -1,31 +1,11 @@
 require 'glimmer/dsl/static_expression'
-require 'glimmer/dsl/parent_expression'
-
-require 'glimmer/web/element_proxy'
+require 'glimmer/dsl/web/general_element_expression'
 
 module Glimmer
   module DSL
     module Web
       class SelectExpression < StaticExpression
-        include ParentExpression
-        # TODO replace code below with a shared module with p_expression
-
-        def interpret(parent, keyword, *args, &block)
-          Glimmer::Web::ElementProxy.for(keyword, parent, args, block)
-        end
-        
-        def add_content(parent, keyword, *args, &block)
-          if parent.rendered? || parent.skip_content_on_render_blocks?
-            return_value = super(parent, keyword, *args, &block)
-            if return_value.is_a?(String) && parent.dom_element.text.to_s.empty?
-              parent.add_text_content(return_value)
-            end
-            parent.post_add_content
-            return_value
-          else
-            parent.add_content_on_render(&block)
-          end
-        end
+        include GeneralElementExpression
       end
     end
   end

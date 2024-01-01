@@ -21,7 +21,7 @@
 
 require 'glimmer-dsl-web'
 
-Address = Struct.new(:street, :city, :state, :zip_code, keyword_init: true) do
+Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: true) do
   STATES = [
     ["AK", "Alaska"],
     ["AL", "Alabama"],
@@ -93,16 +93,27 @@ Address = Struct.new(:street, :city, :state, :zip_code, keyword_init: true) do
   end
 end
 
-@address = Address.new(street: '123 Main St', city: 'Chicago', state: 'IL', zip_code: '60662')
+@address = Address.new(
+  street: '123 Main St',
+  street2: 'Apartment 3C, 2nd door to the right',
+  city: 'San Diego',
+  state: 'California',
+  zip_code: '91911'
+)
 
 include Glimmer
 
 Document.ready? do
   div {
-    form(style: 'display: grid; grid-auto-columns: 80px 180px;') { |address_form|
+    form(style: 'display: grid; grid-auto-columns: 80px 200px;') { |address_form|
       label('Street: ', for: 'street-field')
       input(id: 'street-field') {
         value <=> [@address, :street]
+      }
+      
+      label('Street 2: ', for: 'street2-field')
+      textarea(id: 'street2-field') {
+        value <=> [@address, :street2]
       }
       
       label('City: ', for: 'city-field')
@@ -123,16 +134,21 @@ Document.ready? do
       input(id: 'zip-code-field') {
         value <=> [@address, :zip_code]
       }
-    
-      div(style: 'grid-column: 1 / span 2') {
-        inner_text <= [@address, :summary, computed_by: @address.members + ['state_code']]
-      }
       
       style {
         <<~CSS
-          .#{address_form.element_id} * { margin: 5px; }
+          .#{address_form.element_id} * {
+            margin: 5px;
+          }
+          .#{address_form.element_id} input, .#{address_form.element_id} select {
+            grid-column: 2;
+          }
         CSS
       }
+    }
+  
+    div(style: 'margin: 5px') {
+      inner_text <= [@address, :summary, computed_by: @address.members + ['state_code']]
     }
   }.render
 end

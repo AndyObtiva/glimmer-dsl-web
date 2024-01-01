@@ -940,7 +940,7 @@ module Glimmer
             'value' => 'onchange',
           },
           'textarea' => {
-            'value' => 'onchange',
+            'value' => 'oninput',
           },
         }
       end
