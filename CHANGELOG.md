@@ -4,6 +4,7 @@
 
 - Support attribute unidirectional/bidirectional data-binding
 - Support `select` element (it was blocked by a built-in Ruby method)
+- Handle case of `:parent` selector being invalid, defaulting to `body`.
 - Remove pure-struct gem dependency as the latest Opal fixed the implementation of Struct
 
 ## 0.0.5

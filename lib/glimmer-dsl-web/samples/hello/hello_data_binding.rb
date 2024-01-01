@@ -22,63 +22,63 @@
 require 'glimmer-dsl-web'
 
 Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: true) do
-  STATES = [
-    ["AK", "Alaska"],
-    ["AL", "Alabama"],
-    ["AR", "Arkansas"],
-    ["AS", "American Samoa"],
-    ["AZ", "Arizona"],
-    ["CA", "California"],
-    ["CO", "Colorado"],
-    ["CT", "Connecticut"],
-    ["DC", "District of Columbia"],
-    ["DE", "Delaware"],
-    ["FL", "Florida"],
-    ["GA", "Georgia"],
-    ["GU", "Guam"],
-    ["HI", "Hawaii"],
-    ["IA", "Iowa"],
-    ["ID", "Idaho"],
-    ["IL", "Illinois"],
-    ["IN", "Indiana"],
-    ["KS", "Kansas"],
-    ["KY", "Kentucky"],
-    ["LA", "Louisiana"],
-    ["MA", "Massachusetts"],
-    ["MD", "Maryland"],
-    ["ME", "Maine"],
-    ["MI", "Michigan"],
-    ["MN", "Minnesota"],
-    ["MO", "Missouri"],
-    ["MS", "Mississippi"],
-    ["MT", "Montana"],
-    ["NC", "North Carolina"],
-    ["ND", "North Dakota"],
-    ["NE", "Nebraska"],
-    ["NH", "New Hampshire"],
-    ["NJ", "New Jersey"],
-    ["NM", "New Mexico"],
-    ["NV", "Nevada"],
-    ["NY", "New York"],
-    ["OH", "Ohio"],
-    ["OK", "Oklahoma"],
-    ["OR", "Oregon"],
-    ["PA", "Pennsylvania"],
-    ["PR", "Puerto Rico"],
-    ["RI", "Rhode Island"],
-    ["SC", "South Carolina"],
-    ["SD", "South Dakota"],
-    ["TN", "Tennessee"],
-    ["TX", "Texas"],
-    ["UT", "Utah"],
-    ["VA", "Virginia"],
-    ["VI", "Virgin Islands"],
-    ["VT", "Vermont"],
-    ["WA", "Washington"],
-    ["WI", "Wisconsin"],
-    ["WV", "West Virginia"],
-    ["WY", "Wyoming"]
-  ].to_h
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
   
   def state_code
     STATES.invert[state]
@@ -108,6 +108,8 @@ Document.ready? do
     form(style: 'display: grid; grid-auto-columns: 80px 200px;') { |address_form|
       label('Street: ', for: 'street-field')
       input(id: 'street-field') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
+        # automatically stay in sync when either side changes
         value <=> [@address, :street]
       }
       
@@ -131,8 +133,14 @@ Document.ready? do
       }
       
       label('Zip Code: ', for: 'zip-code-field')
-      input(id: 'zip-code-field') {
-        value <=> [@address, :zip_code]
+      input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.zip_code
+        # automatically stay in sync when either side changes
+        # on_write option specifies :to_s method to invoke on value before writing to model attribute
+        # to ensure the numeric zip code value is stored as a String
+        value <=> [@address, :zip_code,
+                    on_write: :to_s
+                  ]
       }
       
       style {
@@ -148,7 +156,11 @@ Document.ready? do
     }
   
     div(style: 'margin: 5px') {
-      inner_text <= [@address, :summary, computed_by: @address.members + ['state_code']]
+      # Unidirectional Data-Binding is done with <= to ensure @address.summary changes update div.inner_text
+      # as computed by changes to the address member attributes + state_code address custom attribute
+      inner_text <= [@address, :summary,
+                      computed_by: @address.members + ['state_code']
+                    ]
     }
   }.render
 end

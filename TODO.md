@@ -4,7 +4,17 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.0.6
+### 0.0.7
+
+- Support input[type=checkbox] value data-binding as a boolean
+- Support input[type=radio] value data-binding as a boolean
+- Support input[type=date] value data-binding as a Ruby Date object
+- Support input[type=datetime-local] value data-binding as a Ruby DateTime object (or Time object per option)
+- Support input[type=time] value data-binding as a Ruby Time object
+- Support input[type=number] value data-binding as a Ruby Numeric object (Integer or Float)
+- Support input[type=range] value data-binding as a Ruby Float object
+
+### 0.0.x
 
 - Content data-binding support:
 content(*data_binding_options) { |data_binding_value|
@@ -15,17 +25,17 @@ content(*data_binding_options) { |data_binding_value|
 - Document capabilities like reusing serverside code and principles of Glimmer DSL for Web (some borrowed from Glimmer libui library)
 - Add a Glimmer Meta-Sample app
 
-### 0.0.7
+### 0.0.x
 
 - Component support (aka custom element)
 - Consider changing where we pass parent selector, making it `render(selector)` method
 
-### 0.0.8
+### 0.0.x
 
 - Glimmer Rails Engine to support `GlimmerHelper#glimmer_component`
 - <%= glimmer_component("glimmer_subdirectory/component_name", **options) %>
 
-### 0.0.9
+### 0.0.x
 
 - Treat HTML text formatting elements differently (e.g. `b`, `i`, `strong`, `em`, `sub`, `sup`, `del`, `ins`, `small`, `mark`) by not appending to their parent content, yet having them generate a String with `to_s` that can be embedded in a `String` that is the text content of another normal element like `p` or `div`.
 - Treat `span` as a special text formatting element if included inside a `p` and as a normal element outside a `p`.

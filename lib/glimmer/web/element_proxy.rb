@@ -186,7 +186,9 @@ module Glimmer
         else
           # TODO consider moving this to initializer
           options[:parent] ||= 'body'
-          Document.find(options[:parent])
+          the_element = Document.find(options[:parent])
+          the_element = Document.find('body') if the_element.length == 0
+          the_element
         end
       end
       
