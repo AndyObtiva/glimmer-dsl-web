@@ -4,9 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.0.7
-
-
 ### 0.0.x
 
 - Content data-binding support:

@@ -8,7 +8,7 @@
 - Support input[type=date] value data-binding as a Ruby Date object
 - Support input[type=time] value data-binding as a Ruby Time object
 - Update Hello, Data-Binding! Sample to include a checkbox
-- New Hello, Input! Sample: `require 'glimmer-dsl-web/samples/hello/hello_input'`
+- New Hello, Input (Date/Time)! Sample: `require 'glimmer-dsl-web/samples/hello/hello_input'`
 
 ## 0.0.6
 

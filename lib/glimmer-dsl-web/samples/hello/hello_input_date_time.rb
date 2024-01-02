@@ -22,10 +22,28 @@
 require 'glimmer-dsl-web'
 
 class TimePresenter
-  attr_accessor :date_time
+  attr_accessor :date_time, :month_string, :week_string
   
   def initialize
     @date_time = Time.now
+  end
+  
+  def month_string
+    @date_time&.strftime('%Y-%m')
+  end
+  
+  def month_string=(value)
+    if value.match(/^\d{4}-\d{2}$/)
+      year, month = value.split('-')
+      self.date_time = Time.new(year, month, date_time.day, date_time.hour, date_time.min)
+    end
+  end
+  
+  def week_string
+    return nil if @date_time.nil?
+    year = @date_time.year
+    week = ((@date_time.yday / 7).to_i + 1).to_s.rjust(2, '0')
+    "#{year}-W#{week}"
   end
   
   def date_time_string
@@ -37,7 +55,7 @@ class TimePresenter
       date_time_parts = value.split('T')
       date_parts = date_time_parts.first.split('-')
       time_parts = date_time_parts.last.split(':')
-      self.date_time = Time.new(*date_parts.map(&:to_s), *time_parts.map(&:to_s))
+      self.date_time = Time.new(*date_parts, *time_parts)
     end
   end
 end
@@ -64,6 +82,16 @@ Document.ready? do
       label('Time: ', for: 'time-field')
       input(id: 'time-field', type: 'time') {
         value <=> [@time_presenter, :date_time]
+      }
+      
+      label('Month: ', for: 'month-field')
+      input(id: 'month-field', type: 'month') {
+        value <=> [@time_presenter, :month_string, computed_by: :date_time]
+      }
+      
+      label('Week: ', for: 'week-field')
+      input(id: 'week-field', type: 'week', disabled: true) {
+        value <=> [@time_presenter, :week_string, computed_by: :date_time]
       }
       
       label('Time String: ', for: 'time-string-field')
