@@ -2,6 +2,7 @@
 
 ## 0.0.7
 
+- Support input[type=number] value data-binding as a Ruby Numeric object (Integer or Float)
 - Update Hello, Data-Binding! Sample to include a checkbox
 
 ## 0.0.6

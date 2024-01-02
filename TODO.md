@@ -9,7 +9,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Support input[type=date] value data-binding as a Ruby Date object
 - Support input[type=datetime-local] value data-binding as a Ruby DateTime object (or Time object per option)
 - Support input[type=time] value data-binding as a Ruby Time object
-- Support input[type=number] value data-binding as a Ruby Numeric object (Integer or Float)
 - Support input[type=range] value data-binding as a Ruby Float object
 
 ### 0.0.x

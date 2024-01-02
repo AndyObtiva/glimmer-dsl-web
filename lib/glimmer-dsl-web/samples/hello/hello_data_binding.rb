@@ -143,7 +143,7 @@ Document.ready? do
         # on_write option specifies :to_s method to invoke on value before writing to model attribute
         # to ensure the numeric zip code value is stored as a String
         value <=> [@address, :zip_code,
-                    on_write: :to_s
+                    on_write: :to_s,
                   ]
       }
       
@@ -174,7 +174,7 @@ Document.ready? do
       # (computed by changes to address attributes, meaning if street changes,
       # @address.summary is automatically recomputed.)
       inner_text <= [@address, :summary,
-                      computed_by: @address.members + ['state_code']
+                      computed_by: @address.members + ['state_code'],
                     ]
     }
   }.render

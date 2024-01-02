@@ -806,7 +806,8 @@ module Glimmer
       end
       
       def data_bind(property, model_binding)
-        element_binding_parameters = [self, property]
+        element_binding_translator = value_converters_for_input_type(type)[:model_to_view]
+        element_binding_parameters = [self, property, element_binding_translator]
         element_binding = DataBinding::ElementBinding.new(*element_binding_parameters)
         element_binding.call(model_binding.evaluate_property)
         #TODO make this options observer dependent and all similar observers in element specific data binding handlers
@@ -816,7 +817,9 @@ module Glimmer
           listener_keyword = data_binding_listener_for_element_and_property(keyword, property)
           if listener_keyword
             data_binding_read_listener = lambda do |event|
-              model_binding.call(send(property))
+              view_property_value = send(property)
+              converted_view_property_value = value_converters_for_input_type(type)[:view_to_model].call(view_property_value)
+              model_binding.call(converted_view_property_value)
             end
             handle_observation_request(listener_keyword, data_binding_read_listener)
           end
@@ -954,6 +957,19 @@ module Glimmer
           },
           'textarea' => {
             'value' => 'oninput',
+          },
+        }
+      end
+      
+      def value_converters_for_input_type(input_type)
+        input_value_converters[input_type] || {model_to_view: ->(value) {value}, view_to_model: ->(value) {value}}
+      end
+      
+      def input_value_converters
+        @input_value_converters ||= {
+          'number' => {
+            model_to_view: -> (value) { value.to_s },
+            view_to_model: -> (value) { value.include?('.') ? value.to_f : value.to_i },
           },
         }
       end
