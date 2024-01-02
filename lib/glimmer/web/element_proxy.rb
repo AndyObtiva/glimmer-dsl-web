@@ -971,6 +971,10 @@ module Glimmer
             model_to_view: -> (value) { value.to_s },
             view_to_model: -> (value) { value.include?('.') ? value.to_f : value.to_i },
           },
+          'range' => {
+            model_to_view: -> (value) { value.to_s },
+            view_to_model: -> (value) { value.include?('.') ? value.to_f : value.to_i },
+          },
         }
       end
       
