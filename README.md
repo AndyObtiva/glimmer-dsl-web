@@ -222,6 +222,8 @@ Screenshot:
 
 **Hello, Data-Binding!**
 
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
+
 Glimmer GUI code:
 
 ```ruby
@@ -239,7 +241,10 @@ Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: 
   end
 
   def summary
-    values.map(&:to_s).reject(&:empty?).join(', ')
+    string_attributes = to_h.except(:billing_and_shipping)
+    summary = string_attributes.values.map(&:to_s).reject(&:empty?).join(', ')
+    summary += " (Billing & Shipping)" if billing_and_shipping
+    summary
   end
 end
 
@@ -248,14 +253,15 @@ end
   street2: 'Apartment 3C, 2nd door to the right',
   city: 'San Diego',
   state: 'California',
-  zip_code: '91911'
+  zip_code: '91911',
+  billing_and_shipping: true,
 )
 
 include Glimmer
 
 Document.ready? do
   div {
-    form(style: 'display: grid; grid-auto-columns: 80px 200px;') { |address_form|
+    div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
       label('Street: ', for: 'street-field')
       input(id: 'street-field') {
         # Bidirectional Data-Binding with <=> ensures input.value and @address.street
@@ -289,16 +295,25 @@ Document.ready? do
         # on_write option specifies :to_s method to invoke on value before writing to model attribute
         # to ensure the numeric zip code value is stored as a String
         value <=> [@address, :zip_code,
-                    on_write: :to_s
+                    on_write: :to_s,
                   ]
+      }
+      
+      div(style: 'grid-column: 1 / span 2') {
+        input(id: 'billing-and-shipping-field', type: 'checkbox') {
+          checked <=> [@address, :billing_and_shipping]
+        }
+        label(for: 'billing-and-shipping-field') {
+          'Use this address for both Billing & Shipping'
+        }
       }
       
       style {
         <<~CSS
-          .#{address_form.element_id} * {
+          #{address_div.selector} * {
             margin: 5px;
           }
-          .#{address_form.element_id} input, .#{address_form.element_id} select {
+          #{address_div.selector} input, #{address_div.selector} select {
             grid-column: 2;
           }
         CSS
@@ -311,7 +326,7 @@ Document.ready? do
       # (computed by changes to address attributes, meaning if street changes,
       # @address.summary is automatically recomputed.)
       inner_text <= [@address, :summary,
-                      computed_by: @address.members + ['state_code']
+                      computed_by: @address.members + ['state_code'],
                     ]
     }
   }.render
@@ -426,6 +441,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Button!](#hello-button)
       - [Hello, Form!](#hello-form)
       - [Hello, Data-Binding!](#hello-data-binding)
+      - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
   - [Glimmer Process](#glimmer-process)
   - [Help](#help)
@@ -1069,8 +1085,6 @@ Screenshot:
 
 #### Hello, Data-Binding!
 
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
-
 Glimmer GUI code:
 
 ```ruby
@@ -1144,7 +1158,10 @@ Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: 
   end
 
   def summary
-    values.map(&:to_s).reject(&:empty?).join(', ')
+    string_attributes = to_h.except(:billing_and_shipping)
+    summary = string_attributes.values.map(&:to_s).reject(&:empty?).join(', ')
+    summary += " (Billing & Shipping)" if billing_and_shipping
+    summary
   end
 end
 
@@ -1153,14 +1170,15 @@ end
   street2: 'Apartment 3C, 2nd door to the right',
   city: 'San Diego',
   state: 'California',
-  zip_code: '91911'
+  zip_code: '91911',
+  billing_and_shipping: true,
 )
 
 include Glimmer
 
 Document.ready? do
   div {
-    form(style: 'display: grid; grid-auto-columns: 80px 200px;') { |address_form|
+    div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
       label('Street: ', for: 'street-field')
       input(id: 'street-field') {
         # Bidirectional Data-Binding with <=> ensures input.value and @address.street
@@ -1194,16 +1212,25 @@ Document.ready? do
         # on_write option specifies :to_s method to invoke on value before writing to model attribute
         # to ensure the numeric zip code value is stored as a String
         value <=> [@address, :zip_code,
-                    on_write: :to_s
+                    on_write: :to_s,
                   ]
+      }
+      
+      div(style: 'grid-column: 1 / span 2') {
+        input(id: 'billing-and-shipping-field', type: 'checkbox') {
+          checked <=> [@address, :billing_and_shipping]
+        }
+        label(for: 'billing-and-shipping-field') {
+          'Use this address for both Billing & Shipping'
+        }
       }
       
       style {
         <<~CSS
-          .#{address_form.element_id} * {
+          #{address_div.selector} * {
             margin: 5px;
           }
-          .#{address_form.element_id} input, .#{address_form.element_id} select {
+          #{address_div.selector} input, #{address_div.selector} select {
             grid-column: 2;
           }
         CSS
@@ -1216,7 +1243,7 @@ Document.ready? do
       # (computed by changes to address attributes, meaning if street changes,
       # @address.summary is automatically recomputed.)
       inner_text <= [@address, :summary,
-                      computed_by: @address.members + ['state_code']
+                      computed_by: @address.members + ['state_code'],
                     ]
     }
   }.render
@@ -1226,6 +1253,113 @@ end
 Screenshot:
 
 ![Hello, Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-data-binding.gif)
+
+#### Hello, Input (Date/Time)!
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class TimePresenter
+  attr_accessor :date_time, :month_string, :week_string
+  
+  def initialize
+    @date_time = Time.now
+  end
+  
+  def month_string
+    @date_time&.strftime('%Y-%m')
+  end
+  
+  def month_string=(value)
+    if value.match(/^\d{4}-\d{2}$/)
+      year, month = value.split('-')
+      self.date_time = Time.new(year, month, date_time.day, date_time.hour, date_time.min)
+    end
+  end
+  
+  def week_string
+    return nil if @date_time.nil?
+    year = @date_time.year
+    week = ((@date_time.yday / 7).to_i + 1).to_s.rjust(2, '0')
+    "#{year}-W#{week}"
+  end
+  
+  def date_time_string
+    @date_time&.strftime('%Y-%m-%dT%H:%M')
+  end
+  
+  def date_time_string=(value)
+    if value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/)
+      date_time_parts = value.split('T')
+      date_parts = date_time_parts.first.split('-')
+      time_parts = date_time_parts.last.split(':')
+      self.date_time = Time.new(*date_parts, *time_parts)
+    end
+  end
+end
+
+@time_presenter = TimePresenter.new
+
+include Glimmer
+
+Document.ready? do
+  div {
+    div(style: 'display: grid; grid-auto-columns: 130px 260px;') { |container_div|
+      label('Date Time: ', for: 'date-time-field')
+      input(id: 'date-time-field', type: 'datetime-local') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @time_presenter.date_time
+        # automatically stay in sync when either side changes
+        value <=> [@time_presenter, :date_time]
+      }
+      
+      label('Date: ', for: 'date-field')
+      input(id: 'date-field', type: 'date') {
+        value <=> [@time_presenter, :date_time]
+      }
+      
+      label('Time: ', for: 'time-field')
+      input(id: 'time-field', type: 'time') {
+        value <=> [@time_presenter, :date_time]
+      }
+      
+      label('Month: ', for: 'month-field')
+      input(id: 'month-field', type: 'month') {
+        value <=> [@time_presenter, :month_string, computed_by: :date_time]
+      }
+      
+      label('Week: ', for: 'week-field')
+      input(id: 'week-field', type: 'week', disabled: true) {
+        value <=> [@time_presenter, :week_string, computed_by: :date_time]
+      }
+      
+      label('Time String: ', for: 'time-string-field')
+      input(id: 'time-string-field', type: 'text') {
+        value <=> [@time_presenter, :date_time_string, computed_by: :date_time]
+      }
+      
+      style {
+        <<~CSS
+          #{container_div.selector} * {
+            margin: 5px;
+          }
+          #{container_div.selector} label {
+            grid-column: 1;
+          }
+          #{container_div.selector} input {
+            grid-column: 2;
+          }
+        CSS
+      }
+    }
+  }.render
+end
+```
+
+Screenshot:
+
+![Hello, Input (Date/Time)!](/images/glimmer-dsl-web-samples-hello-hello-input-date-time.gif)
 
 #### Button Counter
 
