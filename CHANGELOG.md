@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.8
+
+- Validate that element keywords belong to the valid list of HTML element tag names to prevent rendering fake elements the keyword does not match a real HTML element tag
+
 ## 0.0.7
 
 - Support input[type=number] value data-binding as a Ruby Numeric object (Integer or Float)

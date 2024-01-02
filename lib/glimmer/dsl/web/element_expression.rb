@@ -1,6 +1,8 @@
 require 'glimmer/dsl/expression'
 require 'glimmer/dsl/web/general_element_expression'
 
+require 'glimmer/web/element_proxy'
+
 module Glimmer
   module DSL
     module Web
@@ -8,9 +10,7 @@ module Glimmer
         include GeneralElementExpression
         
         def can_interpret?(parent, keyword, *args, &block)
-          # TODO automatically pass parent option as element if not passed instead of rejecting elements without a paraent nor root
-          # TODO raise a proper error if root is an element that is not found (maybe do this in model)
-          !keyword.to_s.start_with?('on')
+          Glimmer::Web::ElementProxy.keyword_supported?(keyword)
         end
       end
     end
