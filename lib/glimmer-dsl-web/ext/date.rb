@@ -1,4 +1,3 @@
-# TODO double check if the latest Opal implemented everything below already
 require 'date'
 require 'time'
 
@@ -12,6 +11,10 @@ class DateTime < Date
         @time.send(method_name, *args, &block)
       end
     end
+  end
+  
+  def now
+    Time.now.to_datetime
   end
 
   def to_date

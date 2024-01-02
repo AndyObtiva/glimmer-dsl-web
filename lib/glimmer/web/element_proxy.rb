@@ -975,6 +975,18 @@ module Glimmer
             model_to_view: -> (value) { value.to_s },
             view_to_model: -> (value) { value.include?('.') ? value.to_f : value.to_i },
           },
+          'datetime-local' => {
+            model_to_view: -> (value) { value.strftime('%Y-%m-%dT%H:%M') },
+            view_to_model: -> (value) {
+              date = Native(`new Date(Date.parse(#{value}))`)
+              year = Native.call(date, 'getFullYear')
+              month = Native.call(date, 'getMonth') + 1
+              day = Native.call(date, 'getDate')
+              hour = Native.call(date, 'getHours')
+              minute = Native.call(date, 'getMinutes')
+              Time.new(year, month, day, hour, minute)
+            },
+          },
         }
       end
       
