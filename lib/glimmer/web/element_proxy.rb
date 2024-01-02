@@ -813,11 +813,13 @@ module Glimmer
         element_binding.observe(model_binding)
         unless model_binding.binding_options[:read_only]
           # TODO add guards against nil cases for hash below
-          listener_keyword = data_binding_element_keyword_to_property_listener_map[keyword][property]
-          data_binding_read_listener = lambda do |event|
-            model_binding.call(send(property))
+          listener_keyword = data_binding_listener_for_element_and_property(keyword, property)
+          if listener_keyword
+            data_binding_read_listener = lambda do |event|
+              model_binding.call(send(property))
+            end
+            handle_observation_request(listener_keyword, data_binding_read_listener)
           end
-          handle_observation_request(listener_keyword, data_binding_read_listener)
         end
       end
       
@@ -931,6 +933,14 @@ module Glimmer
 #             !!value
 #           end,
         }
+      end
+      
+      def data_binding_listener_for_element_and_property(element_keyword, property)
+        data_binding_property_listener_map_for_element(element_keyword)[property]
+      end
+      
+      def data_binding_property_listener_map_for_element(element_keyword)
+        data_binding_element_keyword_to_property_listener_map[element_keyword] || {}
       end
       
       def data_binding_element_keyword_to_property_listener_map
