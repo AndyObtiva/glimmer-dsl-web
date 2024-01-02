@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/samples/hello/hello_button.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_form.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_input_date_time.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_world.rb",
     "lib/glimmer-dsl-web/vendor/jquery.js",
     "lib/glimmer/config/opal_logger.rb",
@@ -51,8 +52,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/web.rb",
     "lib/glimmer/web/element_proxy.rb",
     "lib/glimmer/web/event_proxy.rb",
-    "lib/glimmer/web/listener_proxy.rb",
-    "lib/glimmer/web/property_owner.rb"
+    "lib/glimmer/web/listener_proxy.rb"
   ]
   s.homepage = "http://github.com/AndyObtiva/glimmer-dsl-web".freeze
   s.licenses = ["MIT".freeze]
