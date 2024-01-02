@@ -947,6 +947,7 @@ module Glimmer
         @data_binding_element_keyword_to_property_listener_map ||= {
           'input' => {
             'value' => 'oninput',
+            'checked' => 'oninput',
           },
           'select' => {
             'value' => 'onchange',

@@ -21,7 +21,7 @@
 
 require 'glimmer-dsl-web'
 
-Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: true) do
+Address = Struct.new(:street, :street2, :city, :state, :zip_code, :billing_and_shipping, keyword_init: true) do
   STATES = {
     "AK"=>"Alaska",
     "AL"=>"Alabama",
@@ -89,7 +89,10 @@ Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: 
   end
 
   def summary
-    values.map(&:to_s).reject(&:empty?).join(', ')
+    string_attributes = to_h.except(:billing_and_shipping)
+    summary = string_attributes.values.map(&:to_s).reject(&:empty?).join(', ')
+    summary += " (Billing & Shipping)" if billing_and_shipping
+    summary
   end
 end
 
@@ -98,14 +101,15 @@ end
   street2: 'Apartment 3C, 2nd door to the right',
   city: 'San Diego',
   state: 'California',
-  zip_code: '91911'
+  zip_code: '91911',
+  billing_and_shipping: true,
 )
 
 include Glimmer
 
 Document.ready? do
   div {
-    form(style: 'display: grid; grid-auto-columns: 80px 200px;') { |address_form|
+    form(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_form|
       label('Street: ', for: 'street-field')
       input(id: 'street-field') {
         # Bidirectional Data-Binding with <=> ensures input.value and @address.street
@@ -143,12 +147,21 @@ Document.ready? do
                   ]
       }
       
+      div(style: 'grid-column: 1 / span 2') {
+        input(id: 'billing-and-shipping-field', type: 'checkbox') {
+          checked <=> [@address, :billing_and_shipping]
+        }
+        label(for: 'billing-and-shipping-field') {
+          'Use this address for both Billing & Shipping'
+        }
+      }
+      
       style {
         <<~CSS
-          .#{address_form.element_id} * {
+          #{address_form.selector} * {
             margin: 5px;
           }
-          .#{address_form.element_id} input, .#{address_form.element_id} select {
+          #{address_form.selector} input, #{address_form.selector} select {
             grid-column: 2;
           }
         CSS

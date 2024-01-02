@@ -6,8 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.7
 
-- Support input[type=checkbox] value data-binding as a boolean
-- Support input[type=radio] value data-binding as a boolean
 - Support input[type=date] value data-binding as a Ruby Date object
 - Support input[type=datetime-local] value data-binding as a Ruby DateTime object (or Time object per option)
 - Support input[type=time] value data-binding as a Ruby Time object
@@ -68,6 +66,7 @@ content(*data_binding_options) { |data_binding_value|
 
 ## Maybe
 
+- `labeled_input` custom control (or simply support label as an option in `input`)
 - Consider supporting higher abstraction flavors of data-binding for various elements like `table` and `select`
 - Consider supporting input and textarea data-binding changes on focus out (onblur) instead of direct onchange, by specifying an extra option
 - Consider supporting input and textarea built-in debounce (not firing change to model till the user stopped typing for a period of time) [and explore a way to allow people to support any write/read strategy as part of this]

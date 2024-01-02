@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.7
+
+- Update Hello, Data-Binding! Sample to include a checkbox
+
 ## 0.0.6
 
 - Support attribute unidirectional/bidirectional data-binding
