@@ -73,6 +73,9 @@ module Glimmer
       Event = Struct.new(:widget, keyword_init: true)
       
       GLIMMER_ATTRIBUTES = [:parent]
+      FORMAT_DATETIME = '%Y-%m-%dT%H:%M'
+      FORMAT_DATE = '%Y-%m-%d'
+      FORMAT_TIME = '%H:%M'
       
       attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :removed?, :rendered
       alias rendered? rendered
@@ -818,7 +821,7 @@ module Glimmer
           if listener_keyword
             data_binding_read_listener = lambda do |event|
               view_property_value = send(property)
-              converted_view_property_value = value_converters_for_input_type(type)[:view_to_model].call(view_property_value)
+              converted_view_property_value = value_converters_for_input_type(type)[:view_to_model].call(view_property_value, model_binding.evaluate_property)
               model_binding.call(converted_view_property_value)
             end
             handle_observation_request(listener_keyword, data_binding_read_listener)
@@ -968,16 +971,16 @@ module Glimmer
       def input_value_converters
         @input_value_converters ||= {
           'number' => {
-            model_to_view: -> (value) { value.to_s },
-            view_to_model: -> (value) { value.include?('.') ? value.to_f : value.to_i },
+            model_to_view: -> (value, old_value) { value.to_s },
+            view_to_model: -> (value, old_value) { value.include?('.') ? value.to_f : value.to_i },
           },
           'range' => {
-            model_to_view: -> (value) { value.to_s },
-            view_to_model: -> (value) { value.include?('.') ? value.to_f : value.to_i },
+            model_to_view: -> (value, old_value) { value.to_s },
+            view_to_model: -> (value, old_value) { value.include?('.') ? value.to_f : value.to_i },
           },
           'datetime-local' => {
-            model_to_view: -> (value) { value.strftime('%Y-%m-%dT%H:%M') },
-            view_to_model: -> (value) {
+            model_to_view: -> (value, old_value) { value.strftime(FORMAT_DATETIME) },
+            view_to_model: -> (value, old_value) {
               date = Native(`new Date(Date.parse(#{value}))`)
               year = Native.call(date, 'getFullYear')
               month = Native.call(date, 'getMonth') + 1
@@ -985,6 +988,34 @@ module Glimmer
               hour = Native.call(date, 'getHours')
               minute = Native.call(date, 'getMinutes')
               Time.new(year, month, day, hour, minute)
+            },
+          },
+          'date' => {
+            model_to_view: -> (value, old_value) { value.strftime(FORMAT_DATE) },
+            view_to_model: -> (value, old_value) {
+              date = Native(`new Date(Date.parse(#{value}))`)
+              year = Native.call(date, 'getFullYear')
+              month = Native.call(date, 'getMonth') + 1
+              day = Native.call(date, 'getDate')
+              if old_value
+                Time.new(year, month, day, old_value.hour, old_value.min)
+              else
+                Time.new(year, month, day)
+              end
+            },
+          },
+          'time' => {
+            model_to_view: -> (value, old_value) { value.strftime(FORMAT_TIME) },
+            view_to_model: -> (value, old_value) {
+              # TODO handle nil empty string case
+              time_parts = value.split(':')
+              hour = time_parts[0]
+              minute = time_parts[1]
+              if old_value
+                Time.new(old_value.year, old_value.month, old_value.day, hour, minute)
+              else
+                Time.new(1, 1, 1, hour, minute)
+              end
             },
           },
         }

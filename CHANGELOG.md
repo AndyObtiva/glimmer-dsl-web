@@ -5,6 +5,8 @@
 - Support input[type=number] value data-binding as a Ruby Numeric object (Integer or Float)
 - Support input[type=range] value data-binding as a Ruby Numeric object (Integer or Float)
 - Support input[type=datetime-local] value data-binding as a Ruby Time object
+- Support input[type=date] value data-binding as a Ruby Date object
+- Support input[type=time] value data-binding as a Ruby Time object
 - Update Hello, Data-Binding! Sample to include a checkbox
 - New Hello, Input! Sample: `require 'glimmer-dsl-web/samples/hello/hello_input'`
 

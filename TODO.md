@@ -6,8 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.7
 
-- Support input[type=date] value data-binding as a Ruby Date object
-- Support input[type=time] value data-binding as a Ruby Time object
 
 ### 0.0.x
 

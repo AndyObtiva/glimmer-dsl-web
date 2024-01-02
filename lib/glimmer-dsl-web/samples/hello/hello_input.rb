@@ -26,8 +26,6 @@ class TimePresenter
   
   def initialize
     @date_time = Time.now
-    puts @date_time.class
-    puts @date_time
   end
 end
 
@@ -40,6 +38,20 @@ Document.ready? do
     form(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_form|
       label('Date Time: ', for: 'date-time-field')
       input(id: 'date-time-field', type: 'datetime-local') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
+        # automatically stay in sync when either side changes
+        value <=> [@time_presenter, :date_time]
+      }
+      
+      label('Date: ', for: 'date-field')
+      input(id: 'date-field', type: 'date') {
+        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
+        # automatically stay in sync when either side changes
+        value <=> [@time_presenter, :date_time]
+      }
+      
+      label('Time: ', for: 'time-field')
+      input(id: 'time-field', type: 'time') {
         # Bidirectional Data-Binding with <=> ensures input.value and @address.street
         # automatically stay in sync when either side changes
         value <=> [@time_presenter, :date_time]
