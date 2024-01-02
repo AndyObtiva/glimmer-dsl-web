@@ -27,6 +27,19 @@ class TimePresenter
   def initialize
     @date_time = Time.now
   end
+  
+  def date_time_string
+    @date_time&.strftime('%Y-%m-%dT%H:%M')
+  end
+  
+  def date_time_string=(value)
+    if value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/)
+      date_time_parts = value.split('T')
+      date_parts = date_time_parts.first.split('-')
+      time_parts = date_time_parts.last.split(':')
+      self.date_time = Time.new(*date_parts.map(&:to_s), *time_parts.map(&:to_s))
+    end
+  end
 end
 
 @time_presenter = TimePresenter.new
@@ -35,34 +48,38 @@ include Glimmer
 
 Document.ready? do
   div {
-    form(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_form|
+    div(style: 'display: grid; grid-auto-columns: 130px 260px;') { |container_div|
       label('Date Time: ', for: 'date-time-field')
       input(id: 'date-time-field', type: 'datetime-local') {
-        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
+        # Bidirectional Data-Binding with <=> ensures input.value and @time_presenter.date_time
         # automatically stay in sync when either side changes
         value <=> [@time_presenter, :date_time]
       }
       
       label('Date: ', for: 'date-field')
       input(id: 'date-field', type: 'date') {
-        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
-        # automatically stay in sync when either side changes
         value <=> [@time_presenter, :date_time]
       }
       
       label('Time: ', for: 'time-field')
       input(id: 'time-field', type: 'time') {
-        # Bidirectional Data-Binding with <=> ensures input.value and @address.street
-        # automatically stay in sync when either side changes
         value <=> [@time_presenter, :date_time]
+      }
+      
+      label('Time String: ', for: 'time-string-field')
+      input(id: 'time-string-field', type: 'text') {
+        value <=> [@time_presenter, :date_time_string, computed_by: :date_time]
       }
       
       style {
         <<~CSS
-          #{address_form.selector} * {
+          #{container_div.selector} * {
             margin: 5px;
           }
-          #{address_form.selector} input {
+          #{container_div.selector} label {
+            grid-column: 1;
+          }
+          #{container_div.selector} input {
             grid-column: 2;
           }
         CSS

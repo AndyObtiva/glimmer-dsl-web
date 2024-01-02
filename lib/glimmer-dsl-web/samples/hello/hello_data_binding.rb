@@ -109,7 +109,7 @@ include Glimmer
 
 Document.ready? do
   div {
-    form(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_form|
+    div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
       label('Street: ', for: 'street-field')
       input(id: 'street-field') {
         # Bidirectional Data-Binding with <=> ensures input.value and @address.street
@@ -158,10 +158,10 @@ Document.ready? do
       
       style {
         <<~CSS
-          #{address_form.selector} * {
+          #{address_div.selector} * {
             margin: 5px;
           }
-          #{address_form.selector} input, #{address_form.selector} select {
+          #{address_div.selector} input, #{address_div.selector} select {
             grid-column: 2;
           }
         CSS

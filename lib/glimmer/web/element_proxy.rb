@@ -19,11 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# require 'glimmer/web/event_listener_proxy'
-require 'glimmer/web/property_owner'
 require 'glimmer/web/listener_proxy'
-
-# TODO implement menu (which delays building it till render using add_content_on_render)
 
 module Glimmer
   module Web
@@ -68,7 +64,6 @@ module Glimmer
       end
       
       include Glimmer
-      include PropertyOwner
       
       Event = Struct.new(:widget, keyword_init: true)
       
@@ -76,6 +71,9 @@ module Glimmer
       FORMAT_DATETIME = '%Y-%m-%dT%H:%M'
       FORMAT_DATE = '%Y-%m-%d'
       FORMAT_TIME = '%H:%M'
+      REGEX_FORMAT_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+      REGEX_FORMAT_DATE = /^\d{4}-\d{2}-\d{2}$/
+      REGEX_FORMAT_TIME = /^\d{2}:\d{2}$/
       
       attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :removed?, :rendered
       alias rendered? rendered
@@ -289,360 +287,6 @@ module Glimmer
         {}
       end
       
-      def effective_observation_request_to_event_mapping
-        default_observation_request_to_event_mapping.merge(observation_request_to_event_mapping)
-      end
-      
-      def default_observation_request_to_event_mapping
-        myself = self
-        mouse_event_handler = -> (event_listener) {
-          -> (event) {
-            # TODO generalize this solution to all widgets that support key presses
-            event.define_singleton_method(:widget) {myself}
-            event.define_singleton_method(:button, &event.method(:which))
-            event.define_singleton_method(:count) {1} # TODO support double-click count of 2 in the future by using ondblclick
-            event.define_singleton_method(:x, &event.method(:page_x))
-            event.define_singleton_method(:y, &event.method(:page_y))
-            doit = true
-            event.define_singleton_method(:doit=) do |value|
-              doit = value
-            end
-            event.define_singleton_method(:doit) { doit }
-            
-            if event.which == 1
-#               event.prevent # TODO consider if this is needed
-              event_listener.call(event)
-            end
-            
-            # TODO Imlement doit properly for all different kinds of events
-#             unless doit
-#               event.prevent
-#               event.stop
-#               event.stop_immediate
-#             end
-          }
-        }
-        mouse_move_event_handler = -> (event_listener) {
-          -> (event) {
-            # TODO generalize this solution to all widgets that support key presses
-            event.define_singleton_method(:widget) {myself}
-            event.define_singleton_method(:button, &event.method(:which))
-            event.define_singleton_method(:count) {1} # TODO support double-click count of 2 in the future by using ondblclick
-            event.define_singleton_method(:x, &event.method(:page_x))
-            event.define_singleton_method(:y, &event.method(:page_y))
-            doit = true
-            event.define_singleton_method(:doit=) do |value|
-              doit = value
-            end
-            event.define_singleton_method(:doit) { doit }
-            
-            event_listener.call(event)
-            
-            # TODO Imlement doit properly for all different kinds of events
-#             unless doit
-#               event.prevent
-#               event.stop
-#               event.stop_immediate
-#             end
-          }
-        }
-        context_menu_handler = -> (event_listener) {
-          -> (event) {
-            # TODO generalize this solution to all widgets that support key presses
-            event.define_singleton_method(:widget) {myself}
-            event.define_singleton_method(:button, &event.method(:which))
-            event.define_singleton_method(:count) {1} # TODO support double-click count of 2 in the future by using ondblclick
-            event.define_singleton_method(:x, &event.method(:page_x))
-            event.define_singleton_method(:y, &event.method(:page_y))
-            doit = true
-            event.define_singleton_method(:doit=) do |value|
-              doit = value
-            end
-            event.define_singleton_method(:doit) { doit }
-            
-            if event.which == 3
-              event.prevent
-              event_listener.call(event)
-            end
-            # TODO Imlement doit properly for all different kinds of events
-#             unless doit
-#               event.prevent
-#               event.stop
-#               event.stop_immediate
-#             end
-          }
-        }
-        {
-          'on_focus_gained' => {
-            event: 'focus',
-          },
-          'on_focus_lost' => {
-            event: 'blur',
-          },
-          'on_mouse_move' => [
-            {
-              event: 'mousemove',
-              event_handler: mouse_move_event_handler,
-            },
-          ],
-          'on_mouse_up' => [
-            {
-              event: 'mouseup',
-              event_handler: mouse_event_handler,
-            },
-            {
-              event: 'contextmenu',
-              event_handler: context_menu_handler,
-            },
-          ],
-          'on_mouse_down' => [
-            {
-              event: 'mousedown',
-              event_handler: mouse_event_handler,
-            },
-            {
-              event: 'contextmenu',
-              event_handler: context_menu_handler,
-            },
-          ],
-          'on_swt_mouseup' => [
-            {
-              event: 'mouseup',
-              event_handler: mouse_event_handler,
-            },
-            {
-              event: 'contextmenu',
-              event_handler: context_menu_handler,
-            },
-          ],
-          'on_swt_mousedown' => [
-            {
-              event: 'mousedown',
-              event_handler: mouse_event_handler,
-            },
-            {
-              event: 'contextmenu',
-              event_handler: context_menu_handler,
-            },
-          ],
-          'on_key_pressed' => {
-            event: 'keypress',
-            event_handler: -> (event_listener) {
-              -> (event) {
-                event.define_singleton_method(:widget) {myself}
-                event.define_singleton_method(:keyLocation) do
-                  location = `#{event.to_n}.originalEvent.location`
-                  JS_LOCATION_TO_SWT_KEY_LOCATION_MAP[location] || location
-                end
-                event.define_singleton_method(:key_location, &event.method(:keyLocation))
-                event.define_singleton_method(:keyCode) {
-                  JS_KEY_CODE_TO_SWT_KEY_CODE_MAP[event.which] || event.which
-                }
-                event.define_singleton_method(:key_code, &event.method(:keyCode))
-                event.define_singleton_method(:character) {event.which.chr}
-                event.define_singleton_method(:stateMask) do
-                  state_mask = 0
-                  state_mask |= SWTProxy[:alt] if event.alt_key
-                  state_mask |= SWTProxy[:ctrl] if event.ctrl_key
-                  state_mask |= SWTProxy[:shift] if event.shift_key
-                  state_mask |= SWTProxy[:command] if event.meta_key
-                  state_mask
-                end
-                event.define_singleton_method(:state_mask, &event.method(:stateMask))
-                doit = true
-                event.define_singleton_method(:doit=) do |value|
-                  doit = value
-                end
-                event.define_singleton_method(:doit) { doit }
-                event_listener.call(event)
-                
-                  # TODO Fix doit false, it's not stopping input
-                unless doit
-                  event.prevent
-                  event.prevent_default
-                  event.stop_propagation
-                  event.stop_immediate_propagation
-                end
-                
-                doit
-              }
-            }          },
-          'on_key_released' => {
-            event: 'keyup',
-            event_handler: -> (event_listener) {
-              -> (event) {
-                event.define_singleton_method(:keyLocation) do
-                  location = `#{event.to_n}.originalEvent.location`
-                  JS_LOCATION_TO_SWT_KEY_LOCATION_MAP[location] || location
-                end
-                event.define_singleton_method(:key_location, &event.method(:keyLocation))
-                event.define_singleton_method(:widget) {myself}
-                event.define_singleton_method(:keyCode) {
-                  JS_KEY_CODE_TO_SWT_KEY_CODE_MAP[event.which] || event.which
-                }
-                event.define_singleton_method(:key_code, &event.method(:keyCode))
-                event.define_singleton_method(:character) {event.which.chr}
-                event.define_singleton_method(:stateMask) do
-                  state_mask = 0
-                  state_mask |= SWTProxy[:alt] if event.alt_key
-                  state_mask |= SWTProxy[:ctrl] if event.ctrl_key
-                  state_mask |= SWTProxy[:shift] if event.shift_key
-                  state_mask |= SWTProxy[:command] if event.meta_key
-                  state_mask
-                end
-                event.define_singleton_method(:state_mask, &event.method(:stateMask))
-                doit = true
-                event.define_singleton_method(:doit=) do |value|
-                  doit = value
-                end
-                event.define_singleton_method(:doit) { doit }
-                event_listener.call(event)
-                
-                  # TODO Fix doit false, it's not stopping input
-                unless doit
-                  event.prevent
-                  event.prevent_default
-                  event.stop_propagation
-                  event.stop_immediate_propagation
-                end
-                
-                doit
-              }
-            }
-          },
-          'on_swt_keydown' => [
-            {
-              event: 'keypress',
-              event_handler: -> (event_listener) {
-                -> (event) {
-                  event.define_singleton_method(:keyLocation) do
-                    location = `#{event.to_n}.originalEvent.location`
-                    JS_LOCATION_TO_SWT_KEY_LOCATION_MAP[location] || location
-                  end
-                  event.define_singleton_method(:key_location, &event.method(:keyLocation))
-                  event.define_singleton_method(:keyCode) {
-                    JS_KEY_CODE_TO_SWT_KEY_CODE_MAP[event.which] || event.which
-                  }
-                  event.define_singleton_method(:key_code, &event.method(:keyCode))
-                  event.define_singleton_method(:widget) {myself}
-                  event.define_singleton_method(:character) {event.which.chr}
-                  event.define_singleton_method(:stateMask) do
-                    state_mask = 0
-                    state_mask |= SWTProxy[:alt] if event.alt_key
-                    state_mask |= SWTProxy[:ctrl] if event.ctrl_key
-                    state_mask |= SWTProxy[:shift] if event.shift_key
-                    state_mask |= SWTProxy[:command] if event.meta_key
-                    state_mask
-                  end
-                  event.define_singleton_method(:state_mask, &event.method(:stateMask))
-                  doit = true
-                  event.define_singleton_method(:doit=) do |value|
-                    doit = value
-                  end
-                  event.define_singleton_method(:doit) { doit }
-                  event_listener.call(event)
-                  
-                    # TODO Fix doit false, it's not stopping input
-                  unless doit
-                    event.prevent
-                    event.prevent_default
-                    event.stop_propagation
-                    event.stop_immediate_propagation
-                  end
-                  
-                  doit
-                }
-              }
-            },
-            {
-              event: 'keydown',
-              event_handler: -> (event_listener) {
-                -> (event) {
-                  event.define_singleton_method(:keyLocation) do
-                    location = `#{event.to_n}.originalEvent.location`
-                    JS_LOCATION_TO_SWT_KEY_LOCATION_MAP[location] || location
-                  end
-                  event.define_singleton_method(:key_location, &event.method(:keyLocation))
-                  event.define_singleton_method(:keyCode) {
-                    JS_KEY_CODE_TO_SWT_KEY_CODE_MAP[event.which] || event.which
-                  }
-                  event.define_singleton_method(:key_code, &event.method(:keyCode))
-                  event.define_singleton_method(:widget) {myself}
-                  event.define_singleton_method(:character) {event.which.chr}
-                  event.define_singleton_method(:stateMask) do
-                    state_mask = 0
-                    state_mask |= SWTProxy[:alt] if event.alt_key
-                    state_mask |= SWTProxy[:ctrl] if event.ctrl_key
-                    state_mask |= SWTProxy[:shift] if event.shift_key
-                    state_mask |= SWTProxy[:command] if event.meta_key
-                    state_mask
-                  end
-                  event.define_singleton_method(:state_mask, &event.method(:stateMask))
-                  doit = true
-                  event.define_singleton_method(:doit=) do |value|
-                    doit = value
-                  end
-                  event.define_singleton_method(:doit) { doit }
-                  event_listener.call(event) if event.which != 13 && (event.which == 127 || event.which <= 40)
-                  
-                    # TODO Fix doit false, it's not stopping input
-                  unless doit
-                    event.prevent
-                    event.prevent_default
-                    event.stop_propagation
-                    event.stop_immediate_propagation
-                  end
-                  doit
-                }
-              }
-            }
-          ],
-          'on_swt_keyup' => {
-            event: 'keyup',
-            event_handler: -> (event_listener) {
-              -> (event) {
-                event.define_singleton_method(:keyLocation) do
-                  location = `#{event.to_n}.originalEvent.location`
-                  JS_LOCATION_TO_SWT_KEY_LOCATION_MAP[location] || location
-                end
-                event.define_singleton_method(:key_location, &event.method(:keyLocation))
-                event.define_singleton_method(:widget) {myself}
-                event.define_singleton_method(:keyCode) {
-                  JS_KEY_CODE_TO_SWT_KEY_CODE_MAP[event.which] || event.which
-                }
-                event.define_singleton_method(:key_code, &event.method(:keyCode))
-                event.define_singleton_method(:character) {event.which.chr}
-                event.define_singleton_method(:stateMask) do
-                  state_mask = 0
-                  state_mask |= SWTProxy[:alt] if event.alt_key
-                  state_mask |= SWTProxy[:ctrl] if event.ctrl_key
-                  state_mask |= SWTProxy[:shift] if event.shift_key
-                  state_mask |= SWTProxy[:command] if event.meta_key
-                  state_mask
-                end
-                event.define_singleton_method(:state_mask, &event.method(:stateMask))
-                doit = true
-                event.define_singleton_method(:doit=) do |value|
-                  doit = value
-                end
-                event.define_singleton_method(:doit) { doit }
-                event_listener.call(event)
-                
-                  # TODO Fix doit false, it's not stopping input
-                unless doit
-                  event.prevent
-                  event.prevent_default
-                  event.stop_propagation
-                  event.stop_immediate_propagation
-                end
-                
-                doit
-              }
-            }
-          },
-        }
-      end
-      
       def name
         self.class.name.split('::').last.underscore.sub(/_proxy$/, '').gsub('_', '-')
       end
@@ -770,35 +414,6 @@ module Glimmer
         listener.register
         listeners_for(keyword) << listener
         listener
-#         return unless effective_observation_request_to_event_mapping.keys.include?(keyword)
-#         event = nil
-#         delegate = nil
-#         effective_observation_request_to_event_mapping[keyword].to_collection.each do |mapping|
-#           observation_requests[keyword] ||= Set.new
-#           observation_requests[keyword] << original_event_listener
-#           event = mapping[:event]
-#           event_handler = mapping[:event_handler]
-#           event_element_css_selector = mapping[:event_element_css_selector]
-#           potential_event_listener = event_handler&.call(original_event_listener)
-#           event_listener = potential_event_listener || original_event_listener
-#           async_event_listener = proc do |event|
-            ## TODO look into the issue with using async::task.new here. maybe put it in event listener (like not being able to call preventDefault or return false successfully )
-            ## maybe consider pushing inside the widget classes instead where needed only or implement universal doit support correctly to bypass this issue
-            ## Async::Task.new do
-#             @@widget_handling_listener = self
-            ## TODO also make sure to disable all widgets for suspension
-#             event_listener.call(event) unless dialog_ancestor&.event_handling_suspended?
-#             @widget_handling_listener = nil
-            ## end
-#           end
-#           the_listener_dom_element = event_element_css_selector ? Element[event_element_css_selector] : listener_dom_element
-#           unless the_listener_dom_element.empty?
-#             the_listener_dom_element.on(event, &async_event_listener)
-            ## TODO ensure uniqueness of insertion (perhaps adding equals/hash method to event listener proxy)
-#
-#             event_listener_proxies << EventListenerProxy.new(element_proxy: self, selector: selector, dom_element: the_listener_dom_element, event: event, listener: async_event_listener, original_event_listener: original_event_listener)
-#           end
-#         end
       end
       
       def remove_event_listener_proxies
@@ -827,11 +442,6 @@ module Glimmer
             handle_observation_request(listener_keyword, data_binding_read_listener)
           end
         end
-      end
-      
-      def set_attribute(attribute_name, *args)
-        apply_property_type_converters(attribute_name, args)
-        super(attribute_name, *args) # PropertyOwner
       end
       
       def respond_to_missing?(method_name, include_private = false)
@@ -878,69 +488,6 @@ module Glimmer
         self
       end
       
-      def apply_property_type_converters(attribute_name, args)
-        if args.count == 1
-          value = args.first
-          converter = property_type_converters[attribute_name.to_sym]
-          args[0] = converter.call(value) if converter
-        end
-#         if args.count == 1 && args.first.is_a?(ColorProxy)
-#           g_color = args.first
-#           args[0] = g_color.swt_color
-#         end
-      end
-      
-      def property_type_converters
-        color_converter = proc do |value|
-          if value.is_a?(Symbol) || value.is_a?(String)
-            ColorProxy.new(value)
-          else
-            value
-          end
-        end
-        @property_type_converters ||= {
-          :background => color_converter,
-#           :background_image => proc do |value|
-#             if value.is_a?(String)
-#               if value.start_with?('uri:classloader')
-#                 value = value.sub(/^uri\:classloader\:\//, '')
-#                 object = java.lang.Object.new
-#                 value = object.java_class.resource_as_stream(value)
-#                 value = java.io.BufferedInputStream.new(value)
-#               end
-#               image_data = ImageData.new(value)
-#               on_event_Resize do |resize_event|
-#                 new_image_data = image_data.scaledTo(@swt_widget.getSize.x, @swt_widget.getSize.y)
-#                 @swt_widget.getBackgroundImage&.remove
-#                 @swt_widget.setBackgroundImage(Image.new(@swt_widget.getDisplay, new_image_data))
-#               end
-#               Image.new(@swt_widget.getDisplay, image_data)
-#             else
-#               value
-#             end
-#           end,
-          :foreground => color_converter,
-#           :font => proc do |value|
-#             if value.is_a?(Hash)
-#               font_properties = value
-#               FontProxy.new(self, font_properties).swt_font
-#             else
-#               value
-#             end
-#           end,
-          :text => proc do |value|
-#             if swt_widget.is_a?(Browser)
-#               value.to_s
-#             else
-              value.to_s
-#             end
-          end,
-#           :visible => proc do |value|
-#             !!value
-#           end,
-        }
-      end
-      
       def data_binding_listener_for_element_and_property(element_keyword, property)
         data_binding_property_listener_map_for_element(element_keyword)[property]
       end
@@ -965,56 +512,91 @@ module Glimmer
       end
       
       def value_converters_for_input_type(input_type)
-        input_value_converters[input_type] || {model_to_view: ->(value) {value}, view_to_model: ->(value) {value}}
+        input_value_converters[input_type] || {model_to_view: ->(value, old_value) {value}, view_to_model: ->(value, old_value) {value}}
       end
       
       def input_value_converters
         @input_value_converters ||= {
           'number' => {
             model_to_view: -> (value, old_value) { value.to_s },
-            view_to_model: -> (value, old_value) { value.include?('.') ? value.to_f : value.to_i },
+            view_to_model: -> (value, old_value) {
+              value.include?('.') ? value.to_f : value.to_i
+            },
           },
           'range' => {
             model_to_view: -> (value, old_value) { value.to_s },
-            view_to_model: -> (value, old_value) { value.include?('.') ? value.to_f : value.to_i },
+            view_to_model: -> (value, old_value) {
+              value.include?('.') ? value.to_f : value.to_i
+            },
           },
           'datetime-local' => {
-            model_to_view: -> (value, old_value) { value.strftime(FORMAT_DATETIME) },
+            model_to_view: -> (value, old_value) {
+              if value.respond_to?(:strftime)
+                value.strftime(FORMAT_DATETIME)
+              elsif value.is_a?(String) && valid_js_date_string?(value)
+                value
+              else
+                old_value
+              end
+            },
             view_to_model: -> (value, old_value) {
-              date = Native(`new Date(Date.parse(#{value}))`)
-              year = Native.call(date, 'getFullYear')
-              month = Native.call(date, 'getMonth') + 1
-              day = Native.call(date, 'getDate')
-              hour = Native.call(date, 'getHours')
-              minute = Native.call(date, 'getMinutes')
-              Time.new(year, month, day, hour, minute)
+              if value.to_s.empty?
+                nil
+              else
+                date = Native(`new Date(Date.parse(#{value}))`)
+                year = Native.call(date, 'getFullYear')
+                month = Native.call(date, 'getMonth') + 1
+                day = Native.call(date, 'getDate')
+                hour = Native.call(date, 'getHours')
+                minute = Native.call(date, 'getMinutes')
+                Time.new(year, month, day, hour, minute)
+              end
             },
           },
           'date' => {
-            model_to_view: -> (value, old_value) { value.strftime(FORMAT_DATE) },
-            view_to_model: -> (value, old_value) {
-              date = Native(`new Date(Date.parse(#{value}))`)
-              year = Native.call(date, 'getFullYear')
-              month = Native.call(date, 'getMonth') + 1
-              day = Native.call(date, 'getDate')
-              if old_value
-                Time.new(year, month, day, old_value.hour, old_value.min)
+            model_to_view: -> (value, old_value) {
+              if value.respond_to?(:strftime)
+                value.strftime(FORMAT_DATE)
+              elsif value.is_a?(String) && valid_js_date_string?(value)
+                value
               else
-                Time.new(year, month, day)
+                old_value
+              end
+            },
+            view_to_model: -> (value, old_value) {
+              if value.to_s.empty?
+                nil
+              else
+                year, month, day = value.split('-')
+                if old_value
+                  Time.new(year, month, day, old_value.hour, old_value.min)
+                else
+                  Time.new(year, month, day)
+                end
               end
             },
           },
           'time' => {
-            model_to_view: -> (value, old_value) { value.strftime(FORMAT_TIME) },
-            view_to_model: -> (value, old_value) {
-              # TODO handle nil empty string case
-              time_parts = value.split(':')
-              hour = time_parts[0]
-              minute = time_parts[1]
-              if old_value
-                Time.new(old_value.year, old_value.month, old_value.day, hour, minute)
+            model_to_view: -> (value, old_value) {
+              if value.respond_to?(:strftime)
+                value.strftime(FORMAT_TIME)
+              elsif value.is_a?(String) && valid_js_date_string?(value)
+                value
               else
-                Time.new(1, 1, 1, hour, minute)
+                old_value
+              end
+            },
+            view_to_model: -> (value, old_value) {
+              if value.to_s.empty?
+                nil
+              else
+                hour, minute = value.split(':')
+                if old_value
+                  Time.new(old_value.year, old_value.month, old_value.day, hour, minute)
+                else
+                  now = Time.now
+                  Time.new(now.year, now.month, now.day, hour, minute)
+                end
               end
             },
           },
@@ -1022,6 +604,12 @@ module Glimmer
       end
       
       private
+      
+      def valid_js_date_string?(string)
+        [REGEX_FORMAT_DATETIME, REGEX_FORMAT_DATE, REGEX_FORMAT_TIME].any? do |format|
+          string.match(format)
+        end
+      end
       
       def css_cursor
         SWT_CURSOR_TO_CSS_CURSOR_MAP[@cursor]
