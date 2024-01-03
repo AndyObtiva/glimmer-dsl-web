@@ -66,7 +66,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 2.7.5".freeze])
   s.add_runtime_dependency(%q<glimmer-dsl-xml>.freeze, ["~> 1.3.2".freeze])
   s.add_runtime_dependency(%q<glimmer-dsl-css>.freeze, ["~> 1.2.2".freeze])
+  s.add_runtime_dependency(%q<opal>.freeze, ["= 1.4.1".freeze])
+  s.add_runtime_dependency(%q<opal-rails>.freeze, ["= 2.0.2".freeze])
   s.add_runtime_dependency(%q<opal-async>.freeze, ["~> 1.4.0".freeze])
+  s.add_runtime_dependency(%q<opal-jquery>.freeze, ["~> 0.4.6".freeze])
   s.add_runtime_dependency(%q<to_collection>.freeze, [">= 2.0.1".freeze, "< 3.0.0".freeze])
   s.add_development_dependency(%q<puts_debuggerer>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<rake>.freeze, [">= 10.1.0".freeze, "< 14.0.0".freeze])
@@ -74,7 +77,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency(%q<jeweler>.freeze, [">= 2.3.9".freeze, "< 3.0.0".freeze])
   s.add_development_dependency(%q<rdoc>.freeze, [">= 6.2.1".freeze, "< 7.0.0".freeze])
   s.add_development_dependency(%q<opal-rspec>.freeze, ["~> 0.8.0.alpha2".freeze])
-  s.add_development_dependency(%q<opal-rails>.freeze, ["~> 1.1.2".freeze])
-  s.add_development_dependency(%q<opal-jquery>.freeze, ["~> 0.4.4".freeze])
 end
 

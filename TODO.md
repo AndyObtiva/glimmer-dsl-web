@@ -6,10 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Merge libraries in Gemfile as dependencies
-
-### 0.0.x
-
 - Component support (aka custom element)
 - Consider changing where we pass parent selector, making it `render(selector)` method
 
@@ -37,7 +33,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 - Use descendants_tracker gem instead of implementing descendants manually
-- Try to package dependencies as gem dependencies instead of asking people to add in Rails Gemfile manually
 - Document how to reuse server-side Ruby code (backend) client-side (frontend)
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)

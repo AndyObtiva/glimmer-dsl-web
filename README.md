@@ -620,13 +620,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'opal', '1.4.1'
-gem 'opal-rails', '2.0.2'
-gem 'opal-async', '~> 1.4.0'
-gem 'opal-jquery', '~> 0.4.6'
 gem 'glimmer-dsl-web', '~> 0.0.8'
-gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
-gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
 
 Run:
@@ -765,13 +759,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'opal', '1.4.1'
-gem 'opal-rails', '2.0.2'
-gem 'opal-async', '~> 1.4.0'
-gem 'opal-jquery', '~> 0.4.6'
 gem 'glimmer-dsl-web', '~> 0.0.8'
-gem 'glimmer-dsl-xml', '~> 1.3.1', require: false
-gem 'glimmer-dsl-css', '~> 1.2.1', require: false
 ```
 
 Run:

@@ -26,7 +26,11 @@ GLIMMER_DSL_OPAL_LIB = File.join(GLIMMER_DSL_OPAL_ROOT, 'lib')
  
 $LOAD_PATH.unshift(GLIMMER_DSL_OPAL_LIB)
 
-if RUBY_ENGINE == 'opal'
+if RUBY_ENGINE != 'opal'
+  require 'opal-rails'
+  require 'opal-async'
+  require 'opal-jquery'
+else
 #   GLIMMER_DSL_OPAL_MISSING = File.join(GLIMMER_DSL_OPAL_ROOT, 'lib', 'glimmer-dsl-opal', 'missing')
    
 #   $LOAD_PATH.unshift(GLIMMER_DSL_OPAL_MISSING) # missing Ruby classes/methods
