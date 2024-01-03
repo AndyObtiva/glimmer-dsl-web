@@ -6,6 +6,10 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
+- Merge libraries in Gemfile as dependencies
+
+### 0.0.x
+
 - Component support (aka custom element)
 - Consider changing where we pass parent selector, making it `render(selector)` method
 

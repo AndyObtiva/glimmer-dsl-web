@@ -339,6 +339,136 @@ Screenshot:
 
 ![Hello, Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-data-binding.gif)
 
+**Hello, Content Data-Binding!**
+
+If you need to regenerate HTML element content dynamically, you can use Content Data-Binding to effortlessly
+rebuild HTML elements based on changes in a Model attribute that provides the source data.
+In this example, we generate multiple address forms based on the number of addresses the user has.
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class Address
+  attr_accessor :text
+  attr_reader :name, :street, :city, :state, :zip
+  
+  def name=(value)
+    @name = value
+    update_text
+  end
+  
+  def street=(value)
+    @street = value
+    update_text
+  end
+  
+  def city=(value)
+    @city = value
+    update_text
+  end
+  
+  def state=(value)
+    @state = value
+    update_text
+  end
+  
+  def zip=(value)
+    @zip = value
+    update_text
+  end
+  
+  private
+  
+  def update_text
+    self.text = [name, street, city, state, zip].compact.reject(&:empty?).join(', ')
+  end
+end
+
+class User
+  attr_accessor :addresses
+  attr_reader :address_count
+  
+  def initialize
+    @address_count = 1
+    @addresses = []
+    update_addresses
+  end
+  
+  def address_count=(value)
+    @address_count = value
+    update_addresses
+  end
+  
+  private
+  
+  def update_addresses
+    address_count_change = address_count - addresses.size
+    if address_count_change > 0
+      address_count_change.times { addresses << Address.new }
+    else
+      address_count_change.abs.times { addresses.pop }
+    end
+  end
+end
+
+@user = User.new
+
+div {
+  div {
+    label('Number of addresses: ', for: 'address-count-field')
+    input(id: 'address-count-field', type: 'number', min: 1, max: 3) {
+      value <=> [@user, :address_count]
+    }
+  }
+  
+  div {
+    # Content Data-Binding is used to dynamically (re)generate content of div
+    # based on changes to @user.addresses, replacing older content on every change
+    content(@user, :addresses) do
+      @user.addresses.each do |address|
+        div {
+          div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
+            [:name, :street, :city, :state, :zip].each do |attribute|
+              label(attribute.to_s.capitalize, for: "#{attribute}-field")
+              input(id: "#{attribute}-field", type: 'text') {
+                value <=> [address, attribute]
+              }
+            end
+            
+            div(style: 'grid-column: 1 / span 2;') {
+              inner_text <= [address, :text]
+            }
+            
+            style {
+              <<~CSS
+                #{address_div.selector} {
+                  margin: 10px 0;
+                }
+                #{address_div.selector} * {
+                  margin: 5px;
+                }
+                #{address_div.selector} label {
+                  grid-column: 1;
+                }
+                #{address_div.selector} input, #{address_div.selector} select {
+                  grid-column: 2;
+                }
+              CSS
+            }
+          }
+        }
+      end
+    end
+  }
+}.render
+```
+
+Screenshot:
+
+![Hello, Content Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-content-data-binding.gif)
+
 **Button Counter Sample**
 
 **UPCOMING (NOT RELEASED OR SUPPORTED YET)**
@@ -443,6 +573,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Button!](#hello-button)
       - [Hello, Form!](#hello-form)
       - [Hello, Data-Binding!](#hello-data-binding)
+      - [Hello, Content Data-Binding!](#hello-content-data-binding)
       - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
   - [Glimmer Process](#glimmer-process)
@@ -1255,6 +1386,132 @@ end
 Screenshot:
 
 ![Hello, Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-data-binding.gif)
+
+#### Hello, Content Data-Binding!
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class Address
+  attr_accessor :text
+  attr_reader :name, :street, :city, :state, :zip
+  
+  def name=(value)
+    @name = value
+    update_text
+  end
+  
+  def street=(value)
+    @street = value
+    update_text
+  end
+  
+  def city=(value)
+    @city = value
+    update_text
+  end
+  
+  def state=(value)
+    @state = value
+    update_text
+  end
+  
+  def zip=(value)
+    @zip = value
+    update_text
+  end
+  
+  private
+  
+  def update_text
+    self.text = [name, street, city, state, zip].compact.reject(&:empty?).join(', ')
+  end
+end
+
+class User
+  attr_accessor :addresses
+  attr_reader :address_count
+  
+  def initialize
+    @address_count = 1
+    @addresses = []
+    update_addresses
+  end
+  
+  def address_count=(value)
+    @address_count = value
+    update_addresses
+  end
+  
+  private
+  
+  def update_addresses
+    address_count_change = address_count - addresses.size
+    if address_count_change > 0
+      address_count_change.times { addresses << Address.new }
+    else
+      address_count_change.abs.times { addresses.pop }
+    end
+  end
+end
+
+@user = User.new
+
+div {
+  div {
+    label('Number of addresses: ', for: 'address-count-field')
+    input(id: 'address-count-field', type: 'number', min: 1, max: 3) {
+      value <=> [@user, :address_count]
+    }
+  }
+  
+  div {
+    # Content Data-Binding is used to dynamically (re)generate content of div
+    # based on changes to @user.addresses, replacing older content on every change
+    content(@user, :addresses) do
+      @user.addresses.each do |address|
+        div {
+          div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
+            [:name, :street, :city, :state, :zip].each do |attribute|
+              label(attribute.to_s.capitalize, for: "#{attribute}-field")
+              input(id: "#{attribute}-field", type: 'text') {
+                value <=> [address, attribute]
+              }
+            end
+            
+            div(style: 'grid-column: 1 / span 2;') {
+              inner_text <= [address, :text]
+            }
+            
+            style {
+              <<~CSS
+                #{address_div.selector} {
+                  margin: 10px 0;
+                }
+                #{address_div.selector} * {
+                  margin: 5px;
+                }
+                #{address_div.selector} label {
+                  grid-column: 1;
+                }
+                #{address_div.selector} input, #{address_div.selector} select {
+                  grid-column: 2;
+                }
+              CSS
+            }
+          }
+        }
+      end
+    end
+  }
+}.render
+```
+
+Screenshot:
+
+![Hello, Content Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-content-data-binding.gif)
 
 #### Hello, Input (Date/Time)!
 
