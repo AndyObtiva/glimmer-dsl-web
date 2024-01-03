@@ -63,7 +63,7 @@ Gem::Specification.new do |s|
 
   s.specification_version = 4
 
-  s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 2.7.5".freeze])
+  s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 2.7.6".freeze])
   s.add_runtime_dependency(%q<glimmer-dsl-xml>.freeze, ["~> 1.3.2".freeze])
   s.add_runtime_dependency(%q<glimmer-dsl-css>.freeze, ["~> 1.2.2".freeze])
   s.add_runtime_dependency(%q<opal>.freeze, ["= 1.4.1".freeze])

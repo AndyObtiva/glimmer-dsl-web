@@ -13,6 +13,7 @@ content(*data_binding_options) { |data_binding_value|
     data_binding_value
   }
 }
+- Ensuring removing data-binding model listeners when calling `element#remove` in addition to already removing standard HTML event listeners
 - New Hello, Content Data-Binding! Sample: `require 'glimmer-dsl-web/samples/hello/hello_content_data_binding'`
 
 ## 0.0.7

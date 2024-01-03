@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'glimmer', '~> 2.7.5' #, path: '../glimmer'
+gem 'glimmer', '~> 2.7.6' #, path: '../glimmer'
 gem 'glimmer-dsl-xml', '~> 1.3.2'
 gem 'glimmer-dsl-css', '~> 1.2.2'
 gem 'opal', '1.4.1'

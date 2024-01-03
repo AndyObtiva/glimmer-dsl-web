@@ -68,6 +68,7 @@ class User
   end
   
   def address_count=(value)
+    value = [[1, value.to_i].max, 3].min
     @address_count = value
     update_addresses
   end

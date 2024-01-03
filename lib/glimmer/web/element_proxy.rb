@@ -148,6 +148,11 @@ module Glimmer
         listeners.each do |event, event_listeners|
           event_listeners.dup.each(&:unregister)
         end
+        listeners.clear
+        data_bindings.each do |element_binding, model_binding|
+          element_binding.unregister_all_observables
+        end
+        data_bindings.clear
       end
       
       # Subclasses can override with their own selector
@@ -448,6 +453,10 @@ module Glimmer
         event_listener_proxies.clear
       end
       
+      def data_bindings
+        @data_bindings ||= {}
+      end
+      
       def data_bind(property, model_binding)
         element_binding_translator = value_converters_for_input_type(type)[:model_to_view]
         element_binding_parameters = [self, property, element_binding_translator]
@@ -455,6 +464,7 @@ module Glimmer
         element_binding.call(model_binding.evaluate_property)
         #TODO make this options observer dependent and all similar observers in element specific data binding handlers
         element_binding.observe(model_binding)
+        data_bindings[element_binding] = model_binding
         unless model_binding.binding_options[:read_only]
           # TODO add guards against nil cases for hash below
           listener_keyword = data_binding_listener_for_element_and_property(keyword, property)
