@@ -34,7 +34,6 @@ module Glimmer
         @selector = selector
         @listener = listener
         @js_listener = lambda do |js_event|
-          # TODO wrap event with a Ruby Event object before passing to listener
           event = EventProxy.new(js_event: js_event, listener: self)
           result = listener.call(event)
           result = true if result.nil?

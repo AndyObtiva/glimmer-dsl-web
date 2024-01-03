@@ -3,6 +3,14 @@
 ## 0.0.8
 
 - Validate that element keywords belong to the valid list of HTML element tag names to prevent rendering fake elements the keyword does not match a real HTML element tag
+- Content Data-Binding support to regenerate element content based on changes to an observed model attribute.
+Content Data-Binding Example:
+content(*data_binding_options) { |data_binding_value|
+  li {
+    data_binding_value
+  }
+}
+
 
 ## 0.0.7
 

@@ -5,14 +5,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ## Next
 
 ### 0.0.x
-
-- Content data-binding support:
-content(*data_binding_options) { |data_binding_value|
-  span {
-    data_binding_value
-  }
-}
-
+- Support inner_html property (it seems it does not convert to innerHTML nicely because of the all caps HTML)
 ### 0.0.x
 
 - Component support (aka custom element)
@@ -30,7 +23,6 @@ content(*data_binding_options) { |data_binding_value|
 
 ### 0.1.0
 
-- Automatic cleanup of element observers upon calling element.remove & Automatic cleanup of data-binding observers upon calling element.remove
 - Add examples of talking to web APIs to populate GUI data via read-only ajax requests
 - Add examples of form submitting via ajax request
 
@@ -68,6 +60,7 @@ content(*data_binding_options) { |data_binding_value|
 - Consider supporting input and textarea built-in debounce (not firing change to model till the user stopped typing for a period of time) [and explore a way to allow people to support any write/read strategy as part of this]
 - Support custom listeners on elements
 - Consider preventing `ElementProxy` from returning `nil` if an invalid method name was invoked (like `vali`). It seems today, it works, but returns `nil`. Maybe, have it error out instead.
+- Consider using element.method format in DSL to generate an element with a class (or element_class__id)
 
 ## Issues
 

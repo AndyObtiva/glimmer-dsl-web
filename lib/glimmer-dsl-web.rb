@@ -75,7 +75,7 @@ if RUBY_ENGINE == 'opal'
   require 'glimmer-dsl-xml'
   require 'glimmer-dsl-css'
   
-  Glimmer::Config.loop_max_count = 150 # TODO consider disabling if preferred
+  Glimmer::Config.loop_max_count = 50 # TODO consider disabling if preferred
   
   original_logger_level = Glimmer::Config.logger.level
   Glimmer::Config.logger = Glimmer::Config::OpalLogger.new(STDOUT)
