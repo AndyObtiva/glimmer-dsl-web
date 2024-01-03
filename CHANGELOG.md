@@ -3,6 +3,8 @@
 ## 0.0.8
 
 - Validate that element keywords belong to the valid list of HTML element tag names to prevent rendering fake elements the keyword does not match a real HTML element tag
+- Support inner_html/outer_html properties (it seems they did not convert to innerHTML/outerHTML correctly because of the all caps HTML)
+- Support element properties via original JS names (e.g. innerHTML) to prevent logic from breaking if some do not convert correctly from underscored versions
 - Content Data-Binding support to regenerate element content based on changes to an observed model attribute.
 Content Data-Binding Example:
 content(*data_binding_options) { |data_binding_value|

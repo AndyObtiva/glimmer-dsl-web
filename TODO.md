@@ -5,8 +5,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ## Next
 
 ### 0.0.x
-- Support inner_html property (it seems it does not convert to innerHTML nicely because of the all caps HTML)
-### 0.0.x
 
 - Component support (aka custom element)
 - Consider changing where we pass parent selector, making it `render(selector)` method

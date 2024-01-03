@@ -98,7 +98,7 @@ div {
     content(@user, :addresses) do
       @user.addresses.each do |address|
         div {
-          div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
+          div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
             [:name, :street, :city, :state, :zip].each do |attribute|
               label(attribute.to_s.capitalize, for: "#{attribute}-field")
               # TODO consider making zip a dnumber and state a select box

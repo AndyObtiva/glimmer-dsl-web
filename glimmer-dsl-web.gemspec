@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/ext/date.rb",
     "lib/glimmer-dsl-web/ext/exception.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_button.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_form.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_input_date_time.rb",
@@ -39,6 +40,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/config/opal_logger.rb",
     "lib/glimmer/data_binding/element_binding.rb",
     "lib/glimmer/dsl/web/bind_expression.rb",
+    "lib/glimmer/dsl/web/content_data_binding_expression.rb",
     "lib/glimmer/dsl/web/data_binding_expression.rb",
     "lib/glimmer/dsl/web/dsl.rb",
     "lib/glimmer/dsl/web/element_expression.rb",
@@ -61,7 +63,7 @@ Gem::Specification.new do |s|
 
   s.specification_version = 4
 
-  s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 2.4.1".freeze])
+  s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 2.7.5".freeze])
   s.add_runtime_dependency(%q<glimmer-dsl-xml>.freeze, ["~> 1.3.2".freeze])
   s.add_runtime_dependency(%q<glimmer-dsl-css>.freeze, ["~> 1.2.2".freeze])
   s.add_runtime_dependency(%q<opal-async>.freeze, ["~> 1.4.0".freeze])

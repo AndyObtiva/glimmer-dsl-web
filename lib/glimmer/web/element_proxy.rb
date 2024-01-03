@@ -89,6 +89,10 @@ module Glimmer
       ]
 
       GLIMMER_ATTRIBUTES = [:parent]
+      PROPERTY_ALIASES = {
+        'inner_html' => 'innerHTML',
+        'outer_html' => 'outerHTML',
+      }
       FORMAT_DATETIME = '%Y-%m-%dT%H:%M'
       FORMAT_DATE = '%Y-%m-%d'
       FORMAT_TIME = '%H:%M'
@@ -481,16 +485,20 @@ module Glimmer
       def respond_to_missing?(method_name, include_private = false)
         # TODO consider doing more correct checking of availability of properties/methods using native `` ticks
         property_name = property_name_for(method_name)
+        unnormalized_property_name = unnormalized_property_name_for(method_name)
         super(method_name, include_private) ||
           (dom_element && dom_element.length > 0 && Native.call(dom_element, '0').respond_to?(method_name.to_s.camelcase, include_private)) ||
+          (dom_element && dom_element.length > 0 && Native.call(dom_element, '0').respond_to?(method_name.to_s, include_private)) ||
           dom_element.respond_to?(method_name, include_private) ||
           (!dom_element.prop(property_name).nil? && !dom_element.prop(property_name).is_a?(Proc)) ||
+          (!dom_element.prop(unnormalized_property_name).nil? && !dom_element.prop(unnormalized_property_name).is_a?(Proc)) ||
           method_name.to_s.start_with?('on_')
       end
       
       def method_missing(method_name, *args, &block)
         # TODO consider doing more correct checking of availability of properties/methods using native `` ticks
         property_name = property_name_for(method_name)
+        unnormalized_property_name = unnormalized_property_name_for(method_name)
         if method_name.to_s.start_with?('on_')
           handle_observation_request(method_name, block)
         elsif dom_element.respond_to?(method_name)
@@ -501,12 +509,22 @@ module Glimmer
           else
             dom_element.prop(property_name)
           end
+        elsif !dom_element.prop(unnormalized_property_name).nil? && !dom_element.prop(unnormalized_property_name).is_a?(Proc)
+          if method_name.end_with?('=')
+            dom_element.prop(unnormalized_property_name, *args)
+          else
+            dom_element.prop(unnormalized_property_name)
+          end
         elsif dom_element && dom_element.length > 0
+          js_args = block.nil? ? args : (args + [block])
           begin
-            js_args = block.nil? ? args : (args + [block])
             Native.call(dom_element, '0').method_missing(method_name.to_s.camelcase, *js_args)
           rescue Exception => e
-            super(method_name, *args, &block)
+            begin
+              Native.call(dom_element, '0').method_missing(method_name.to_s, *js_args)
+            rescue Exception => e
+              super(method_name, *args, &block)
+            end
           end
         else
           super(method_name, *args, &block)
@@ -514,7 +532,12 @@ module Glimmer
       end
       
       def property_name_for(method_name)
-        method_name.end_with?('=') ? method_name.to_s[0...-1].camelcase : method_name.to_s.camelcase
+        attribute_name = method_name.end_with?('=') ? method_name.to_s[0...-1] : method_name.to_s
+        PROPERTY_ALIASES[attribute_name] || attribute_name.camelcase
+      end
+      
+      def unnormalized_property_name_for(method_name)
+        method_name.end_with?('=') ? method_name.to_s[0...-1] : method_name.to_s
       end
       
       def swt_widget
