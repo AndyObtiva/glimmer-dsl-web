@@ -414,54 +414,58 @@ end
 
 @user = User.new
 
-div {
+include Glimmer
+
+Document.ready? do
   div {
-    label('Number of addresses: ', for: 'address-count-field')
-    input(id: 'address-count-field', type: 'number', min: 1, max: 3) {
-      value <=> [@user, :address_count]
+    div {
+      label('Number of addresses: ', for: 'address-count-field')
+      input(id: 'address-count-field', type: 'number', min: 1, max: 3) {
+        value <=> [@user, :address_count]
+      }
     }
-  }
-  
-  div {
-    # Content Data-Binding is used to dynamically (re)generate content of div
-    # based on changes to @user.addresses, replacing older content on every change
-    content(@user, :addresses) do
-      @user.addresses.each do |address|
-        div {
-          div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
-            [:name, :street, :city, :state, :zip].each do |attribute|
-              label(attribute.to_s.capitalize, for: "#{attribute}-field")
-              input(id: "#{attribute}-field", type: 'text') {
-                value <=> [address, attribute]
+    
+    div {
+      # Content Data-Binding is used to dynamically (re)generate content of div
+      # based on changes to @user.addresses, replacing older content on every change
+      content(@user, :addresses) do
+        @user.addresses.each do |address|
+          div {
+            div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
+              [:name, :street, :city, :state, :zip].each do |attribute|
+                label(attribute.to_s.capitalize, for: "#{attribute}-field")
+                input(id: "#{attribute}-field", type: 'text') {
+                  value <=> [address, attribute]
+                }
+              end
+              
+              div(style: 'grid-column: 1 / span 2;') {
+                inner_text <= [address, :text]
               }
-            end
-            
-            div(style: 'grid-column: 1 / span 2;') {
-              inner_text <= [address, :text]
-            }
-            
-            style {
-              <<~CSS
-                #{address_div.selector} {
-                  margin: 10px 0;
-                }
-                #{address_div.selector} * {
-                  margin: 5px;
-                }
-                #{address_div.selector} label {
-                  grid-column: 1;
-                }
-                #{address_div.selector} input, #{address_div.selector} select {
-                  grid-column: 2;
-                }
-              CSS
+              
+              style {
+                <<~CSS
+                  #{address_div.selector} {
+                    margin: 10px 0;
+                  }
+                  #{address_div.selector} * {
+                    margin: 5px;
+                  }
+                  #{address_div.selector} label {
+                    grid-column: 1;
+                  }
+                  #{address_div.selector} input, #{address_div.selector} select {
+                    grid-column: 2;
+                  }
+                CSS
+              }
             }
           }
-        }
+        end
       end
-    end
-  }
-}.render
+    }
+  }.render
+end
 ```
 
 Screenshot:
@@ -1450,54 +1454,58 @@ end
 
 @user = User.new
 
-div {
+include Glimmer
+
+Document.ready? do
   div {
-    label('Number of addresses: ', for: 'address-count-field')
-    input(id: 'address-count-field', type: 'number', min: 1, max: 3) {
-      value <=> [@user, :address_count]
+    div {
+      label('Number of addresses: ', for: 'address-count-field')
+      input(id: 'address-count-field', type: 'number', min: 1, max: 3) {
+        value <=> [@user, :address_count]
+      }
     }
-  }
-  
-  div {
-    # Content Data-Binding is used to dynamically (re)generate content of div
-    # based on changes to @user.addresses, replacing older content on every change
-    content(@user, :addresses) do
-      @user.addresses.each do |address|
-        div {
-          div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
-            [:name, :street, :city, :state, :zip].each do |attribute|
-              label(attribute.to_s.capitalize, for: "#{attribute}-field")
-              input(id: "#{attribute}-field", type: 'text') {
-                value <=> [address, attribute]
+    
+    div {
+      # Content Data-Binding is used to dynamically (re)generate content of div
+      # based on changes to @user.addresses, replacing older content on every change
+      content(@user, :addresses) do
+        @user.addresses.each do |address|
+          div {
+            div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
+              [:name, :street, :city, :state, :zip].each do |attribute|
+                label(attribute.to_s.capitalize, for: "#{attribute}-field")
+                input(id: "#{attribute}-field", type: 'text') {
+                  value <=> [address, attribute]
+                }
+              end
+              
+              div(style: 'grid-column: 1 / span 2;') {
+                inner_text <= [address, :text]
               }
-            end
-            
-            div(style: 'grid-column: 1 / span 2;') {
-              inner_text <= [address, :text]
-            }
-            
-            style {
-              <<~CSS
-                #{address_div.selector} {
-                  margin: 10px 0;
-                }
-                #{address_div.selector} * {
-                  margin: 5px;
-                }
-                #{address_div.selector} label {
-                  grid-column: 1;
-                }
-                #{address_div.selector} input, #{address_div.selector} select {
-                  grid-column: 2;
-                }
-              CSS
+              
+              style {
+                <<~CSS
+                  #{address_div.selector} {
+                    margin: 10px 0;
+                  }
+                  #{address_div.selector} * {
+                    margin: 5px;
+                  }
+                  #{address_div.selector} label {
+                    grid-column: 1;
+                  }
+                  #{address_div.selector} input, #{address_div.selector} select {
+                    grid-column: 2;
+                  }
+                CSS
+              }
             }
           }
-        }
+        end
       end
-    end
-  }
-}.render
+    }
+  }.render
+end
 ```
 
 Screenshot:
