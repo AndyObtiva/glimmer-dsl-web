@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Component support (aka custom element)
 - Consider changing where we pass parent selector, making it `render(selector)` method
 
 ### 0.0.x
@@ -30,6 +29,20 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 - Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested property version (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
 - Router support to enable friendly URLs when needed
+Example:
+  route '#hello-world' do
+    require 'glimmer-dsl-web/samples/hello/hello_world.rb'
+  end
+
+  route do
+    div {
+      button('Run Hello, World! Sample') {
+        onclick do
+          Glimmer::Web::Router.visit('#hello-world')
+        end
+      }
+    }
+  end
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
@@ -61,6 +74,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Consider preventing `ElementProxy` from returning `nil` if an invalid method name was invoked (like `vali`). It seems today, it works, but returns `nil`. Maybe, have it error out instead.
 - Consider using element.method format in DSL to generate an element with a class (or element_class__id)
 - Consider supporting an automatic router (auto-generates history based on user actions). Not sure if we have to remember the full DOM or full Ruby Glimmer GUI DSL structure of every change and replay different pages based on that information when a route is entered or the user hits the back/forward buttons.
+- Consider having form validation auto-setup by model validations using ActiveModel::Model, ActiveRecord (porting to the frontend), HyperStack, or something similar (provided by Glimmer if needed).
 
 ## Issues
 

@@ -1,8 +1,10 @@
 # Change Log
 
-## 0.0.9 (unreleased)
+## 0.0.9
 
+- Component support (View component classes simply `include Glimmer::Web::Component`)
 - Improve README.md setup instructions, documenting how to enable Browser Opal Debugging in Ruby using Opal Source Maps
+- New Hello, Component! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component'`
 
 ## 0.0.8
 

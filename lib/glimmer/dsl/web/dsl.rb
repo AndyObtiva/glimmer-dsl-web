@@ -8,6 +8,7 @@ require 'glimmer/dsl/web/bind_expression'
 require 'glimmer/dsl/web/data_binding_expression'
 require 'glimmer/dsl/web/content_data_binding_expression'
 require 'glimmer/dsl/web/shine_data_binding_expression'
+require 'glimmer/dsl/web/component_expression'
 
 module Glimmer
   module DSL
@@ -15,6 +16,7 @@ module Glimmer
       Engine.add_dynamic_expressions(
        Web,
        %w[
+         component
          listener
          data_binding
          property
