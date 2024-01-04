@@ -636,9 +636,16 @@ Follow [opal-rails](https://github.com/opal/opal-rails) instructions, basically 
 bin/rails g opal:install
 ```
 
-Edit `config/initializers/assets.rb` and add the following at the bottom:
-```
+To enable the `glimmer-dsl-web` library in the frontend, edit `config/initializers/assets.rb` and add the following at the bottom:
+
+```ruby
 Opal.use_gem 'glimmer-dsl-web'
+```
+
+To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
+
+```ruby
+  config.assets.debug = true
 ```
 
 Run:
@@ -658,12 +665,6 @@ Add the following to `config/routes.rb` inside the `Rails.application.routes.dra
 ```ruby
 mount Glimmer::Engine => "/glimmer" # add on top
 root to: 'welcomes#index'
-```
-
-Edit `app/views/layouts/application.html.erb` and add the following below other `stylesheet_link_tag` declarations:
-
-```erb
-<%= stylesheet_link_tag    'glimmer/glimmer', media: 'all', 'data-turbolinks-track': 'reload' %>
 ```
 
 Clear the file `app/views/welcomes/index.html.erb` completely from all content.
@@ -775,9 +776,16 @@ Follow [opal-rails](https://github.com/opal/opal-rails) instructions, basically 
 bin/rails g opal:install
 ```
 
-Edit `config/initializers/assets.rb` and add the following at the bottom:
-```
+To enable the `glimmer-dsl-web` library in the frontend, edit `config/initializers/assets.rb` and add the following at the bottom:
+
+```ruby
 Opal.use_gem 'glimmer-dsl-web'
+```
+
+To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
+
+```ruby
+  config.assets.debug = true
 ```
 
 Run:
@@ -798,11 +806,6 @@ Add the following to `config/routes.rb` inside the `Rails.application.routes.dra
 mount Glimmer::Engine => "/glimmer" # add on top
 root to: 'welcomes#index'
 ```
-
-Edit `app/views/layouts/application.html.erb` and add the following below other `stylesheet_link_tag` declarations:
-
-```erb
-<%= stylesheet_link_tag 'glimmer/glimmer', media: 'all', 'data-turbolinks-track': 'reload' %>
 ```
 
 Also, delete the following line:

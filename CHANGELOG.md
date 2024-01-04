@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.9 (unreleased)
+
+- Improve README.md setup instructions, documenting how to enable Browser Opal Debugging in Ruby using Opal Source Maps
+
 ## 0.0.8
 
 - Validate that element keywords belong to the valid list of HTML element tag names to prevent rendering fake elements the keyword does not match a real HTML element tag

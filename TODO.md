@@ -21,14 +21,15 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.1.0
 
-- Add examples of talking to web APIs to populate GUI data via read-only ajax requests
-- Add examples of form submitting via ajax request
-
+- Change setup instructions to avoid relying on `app/assets/javascript/application.js.rb`, yet instead delete it, create `app/assets/opal/application.rb` in its place.
+- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
+- Add an example of form submitting via ajax request
+- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
+ 
 ### 1.0.0
 
 - Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested property version (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
-- Support a manual router (to enable friendly URLs when needed)
-- Support an automatic router (auto-generates history based on user actions)
+- Router support to enable friendly URLs when needed
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
@@ -37,6 +38,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
 - Implement `DateTime#strptime` & `Date#strptime`
+- svg example
 
 ### 2.0.0
 
@@ -58,6 +60,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Support custom listeners on elements
 - Consider preventing `ElementProxy` from returning `nil` if an invalid method name was invoked (like `vali`). It seems today, it works, but returns `nil`. Maybe, have it error out instead.
 - Consider using element.method format in DSL to generate an element with a class (or element_class__id)
+- Consider supporting an automatic router (auto-generates history based on user actions). Not sure if we have to remember the full DOM or full Ruby Glimmer GUI DSL structure of every change and replay different pages based on that information when a route is entered or the user hits the back/forward buttons.
 
 ## Issues
 
