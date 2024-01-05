@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2024-01-04"
+  s.date = "2024-01-05"
   s.description = "Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library) - Enables frontend GUI development with Ruby by adopting a DSL that follows web-like HTML syntax, enabling the transfer of HTML/CSS/JS skills to Ruby frontend development. This library relies on Opal Ruby.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/ext/date.rb",
     "lib/glimmer-dsl-web/ext/exception.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_button.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_component.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_form.rb",
@@ -40,6 +41,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/config/opal_logger.rb",
     "lib/glimmer/data_binding/element_binding.rb",
     "lib/glimmer/dsl/web/bind_expression.rb",
+    "lib/glimmer/dsl/web/component_expression.rb",
     "lib/glimmer/dsl/web/content_data_binding_expression.rb",
     "lib/glimmer/dsl/web/data_binding_expression.rb",
     "lib/glimmer/dsl/web/dsl.rb",
@@ -52,6 +54,7 @@ Gem::Specification.new do |s|
     "lib/glimmer/dsl/web/shine_data_binding_expression.rb",
     "lib/glimmer/util/proc_tracker.rb",
     "lib/glimmer/web.rb",
+    "lib/glimmer/web/component.rb",
     "lib/glimmer/web/element_proxy.rb",
     "lib/glimmer/web/event_proxy.rb",
     "lib/glimmer/web/listener_proxy.rb"

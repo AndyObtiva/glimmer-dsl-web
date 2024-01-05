@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) while supporting both Unidirectional (One-Way) Data-Binding (using `<=`) and Bidirectional (Two-Way) Data-Binding (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via Content Data-Binding. You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) while supporting both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). And, modular design is supported with [Glimmer Web Components](#hello-component). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 **Hello, World! Sample**
 
@@ -472,6 +472,227 @@ Screenshot:
 
 ![Hello, Content Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-content-data-binding.gif)
 
+**Hello, Component!**
+
+You can define Glimmer web components (View components) to reuse visual concepts to your heart's content,
+by simply defining a class with `include Glimmer::Web::Component` and encasing the reusable markup inside
+a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
+that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
+the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
+Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
+reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
+  
+  def state_code
+    STATES.invert[state]
+  end
+  
+  def state_code=(value)
+    self.state = STATES[value]
+  end
+
+  def summary
+    to_h.values.map(&:to_s).reject(&:empty?).join(', ')
+  end
+end
+
+# AddressForm Glimmer Web Component (View component)
+#
+# Including Glimmer::Web::Component makes this class a View component and automatically
+# generates a new Glimmer GUI DSL keyword that matches the lowercase underscored version
+# of the name of the class. AddressForm generates address_form keyword, which can be used
+# elsewhere in Glimmer GUI DSL code as done inside AddressPage below.
+class AddressForm
+  include Glimmer::Web::Component
+  
+  option :address
+  
+  # Optionally, you can execute code before rendering markup.
+  # This is useful for pre-setup of variables (e.g. Models) that you would use in the markup.
+  #
+  # before_render do
+  # end
+  
+  # Optionally, you can execute code after rendering markup.
+  # This is useful for post-setup of extra Model listeners that would interact with the
+  # markup elements and expect them to be rendered already.
+  #
+  # after_render do
+  # end
+  
+  # markup block provides the content of the
+  markup {
+    div {
+      div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
+        label('Full Name: ', for: 'full-name-field')
+        input(id: 'full-name-field') {
+          value <=> [address, :full_name]
+        }
+        
+        @somelabel = label('Street: ', for: 'street-field')
+        input(id: 'street-field') {
+          value <=> [address, :street]
+        }
+        
+        label('Street 2: ', for: 'street2-field')
+        textarea(id: 'street2-field') {
+          value <=> [address, :street2]
+        }
+        
+        label('City: ', for: 'city-field')
+        input(id: 'city-field') {
+          value <=> [address, :city]
+        }
+        
+        label('State: ', for: 'state-field')
+        select(id: 'state-field') {
+          Address::STATES.each do |state_code, state|
+            option(value: state_code) { state }
+          end
+
+          value <=> [address, :state_code]
+        }
+        
+        label('Zip Code: ', for: 'zip-code-field')
+        input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+          value <=> [address, :zip_code,
+                      on_write: :to_s,
+                    ]
+        }
+        
+        style {
+          <<~CSS
+            #{address_div.selector} * {
+              margin: 5px;
+            }
+            #{address_div.selector} input, #{address_div.selector} select {
+              grid-column: 2;
+            }
+          CSS
+        }
+      }
+      
+      div(style: 'margin: 5px') {
+        inner_text <= [address, :summary,
+                        computed_by: address.members + ['state_code'],
+                      ]
+      }
+    }
+  }
+end
+
+# AddressPage Glimmer Web Component (View component)
+#
+# This View component represents the main page being rendered,
+# as done by its `render` class method below
+class AddressPage
+  include Glimmer::Web::Component
+  
+  before_render do
+    @shipping_address = Address.new(
+      full_name: 'Johnny Doe',
+      street: '3922 Park Ave',
+      street2: 'PO BOX 8382',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91913',
+    )
+    @billing_address = Address.new(
+      full_name: 'John C Doe',
+      street: '123 Main St',
+      street2: 'Apartment 3C',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91911',
+    )
+  end
+  
+  markup {
+    div {
+      h1('Shipping Address')
+      
+      address_form(address: @shipping_address)
+      
+      h1('Billing Address')
+      
+      address_form(address: @billing_address)
+    }
+  }
+end
+
+Document.ready? do
+  # renders a top-level (root) AddressPage component
+  AddressPage.render
+end
+```
+
+Screenshot:
+
+![Hello, Component!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
+
 NOTE: Glimmer DSL for Web is an Early Alpha project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still an early alpha, so the more feedback and issues you report the better.
 
 Learn more about the differences between various [Glimmer](https://github.com/AndyObtiva/glimmer) DSLs by looking at:
@@ -495,6 +716,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Form!](#hello-form)
       - [Hello, Data-Binding!](#hello-data-binding)
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
+      - [Hello, Component!](#hello-content-data-binding)
       - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
   - [Glimmer Process](#glimmer-process)
@@ -945,6 +1167,8 @@ That produces the following under `<body></body>`:
 
 #### Hello, Button!
 
+Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to `window` to invoke functions like `alert`.
+
 Glimmer GUI code:
 
 ```ruby
@@ -976,6 +1200,8 @@ Screenshot:
 ![Hello, Button!](/images/glimmer-dsl-web-samples-hello-hello-button.gif)
 
 #### Hello, Form!
+
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby GUI DSL.
 
 Glimmer GUI code:
 
@@ -1129,6 +1355,8 @@ Screenshot:
 ![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
 
 #### Hello, Data-Binding!
+
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
 
 Glimmer GUI code:
 
@@ -1301,6 +1529,10 @@ Screenshot:
 
 #### Hello, Content Data-Binding!
 
+If you need to regenerate HTML element content dynamically, you can use Content Data-Binding to effortlessly
+rebuild HTML elements based on changes in a Model attribute that provides the source data.
+In this example, we generate multiple address forms based on the number of addresses the user has.
+
 Glimmer GUI code:
 
 ```ruby
@@ -1429,6 +1661,227 @@ end
 Screenshot:
 
 ![Hello, Content Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-content-data-binding.gif)
+
+#### Hello, Component!
+
+You can define Glimmer web components (View components) to reuse visual concepts to your heart's content,
+by simply defining a class with `include Glimmer::Web::Component` and encasing the reusable markup inside
+a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
+that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
+the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
+Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
+reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
+  
+  def state_code
+    STATES.invert[state]
+  end
+  
+  def state_code=(value)
+    self.state = STATES[value]
+  end
+
+  def summary
+    to_h.values.map(&:to_s).reject(&:empty?).join(', ')
+  end
+end
+
+# AddressForm Glimmer Web Component (View component)
+#
+# Including Glimmer::Web::Component makes this class a View component and automatically
+# generates a new Glimmer GUI DSL keyword that matches the lowercase underscored version
+# of the name of the class. AddressForm generates address_form keyword, which can be used
+# elsewhere in Glimmer GUI DSL code as done inside AddressPage below.
+class AddressForm
+  include Glimmer::Web::Component
+  
+  option :address
+  
+  # Optionally, you can execute code before rendering markup.
+  # This is useful for pre-setup of variables (e.g. Models) that you would use in the markup.
+  #
+  # before_render do
+  # end
+  
+  # Optionally, you can execute code after rendering markup.
+  # This is useful for post-setup of extra Model listeners that would interact with the
+  # markup elements and expect them to be rendered already.
+  #
+  # after_render do
+  # end
+  
+  # markup block provides the content of the
+  markup {
+    div {
+      div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
+        label('Full Name: ', for: 'full-name-field')
+        input(id: 'full-name-field') {
+          value <=> [address, :full_name]
+        }
+        
+        @somelabel = label('Street: ', for: 'street-field')
+        input(id: 'street-field') {
+          value <=> [address, :street]
+        }
+        
+        label('Street 2: ', for: 'street2-field')
+        textarea(id: 'street2-field') {
+          value <=> [address, :street2]
+        }
+        
+        label('City: ', for: 'city-field')
+        input(id: 'city-field') {
+          value <=> [address, :city]
+        }
+        
+        label('State: ', for: 'state-field')
+        select(id: 'state-field') {
+          Address::STATES.each do |state_code, state|
+            option(value: state_code) { state }
+          end
+
+          value <=> [address, :state_code]
+        }
+        
+        label('Zip Code: ', for: 'zip-code-field')
+        input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+          value <=> [address, :zip_code,
+                      on_write: :to_s,
+                    ]
+        }
+        
+        style {
+          <<~CSS
+            #{address_div.selector} * {
+              margin: 5px;
+            }
+            #{address_div.selector} input, #{address_div.selector} select {
+              grid-column: 2;
+            }
+          CSS
+        }
+      }
+      
+      div(style: 'margin: 5px') {
+        inner_text <= [address, :summary,
+                        computed_by: address.members + ['state_code'],
+                      ]
+      }
+    }
+  }
+end
+
+# AddressPage Glimmer Web Component (View component)
+#
+# This View component represents the main page being rendered,
+# as done by its `render` class method below
+class AddressPage
+  include Glimmer::Web::Component
+  
+  before_render do
+    @shipping_address = Address.new(
+      full_name: 'Johnny Doe',
+      street: '3922 Park Ave',
+      street2: 'PO BOX 8382',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91913',
+    )
+    @billing_address = Address.new(
+      full_name: 'John C Doe',
+      street: '123 Main St',
+      street2: 'Apartment 3C',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91911',
+    )
+  end
+  
+  markup {
+    div {
+      h1('Shipping Address')
+      
+      address_form(address: @shipping_address)
+      
+      h1('Billing Address')
+      
+      address_form(address: @billing_address)
+    }
+  }
+end
+
+Document.ready? do
+  # renders a top-level (root) AddressPage component
+  AddressPage.render
+end
+```
+
+Screenshot:
+
+![Hello, Component!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
 
 #### Hello, Input (Date/Time)!
 
