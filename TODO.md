@@ -48,6 +48,7 @@ Example:
 - Document how to reuse server-side Ruby code (backend) client-side (frontend)
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
+- Add alternate versions of hello samples that are implemented without bidirectional data-binding
 - Implement `DateTime#strptime` & `Date#strptime`
 - svg example
 
