@@ -6,10 +6,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Consider changing where we pass parent selector, making it `render(selector)` method
-
-### 0.0.x
-
+- Upgrade jquery-opal to latest version (0.5.0?)
+- Hello, Counter! Advanced Sample
 - Glimmer Rails Engine to support `GlimmerHelper#glimmer_component`
 - <%= glimmer_component("glimmer_subdirectory/component_name", **options) %>
 

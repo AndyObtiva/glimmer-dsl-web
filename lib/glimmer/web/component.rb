@@ -111,10 +111,12 @@ module Glimmer
       
       class << self
         def included(klass)
-          klass.extend(ClassMethods)
-          klass.include(Glimmer)
-          klass.prepend(GlimmerSupersedable)
-          Glimmer::Web::Component.add_component_namespaces_for(klass)
+          if !klass.ancestors.include?(GlimmerSupersedable)
+            klass.extend(ClassMethods)
+            klass.include(Glimmer)
+            klass.prepend(GlimmerSupersedable)
+            Glimmer::Web::Component.add_component_namespaces_for(klass)
+          end
         end
       
         def for(underscored_component_name)
@@ -123,14 +125,21 @@ module Glimmer
             split(/__/).map do |namespace|
               namespace.camelcase(:upper)
             end
-          component_namespaces.each do |base|
+          Glimmer::Web::Component.component_namespaces.each do |base|
             extracted_namespaces.reduce(base) do |result, namespace|
               if !result.constants.include?(namespace)
                 namespace = result.constants.detect {|c| c.to_s.upcase == namespace.to_s.upcase } || namespace
               end
               begin
                 constant = result.const_get(namespace)
-                return constant if constant&.respond_to?(:ancestors) && constant&.ancestors&.to_a.include?(Glimmer::Web::Component)
+                return constant if constant&.respond_to?(:ancestors) &&
+                                   (
+                                     constant&.ancestors&.to_a.include?(Glimmer::Web::Component) ||
+                                     # TODO checking GlimmerSupersedable as a hack because when a class is loaded twice (like when loading samples
+                                     # by reloading ruby files), it loses its Glimmer::Web::Component ancestor as a bug in Opal
+                                     # but somehow the prepend module remains
+                                     constant&.ancestors&.to_a.include?(GlimmerSupersedable)
+                                   )
                 constant
               rescue => e
                 # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
@@ -262,6 +271,11 @@ module Glimmer
 
       def attribute_setter(attribute_name)
         "#{attribute_name}="
+      end
+      
+      def render(*args)
+        # this method is defined to prevent displaying a harmless Glimmer no keyword error as an annoying useless warning
+        @markup_root&.render(*args)
       end
       
       # Returns content block if used as an attribute reader (no args)

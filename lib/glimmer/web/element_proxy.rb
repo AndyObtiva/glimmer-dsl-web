@@ -223,10 +223,16 @@ module Glimmer
         end
       end
       
-      def render(custom_parent_dom_element: nil, brand_new: false)
+      def render(parent_selector = nil, custom_parent_dom_element: nil, brand_new: false)
+        options[:parent] = parent_selector if !parent_selector.to_s.empty?
+        if !options[:parent].to_s.empty?
+          # ensure element is orphaned as it is becoming a top-level root element
+          @parent&.post_remove_child(self)
+          @parent = nil
+        end
         the_parent_dom_element = custom_parent_dom_element || parent_dom_element
         old_element = dom_element
-        brand_new = @dom.nil? || old_element.empty? || brand_new
+        brand_new = @dom.nil? || old_element.empty? || !options[:parent].to_s.empty? || brand_new
         build_dom(layout: !custom_parent_dom_element) # TODO handle custom parent layout by passing parent instead of parent dom element
         if brand_new
           # TODO make a method attach to allow subclasses to override if needed

@@ -4,6 +4,7 @@
 
 - Component support (View component classes simply `include Glimmer::Web::Component`)
 - Improve README.md setup instructions, documenting how to enable Browser Opal Debugging in Ruby using Opal Source Maps
+- Allow passing element `:parent` selector through `render` method as first argument (`render(selector)`) for a potentially more readable second way of doing the same thing
 - Fix Hello, Content Data-Binding! as it forgot to include Glimmer to top-level main object and forgot to wait for Document.ready?
 - New Hello, Component! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component'`
 

@@ -472,88 +472,6 @@ Screenshot:
 
 ![Hello, Content Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-content-data-binding.gif)
 
-**Button Counter Sample**
-
-**UPCOMING (NOT RELEASED OR SUPPORTED YET)**
-
-Glimmer GUI code demonstrating MVC + Glimmer Web Components (Views) + Data-Binding:
-
-```ruby
-require 'glimmer-dsl-web'
-
-class Counter
-  attr_accessor :count
-
-  def initialize
-    self.count = 0
-  end
-
-  def increment!
-    self.count += 1
-  end
-end
-
-class HelloButton
-  include Glimmer::Web::Component
-  
-  before_render do
-    @counter = Counter.new
-  end
-  
-  markup {
-    # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-    div(parent: parent_selector) {
-      text 'Button Counter'
-      
-      button {
-        # Unidirectional Data-Binding indicating that on every change to @counter.count, the value
-        # is read and converted to "Click To Increment: #{value}  ", and then automatically
-        # copied to button innerText (content) to display to the user
-        inner_text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
-        
-        onclick {
-          @counter.increment!
-        }
-      }
-    }
-  }
-end
-
-HelloButton.render('#app-container')
-```
-
-That produces:
-
-```html
-<div id="application">
-  <button>
-    Click To Increment: 0
-  </button>
-</div>
-```
-
-When clicked:
-
-```html
-<div id="application">
-  <button>
-    Click To Increment: 1
-  </button>
-</div>
-```
-
-When clicked 7 times:
-
-```html
-<div id="application">
-  <button>
-    Click To Increment: 7
-  </button>
-</div>
-```
-
-
-
 NOTE: Glimmer DSL for Web is an Early Alpha project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still an early alpha, so the more feedback and issues you report the better.
 
 Learn more about the differences between various [Glimmer](https://github.com/AndyObtiva/glimmer) DSLs by looking at:
@@ -1666,7 +1584,7 @@ class HelloButton
   }
 end
 
-HelloButton.render('#app-container')
+HelloButton.render
 ```
 
 That produces:
