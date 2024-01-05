@@ -160,7 +160,7 @@ GEM
       parser (~> 3.0, >= 3.0.3.2)
     opal-async (1.4.0)
       opal (>= 1.0.0, < 2.0.0)
-    opal-jquery (0.4.6)
+    opal-jquery (0.5.0)
       opal (>= 0.10.0, < 2.0)
     opal-rails (2.0.3)
       opal (~> 1.0)
@@ -271,7 +271,7 @@ DEPENDENCIES
   jeweler (>= 2.3.9, < 3.0.0)
   opal (= 1.8.2)
   opal-async (~> 1.4.0)
-  opal-jquery (~> 0.4.6)
+  opal-jquery (~> 0.5.0)
   opal-rails (= 2.0.3)
   opal-rspec (~> 0.8.0.alpha2)
   puts_debuggerer

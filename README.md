@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.10 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.11 (Early Alpha)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -479,7 +479,7 @@ by simply defining a class with `include Glimmer::Web::Component` and encasing t
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
-You may also insert a Glimmer component anywhere into a Rails application View using
+You may also insert a Glimmer component anywhere into a Rails View using
 `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
 or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
@@ -766,7 +766,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.0.10'
+gem 'glimmer-dsl-web', '~> 0.0.11'
 ```
 
 Run:
@@ -817,7 +817,7 @@ root to: 'welcomes#index'
 
 Clear the file `app/views/welcomes/index.html.erb` completely from all content.
 
-Delete `app/javascript/application.js`
+Delete `app/javascript` directory
 
 Rename `app/assets/javascript` directory to `app/assets/opal`.
 
@@ -880,7 +880,7 @@ You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-You may also insert a Glimmer component anywhere into a Rails application View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+You may also insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 
 To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
 
@@ -925,7 +925,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.0.10'
+gem 'glimmer-dsl-web', '~> 0.0.11'
 ```
 
 Run:
@@ -1055,7 +1055,7 @@ You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-You may also insert a Glimmer component anywhere into a Rails application View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+You may also insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 
 To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
 
@@ -1721,7 +1721,7 @@ by simply defining a class with `include Glimmer::Web::Component` and encasing t
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
-You may also insert a Glimmer component anywhere into a Rails application View using
+You may also insert a Glimmer component anywhere into a Rails View using
 `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
 or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we

@@ -6,16 +6,21 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
+- It is incorrect to call before_render and after_render on component. .they're before_markup and afteR_markup
+- Document Hello, Glimmer Component Helper!
 - Support `observe` keyword to observe Model attributes in Views with a convenient DSL keyword.
 - Clean observers declared with `observe` keyword inside a component when component is removed
-- Upgrade jquery-opal to latest version (0.5.0?)
+- Document usage instructions
+- Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
+- Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
+- Add alternate variation versions of hello samples that are implemented without bidirectional data-binding
 
-### 0.0.x
+### 0.1.0
 
 - Treat HTML text formatting elements differently (e.g. `b`, `i`, `strong`, `em`, `sub`, `sup`, `del`, `ins`, `small`, `mark`) by not appending to their parent content, yet having them generate a String with `to_s` that can be embedded in a `String` that is the text content of another normal element like `p` or `div`.
 - Treat `span` as a special text formatting element if included inside a `p` and as a normal element outside a `p`.
 
-### 0.1.0
+### 0.1.x
 
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
@@ -45,9 +50,6 @@ Example:
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 - Use descendants_tracker gem instead of implementing descendants manually
 - Document how to reuse server-side Ruby code (backend) client-side (frontend)
-- Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
-- Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
-- Add alternate versions of hello samples that are implemented without bidirectional data-binding
 - Implement `DateTime#strptime` & `Date#strptime`
 - svg example
 - Consider keeping track of all Glimmer rendered elements on the page as Ruby view objects to be able to remove them cleanly including their observers
@@ -78,6 +80,8 @@ Example:
 - Consider idea of setting a different default ID for rendering other than `body` (that could be set globally or temporarily in a scope)
 - Consider optionally supporting 2nd arg of `option` in `Component` as `:default`
 - Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested property version (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
+- Build a Rails generator for installing this gem properly in a Rails app
+- Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_hanlde listener request
 
 ## Issues
 

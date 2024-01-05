@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.0.11
+
+- Update `glimmer_component` to render its content immediately without waiting for `Document.ready?` as that is not necessary given its container is added to the DOM immediately
+- Upgrade jquery-opal to 0.5.0 (latest version)
+
 ## 0.0.10
 
 - Glimmer Component Rails Helper (add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper) and use `<%= glimmer_component("path/to/component", *args) %>` in Views

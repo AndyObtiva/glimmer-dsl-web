@@ -15,13 +15,11 @@ module GlimmerHelper
     component_args_json = JSON.dump(component_args)
     opal_script = <<~Opal
       require 'glimmer-dsl-web'
-      Document.ready? do
-        component_args_json = '#{component_args_json}'
-        component_args = JSON.parse(component_args_json)
-        component_args << {} if !component_args.last.is_a?(Hash)
-        component_args.last[:parent] = "##{component_id}"
-        #{component_class_name}.render(*component_args)
-      end
+      component_args_json = '#{component_args_json}'
+      component_args = JSON.parse(component_args_json)
+      component_args << {} if !component_args.last.is_a?(Hash)
+      component_args.last[:parent] = "##{component_id}"
+      #{component_class_name}.render(*component_args)
     Opal
     content_tag(:div, id: component_script_container_id, class: ['glimmer_component_script_container', "#{component_file}_script_container"]) do
       content_tag(:div, '', id: component_id, class: ['glimmer_component', component_file]) +
