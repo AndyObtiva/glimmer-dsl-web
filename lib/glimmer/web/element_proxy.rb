@@ -1,3 +1,5 @@
+# backtick_javascript: true
+
 # Copyright (c) 2023-2024 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -223,7 +225,8 @@ module Glimmer
         end
       end
       
-      def render(parent_selector = nil, custom_parent_dom_element: nil, brand_new: false)
+      def render(parent: nil, custom_parent_dom_element: nil, brand_new: false)
+        parent_selector = parent
         options[:parent] = parent_selector if !parent_selector.to_s.empty?
         if !options[:parent].to_s.empty?
           # ensure element is orphaned as it is becoming a top-level root element
@@ -499,7 +502,7 @@ module Glimmer
       end
       
       def respond_to_missing?(method_name, include_private = false)
-        # TODO consider doing more correct checking of availability of properties/methods using native `` ticks
+        # TODO consider doing more correct checking of availability of properties/methods using native ticks
         property_name = property_name_for(method_name)
         unnormalized_property_name = unnormalized_property_name_for(method_name)
         super(method_name, include_private) ||
@@ -512,7 +515,7 @@ module Glimmer
       end
       
       def method_missing(method_name, *args, &block)
-        # TODO consider doing more correct checking of availability of properties/methods using native `` ticks
+        # TODO consider doing more correct checking of availability of properties/methods using native ticks
         property_name = property_name_for(method_name)
         unnormalized_property_name = unnormalized_property_name_for(method_name)
         if method_name.to_s.start_with?('on_')

@@ -30,6 +30,7 @@ if RUBY_ENGINE != 'opal'
   require 'opal-rails'
   require 'opal-async'
   require 'opal-jquery'
+  require 'glimmer/helpers/glimmer_helper'
 else
 #   GLIMMER_DSL_OPAL_MISSING = File.join(GLIMMER_DSL_OPAL_ROOT, 'lib', 'glimmer-dsl-opal', 'missing')
    

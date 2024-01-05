@@ -6,13 +6,9 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Consider supporting passing normal args (not options) to Components
-- Support observe keyword
-- Clean observers declared with observe keyword inside a component when component is removed
+- Support `observe` keyword to observe Model attributes in Views with a convenient DSL keyword.
+- Clean observers declared with `observe` keyword inside a component when component is removed
 - Upgrade jquery-opal to latest version (0.5.0?)
-- Hello, Counter! Advanced Sample
-- Glimmer Rails Engine to support `GlimmerHelper#glimmer_component`
-- <%= glimmer_component("glimmer_subdirectory/component_name", **options) %>
 
 ### 0.0.x
 
@@ -21,14 +17,14 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.1.0
 
-- Change setup instructions to avoid relying on `app/assets/javascript/application.js.rb`, yet instead delete it, create `app/assets/opal/application.rb` in its place.
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
  
 ### 1.0.0
 
-- Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested property version (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
+- Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested `style` element (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
+- Hello, Counter! Advanced Sample
 - Router support to enable friendly URLs when needed
 Example:
   route '#hello-world' do
@@ -54,7 +50,8 @@ Example:
 - Add alternate versions of hello samples that are implemented without bidirectional data-binding
 - Implement `DateTime#strptime` & `Date#strptime`
 - svg example
-- Upgrade opal (and opal-rails) to latest version
+- Consider keeping track of all Glimmer rendered elements on the page as Ruby view objects to be able to remove them cleanly including their observers
+- Consider keeping track of glimmer_component ID on the rendered component (though currently we can use parent to find it)
 
 ### 2.0.0
 
@@ -78,6 +75,9 @@ Example:
 - Consider using element.method format in DSL to generate an element with a class (or element_class__id)
 - Consider supporting an automatic router (auto-generates history based on user actions). Not sure if we have to remember the full DOM or full Ruby Glimmer GUI DSL structure of every change and replay different pages based on that information when a route is entered or the user hits the back/forward buttons.
 - Consider having form validation auto-setup by model validations using ActiveModel::Model, ActiveRecord (porting to the frontend), HyperStack, or something similar (provided by Glimmer if needed).
+- Consider idea of setting a different default ID for rendering other than `body` (that could be set globally or temporarily in a scope)
+- Consider optionally supporting 2nd arg of `option` in `Component` as `:default`
+- Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested property version (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
 
 ## Issues
 

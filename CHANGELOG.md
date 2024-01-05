@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.0.10
+
+- Glimmer Component Rails Helper (add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper) and use `<%= glimmer_component("path/to/component", *args) %>` in Views
+- Support passing args to Components via `ComponentClassName.render(*args)`
+- Update `element#render` API to require `:parent` kwarg to pass parent selector (no longer accepting parent selector directly as first arg)
+- Upgrade to opal 1.8.2 (latest version)
+- Upgrade to opal-rails 2.0.3 (latest version)
+- Change setup instructions to avoid relying on `app/assets/javascript/application.js.rb`, yet instead rename to `app/assets/opal/application.rb` and rely on `app/assets/opal` for Opal frontend files.
+
 ## 0.0.9
 
 - Component support (View component classes simply `include Glimmer::Web::Component`)

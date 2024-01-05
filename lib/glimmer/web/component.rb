@@ -94,8 +94,9 @@ module Glimmer
         end
         
         def render(*args)
-          rendered_component = send(keyword)
-          rendered_component.render(*args)
+          rendered_component = send(keyword, *args)
+          options = args.last.is_a?(Hash) ? args.last.slice(:parent, :custom_parent_dom_element, :brand_new) : {}
+          rendered_component.render(**options)
           rendered_component
         end
       end
@@ -179,7 +180,7 @@ module Glimmer
       # <- end of class methods
       
 
-      attr_reader :markup_root, :parent, :options
+      attr_reader :markup_root, :parent, :args, :options
       alias parent_proxy parent
 
       def initialize(parent, args, options, &content)
@@ -198,6 +199,7 @@ module Glimmer
         markup_block = self.class.instance_variable_get("@markup_block")
         raise Glimmer::Error, 'Invalid Glimmer web component for having no markup! Please define markup block!' if markup_block.nil?
         @markup_root = instance_exec(&markup_block)
+        @markup_root.options[:parent] = options[:parent] if options[:parent]
         @parent ||= @markup_root.parent
         raise Glimmer::Error, 'Invalid Glimmer web component for having an empty markup! Please fill markup block!' if @markup_root.nil?
         execute_hooks('after_render')
@@ -273,9 +275,9 @@ module Glimmer
         "#{attribute_name}="
       end
       
-      def render(*args)
+      def render(parent: nil, custom_parent_dom_element: nil, brand_new: false)
         # this method is defined to prevent displaying a harmless Glimmer no keyword error as an annoying useless warning
-        @markup_root&.render(*args)
+        @markup_root&.render(parent: parent, custom_parent_dom_element: custom_parent_dom_element, brand_new: brand_new)
       end
       
       # Returns content block if used as an attribute reader (no args)

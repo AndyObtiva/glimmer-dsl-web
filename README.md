@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.9 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.10 (Early Alpha)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -479,6 +479,9 @@ by simply defining a class with `include Glimmer::Web::Component` and encasing t
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
+You may also insert a Glimmer component anywhere into a Rails application View using
+`glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
+or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
 
@@ -763,7 +766,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.0.9'
+gem 'glimmer-dsl-web', '~> 0.0.10'
 ```
 
 Run:
@@ -771,6 +774,8 @@ Run:
 ```
 bundle
 ```
+
+(run `rm -rf tmp/cache` from inside your Rails app if you upgrade your `glimmer-dsl-web` gem version from an older one to clear Opal-Rails's cache)
 
 Follow [opal-rails](https://github.com/opal/opal-rails) instructions, basically running:
 
@@ -782,6 +787,7 @@ To enable the `glimmer-dsl-web` library in the frontend, edit `config/initialize
 
 ```ruby
 Opal.use_gem 'glimmer-dsl-web'
+Opal.append_path Rails.root.join('app', 'assets', 'opal')
 ```
 
 To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
@@ -813,7 +819,18 @@ Clear the file `app/views/welcomes/index.html.erb` completely from all content.
 
 Delete `app/javascript/application.js`
 
-Edit and replace `app/assets/javascript/application.js.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
+Rename `app/assets/javascript` directory to `app/assets/opal`.
+
+Add the following lines to `app/assets/config/manifest.js` (and delete their `javascript` equivalents):
+
+```js
+//= link_tree ../../opal .js
+//= link_directory ../opal .js
+```
+
+Rename `app/assets/opal/application.js.rb` to `app/assets/opal/application.rb`.
+
+Edit and replace `app/assets/opal/application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below inside a `Document.ready? do; end` block):
 
 ```ruby
 require 'glimmer-dsl-web' # brings opal and other dependencies automatically
@@ -822,15 +839,6 @@ require 'glimmer-dsl-web' # brings opal and other dependencies automatically
 ```
 
 Example to confirm setup is working:
-
-Initial HTML Markup:
-
-```html
-...
-<div id="app-container">
-</div>
-...
-```
 
 Glimmer GUI code:
 
@@ -853,13 +861,11 @@ That produces:
 
 ```html
 ...
-<div id="app-container">
-  <div data-parent="#app-container" class="element element-1">
+  <div data-parent="body" class="element element-1">
     <label class="greeting element element-2">
       Hello, World!
     </label>
   </div>
-</div>
 ...
 ```
 
@@ -873,6 +879,22 @@ Visit `http://localhost:3000`
 You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
+
+You may also insert a Glimmer component anywhere into a Rails application View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+
+To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
+
+`app/helpers/application_helper.rb` should look like this after the change:
+
+```ruby
+require 'glimmer/helpers/glimmer_helper'
+
+module ApplicationHelper
+  # ...
+  include GlimmerHelper
+  # ...
+end
+```
 
 If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake).
 
@@ -903,7 +925,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.0.9'
+gem 'glimmer-dsl-web', '~> 0.0.10'
 ```
 
 Run:
@@ -911,6 +933,8 @@ Run:
 ```
 bundle
 ```
+
+(run `rm -rf tmp/cache` from inside your Rails app if you upgrade your `glimmer-dsl-web` gem version from an older one to clear Opal-Rails's cache)
 
 Follow [opal-rails](https://github.com/opal/opal-rails) instructions, basically running:
 
@@ -922,6 +946,7 @@ To enable the `glimmer-dsl-web` library in the frontend, edit `config/initialize
 
 ```ruby
 Opal.use_gem 'glimmer-dsl-web'
+Opal.append_path Rails.root.join('app', 'assets', 'opal')
 ```
 
 To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
@@ -958,7 +983,18 @@ Also, delete the following line:
 
 Clear the file `app/views/welcomes/index.html.erb` completely from all content.
 
-Edit and replace `app/assets/javascript/application.js.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
+Rename `app/assets/javascript` directory to `app/assets/opal`.
+
+Add the following lines to `app/assets/config/manifest.js` (and delete their `javascript` equivalents):
+
+```js
+//= link_tree ../../opal .js
+//= link_directory ../opal .js
+```
+
+Rename `app/assets/opal/application.js.rb` to `app/assets/opal/application.rb`.
+
+Edit and replace `app/assets/opal/application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below inside a `Document.ready? do; end` block):
 
 ```ruby
 require 'glimmer-dsl-web' # brings opal and other dependencies automatically
@@ -1018,6 +1054,22 @@ Visit `http://localhost:3000`
 You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
+
+You may also insert a Glimmer component anywhere into a Rails application View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+
+To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
+
+`app/helpers/application_helper.rb` should look like this after the change:
+
+```ruby
+require 'glimmer/helpers/glimmer_helper'
+
+module ApplicationHelper
+  # ...
+  include GlimmerHelper
+  # ...
+end
+```
 
 **NOT RELEASED OR SUPPORTED YET**
 
@@ -1669,6 +1721,9 @@ by simply defining a class with `include Glimmer::Web::Component` and encasing t
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
+You may also insert a Glimmer component anywhere into a Rails application View using
+`glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
+or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
 
