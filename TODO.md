@@ -6,6 +6,9 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
+- Consider supporting passing normal args (not options) to Components
+- Support observe keyword
+- Clean observers declared with observe keyword inside a component when component is removed
 - Upgrade jquery-opal to latest version (0.5.0?)
 - Hello, Counter! Advanced Sample
 - Glimmer Rails Engine to support `GlimmerHelper#glimmer_component`
@@ -51,6 +54,7 @@ Example:
 - Add alternate versions of hello samples that are implemented without bidirectional data-binding
 - Implement `DateTime#strptime` & `Date#strptime`
 - svg example
+- Upgrade opal (and opal-rails) to latest version
 
 ### 2.0.0
 
