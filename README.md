@@ -1031,7 +1031,7 @@ Add the following lines to `app/assets/config/manifest.js` (and delete their `ja
 
 Rename `app/assets/opal/application.js.rb` to `app/assets/opal/application.rb`.
 
-Edit and replace `app/assets/opal/application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below inside a `Document.ready? do; end` block):
+Edit and replace `app/assets/opal/application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
 
 ```ruby
 require 'glimmer-dsl-web' # brings opal and other dependencies automatically
@@ -1039,7 +1039,74 @@ require 'glimmer-dsl-web' # brings opal and other dependencies automatically
 # Add more require-statements or Glimmer GUI DSL code
 ```
 
+```ruby
+require 'glimmer-dsl-web'
+
+require 'glimmer-dsl-web/samples/hello/hello_world.rb'
+```
+
+If the `<body></body>` element (where the Glimmer GUI DSL adds elements by default) is not available when the JS file is loading, you need to put the code inside a `Document.ready? do; end` (but, it is recommended that you load the JS file after the parent element like `<body></body>` is in the page already for faster performance, which is guaranteed automatically by using `glimmer_component`, mentioned in details below):
+
+```ruby
+require 'glimmer-dsl-web'
+
+Document.ready? do
+  require 'glimmer-dsl-web/samples/hello/hello_world.rb'
+end
+```
+
 Example to confirm setup is working:
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+include Glimmer
+
+Document.ready? do
+  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
+  div {
+    label(class: 'greeting') {
+      'Hello, World!'
+    }
+  }.render
+end
+```
+
+That produces:
+
+```html
+<body>
+  <div data-parent="body" class="element element-1">
+    <label class="greeting element element-2">
+      Hello, World!
+    </label>
+  </div>
+</body>
+```
+
+Start the Rails server:
+```
+rails s
+```
+
+Visit `http://localhost:3000`
+
+You should see:
+
+![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
+
+If you want to customize where the top-level element is mounted, just pass a `parent: 'css_selector'` option.
+
+HTML:
+
+```html
+...
+<div id="app-container">
+</div>
+...
+```
 
 Glimmer GUI code:
 
@@ -1062,25 +1129,15 @@ That produces:
 
 ```html
 ...
-  <div data-parent="body" class="element element-1">
+<div id="app-container">
+  <div data-parent="app-container" class="element element-1">
     <label class="greeting element element-2">
       Hello, World!
     </label>
   </div>
+</div>
 ...
 ```
-
-Start the Rails server:
-```
-rails s
-```
-
-Visit `http://localhost:3000`
-
-You should see:
-
-![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
-
 You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 
 To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.

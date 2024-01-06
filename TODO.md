@@ -6,8 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Add alternate variation versions of hello samples that are implemented without bidirectional data-binding
-- Document usage instructions
+- Hello, Observer!
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
 

@@ -222,7 +222,10 @@ module Glimmer
         else
           options[:parent] ||= 'body'
           the_element = Document.find(options[:parent])
-          the_element = Document.find('body') if the_element.length == 0
+          if the_element.length == 0
+            options[:parent] = 'body'
+            the_element = Document.find('body')
+          end
           the_element
         end
       end
