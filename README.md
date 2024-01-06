@@ -939,10 +939,8 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) will begin by supporting [Opal Ruby](https://opalrb.com/) on [Rails](https://rubyonrails.org/). [Opal](https://opalrb.com/) is a lightweight Ruby to JavaScript transpiler that results in small downloadables compared to WASM. In the future, the project might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
 
-- Ruby 3.0 (newer Ruby versions are not supported at this time)
+- Ruby 3.0+
 - Rails 6-7: [https://github.com/rails/rails](https://github.com/rails/rails)
-- Opal 1.4.1 for Rails 6-7: [https://github.com/opal/opal](https://github.com/opal/opal)
-- Opal-Rails 2.0.2 for Rails 6-7: [https://github.com/opal/opal-rails](https://github.com/opal/opal-rails)
 
 ## Setup
 
@@ -2453,8 +2451,6 @@ Screenshot:
 
 #### Button Counter
 
-**UPCOMING (NOT RELEASED OR SUPPORTED YET)**
-
 Glimmer GUI code demonstrating MVC + Glimmer Web Components (Views) + Data-Binding:
 
 ```ruby
@@ -2466,13 +2462,9 @@ class Counter
   def initialize
     self.count = 0
   end
-
-  def increment!
-    self.count += 1
-  end
 end
 
-class HelloButton
+class ButtonCounter
   include Glimmer::Web::Component
   
   before_render do
@@ -2480,32 +2472,31 @@ class HelloButton
   end
   
   markup {
-    # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-    div(parent: parent_selector) {
-      text 'Button Counter'
-      
+    div {
       button {
         # Unidirectional Data-Binding indicating that on every change to @counter.count, the value
         # is read and converted to "Click To Increment: #{value}  ", and then automatically
         # copied to button innerText (content) to display to the user
-        inner_text <= [@counter, :count, on_read: ->(value) { "Click To Increment: #{value}  " }]
+        inner_text <= [@counter, :count,
+                        on_read: ->(value) { "Click To Increment: #{value}  " }
+                      ]
         
         onclick {
-          @counter.increment!
+          @counter.count += 1
         }
       }
     }
   }
 end
 
-HelloButton.render
+ButtonCounter.render
 ```
 
 That produces:
 
 ```html
-<div id="application">
-  <button>
+<div data-parent="body" class="element element-1">
+  <button class="element element-2">
     Click To Increment: 0
   </button>
 </div>
@@ -2514,8 +2505,8 @@ That produces:
 When clicked:
 
 ```html
-<div id="application">
-  <button>
+<div data-parent="body" class="element element-1">
+  <button class="element element-2">
     Click To Increment: 1
   </button>
 </div>
@@ -2524,12 +2515,16 @@ When clicked:
 When clicked 7 times:
 
 ```html
-<div id="application">
-  <button>
+<div data-parent="body" class="element element-1">
+  <button class="element element-2">
     Click To Increment: 7
   </button>
 </div>
 ```
+
+Screenshot:
+
+![Button Counter](/images/glimmer-dsl-web-samples-regular-button-counter.gif)
 
 ## Glimmer Supporting Libraries
 

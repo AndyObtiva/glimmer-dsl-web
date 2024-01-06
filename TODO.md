@@ -6,10 +6,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Document Hello, Glimmer Component Helper!
 - Support `observe` keyword to observe Model attributes in Views with a convenient DSL keyword.
 - Clean observers declared with `observe` keyword inside a component when component is removed
-- Button Counter Sample
 - Document usage instructions
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
@@ -22,7 +20,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.1.x
 
-- Consider immediate rendering instead of using `render` keyword, or giving the option to render things hidden and then show them at the end.
+- Consider immediate rendering instead of using `render` keyword, or giving the option to render things hidden and then show them at the end. (maybe add `render: false` element option)
 - Consider revising rendering system so that it does not wait for rendering everything, yet it would render parents right away, and then add to them
 - It is incorrect to call before_render and after_render on component. .they're before_markup and afteR_markup
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests

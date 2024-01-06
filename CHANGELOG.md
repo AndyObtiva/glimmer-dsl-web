@@ -4,6 +4,7 @@
 
 - Update `glimmer_component` to render its content immediately without waiting for `Document.ready?` as that is not necessary given its container is added to the DOM immediately
 - Upgrade jquery-opal to 0.5.0 (latest version)
+- Button Counter Sample: `require 'glimmer-dsl-web/samples/regular/button_counter'`
 
 ## 0.0.10
 
