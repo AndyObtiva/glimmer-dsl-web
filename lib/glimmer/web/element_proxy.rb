@@ -139,11 +139,14 @@ module Glimmer
         @children.dup.each do |child|
           child.remove
         end
+        on_remove_listeners = listeners_for('on_remove').dup
         remove_all_listeners
         dom_element.remove
         parent&.post_remove_child(self)
         @removed = true
-#         listeners_for('widget_removed').each {|listener| listener.call(Event.new(widget: self))}
+        on_remove_listeners.each do |listener|
+          listener.original_event_listener.call(EventProxy.new(listener: listener))
+        end
       end
       
       def remove_all_listeners
@@ -217,7 +220,6 @@ module Glimmer
         if parent_selector
           Document.find(parent_selector)
         else
-          # TODO consider moving this to initializer
           options[:parent] ||= 'body'
           the_element = Document.find(options[:parent])
           the_element = Document.find('body') if the_element.length == 0
@@ -433,22 +435,12 @@ module Glimmer
       end
       
       def handle_observation_request(keyword, original_event_listener)
-#         case keyword
-#         when 'on_widget_removed'
-#           listeners_for(keyword.sub(/^on_/, '')) << original_event_listener.to_proc
-#         else
-          handle_javascript_observation_request(keyword, original_event_listener)
-#         end
-      end
-      
-      def handle_javascript_observation_request(keyword, original_event_listener)
         listener = ListenerProxy.new(
           element: self,
           selector: selector,
           dom_element: dom_element,
           event_attribute: keyword,
-          listener: original_event_listener,
-          original_event_listener: original_event_listener
+          original_event_listener: original_event_listener,
         )
         listener.register
         listeners_for(keyword) << listener

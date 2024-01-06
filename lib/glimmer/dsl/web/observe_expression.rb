@@ -19,34 +19,24 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer/dsl/engine'
-require 'glimmer/dsl/web/element_expression'
-require 'glimmer/dsl/web/listener_expression'
-require 'glimmer/dsl/web/property_expression'
-require 'glimmer/dsl/web/p_expression'
-require 'glimmer/dsl/web/select_expression'
-require 'glimmer/dsl/web/bind_expression'
-require 'glimmer/dsl/web/data_binding_expression'
-require 'glimmer/dsl/web/content_data_binding_expression'
-require 'glimmer/dsl/web/shine_data_binding_expression'
-require 'glimmer/dsl/web/component_expression'
-require 'glimmer/dsl/web/observe_expression'
+require 'glimmer/dsl/static_expression'
+# require 'glimmer/dsl/top_level_expression'
+require 'glimmer/dsl/observe_expression'
+require 'glimmer/web/component'
 
 module Glimmer
   module DSL
-    module Web
-      Engine.add_dynamic_expressions(
-       Web,
-       %w[
-         component
-         listener
-         data_binding
-         property
-         content_data_binding
-         shine_data_binding
-         element
-       ]
-      )
+    module SWT
+      class ObserveExpression < StaticExpression
+#         include TopLevelExpression # TODO delete if not needed
+        include Glimmer::DSL::ObserveExpression
+
+        def interpret(parent, keyword, *args, &block)
+          observer_registration = super(parent, keyword, *args, &block)
+          Glimmer::Web::Component.interpretation_stack.last&.observer_registrations&.push(observer_registration)
+          observer_registration
+        end
+      end
     end
   end
 end

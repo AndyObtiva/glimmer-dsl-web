@@ -176,6 +176,10 @@ module Glimmer
         def reset_component_namespaces
           @component_namespaces = Set[Object, Glimmer::Web]
         end
+        
+        def interpretation_stack
+          @interpretation_stack ||= []
+        end
       end
       # <- end of class methods
       
@@ -184,6 +188,7 @@ module Glimmer
       alias parent_proxy parent
 
       def initialize(parent, args, options, &content)
+        Component.interpretation_stack.push(self)
         @parent = parent
         options = args.delete_at(-1) if args.is_a?(Array) && args.last.is_a?(Hash)
         if args.is_a?(Hash)
@@ -203,11 +208,28 @@ module Glimmer
         @parent ||= @markup_root.parent
         raise Glimmer::Error, 'Invalid Glimmer web component for having an empty markup! Please fill markup block!' if @markup_root.nil?
         execute_hooks('after_render')
+        
+        # TODO adapt for web
+        observer_registration_cleanup_listener = proc do
+          observer_registrations.compact.each(&:deregister)
+          observer_registrations.clear
+        end
+        @markup_root.handle_observation_request('on_remove', observer_registration_cleanup_listener)
+        post_add_content if content.nil?
       end
       
       # Subclasses may override to perform post initialization work on an added child
       def post_initialize_child(child)
         # No Op by default
+      end
+
+      def post_add_content
+        Component.interpretation_stack.pop
+      end
+      
+      # This stores observe keyword registrations of model/attribute observers
+      def observer_registrations
+        @observer_registrations ||= []
       end
 
       def can_handle_observation_request?(observation_request)

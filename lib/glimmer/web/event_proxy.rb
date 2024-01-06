@@ -24,9 +24,11 @@ module Glimmer
     class EventProxy
       attr_reader :js_event, :listener
 
-      def initialize(js_event:, listener:)
-        @js_event = js_event
+      # Instantiates EventProxy
+      # When js_event is nil, it is a custom event
+      def initialize(listener:, js_event: nil)
         @listener = listener
+        @js_event = js_event
       end
       
       def element = listener.element
@@ -34,6 +36,7 @@ module Glimmer
       def event_attribute = listener.event_attribute
       
       def original_event
+        return if js_event.nil?
         Native(`#{js_event.to_n}.originalEvent`)
       end
       
@@ -41,14 +44,14 @@ module Glimmer
         property_name = method_name.to_s.camelcase
         super(method_name, include_private) ||
           js_event.respond_to?(method_name, include_private) ||
-          `#{property_name} in #{original_event.to_n}`
+          (original_event && `#{property_name} in #{original_event.to_n}`)
       end
       
       def method_missing(method_name, *args, &block)
         property_name = method_name.to_s.camelcase
         if js_event.respond_to?(method_name, true)
           js_event.send(method_name, *args, &block)
-        elsif `#{property_name} in #{original_event.to_n}`
+        elsif (original_event && `#{property_name} in #{original_event.to_n}`)
           original_event[property_name]
         else
           super(method_name, *args, &block)

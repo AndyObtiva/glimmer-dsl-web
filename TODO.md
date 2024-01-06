@@ -6,12 +6,10 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Support `observe` keyword to observe Model attributes in Views with a convenient DSL keyword.
-- Clean observers declared with `observe` keyword inside a component when component is removed
+- Add alternate variation versions of hello samples that are implemented without bidirectional data-binding
 - Document usage instructions
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
-- Add alternate variation versions of hello samples that are implemented without bidirectional data-binding
 
 ### 0.1.0
 

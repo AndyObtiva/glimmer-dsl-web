@@ -21,8 +21,9 @@ module Glimmer
           if block.source_location && (block.source_location == parent.content&.__getobj__&.source_location)
             parent.content.call(parent) unless parent.content.called?
           else
-            super
+            super(parent, keyword, *args, &block)
           end
+          parent.post_add_content
         end
       end
     end
