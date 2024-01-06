@@ -245,7 +245,9 @@ class HelloObserver
   end
   
   after_render do
-    # observe Model attribute @number_holder.number for changes and update View
+    # Observe Model attribute @number_holder.number for changes and update View
+    # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
+    # or its top-level element
     observe(@number_holder, :number) do
       number_string = @number_holder.number.to_s
       @number_input.value = number_string unless @number_input.value == number_string
@@ -987,8 +989,6 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 ## Table of Contents
 
 - [Glimmer DSL for Web](#-glimmer-dsl-for-opal-alpha-pure-ruby-web-gui)
-  - [Principles](#principles)
-  - [Background](#background)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
   - [Usage](#usage)
@@ -1006,6 +1006,8 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
       - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
+  - [Design Principles](#design-principles)
+  - [Supporting Libraries](#supporting-libraries)
   - [Glimmer Process](#glimmer-process)
   - [Help](#help)
     - [Issues](#issues)
@@ -1770,7 +1772,9 @@ class HelloObserver
   end
   
   after_render do
-    # observe Model attribute @number_holder.number for changes and update View
+    # Observe Model attribute @number_holder.number for changes and update View
+    # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
+    # or its top-level element
     observe(@number_holder, :number) do
       number_string = @number_holder.number.to_s
       @number_input.value = number_string unless @number_input.value == number_string
@@ -2744,7 +2748,18 @@ Screenshot:
 
 ![Button Counter](/images/glimmer-dsl-web-samples-regular-button-counter.gif)
 
-## Glimmer Supporting Libraries
+## Design Principles
+
+- The Ruby Way (including TIMTOWTDI: There Is More Than One Way To Do It)
+- The Rails Way Convention over Configuration via smart defaults and automation of low-level details
+- Requiring the least amount of syntax possible to build highly interactive web pages
+- Declarative syntax that visually maps to the DOM (Document Object Model) hierarchy
+- Ability to mix declarative and imperative code conveniently in one language
+- Computers serve Software Engineers (not Software Engineers serve Computers)
+- Think only about real world concepts directly relevant to web page interaction
+- Modular Software Design (e.g. support for Components)
+
+## Supporting Libraries
 
 Here is a list of notable 3rd party gems used by Glimmer DSL for Web:
 - [glimmer-dsl-xml](https://github.com/AndyObtiva/glimmer-dsl-xml): Glimmer DSL for XML & HTML in pure Ruby.

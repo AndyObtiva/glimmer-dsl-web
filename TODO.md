@@ -11,6 +11,19 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.1.0
 
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/timeout.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/interval.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/countdown.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/task.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/window.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/element.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/constants.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/document.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/event.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/http.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/kernel.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/local_storage.rb:
+warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- glimmer/web/event_proxy.rb:
 - Treat HTML text formatting elements differently (e.g. `b`, `i`, `strong`, `em`, `sub`, `sup`, `del`, `ins`, `small`, `mark`) by not appending to their parent content, yet having them generate a String with `to_s` that can be embedded in a `String` that is the text content of another normal element like `p` or `div`.
 - Treat `span` as a special text formatting element if included inside a `p` and as a normal element outside a `p`.
 - Consider immediate rendering instead of using `render` keyword, or giving the option to render things hidden and then show them at the end. (maybe add `render: false` element option)

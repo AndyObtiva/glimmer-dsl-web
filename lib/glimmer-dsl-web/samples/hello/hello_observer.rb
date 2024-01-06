@@ -37,7 +37,9 @@ class HelloObserver
   end
   
   after_render do
-    # observe Model attribute @number_holder.number for changes and update View
+    # Observe Model attribute @number_holder.number for changes and update View
+    # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
+    # or its top-level element
     observe(@number_holder, :number) do
       number_string = @number_holder.number.to_s
       @number_input.value = number_string unless @number_input.value == number_string
