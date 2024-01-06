@@ -220,6 +220,86 @@ Screenshot:
 
 ![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
 
+**Hello, Observer!**
+
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component) (covered later), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support (covered later).
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class NumberHolder
+  attr_accessor :number
+  
+  def initialize
+    self.number = 50
+  end
+end
+
+class HelloObserver
+  include Glimmer::Web::Component
+  
+  before_render do
+    @number_holder = NumberHolder.new
+  end
+  
+  after_render do
+    # observe Model attribute @number_holder.number for changes and update View
+    observe(@number_holder, :number) do
+      number_string = @number_holder.number.to_s
+      @number_input.value = number_string unless @number_input.value == number_string
+      @range_input.value = number_string unless @range_input.value == number_string
+    end
+    # Bidirectional Data-Binding does the same thing automatically
+    # Just disable the observe block above as well as the oninput listeners below
+    # and enable the `value <=> [@number_holder, :number]` lines to try the data-binding version
+    # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+  end
+  
+  markup {
+    div {
+      div {
+        @number_input = input(type: 'number', value: @number_holder.number, min: 0, max: 100) {
+          # oninput listener updates Model attribute @number_holder.number
+          oninput do
+            @number_holder.number = @number_input.value.to_i
+          end
+          
+          # Bidirectional Data-Binding simplifies the implementation significantly
+          # by enabling the following line and disabling oninput listeners as well
+          # as the after_body observe block observer
+          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+#           value <=> [@number_holder, :number]
+        }
+      }
+      div {
+        @range_input = input(type: 'range', value: @number_holder.number, min: 0, max: 100) {
+          # oninput listener updates Model attribute @number_holder.number
+          oninput do
+            @number_holder.number = @range_input.value.to_i
+          end
+          
+          # Bidirectional Data-Binding simplifies the implementation significantly
+          # by enabling the following line and disabling oninput listeners as well
+          # as the after_body observe block observer
+          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+#           value <=> [@number_holder, :number]
+        }
+      }
+    }
+  }
+end
+
+Document.ready? do
+  HelloObserver.render
+end
+```
+
+Screenshot:
+
+![Hello, Observer!](/images/glimmer-dsl-web-samples-hello-hello-observer.gif)
+
 **Hello, Data-Binding!**
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
@@ -919,6 +999,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, World!](#hello-world)
       - [Hello, Button!](#hello-button)
       - [Hello, Form!](#hello-form)
+      - [Hello, Observer!](#hello-observer)
       - [Hello, Data-Binding!](#hello-data-binding)
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
       - [Hello, Component!](#hello-content-data-binding)
@@ -1663,6 +1744,86 @@ That produces the following under `<body></body>`:
 Screenshot:
 
 ![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
+
+#### Hello, Observer!
+
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component) (covered later), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support (covered later).
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class NumberHolder
+  attr_accessor :number
+  
+  def initialize
+    self.number = 50
+  end
+end
+
+class HelloObserver
+  include Glimmer::Web::Component
+  
+  before_render do
+    @number_holder = NumberHolder.new
+  end
+  
+  after_render do
+    # observe Model attribute @number_holder.number for changes and update View
+    observe(@number_holder, :number) do
+      number_string = @number_holder.number.to_s
+      @number_input.value = number_string unless @number_input.value == number_string
+      @range_input.value = number_string unless @range_input.value == number_string
+    end
+    # Bidirectional Data-Binding does the same thing automatically
+    # Just disable the observe block above as well as the oninput listeners below
+    # and enable the `value <=> [@number_holder, :number]` lines to try the data-binding version
+    # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+  end
+  
+  markup {
+    div {
+      div {
+        @number_input = input(type: 'number', value: @number_holder.number, min: 0, max: 100) {
+          # oninput listener updates Model attribute @number_holder.number
+          oninput do
+            @number_holder.number = @number_input.value.to_i
+          end
+          
+          # Bidirectional Data-Binding simplifies the implementation significantly
+          # by enabling the following line and disabling oninput listeners as well
+          # as the after_body observe block observer
+          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+#           value <=> [@number_holder, :number]
+        }
+      }
+      div {
+        @range_input = input(type: 'range', value: @number_holder.number, min: 0, max: 100) {
+          # oninput listener updates Model attribute @number_holder.number
+          oninput do
+            @number_holder.number = @range_input.value.to_i
+          end
+          
+          # Bidirectional Data-Binding simplifies the implementation significantly
+          # by enabling the following line and disabling oninput listeners as well
+          # as the after_body observe block observer
+          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+#           value <=> [@number_holder, :number]
+        }
+      }
+    }
+  }
+end
+
+Document.ready? do
+  HelloObserver.render
+end
+```
+
+Screenshot:
+
+![Hello, Observer!](/images/glimmer-dsl-web-samples-hello-hello-observer.gif)
 
 #### Hello, Data-Binding!
 

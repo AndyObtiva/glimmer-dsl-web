@@ -7,6 +7,7 @@
 - Clean observers declared with `observe` keyword inside a component when `component.markup_root.remove` is called (or equivalent `component.remove` is called).
 - Update `glimmer_component` to render its content immediately without waiting for `Document.ready?` as that is not necessary given its container is added to the DOM immediately
 - Upgrade jquery-opal to 0.5.0 (latest version)
+- Hello, Observer! Sample: `require 'glimmer-dsl-web/samples/hello/hello_observer'`
 - Button Counter Sample: `require 'glimmer-dsl-web/samples/regular/button_counter'`
 
 ## 0.0.10

@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- Hello, Observer!
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
 
@@ -14,12 +13,12 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 - Treat HTML text formatting elements differently (e.g. `b`, `i`, `strong`, `em`, `sub`, `sup`, `del`, `ins`, `small`, `mark`) by not appending to their parent content, yet having them generate a String with `to_s` that can be embedded in a `String` that is the text content of another normal element like `p` or `div`.
 - Treat `span` as a special text formatting element if included inside a `p` and as a normal element outside a `p`.
-
-### 0.1.x
-
 - Consider immediate rendering instead of using `render` keyword, or giving the option to render things hidden and then show them at the end. (maybe add `render: false` element option)
 - Consider revising rendering system so that it does not wait for rendering everything, yet it would render parents right away, and then add to them
 - It is incorrect to call before_render and after_render on component. .they're before_markup and afteR_markup
+
+### 0.1.x
+
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
