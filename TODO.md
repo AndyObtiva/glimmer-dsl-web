@@ -6,10 +6,10 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.0.x
 
-- It is incorrect to call before_render and after_render on component. .they're before_markup and afteR_markup
 - Document Hello, Glimmer Component Helper!
 - Support `observe` keyword to observe Model attributes in Views with a convenient DSL keyword.
 - Clean observers declared with `observe` keyword inside a component when component is removed
+- Button Counter Sample
 - Document usage instructions
 - Document principles of Glimmer DSL for Web (partially borrowed from Glimmer libui and opal libraries)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
@@ -22,6 +22,9 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.1.x
 
+- Consider immediate rendering instead of using `render` keyword, or giving the option to render things hidden and then show them at the end.
+- Consider revising rendering system so that it does not wait for rendering everything, yet it would render parents right away, and then add to them
+- It is incorrect to call before_render and after_render on component. .they're before_markup and afteR_markup
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
@@ -29,7 +32,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ### 1.0.0
 
 - Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested `style` element (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
-- Hello, Counter! Advanced Sample
 - Router support to enable friendly URLs when needed
 Example:
   route '#hello-world' do

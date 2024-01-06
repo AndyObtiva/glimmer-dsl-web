@@ -479,9 +479,6 @@ by simply defining a class with `include Glimmer::Web::Component` and encasing t
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
-You may also insert a Glimmer component anywhere into a Rails View using
-`glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
-or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
 
@@ -696,6 +693,211 @@ Screenshot:
 
 ![Hello, Component!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
 
+**Hello, glimmer_component Rails Helper!**
+
+You may insert a Glimmer component anywhere into a Rails View using
+`glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
+or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+
+Rails `ApplicationHelper` setup code:
+
+```ruby
+require 'glimmer/helpers/glimmer_helper'
+
+module ApplicationHelper
+  # ...
+  include GlimmerHelper
+  # ...
+end
+```
+
+Rails View code:
+
+```erb
+<div id="address-container">
+  <h1>Shipping Address </h1>
+  <legend>Please enter your shipping address information (Zip Code must be a valid 5 digit number)</legend>
+  <!-- This sample demonstrates use of glimmer_component helper with arguments -->
+  <%= glimmer_component('address_form',
+        full_name: params[:full_name],
+        street: params[:street],
+        street2: params[:street2],
+        city: params[:city],
+        state: params[:state],
+        zip_code: params[:zip_code]
+      )
+   %>
+   <div>
+     <a href="/">&lt;&lt; Back Home</a>
+   </div>
+</div>
+```
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class AddressForm
+  Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
+    def state_code
+      STATES.invert[state]
+    end
+    
+    def state_code=(value)
+      self.state = STATES[value]
+    end
+  
+    def summary
+      to_h.values.map(&:to_s).reject(&:empty?).join(', ')
+    end
+  end
+  
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
+
+  include Glimmer::Web::Component
+  
+  option :full_name
+  option :street
+  option :street2
+  option :city
+  option :state
+  option :zip_code
+  
+  attr_reader :address
+  
+  before_render do
+    @address = Address.new(
+      full_name: full_name,
+      street: street,
+      street2: street2,
+      city: city,
+      state: state,
+      zip_code: zip_code,
+    )
+  end
+  
+  markup {
+    div {
+      div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
+        label('Full Name: ', for: 'full-name-field')
+        input(id: 'full-name-field') {
+          value <=> [address, :full_name]
+        }
+        
+        @somelabel = label('Street: ', for: 'street-field')
+        input(id: 'street-field') {
+          value <=> [address, :street]
+        }
+        
+        label('Street 2: ', for: 'street2-field')
+        textarea(id: 'street2-field') {
+          value <=> [address, :street2]
+        }
+        
+        label('City: ', for: 'city-field')
+        input(id: 'city-field') {
+          value <=> [address, :city]
+        }
+        
+        label('State: ', for: 'state-field')
+        select(id: 'state-field') {
+          STATES.each do |state_code, state|
+            option(value: state_code) { state }
+          end
+
+          value <=> [address, :state_code]
+        }
+        
+        label('Zip Code: ', for: 'zip-code-field')
+        input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+          value <=> [address, :zip_code,
+                      on_write: :to_s,
+                    ]
+        }
+        
+        style {
+          <<~CSS
+            #{address_div.selector} * {
+              margin: 5px;
+            }
+            #{address_div.selector} input, #{address_div.selector} select {
+              grid-column: 2;
+            }
+          CSS
+        }
+      }
+      
+      div(style: 'margin: 5px') {
+        inner_text <= [address, :summary,
+                        computed_by: address.members + ['state_code'],
+                      ]
+      }
+    }
+  }
+end
+```
+
+Screenshot:
+
+![Hello, glimmer_component Rails Helper!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
+
 NOTE: Glimmer DSL for Web is an Early Alpha project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still an early alpha, so the more feedback and issues you report the better.
 
 Learn more about the differences between various [Glimmer](https://github.com/AndyObtiva/glimmer) DSLs by looking at:
@@ -720,6 +922,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Data-Binding!](#hello-data-binding)
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
       - [Hello, Component!](#hello-content-data-binding)
+      - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
       - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
   - [Glimmer Process](#glimmer-process)
@@ -880,7 +1083,7 @@ You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-You may also insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 
 To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
 
@@ -1055,7 +1258,7 @@ You should see:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
-You may also insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 
 To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
 
@@ -1721,9 +1924,6 @@ by simply defining a class with `include Glimmer::Web::Component` and encasing t
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
-You may also insert a Glimmer component anywhere into a Rails View using
-`glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
-or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
 
@@ -1937,6 +2137,212 @@ end
 Screenshot:
 
 ![Hello, Component!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
+
+#### Hello, glimmer_component Rails Helper!
+
+You may insert a Glimmer component anywhere into a Rails View using
+`glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
+or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+
+Rails `ApplicationHelper` setup code:
+
+```ruby
+require 'glimmer/helpers/glimmer_helper'
+
+module ApplicationHelper
+  # ...
+  include GlimmerHelper
+  # ...
+end
+```
+
+Rails View code:
+
+```erb
+<div id="address-container">
+  <h1>Shipping Address </h1>
+  <legend>Please enter your shipping address information (Zip Code must be a valid 5 digit number)</legend>
+  <!-- This sample demonstrates use of glimmer_component helper with arguments -->
+  <%= glimmer_component('address_form',
+        full_name: params[:full_name],
+        street: params[:street],
+        street2: params[:street2],
+        city: params[:city],
+        state: params[:state],
+        zip_code: params[:zip_code]
+      )
+   %>
+   <div>
+     <a href="/">&lt;&lt; Back Home</a>
+   </div>
+</div>
+```
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class AddressForm
+  Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
+    def state_code
+      STATES.invert[state]
+    end
+    
+    def state_code=(value)
+      self.state = STATES[value]
+    end
+  
+    def summary
+      to_h.values.map(&:to_s).reject(&:empty?).join(', ')
+    end
+  end
+  
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
+
+  include Glimmer::Web::Component
+  
+  option :full_name
+  option :street
+  option :street2
+  option :city
+  option :state
+  option :zip_code
+  
+  attr_reader :address
+  
+  before_render do
+    @address = Address.new(
+      full_name: full_name,
+      street: street,
+      street2: street2,
+      city: city,
+      state: state,
+      zip_code: zip_code,
+    )
+  end
+  
+  markup {
+    div {
+      div(style: 'display: grid; grid-auto-columns: 80px 260px;') { |address_div|
+        label('Full Name: ', for: 'full-name-field')
+        input(id: 'full-name-field') {
+          value <=> [address, :full_name]
+        }
+        
+        @somelabel = label('Street: ', for: 'street-field')
+        input(id: 'street-field') {
+          value <=> [address, :street]
+        }
+        
+        label('Street 2: ', for: 'street2-field')
+        textarea(id: 'street2-field') {
+          value <=> [address, :street2]
+        }
+        
+        label('City: ', for: 'city-field')
+        input(id: 'city-field') {
+          value <=> [address, :city]
+        }
+        
+        label('State: ', for: 'state-field')
+        select(id: 'state-field') {
+          STATES.each do |state_code, state|
+            option(value: state_code) { state }
+          end
+
+          value <=> [address, :state_code]
+        }
+        
+        label('Zip Code: ', for: 'zip-code-field')
+        input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+          value <=> [address, :zip_code,
+                      on_write: :to_s,
+                    ]
+        }
+        
+        style {
+          <<~CSS
+            #{address_div.selector} * {
+              margin: 5px;
+            }
+            #{address_div.selector} input, #{address_div.selector} select {
+              grid-column: 2;
+            }
+          CSS
+        }
+      }
+      
+      div(style: 'margin: 5px') {
+        inner_text <= [address, :summary,
+                        computed_by: address.members + ['state_code'],
+                      ]
+      }
+    }
+  }
+end
+```
+
+Screenshot:
+
+![Hello, glimmer_component Rails Helper!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
+
 
 #### Hello, Input (Date/Time)!
 
