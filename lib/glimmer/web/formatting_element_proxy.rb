@@ -1,3 +1,5 @@
+# backtick_javascript: true
+
 # Copyright (c) 2023-2024 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -19,36 +21,36 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'glimmer/dsl/engine'
-require 'glimmer/dsl/web/element_expression'
-require 'glimmer/dsl/web/formatting_element_expression'
-require 'glimmer/dsl/web/listener_expression'
-require 'glimmer/dsl/web/property_expression'
-require 'glimmer/dsl/web/p_expression'
-require 'glimmer/dsl/web/select_expression'
-require 'glimmer/dsl/web/bind_expression'
-require 'glimmer/dsl/web/data_binding_expression'
-require 'glimmer/dsl/web/content_data_binding_expression'
-require 'glimmer/dsl/web/shine_data_binding_expression'
-require 'glimmer/dsl/web/component_expression'
-require 'glimmer/dsl/web/observe_expression'
-
 module Glimmer
-  module DSL
-    module Web
-      Engine.add_dynamic_expressions(
-       Web,
-       %w[
-         component
-         listener
-         data_binding
-         property
-         content_data_binding
-         shine_data_binding
-         formatting_element
-         element
-       ]
-      )
+  module Web
+    class FormattingElementProxy
+      class << self
+        include Glimmer
+        
+        def keyword_supported?(keyword, parent: nil)
+          keyword = keyword.to_s
+          (
+            FORMATTING_ELEMENT_KEYWORDS.include?(keyword) ||
+            (parent&.keyword == 'p' && keyword == 'span')
+          )
+        end
+      
+        def format(keyword, *args, &block)
+          content = nil
+          if block_given?
+            content = block.call.to_s
+          elsif args.any? && !args.first.is_a?(Hash)
+            content = args.first.to_s
+          end
+          attribute_hash = args.last.is_a?(Hash) ? args.last : {}
+          content_block = proc { content } unless content.nil?
+          html {
+            send(keyword, attribute_hash, &content_block)
+          }.to_s
+        end
+      end
+      
+      FORMATTING_ELEMENT_KEYWORDS = %w[b i strong em sub sup del ins small mark br]
     end
   end
 end

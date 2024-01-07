@@ -302,6 +302,7 @@ module Glimmer
             
       def dom
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
+        # TODO check if we need to avoid rendering content block if no content is available
         @dom ||= html {
           send(keyword, html_options) {
             args.first if args.first.is_a?(String)

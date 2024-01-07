@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.12
+
+- Treat HTML text formatting elements differently (e.g. `b`, `i`, `strong`, `em`, `sub`, `sup`, `del`, `ins`, `small`, `mark`) by not appending to their parent content, yet having them generate a String with `to_s` that can be embedded in a `String` that is the text content of another normal element like `p` or `div`.
+- Treat `span` as a special text formatting element if included inside a `p` and as a normal element outside a `p`.
+- Hello, Paragraph! Sample: `require 'glimmer-dsl-web/samples/hello/hello_paragraph'`
+
 ## 0.0.11
 
 - Support element custom event listener: `on_remove`

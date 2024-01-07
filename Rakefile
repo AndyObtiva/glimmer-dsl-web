@@ -21,8 +21,8 @@ unless jeweler_required.nil?
     gem.homepage = "http://github.com/AndyObtiva/glimmer-dsl-web"
     gem.license = "MIT"
     gem.summary = %Q{Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library)}
-    gem.description = %Q{Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library) - Enables frontend GUI development with Ruby by adopting a DSL that follows web-like HTML syntax, enabling the transfer of HTML/CSS/JS skills to Ruby frontend development. This library relies on Opal Ruby.}
     gem.email = "andy.am@gmail.com"
+    gem.description = %Q{Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library) enables building Web GUI frontends using Ruby in the Browser, as per Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with DSLs and TIMTOWTDI) and the Rails way (Convention over Configuration) while supporting both Unidirectional (One-Way) Data-Binding (using <=) and Bidirectional (Two-Way) Data-Binding (using <=>). Dynamic rendering (and re-rendering) of HTML content is also supported via Content Data-Binding. And, modular design is supported with Glimmer Web Components. You can finally live in pure Rubyland on the Web in both the frontend and backend with Glimmer DSL for Web! This library relies on Opal Ruby.}
     gem.authors = ["Andy Maleh"]
     gem.executables = []
     gem.files = Dir['README.md', 'CHANGELOG.md', 'VERSION', 'LICENSE.txt', 'glimmer-dsl-web.gemspec', 'lib/**/*', 'samples/**/*', 'app/**/*']

@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.11 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.12 (Early Alpha)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -980,6 +980,99 @@ Screenshot:
 
 ![Hello, glimmer_component Rails Helper!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
 
+**Hello, Paragraph!**
+
+To facilitate building formatted textual paragraphs in Ruby, the Glimmer GUI DSL is advanced enough to behave differently when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
+
+Instead of returning Ruby objects that are nested as children within their parent, the Glimmer GUI DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
+
+This enables writing code like:
+
+`p {"#{strong('Yesterday, ')}Robert suggested adding a new #{em('feature')} to our software product.#{br}}`
+
+That is close to how it is written in HTML, albeit briefer in Ruby:
+
+`<p><strong>Yesterday, </strong>Robert suggested adding a new <em>feature</em> to our software product.<br></p>`
+
+Formatting elements just like regular elements can accept text content as their first argument or as their block return value. So, the code above could equally be written as follows:
+
+`p {"#{strong{'Yesterday, '}}Robert suggested adding a new #{em{'feature'}} to our software product.#{br}}`
+
+This enables seggregating formatting element attributes if desired, as in this example:
+
+`p {"#{strong(class: 'very-string'){'Yesterday, '}}Robert suggested adding a new #{em(class: 'very-emphasized'){'feature'}} to our software product.#{br}}`
+
+Another way of writing the same code is to pass the text content as the first argument, before attributes:
+
+
+`p {"#{strong('Yesterday, ', class: 'very-string')}Robert suggested adding a new #{em('feature', class: 'very-emphasized')} to our software product.#{br}}`
+
+One last bit of info to keep in mind is that `<span>` generally generates a normal element, except when used inside a `<p>`'s content block, in which case it is assumed to be used for formatting, so
+it returns a `String` to enable code like this:
+
+`p {"#{span('Yesterday, ', style: 'text-decoration: underline;')}Robert suggested adding a new #{em('feature', class: 'very-emphasized')} to our software product.#{br}}`
+
+In any case, below is a full example leveraging the Glimmer GUI DSL alternative approach when utilizing formatting elements underneath a paragraph.
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class HelloParagraph
+  include Glimmer::Web::Component
+  
+  markup {
+    div {
+      h1(class: 'title') {
+        'Flying Cars Become 100% Safe with AI Powered Balance!'
+      }
+      
+      p(class: 'intro') {"
+        In the early 2030's, #{em('flying cars')} became affordable after their prices dropped
+        below #{small(del('$100,000'))}#{ins('$80,000')} as a result of the innovations of #{strong('Travel-X')}. Still, that did not
+        make #{em('flying cars')} any popular due to the extreme difficulty in piloting such flying vehicles for the average
+        person, making it very tough to pass the tests for getting a piloting license given the learning curve.
+      "}
+      
+      p {"
+        That said, #{b('Travel-X')} has recently come up with a new feature for their flagship #{i('flying car')},
+        the Ptero#{sub(1)}#{sup('TM')}, which relies on AI#{sub(2)} to automatically balance the flying cars in mid-air,
+        thus significantly facilitating their piloting by the average consumer.
+      "}
+      
+      p(class: 'conclusion') {"
+        That Ptero#{sup('TM')} will be so stable and well balanced while flying that the consumer will be able to drive
+        as if it is a plain old car, with the only difference being vertical elevation, the control of which will be handled
+        automatically by AI. The Ptero#{sup('TM')} will debut for #{span(style: 'text-decoration: underline dashed;'){'$79,000'}}.
+      "}
+      
+      h2(class: 'legend-title') {
+        mark('Legend:')
+      }
+      
+      p(class: 'legend') {"
+        #{strong("1- Ptero:")} Pterosaur is flying dinosaur species#{br}
+        #{strong("2- AI:")} Artificial Intelligence#{br}
+      "}
+        
+    }
+  }
+end
+
+Document.ready? do
+  HelloParagraph.render
+end
+```
+
+Screenshot:
+
+--
+
+![Hello, Paragraph!](/images/glimmer-dsl-web-samples-hello-hello-paragraph.png)
+
+--
+
 NOTE: Glimmer DSL for Web is an Early Alpha project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still an early alpha, so the more feedback and issues you report the better.
 
 Learn more about the differences between various [Glimmer](https://github.com/AndyObtiva/glimmer) DSLs by looking at:
@@ -1004,6 +1097,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
       - [Hello, Component!](#hello-content-data-binding)
       - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
+      - [Hello, Paragraph!](#hello-paragraph)
       - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
   - [Design Principles](#design-principles)
@@ -1050,7 +1144,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.0.11'
+gem 'glimmer-dsl-web', '~> 0.0.12'
 ```
 
 Run:
@@ -1266,7 +1360,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.0.11'
+gem 'glimmer-dsl-web', '~> 0.0.12'
 ```
 
 Run:
@@ -2563,6 +2657,98 @@ Screenshot:
 
 ![Hello, glimmer_component Rails Helper!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
 
+#### Hello, Paragraph!
+
+To facilitate building formatted textual paragraphs in Ruby, the Glimmer GUI DSL is advanced enough to behave differently when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
+
+Instead of returning Ruby objects that are nested as children within their parent, the Glimmer GUI DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
+
+This enables writing code like:
+
+`p {"#{strong('Yesterday, ')}Robert suggested adding a new #{em('feature')} to our software product.#{br}}`
+
+That is close to how it is written in HTML, albeit briefer in Ruby:
+
+`<p><strong>Yesterday, </strong>Robert suggested adding a new <em>feature</em> to our software product.<br></p>`
+
+Formatting elements just like regular elements can accept text content as their first argument or as their block return value. So, the code above could equally be written as follows:
+
+`p {"#{strong{'Yesterday, '}}Robert suggested adding a new #{em{'feature'}} to our software product.#{br}}`
+
+This enables seggregating formatting element attributes if desired, as in this example:
+
+`p {"#{strong(class: 'very-string'){'Yesterday, '}}Robert suggested adding a new #{em(class: 'very-emphasized'){'feature'}} to our software product.#{br}}`
+
+Another way of writing the same code is to pass the text content as the first argument, before attributes:
+
+
+`p {"#{strong('Yesterday, ', class: 'very-string')}Robert suggested adding a new #{em('feature', class: 'very-emphasized')} to our software product.#{br}}`
+
+One last bit of info to keep in mind is that `<span>` generally generates a normal element, except when used inside a `<p>`'s content block, in which case it is assumed to be used for formatting, so
+it returns a `String` to enable code like this:
+
+`p {"#{span('Yesterday, ', style: 'text-decoration: underline;')}Robert suggested adding a new #{em('feature', class: 'very-emphasized')} to our software product.#{br}}`
+
+In any case, below is a full example leveraging the Glimmer GUI DSL alternative approach when utilizing formatting elements underneath a paragraph.
+
+Glimmer GUI code:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class HelloParagraph
+  include Glimmer::Web::Component
+  
+  markup {
+    div {
+      h1(class: 'title') {
+        'Flying Cars Become 100% Safe with AI Powered Balance!'
+      }
+      
+      p(class: 'intro') {"
+        In the early 2030's, #{em('flying cars')} became affordable after their prices dropped
+        below #{small(del('$100,000'))}#{ins('$80,000')} as a result of the innovations of #{strong('Travel-X')}. Still, that did not
+        make #{em('flying cars')} any popular due to the extreme difficulty in piloting such flying vehicles for the average
+        person, making it very tough to pass the tests for getting a piloting license given the learning curve.
+      "}
+      
+      p {"
+        That said, #{b('Travel-X')} has recently come up with a new feature for their flagship #{i('flying car')},
+        the Ptero#{sub(1)}#{sup('TM')}, which relies on AI#{sub(2)} to automatically balance the flying cars in mid-air,
+        thus significantly facilitating their piloting by the average consumer.
+      "}
+      
+      p(class: 'conclusion') {"
+        That Ptero#{sup('TM')} will be so stable and well balanced while flying that the consumer will be able to drive
+        as if it is a plain old car, with the only difference being vertical elevation, the control of which will be handled
+        automatically by AI. The Ptero#{sup('TM')} will debut for #{span(style: 'text-decoration: underline dashed;'){'$79,000'}}.
+      "}
+      
+      h2(class: 'legend-title') {
+        mark('Legend:')
+      }
+      
+      p(class: 'legend') {"
+        #{strong("1- Ptero:")} Pterosaur is flying dinosaur species#{br}
+        #{strong("2- AI:")} Artificial Intelligence#{br}
+      "}
+        
+    }
+  }
+end
+
+Document.ready? do
+  HelloParagraph.render
+end
+```
+
+Screenshot:
+
+--
+
+![Hello, Paragraph!](/images/glimmer-dsl-web-samples-hello-hello-paragraph.png)
+
+--
 
 #### Hello, Input (Date/Time)!
 
