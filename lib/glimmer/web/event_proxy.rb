@@ -1,3 +1,5 @@
+# backtick_javascript: true
+
 # Copyright (c) 2023-2024 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
