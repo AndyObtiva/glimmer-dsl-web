@@ -1319,6 +1319,7 @@ That produces:
 </div>
 ...
 ```
+
 You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 
 To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
@@ -1334,6 +1335,8 @@ module ApplicationHelper
   # ...
 end
 ```
+
+Note that Turbo is disabled on Glimmer elements/components. You can still use Turbo/Hotwire side by side with Glimmer DSL for Web by using one of the two technologies in every page. But, mixing them in the same pages is not recommended at the moment, so any pages loaded with Glimmer DSL for Web must be loaded without Turbo (e.g. by putting "data-turbo"="false" on anchor "a" tag links to Glimmer pages).
 
 If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake).
 
@@ -1512,6 +1515,8 @@ module ApplicationHelper
   # ...
 end
 ```
+
+Note that Turbo is disabled on Glimmer elements/components. You can still use Turbo/Hotwire side by side with Glimmer DSL for Web by using one of the two technologies in every page. But, mixing them in the same pages is not recommended at the moment, so any pages loaded with Glimmer DSL for Web must be loaded without Turbo (e.g. by putting "data-turbo"="false" on anchor "a" tag links to Glimmer pages).
 
 **NOT RELEASED OR SUPPORTED YET**
 

@@ -335,6 +335,7 @@ module Glimmer
         end
         html_options[:class] ||= ''
         html_options[:class] = "#{html_options[:class]} #{body_class}".strip
+        html_options['data-turbo'] = 'false' if parent.nil?
         html_options
       end
       

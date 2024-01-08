@@ -4,7 +4,7 @@
 
 - Upgrade to opal-jquery 0.5.1 (adds `# backtick_javascript: true` where needed to satisfy new Opal requirement)
 - Upgrade to opal-async 1.4.1 (adds `# backtick_javascript: true` where needed to satisfy new Opal requirement)
-- Update setup instructions to NOT disable Hotwire files, to ensure them running side by side with Opal files
+- Update setup instructions to NOT disable Hotwire files, to allow running Hotwire/Turbo side by side with Glimmer DSL for Web (but not in the same pages)
 
 ## 0.1.0
 
