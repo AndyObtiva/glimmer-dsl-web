@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.0.12 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.1.0 (Early Alpha)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -1144,7 +1144,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.0.12'
+gem 'glimmer-dsl-web', '~> 0.1.0'
 ```
 
 Run:
@@ -1360,7 +1360,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.0.12'
+gem 'glimmer-dsl-web', '~> 0.1.0'
 ```
 
 Run:

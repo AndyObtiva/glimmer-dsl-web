@@ -6,6 +6,14 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.1.0
 
+- It is incorrect to call before_render and after_render on component. .they're before_markup and after_markup
+
+### 0.1.1
+
+- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
+- Add an example of form submitting via ajax request
+- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
+- Update setup instructions to avoid deleting directories/files if possible (maybe disable their code instead) to allow people to use this library in addition to their existing JS code.
 - Handle Opal warnings:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/timeout.rb:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/interval.rb:
@@ -20,13 +28,7 @@ warning: Backtick operator usage interpreted as intent to embed JavaScript; this
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/kernel.rb:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/local_storage.rb:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- glimmer/web/event_proxy.rb:
-- Consider immediate rendering instead of using `render` keyword, or giving the option to render things hidden and then show them at the end. (maybe add `render: false` element option)
-- Consider revising rendering system so that it does not wait for rendering everything, yet it would render parents right away, and then add to them
-- It is incorrect to call before_render and after_render on component. .they're before_markup and afteR_markup
-- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
-- Add an example of form submitting via ajax request
-- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
- 
+
 ### 1.0.0
 
 - Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested `style` element (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
@@ -55,6 +57,7 @@ Example:
 - svg example
 - Consider keeping track of all Glimmer rendered elements on the page as Ruby view objects to be able to remove them cleanly including their observers
 - Consider keeping track of glimmer_component ID on the rendered component (though currently we can use parent to find it)
+- Alert user if they attempt to build a component that shadows an HTML element
 
 ### 2.0.0
 

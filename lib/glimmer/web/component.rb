@@ -93,10 +93,17 @@ module Glimmer
           self.name.underscore.gsub('::', '__').split('__').last
         end
         
+        # Creates component without rendering
+        def create(*args)
+          args << {} unless args.last.is_a?(Hash)
+          args.last[:render] = false
+          rendered_component = send(keyword, *args)
+          rendered_component
+        end
+        
+        # Creates and renders component
         def render(*args)
           rendered_component = send(keyword, *args)
-          options = args.last.is_a?(Hash) ? args.last.slice(:parent, :custom_parent_dom_element, :brand_new) : {}
-          rendered_component.render(**options)
           rendered_component
         end
       end
@@ -204,7 +211,7 @@ module Glimmer
         markup_block = self.class.instance_variable_get("@markup_block")
         raise Glimmer::Error, 'Invalid Glimmer web component for having no markup! Please define markup block!' if markup_block.nil?
         @markup_root = instance_exec(&markup_block)
-        @markup_root.options[:parent] = options[:parent] if options[:parent]
+        @markup_root.options[:parent] = options[:parent] if !options[:parent].nil?
         @parent ||= @markup_root.parent
         raise Glimmer::Error, 'Invalid Glimmer web component for having an empty markup! Please fill markup block!' if @markup_root.nil?
         execute_hooks('after_render')

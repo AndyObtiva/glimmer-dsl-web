@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.1.0
+
+- Update rendering system to render HTML elements immediately instead of waiting for complete components to be rendered all at once.
+- Support `render: false` option in any element or component to avoid rendering when building the elements/components (including a Component#create alternative to Component#render that defers rendering if needed).
+
 ## 0.0.12
 
 - Treat HTML text formatting elements differently (e.g. `b`, `i`, `strong`, `em`, `sub`, `sup`, `del`, `ins`, `small`, `mark`) by not appending to their parent content, yet having them generate a String with `to_s` that can be embedded in a `String` that is the text content of another normal element like `p` or `div`.

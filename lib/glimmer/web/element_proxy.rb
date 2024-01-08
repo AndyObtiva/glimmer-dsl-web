@@ -109,16 +109,25 @@ module Glimmer
         @keyword = keyword
         @parent = parent
         @options = args.last.is_a?(Hash) ? args.last.symbolize_keys : {}
+        if parent.nil?
+          options[:parent] ||= Component.interpretation_stack.last&.options&.[](:parent)
+          options[:render] ||= Component.interpretation_stack.last&.options&.[](:render)
+        end
         @args = args
         @block = block
         @children = []
         @parent&.post_initialize_child(self)
+        render if !@rendered && render_after_create?
+      end
+      
+      def render_after_create?
+        options[:render] != false && (@parent.nil? || @parent.render_after_create?)
       end
       
       # Executes for the parent of a child that just got added
       def post_initialize_child(child)
         @children << child
-        child.render
+        child.render if !render_after_create?
       end
       
       # Executes for the parent of a child that just got removed
@@ -128,6 +137,7 @@ module Glimmer
       
       # Executes at the closing of a parent widget curly braces after all children/properties have been added/set
       def post_add_content
+        # TODO double check every place we should call this method
         # No Op
       end
       
@@ -215,7 +225,7 @@ module Glimmer
       def parent_selector
         @parent&.selector
       end
-
+      
       def parent_dom_element
         if parent_selector
           Document.find(parent_selector)
@@ -253,8 +263,10 @@ module Glimmer
             handle_observation_request(keyword, event_listener)
           end
         end
-        children.each do |child|
-          child.render
+        unless render_after_create?
+          children.each do |child|
+            child.render
+          end
         end
         @rendered = true
         unless skip_content_on_render_blocks?
