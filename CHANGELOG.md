@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.0
+
+- Support `style` element content as Glimmer DSL for CSS syntax (Ruby Programmable CSS) as an alternative to a CSS `String`
+
 ## 0.1.1
 
 - Upgrade to opal-jquery 0.5.1 (adds `# backtick_javascript: true` where needed to satisfy new Opal requirement)

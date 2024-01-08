@@ -79,6 +79,7 @@ Document.ready? do
     
     # CSS Styles
     style {
+      # CSS can be included as a String as done below, or as Glimmer DSL for CSS syntax (Ruby code) as done in other samples
       <<~CSS
         input {
           margin: 5px;

@@ -4,21 +4,32 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.1.1
-
-- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
-- Add an example of form submitting via ajax request
-- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
-
-### 0.1.2
+### 0.2.x
 
 - Consider optimizing performance by avoiding use of glimmer-dsl-xml for rendering dom
 - Consider optimizing performance by generating methods for every html element to bypass the dsl chain of command
 - Consider ensuring display of elements immediately upon render by using setTimeout to render them (and perhaps limit that to 2nd level under root to avoid being too fine grained). Or you can have it render by accumulation count setting (like every 100 elements or every 1000 elements). Or you can do special rendering for controls that are known to contain a lot of things like `table`.
 
+### 0.2.x
+
+- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
+- Add an example of form submitting via ajax request
+- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
+
+### 0.3.0
+
+- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
+- Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
+- Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
+- Use descendants_tracker gem instead of implementing descendants manually
+- Document how to reuse Ruby code both server-side (backend) and client-side (frontend)
+- Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
+- svg example
+- Consider keeping track of all Glimmer rendered elements on the page as Ruby view objects to be able to remove them cleanly including their observers
+- Alert user if they attempt to build a component that shadows an HTML element
+
 ### 1.0.0
 
-- Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested `style` element (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
 - Router support to enable friendly URLs when needed
 Example:
   route '#hello-world' do
@@ -34,16 +45,7 @@ Example:
       }
     }
   end
-- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
-- Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
-- Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
-- Use descendants_tracker gem instead of implementing descendants manually
-- Document how to reuse Ruby code both server-side (backend) and client-side (frontend)
-- Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
-- svg example
-- Consider keeping track of all Glimmer rendered elements on the page as Ruby view objects to be able to remove them cleanly including their observers
-- Consider keeping track of glimmer_component ID on the rendered component (though currently we can use parent to find it)
-- Alert user if they attempt to build a component that shadows an HTML element
+
 
 ### 2.0.0
 
@@ -78,7 +80,10 @@ Example:
 - As an optimization in Content Data-Binding, consider saving rendered DOMs per model attribute values and reshowing them instead of recreating them.
 - As an optimization in Content Data-Binding, consider diffing, removing all listeners and re-installing listeners on the same elements.
 - Consider optimizing component rendering by pre-generating a component template, and copying (if/else conditions are simulated with show/hide on an element)
+- Consider generating a nonce for style tags (elements)
 
 ## Issues
+
+- Figure out why when an error occurs, a glimmer component is rendered twice
 
 ## Samples

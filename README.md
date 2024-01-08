@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.1.1 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.0 (Beta)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -131,6 +131,7 @@ Document.ready? do
     
     # CSS Styles
     style {
+      # CSS can be included as a String as done below, or as Glimmer DSL for CSS syntax (Ruby code) as done in other samples
       <<~CSS
         input {
           margin: 5px;
@@ -392,15 +393,15 @@ Document.ready? do
         }
       }
       
+      # Programmable CSS using Glimmer DSL for CSS
       style {
-        <<~CSS
-          #{address_div.selector} * {
-            margin: 5px;
-          }
-          #{address_div.selector} input, #{address_div.selector} select {
-            grid-column: 2;
-          }
-        CSS
+        # `r` is an alias for `rule`, generating a CSS rule
+        r("#{address_div.selector} *") {
+          margin '5px'
+        }
+        r("#{address_div.selector} input, #{address_div.selector} select") {
+          grid_column '2'
+        }
       }
     }
   
@@ -528,20 +529,18 @@ Document.ready? do
               }
               
               style {
-                <<~CSS
-                  #{address_div.selector} {
-                    margin: 10px 0;
-                  }
-                  #{address_div.selector} * {
-                    margin: 5px;
-                  }
-                  #{address_div.selector} label {
-                    grid-column: 1;
-                  }
-                  #{address_div.selector} input, #{address_div.selector} select {
-                    grid-column: 2;
-                  }
-                CSS
+                r(address_div.selector) {
+                  margin '10px 0'
+                }
+                r("#{address_div.selector} *") {
+                  margin '5px'
+                }
+                r("#{address_div.selector} label") {
+                  grid_column '1'
+                }
+                r("#{address_div.selector} input, #{address_div.selector} select") {
+                  grid_column '2'
+                }
               }
             }
           }
@@ -708,14 +707,12 @@ class AddressForm
         }
         
         style {
-          <<~CSS
-            #{address_div.selector} * {
-              margin: 5px;
-            }
-            #{address_div.selector} input, #{address_div.selector} select {
-              grid-column: 2;
-            }
-          CSS
+          r("#{address_div.selector} *") {
+            margin '5px'
+          }
+          r("#{address_div.selector} input, #{address_div.selector} select") {
+            grid_column '2'
+          }
         }
       }
       
@@ -957,14 +954,12 @@ class AddressForm
         }
         
         style {
-          <<~CSS
-            #{address_div.selector} * {
-              margin: 5px;
-            }
-            #{address_div.selector} input, #{address_div.selector} select {
-              grid-column: 2;
-            }
-          CSS
+          r("#{address_div.selector} *") {
+            margin '5px'
+          }
+          r("#{address_div.selector} input, #{address_div.selector} select") {
+            grid_column '2'
+          }
         }
       }
       
@@ -1146,7 +1141,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.1.1'
+gem 'glimmer-dsl-web', '~> 0.2.0'
 ```
 
 Run:
@@ -1367,7 +1362,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.1.1'
+gem 'glimmer-dsl-web', '~> 0.2.0'
 ```
 
 Run:
@@ -1764,6 +1759,7 @@ Document.ready? do
     
     # CSS Styles
     style {
+      # CSS can be included as a String as done below, or as Glimmer DSL for CSS syntax (Ruby code) as done in other samples
       <<~CSS
         input {
           margin: 5px;
@@ -2082,14 +2078,12 @@ Document.ready? do
       }
       
       style {
-        <<~CSS
-          #{address_div.selector} * {
-            margin: 5px;
-          }
-          #{address_div.selector} input, #{address_div.selector} select {
-            grid-column: 2;
-          }
-        CSS
+        r("#{address_div.selector} *") {
+          margin '5px'
+        }
+        r("#{address_div.selector} input, #{address_div.selector} select") {
+          grid_column '2'
+        }
       }
     }
   
@@ -2217,20 +2211,18 @@ Document.ready? do
               }
               
               style {
-                <<~CSS
-                  #{address_div.selector} {
-                    margin: 10px 0;
-                  }
-                  #{address_div.selector} * {
-                    margin: 5px;
-                  }
-                  #{address_div.selector} label {
-                    grid-column: 1;
-                  }
-                  #{address_div.selector} input, #{address_div.selector} select {
-                    grid-column: 2;
-                  }
-                CSS
+                r(address_div.selector) {
+                  margin '10px 0'
+                }
+                r("#{address_div.selector} *") {
+                  margin '5px'
+                }
+                r("#{address_div.selector} label") {
+                  grid_column '1'
+                }
+                r("#{address_div.selector} input, #{address_div.selector} select") {
+                  grid_column '2'
+                }
               }
             }
           }
@@ -2397,14 +2389,12 @@ class AddressForm
         }
         
         style {
-          <<~CSS
-            #{address_div.selector} * {
-              margin: 5px;
-            }
-            #{address_div.selector} input, #{address_div.selector} select {
-              grid-column: 2;
-            }
-          CSS
+          r("#{address_div.selector} *") {
+            margin '5px'
+          }
+          r("#{address_div.selector} input, #{address_div.selector} select") {
+            grid_column '2'
+          }
         }
       }
       
@@ -2646,14 +2636,12 @@ class AddressForm
         }
         
         style {
-          <<~CSS
-            #{address_div.selector} * {
-              margin: 5px;
-            }
-            #{address_div.selector} input, #{address_div.selector} select {
-              grid-column: 2;
-            }
-          CSS
+          r("#{address_div.selector} *") {
+            margin '5px'
+          }
+          r("#{address_div.selector} input, #{address_div.selector} select") {
+            grid_column '2'
+          }
         }
       }
       
@@ -2850,17 +2838,15 @@ Document.ready? do
       }
       
       style {
-        <<~CSS
-          #{container_div.selector} * {
-            margin: 5px;
-          }
-          #{container_div.selector} label {
-            grid-column: 1;
-          }
-          #{container_div.selector} input {
-            grid-column: 2;
-          }
-        CSS
+        r("#{container_div.selector} *") {
+          margin '5px'
+        }
+        r("#{container_div.selector} label") {
+          grid_column '1'
+        }
+        r("#{container_div.selector} input") {
+          grid_column '2'
+        }
       }
     }
   }

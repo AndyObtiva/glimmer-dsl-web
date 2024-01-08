@@ -156,15 +156,15 @@ Document.ready? do
         }
       }
       
+      # Programmable CSS using Glimmer DSL for CSS
       style {
-        <<~CSS
-          #{address_div.selector} * {
-            margin: 5px;
-          }
-          #{address_div.selector} input, #{address_div.selector} select {
-            grid-column: 2;
-          }
-        CSS
+        # `r` is an alias for `rule`, generating a CSS rule
+        r("#{address_div.selector} *") {
+          margin '5px'
+        }
+        r("#{address_div.selector} input, #{address_div.selector} select") {
+          grid_column '2'
+        }
       }
     }
   

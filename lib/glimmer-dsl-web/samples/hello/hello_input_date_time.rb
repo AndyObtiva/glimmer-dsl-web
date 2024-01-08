@@ -100,17 +100,15 @@ Document.ready? do
       }
       
       style {
-        <<~CSS
-          #{container_div.selector} * {
-            margin: 5px;
-          }
-          #{container_div.selector} label {
-            grid-column: 1;
-          }
-          #{container_div.selector} input {
-            grid-column: 2;
-          }
-        CSS
+        r("#{container_div.selector} *") {
+          margin '5px'
+        }
+        r("#{container_div.selector} label") {
+          grid_column '1'
+        }
+        r("#{container_div.selector} input") {
+          grid_column '2'
+        }
       }
     }
   }
