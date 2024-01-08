@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.1.1
+
+- Upgrade to opal-jquery 0.5.1 (adds `# backtick_javascript: true` where needed to satisfy new Opal requirement)
+- Upgrade to opal-async 1.4.1 (adds `# backtick_javascript: true` where needed to satisfy new Opal requirement)
+
 ## 0.1.0
 
 - Update rendering system to render HTML elements immediately instead of waiting for complete components to be rendered all at once.

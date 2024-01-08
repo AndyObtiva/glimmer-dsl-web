@@ -253,7 +253,6 @@ module Glimmer
         brand_new = @dom.nil? || old_element.empty? || !options[:parent].to_s.empty? || brand_new
         build_dom(layout: !custom_parent_dom_element) # TODO handle custom parent layout by passing parent instead of parent dom element
         if brand_new
-          # TODO make a method attach to allow subclasses to override if needed
           attach(the_parent_dom_element)
         else
           reattach(old_element)
