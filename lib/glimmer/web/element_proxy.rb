@@ -274,6 +274,10 @@ module Glimmer
             content(&content_block)
           end
         end
+        # TODO replace following line with a method call like (`notify_listeners('on_render')`)
+        listeners_for('on_render').each do |listener|
+          listener.original_event_listener.call(EventProxy.new(listener: listener))
+        end
       end
       alias rerender render
         

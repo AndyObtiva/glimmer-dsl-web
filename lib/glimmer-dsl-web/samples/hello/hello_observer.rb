@@ -37,6 +37,8 @@ class HelloObserver
   end
   
   after_render do
+    @number_input.value = @number_holder.number
+    @range_input.value = @number_holder.number
     # Observe Model attribute @number_holder.number for changes and update View
     # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
     # or its top-level element
@@ -54,7 +56,7 @@ class HelloObserver
   markup {
     div {
       div {
-        @number_input = input(type: 'number', value: @number_holder.number, min: 0, max: 100) {
+        @number_input = input(type: 'number', min: 0, max: 100) {
           # oninput listener updates Model attribute @number_holder.number
           oninput do
             @number_holder.number = @number_input.value.to_i
@@ -68,7 +70,7 @@ class HelloObserver
         }
       }
       div {
-        @range_input = input(type: 'range', value: @number_holder.number, min: 0, max: 100) {
+        @range_input = input(type: 'range', min: 0, max: 100) {
           # oninput listener updates Model attribute @number_holder.number
           oninput do
             @number_holder.number = @range_input.value.to_i

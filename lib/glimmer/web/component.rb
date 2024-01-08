@@ -214,7 +214,12 @@ module Glimmer
         @markup_root.options[:parent] = options[:parent] if !options[:parent].nil?
         @parent ||= @markup_root.parent
         raise Glimmer::Error, 'Invalid Glimmer web component for having an empty markup! Please fill markup block!' if @markup_root.nil?
-        execute_hooks('after_render')
+        if options[:render] != false
+          execute_hooks('after_render')
+        else
+          on_render_listener = proc { execute_hooks('after_render') }
+          @markup_root.handle_observation_request('on_render', on_render_listener)
+        end
         
         # TODO adapt for web
         observer_registration_cleanup_listener = proc do

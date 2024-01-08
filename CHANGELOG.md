@@ -4,6 +4,7 @@
 
 - Update rendering system to render HTML elements immediately instead of waiting for complete components to be rendered all at once.
 - Support `render: false` option in any element or component to avoid rendering when building the elements/components (including a Component#create alternative to Component#render that defers rendering if needed).
+- Fix `Glimmer::Web::Component` `after_render` hook by ensuring it only fires after the component markup has been rendered
 
 ## 0.0.12
 
