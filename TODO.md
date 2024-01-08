@@ -6,10 +6,15 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.1.1
 
-- Update setup instructions to avoid deleting directories/files if possible (maybe disable their code instead) to allow people to use this library in addition to their existing JS code.
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
+
+### 0.1.2
+
+- Consider optimizing performance by avoiding use of glimmer-dsl-xml for rendering dom
+- Consider optimizing performance by generating methods for every html element to bypass the dsl chain of command
+- Consider ensuring display of elements immediately upon render by using setTimeout to render them (and perhaps limit that to 2nd level under root to avoid being too fine grained). Or you can have it render by accumulation count setting (like every 100 elements or every 1000 elements). Or you can do special rendering for controls that are known to contain a lot of things like `table`.
 
 ### 1.0.0
 
@@ -49,6 +54,7 @@ Example:
 
 - JavaScript Canvas API
 - Build a HTML to Glimmer GUI DSL converter to enable Software Engineers to reuse older HTML in a Glimmer DSL for Web app
+- Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
 
 ## Maybe
 
@@ -72,9 +78,6 @@ Example:
 - As an optimization in Content Data-Binding, consider saving rendered DOMs per model attribute values and reshowing them instead of recreating them.
 - As an optimization in Content Data-Binding, consider diffing, removing all listeners and re-installing listeners on the same elements.
 - Consider optimizing component rendering by pre-generating a component template, and copying (if/else conditions are simulated with show/hide on an element)
-- Consider optimizing performance by avoiding use of glimmer-dsl-xml for rendering dom
-- Consider optimizing performance by generating methods for every html element to bypass the dsl chain of command
-- Consider ensuring display of elements immediately upon render by using setTimeout to render them (and perhaps limit that to 2nd level under root to avoid being too fine grained). Or you can have it render by accumulation count setting (like every 100 elements or every 1000 elements). Or you can do special rendering for controls that are known to contain a lot of things like `table`.
 
 ## Issues
 

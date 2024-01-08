@@ -1191,26 +1191,28 @@ rails db:migrate
 Add the following to `config/routes.rb` inside the `Rails.application.routes.draw` block:
 
 ```ruby
-mount Glimmer::Engine => "/glimmer" # add on top
 root to: 'welcomes#index'
 ```
 
 Clear the file `app/views/welcomes/index.html.erb` completely from all content.
 
-Delete `app/javascript` directory
+Rename `app/assets/javascript/application.js.rb` file to `app/assets/javascript/opal_application.rb`.
 
 Rename `app/assets/javascript` directory to `app/assets/opal`.
 
-Add the following lines to `app/assets/config/manifest.js` (and delete their `javascript` equivalents):
+Edit `app/assets/config/manifest.js` and update `//= link_directory ../javascript .js` to `//= link_directory ../opal .js`:
 
 ```js
-//= link_tree ../../opal .js
 //= link_directory ../opal .js
 ```
 
-Rename `app/assets/opal/application.js.rb` to `app/assets/opal/application.rb`.
+Edit `app/views/layouts/application.html.erb` and update `<%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>` to `<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>`:
 
-Edit and replace `app/assets/opal/application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
+```erb
+<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>
+```
+
+Edit and replace `app/assets/opal/opal_application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
 
 ```ruby
 require 'glimmer-dsl-web' # brings opal and other dependencies automatically
@@ -1407,9 +1409,7 @@ rails db:migrate
 Add the following to `config/routes.rb` inside the `Rails.application.routes.draw` block:
 
 ```ruby
-mount Glimmer::Engine => "/glimmer" # add on top
 root to: 'welcomes#index'
-```
 ```
 
 Also, delete the following line:
@@ -1420,18 +1420,23 @@ Also, delete the following line:
 
 Clear the file `app/views/welcomes/index.html.erb` completely from all content.
 
+Rename `app/assets/javascript/application.js.rb` file to `app/assets/javascript/opal_application.rb`.
+
 Rename `app/assets/javascript` directory to `app/assets/opal`.
 
-Add the following lines to `app/assets/config/manifest.js` (and delete their `javascript` equivalents):
+Edit `app/assets/config/manifest.js` and update `//= link_directory ../javascript .js` to `//= link_directory ../opal .js`:
 
 ```js
-//= link_tree ../../opal .js
 //= link_directory ../opal .js
 ```
 
-Rename `app/assets/opal/application.js.rb` to `app/assets/opal/application.rb`.
+Edit `app/views/layouts/application.html.erb` and update `<%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>` to `<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>`:
 
-Edit and replace `app/assets/opal/application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below inside a `Document.ready? do; end` block):
+```erb
+<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>
+```
+
+Edit and replace `app/assets/opal/opal_application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
 
 ```ruby
 require 'glimmer-dsl-web' # brings opal and other dependencies automatically
