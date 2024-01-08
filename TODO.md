@@ -4,16 +4,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.1.0
-
-- It is incorrect to call before_render and after_render on component. .they're before_markup and after_markup
-
 ### 0.1.1
 
-- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
-- Add an example of form submitting via ajax request
-- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
-- Update setup instructions to avoid deleting directories/files if possible (maybe disable their code instead) to allow people to use this library in addition to their existing JS code.
 - Handle Opal warnings:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/timeout.rb:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- async/interval.rb:
@@ -28,6 +20,10 @@ warning: Backtick operator usage interpreted as intent to embed JavaScript; this
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/kernel.rb:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- opal/jquery/local_storage.rb:
 warning: Backtick operator usage interpreted as intent to embed JavaScript; this code will break in Opal 2.0; add a magic comment: `# backtick_javascript: true` -- glimmer/web/event_proxy.rb:
+- Update setup instructions to avoid deleting directories/files if possible (maybe disable their code instead) to allow people to use this library in addition to their existing JS code.
+- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
+- Add an example of form submitting via ajax request
+- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
 
 ### 1.0.0
 
@@ -53,7 +49,6 @@ Example:
 - Use descendants_tracker gem instead of implementing descendants manually
 - Document how to reuse Ruby code both server-side (backend) and client-side (frontend)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
-- Implement `DateTime#strptime` & `Date#strptime`
 - svg example
 - Consider keeping track of all Glimmer rendered elements on the page as Ruby view objects to be able to remove them cleanly including their observers
 - Consider keeping track of glimmer_component ID on the rendered component (though currently we can use parent to find it)
@@ -71,6 +66,7 @@ Example:
 
 ## Maybe
 
+- Implement `DateTime#strptime` & `Date#strptime` (unless the Opal project beats me to it)
 - Support data-binding fine-grained `style` CSS properties on element more conveniently like with `style.background somevalue`, `style-background somevalue`, `style { background something }`, or something similar.
 - `labeled_input` custom control (or simply support label as an option in `input`)
 - Consider supporting higher abstraction flavors of data-binding for various elements like `table` and `select`

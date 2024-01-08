@@ -98,5 +98,5 @@ Document.ready? do
         }
       CSS
     }
-  }.render
+  }
 end

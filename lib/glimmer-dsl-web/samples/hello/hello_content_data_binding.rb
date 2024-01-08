@@ -137,5 +137,5 @@ Document.ready? do
         end
       end
     }
-  }.render
+  }
 end

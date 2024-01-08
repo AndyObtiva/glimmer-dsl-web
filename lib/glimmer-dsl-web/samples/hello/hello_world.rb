@@ -26,5 +26,5 @@ include Glimmer
 Document.ready? do
   div {
     'Hello, World!'
-  }.render
+  }
 end

@@ -30,5 +30,5 @@ Document.ready? do
         $$.alert('Hello, Button!')
       end
     }
-  }.render
+  }
 end

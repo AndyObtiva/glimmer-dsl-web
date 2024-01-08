@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.1.0 (Early Alpha)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.1.0 (Beta)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -17,7 +17,7 @@ include Glimmer
 Document.ready? do
   div {
     'Hello, World!'
-  }.render
+  }
 end
 ```
 
@@ -49,7 +49,7 @@ Document.ready? do
         $$.alert('Hello, Button!')
       end
     }
-  }.render
+  }
 end
 ```
 
@@ -150,7 +150,7 @@ Document.ready? do
         }
       CSS
     }
-  }.render
+  }
 end
 ```
 
@@ -413,7 +413,7 @@ Document.ready? do
                       computed_by: @address.members + ['state_code'],
                     ]
     }
-  }.render
+  }
 end
 ```
 
@@ -548,7 +548,7 @@ Document.ready? do
         end
       end
     }
-  }.render
+  }
 end
 ```
 
@@ -1075,7 +1075,7 @@ Screenshot:
 
 --
 
-NOTE: Glimmer DSL for Web is an Early Alpha project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still an early alpha, so the more feedback and issues you report the better.
+NOTE: Glimmer DSL for Web is a Beta project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still a Beta, so the more feedback and issues you report the better.
 
 Learn more about the differences between various [Glimmer](https://github.com/AndyObtiva/glimmer) DSLs by looking at:
 
@@ -1083,7 +1083,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Table of Contents
 
-- [Glimmer DSL for Web](#-glimmer-dsl-for-opal-alpha-pure-ruby-web-gui)
+- [Glimmer DSL for Web](#)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
   - [Usage](#usage)
@@ -1123,7 +1123,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Setup
 
-(NOTE: Keep in mind this is an Early Alpha. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
+(NOTE: Keep in mind this is a Beta. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
 
 The [glimmer-dsl-web](https://rubygems.org/gems/glimmer-dsl-web) gem is a [Rails Engine](https://guides.rubyonrails.org/engines.html) gem that includes assets.
 
@@ -1249,7 +1249,7 @@ Document.ready? do
     label(class: 'greeting') {
       'Hello, World!'
     }
-  }.render
+  }
 end
 ```
 
@@ -1300,7 +1300,7 @@ Document.ready? do
     label(class: 'greeting') {
       'Hello, World!'
     }
-  }.render
+  }
 end
 ```
 
@@ -1463,7 +1463,7 @@ Document.ready? do
     label(class: 'greeting') {
       'Hello, World!'
     }
-  }.render
+  }
 end
 ```
 
@@ -1618,7 +1618,7 @@ include Glimmer
 Document.ready? do
   div {
     'Hello, World!'
-  }.render
+  }
 end
 ```
 
@@ -1640,7 +1640,7 @@ require 'glimmer-dsl-web'
 include Glimmer
 
 Document.ready? do
-  div('Hello, World!').render
+  div('Hello, World!')
 end
 ```
 
@@ -1672,7 +1672,7 @@ Document.ready? do
         $$.alert('Hello, Button!')
       end
     }
-  }.render
+  }
 end
 ```
 
@@ -1773,7 +1773,7 @@ Document.ready? do
         }
       CSS
     }
-  }.render
+  }
 end
 ```
 
@@ -2092,7 +2092,7 @@ Document.ready? do
                       computed_by: @address.members + ['state_code'],
                     ]
     }
-  }.render
+  }
 end
 ```
 
@@ -2227,7 +2227,7 @@ Document.ready? do
         end
       end
     }
-  }.render
+  }
 end
 ```
 
@@ -2853,7 +2853,7 @@ Document.ready? do
         CSS
       }
     }
-  }.render
+  }
 end
 ```
 

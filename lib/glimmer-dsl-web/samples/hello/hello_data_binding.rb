@@ -177,5 +177,5 @@ Document.ready? do
                       computed_by: @address.members + ['state_code'],
                     ]
     }
-  }.render
+  }
 end
