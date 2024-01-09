@@ -2,9 +2,10 @@
 
 ## 0.2.1
 
-- Optimize performance (~344% faster):
-  - Optimize performance (~20% faster) by not using glimmer-dsl-xml for rendering dom elements in the frontend as it is more suitable for backend rendering and we already have a separate dsl for the frontend
-  - Optimize performance (~287% faster) by adding Glimmer shortcut methods for all HTML element DSL keywords
+- Optimize performance (~800% faster):
+  - Optimize performance (~20% faster than 0.2.0) by not using glimmer-dsl-xml for rendering dom elements in the frontend as it is more suitable for backend rendering and we already have a separate dsl for the frontend
+  - Optimize performance (~287% faster than previous bullet point) by adding Glimmer shortcut methods for all HTML element DSL keywords
+  - Optimize performance (~235% faster than previous bullet point) by not selecting ElementProxy subclass dynamically for each element, yet always using ElementProxy
 
 ## 0.2.0
 

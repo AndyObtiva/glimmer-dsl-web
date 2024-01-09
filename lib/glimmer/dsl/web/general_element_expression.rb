@@ -8,7 +8,7 @@ module Glimmer
         include ParentExpression
 
         def interpret(parent, keyword, *args, &block)
-          Glimmer::Web::ElementProxy.for(keyword, parent, args, block)
+          Glimmer::Web::ElementProxy.new(keyword, parent, args, block)
         end
         
         def add_content(parent, keyword, *args, &block)
