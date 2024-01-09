@@ -31,11 +31,14 @@ module Glimmer
           ELEMENT_KEYWORDS.include?(keyword.to_s)
         end
       
+        # NOTE: Avoid using this method until we start supporting ElementProxy subclasses
+        # in which case, we must cache them to avoid the slow performance of element_type
         # Factory Method that translates a Glimmer DSL keyword into a ElementProxy object
         def for(keyword, parent, args, block)
           element_type(keyword).new(keyword, parent, args, block)
         end
         
+        # NOTE: Avoid using this method for now as it has slow performance
         # returns Ruby proxy class (type) that would handle this keyword
         def element_type(keyword)
           class_name_main = "#{keyword.camelcase(:upper)}Proxy"
