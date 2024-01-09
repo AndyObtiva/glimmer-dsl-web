@@ -77,7 +77,6 @@ else
       
   require 'glimmer/dsl/web/dsl'
   require 'glimmer/config/opal_logger'
-  require 'glimmer-dsl-xml'
   require 'glimmer-dsl-css'
   
   Glimmer::Config.loop_max_count = 50 # TODO consider disabling if preferred

@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
-- Consider optimizing performance by avoiding use of glimmer-dsl-xml for rendering dom
 - Consider optimizing performance by generating methods for every html element to bypass the dsl chain of command
 - Consider ensuring display of elements immediately upon render by using setTimeout to render them (and perhaps limit that to 2nd level under root to avoid being too fine grained). Or you can have it render by accumulation count setting (like every 100 elements or every 1000 elements). Or you can do special rendering for controls that are known to contain a lot of things like `table`.
 

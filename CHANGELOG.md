@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.1
+
+- Optimize performance by ~20% by not using glimmer-dsl-xml for rendering dom elements in the frontend as it is more suitable for backend rendering and we already have a separate dsl for the frontend
+
 ## 0.2.0
 
 - Support `style` element content as Glimmer DSL for CSS syntax (Ruby Programmable CSS) as an alternative to a CSS `String`

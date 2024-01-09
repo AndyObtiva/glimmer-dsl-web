@@ -21,6 +21,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require 'glimmer/web/element_proxy'
+
 module Glimmer
   module Web
     class FormattingElementProxy
@@ -43,10 +45,7 @@ module Glimmer
             content = args.first.to_s
           end
           attribute_hash = args.last.is_a?(Hash) ? args.last : {}
-          content_block = proc { content } unless content.nil?
-          html {
-            send(keyword, attribute_hash, &content_block)
-          }.to_s
+          ElementProxy.render_html(keyword, attribute_hash, content)
         end
       end
       

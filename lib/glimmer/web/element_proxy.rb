@@ -67,6 +67,19 @@ module Glimmer
         def widget_handling_listener
           @@widget_handling_listener
         end
+        
+        def render_html(element, attributes, content = nil)
+          attributes = attributes.reduce('') do |output, option_pair|
+            attribute, value = option_pair
+            value = value.to_s.sub('"', '&quot;').sub("'", '&apos;')
+            output += " #{attribute}=\"#{value}\""
+          end
+          if content.nil?
+            "<#{element}#{attributes} />"
+          else
+            "<#{element}#{attributes}>#{content}</#{element}>"
+          end
+        end
       end
       
       include Glimmer
@@ -318,11 +331,10 @@ module Glimmer
       def dom
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
         # TODO check if we need to avoid rendering content block if no content is available
-        @dom ||= html {
-          send(keyword, html_options) {
-            args.first if args.first.is_a?(String)
-          }
-        }.to_s
+        @dom ||= begin
+          content = args.first if args.first.is_a?(String)
+          ElementProxy.render_html(keyword, html_options, content)
+        end
       end
       
       def html_options
