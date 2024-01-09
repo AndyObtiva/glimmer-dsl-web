@@ -262,8 +262,7 @@ module Glimmer
           @parent = nil
         end
         the_parent_dom_element = custom_parent_dom_element || parent_dom_element
-        old_element = dom_element
-        brand_new = @dom.nil? || old_element.empty? || !options[:parent].to_s.empty? || brand_new
+        brand_new ||= @dom.nil? || !options[:parent].to_s.empty? || (old_element = dom_element).empty?
         build_dom(layout: !custom_parent_dom_element) # TODO handle custom parent layout by passing parent instead of parent dom element
         if brand_new
           attach(the_parent_dom_element)
@@ -323,9 +322,7 @@ module Glimmer
       
       def build_dom(layout: true)
         # TODO consider passing parent element instead and having table item include a table cell widget only for opal
-        @dom = nil
         @dom = dom # TODO unify how to build dom for most widgets based on element, id, and name (class)
-        @dom
       end
             
       def dom
