@@ -3,11 +3,13 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) while supporting both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). And, modular design is supported with [Glimmer Web Components](#hello-component). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+**(Based on Original [Glimmer](https://github.com/AndyObtiva/glimmer) Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
+
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). And, modular design is supported with [Glimmer Web Components](#hello-component). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 **Hello, World! Sample**
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -31,11 +33,13 @@ That produces the following under `<body></body>`:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
+You can also mount the `div` elsewhere by passing the `parent: parent_css_selector` option (e.g. `div(parent: 'div#app-container') { 'Hello, World!' }`).
+
 **Hello, Button!**
 
-Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to `window` to invoke functions like `alert`.
+Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to JS global scope from Ruby to invoke functions like `alert`.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -69,7 +73,7 @@ Screenshot:
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby GUI DSL.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -221,95 +225,11 @@ Screenshot:
 
 ![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
 
-**Hello, Observer!**
-
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component) (covered later), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support (covered later).
-
-Glimmer GUI code:
-
-```ruby
-require 'glimmer-dsl-web'
-
-class NumberHolder
-  attr_accessor :number
-  
-  def initialize
-    self.number = 50
-  end
-end
-
-class HelloObserver
-  include Glimmer::Web::Component
-  
-  before_render do
-    @number_holder = NumberHolder.new
-  end
-  
-  after_render do
-    @number_input.value = @number_holder.number
-    @range_input.value = @number_holder.number
-    # Observe Model attribute @number_holder.number for changes and update View
-    # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
-    # or its top-level element
-    observe(@number_holder, :number) do
-      number_string = @number_holder.number.to_s
-      @number_input.value = number_string unless @number_input.value == number_string
-      @range_input.value = number_string unless @range_input.value == number_string
-    end
-    # Bidirectional Data-Binding does the same thing automatically
-    # Just disable the observe block above as well as the oninput listeners below
-    # and enable the `value <=> [@number_holder, :number]` lines to try the data-binding version
-    # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
-  end
-  
-  markup {
-    div {
-      div {
-        @number_input = input(type: 'number', min: 0, max: 100) {
-          # oninput listener updates Model attribute @number_holder.number
-          oninput do
-            @number_holder.number = @number_input.value.to_i
-          end
-          
-          # Bidirectional Data-Binding simplifies the implementation significantly
-          # by enabling the following line and disabling oninput listeners as well
-          # as the after_body observe block observer
-          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
-#           value <=> [@number_holder, :number]
-        }
-      }
-      div {
-        @range_input = input(type: 'range', min: 0, max: 100) {
-          # oninput listener updates Model attribute @number_holder.number
-          oninput do
-            @number_holder.number = @range_input.value.to_i
-          end
-          
-          # Bidirectional Data-Binding simplifies the implementation significantly
-          # by enabling the following line and disabling oninput listeners as well
-          # as the after_body observe block observer
-          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
-#           value <=> [@number_holder, :number]
-        }
-      }
-    }
-  }
-end
-
-Document.ready? do
-  HelloObserver.render
-end
-```
-
-Screenshot:
-
-![Hello, Observer!](/images/glimmer-dsl-web-samples-hello-hello-observer.gif)
-
 **Hello, Data-Binding!**
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -428,7 +348,7 @@ If you need to regenerate HTML element content dynamically, you can use Content 
 rebuild HTML elements based on changes in a Model attribute that provides the source data.
 In this example, we generate multiple address forms based on the number of addresses the user has.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -561,11 +481,13 @@ You can define Glimmer web components (View components) to reuse visual concepts
 by simply defining a class with `include Glimmer::Web::Component` and encasing the reusable markup inside
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
-the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
-Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
+the `order_summary` keyword for reusing that component within the Glimmer GUI DSL). 
+You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` 
+Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
+Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -814,7 +736,7 @@ Rails View code:
 </div>
 ```
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend (`app/assets/opal/address_form.rb`):
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -979,7 +901,7 @@ Screenshot:
 
 **Hello, Paragraph!**
 
-To facilitate building formatted textual paragraphs in Ruby, the Glimmer GUI DSL is advanced enough to behave differently when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
+To facilitate building formatted textual paragraphs in Ruby, thanks to [Glimmer](https://github.com/AndyObtiva/glimmer#dsl-engine), the most advanced DSL engine in Ruby, the Glimmer GUI DSL is advanced enough to intelligently behave differently under different situations, like when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
 
 Instead of returning Ruby objects that are nested as children within their parent, the Glimmer GUI DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
 
@@ -1011,7 +933,7 @@ it returns a `String` to enable code like this:
 
 In any case, below is a full example leveraging the Glimmer GUI DSL alternative approach when utilizing formatting elements underneath a paragraph.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1068,6 +990,92 @@ Screenshot:
 
 ![Hello, Paragraph!](/images/glimmer-dsl-web-samples-hello-hello-paragraph.png)
 
+**Hello, Observer!**
+
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support.
+
+Glimmer GUI code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class NumberHolder
+  attr_accessor :number
+  
+  def initialize
+    self.number = 50
+  end
+end
+
+class HelloObserver
+  include Glimmer::Web::Component
+  
+  before_render do
+    @number_holder = NumberHolder.new
+  end
+  
+  after_render do
+    @number_input.value = @number_holder.number
+    @range_input.value = @number_holder.number
+    # Observe Model attribute @number_holder.number for changes and update View
+    # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
+    # or its top-level element
+    observe(@number_holder, :number) do
+      number_string = @number_holder.number.to_s
+      @number_input.value = number_string unless @number_input.value == number_string
+      @range_input.value = number_string unless @range_input.value == number_string
+    end
+    # Bidirectional Data-Binding does the same thing automatically
+    # Just disable the observe block above as well as the oninput listeners below
+    # and enable the `value <=> [@number_holder, :number]` lines to try the data-binding version
+    # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+  end
+  
+  markup {
+    div {
+      div {
+        @number_input = input(type: 'number', min: 0, max: 100) {
+          # oninput listener updates Model attribute @number_holder.number
+          oninput do
+            @number_holder.number = @number_input.value.to_i
+          end
+          
+          # Bidirectional Data-Binding simplifies the implementation significantly
+          # by enabling the following line and disabling oninput listeners as well
+          # as the after_body observe block observer
+          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+#           value <=> [@number_holder, :number]
+        }
+      }
+      div {
+        @range_input = input(type: 'range', min: 0, max: 100) {
+          # oninput listener updates Model attribute @number_holder.number
+          oninput do
+            @number_holder.number = @range_input.value.to_i
+          end
+          
+          # Bidirectional Data-Binding simplifies the implementation significantly
+          # by enabling the following line and disabling oninput listeners as well
+          # as the after_body observe block observer
+          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+#           value <=> [@number_holder, :number]
+        }
+      }
+    }
+  }
+end
+
+Document.ready? do
+  HelloObserver.render
+end
+```
+
+Screenshot:
+
+![Hello, Observer!](/images/glimmer-dsl-web-samples-hello-hello-observer.gif)
+
+To get started, [Setup](#setup) Ruby gem, read [Usage](#usage) instructions, and check out more [Samples](#samples).
+
 --
 
 NOTE: Glimmer DSL for Web is a Beta project. If you want it developed faster, please [open an issue report](https://github.com/AndyObtiva/glimmer-dsl-web/issues/new). I have completed some GitHub project features much faster before due to [issue reports](https://github.com/AndyObtiva/glimmer-dsl-web/issues) and [pull requests](https://github.com/AndyObtiva/glimmer-dsl-web/pulls). Please help make better by contributing, adopting for small or low risk projects, and providing feedback. It is still a Beta, so the more feedback and issues you report the better.
@@ -1114,13 +1122,11 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) will begin by supporting [Opal Ruby](https://opalrb.com/) on [Rails](https://rubyonrails.org/). [Opal](https://opalrb.com/) is a lightweight Ruby to JavaScript transpiler that results in small downloadables compared to WASM. In the future, the project might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
 
 - Ruby 3.0+
-- Rails 6-7: [https://github.com/rails/rails](https://github.com/rails/rails)
+- Rails 7: [https://github.com/rails/rails](https://github.com/rails/rails)
 
 ## Setup
 
 (NOTE: Keep in mind this is a Beta. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
-
-The [glimmer-dsl-web](https://rubygems.org/gems/glimmer-dsl-web) gem is a [Rails Engine](https://guides.rubyonrails.org/engines.html) gem that includes assets.
 
 ### Rails 7
 
@@ -1168,8 +1174,10 @@ Opal.append_path Rails.root.join('app', 'assets', 'opal')
 To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
 
 ```ruby
-  config.assets.debug = true
+  config.assets.debug = true if Rails.env.development?
 ```
+
+Assuming this is a brand new Rails application and you do not have any Rails resources, you can scaffold the welcome resource just for testing purposes.
 
 Run:
 
@@ -1233,7 +1241,7 @@ end
 
 Example to confirm setup is working:
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1284,7 +1292,7 @@ HTML:
 ...
 ```
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1336,6 +1344,8 @@ Note that Turbo is disabled on Glimmer elements/components. You can still use Tu
 If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake).
 
 Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
+
+Next, read [Usage](#usage) instructions, and check out [Samples](#samples).
 
 ### Rails 6
 
@@ -1389,8 +1399,10 @@ Opal.append_path Rails.root.join('app', 'assets', 'opal')
 To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
 
 ```ruby
-  config.assets.debug = true
+  config.assets.debug = true if Rails.env.development?
 ```
+
+Assuming this is a brand new Rails application and you do not have any Rails resources, you can scaffold the welcome resource just for testing purposes.
 
 Run:
 
@@ -1453,7 +1465,7 @@ Initial HTML Markup:
 ...
 ```
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1519,9 +1531,11 @@ If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Ra
 
 Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
 
+Next, read [Usage](#usage) instructions, and check out [Samples](#samples).
+
 ## Usage
 
-Glimmer DSL for Web offers a GUI DSL for building HTML Web User Interfaces declaratively in Ruby.
+Glimmer DSL for Web offers a GUI DSL ([Graphical User Interface](https://en.wikipedia.org/wiki/Graphical_user_interface) [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language)) for building HTML Web User Interfaces declaratively in Ruby.
 
 1- **Keywords (HTML Elements)**
 
@@ -1537,7 +1551,7 @@ Also, if the element has a little bit of text content that can fit in one line, 
 
 3- **Content Block (Properties + Listeners + Nested Elements + Text Content)**
 
-Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code (intentionally breaking away from Ruby imperative code conventions given this is a declarative GUI DSL, meaning a different language that has its own conventions, embedded within Ruby).
+Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code (intentionally breaking away from Ruby imperative code conventions given this is a declarative GUI DSL ([Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language)), meaning a different language that has its own conventions, embedded within Ruby).
 
 You can nest HTML element properties under an element like:
 
@@ -1591,6 +1605,8 @@ p(class: 'summary') {
 
 You can get/set any element property or invoke any element function by simply calling the lowercase underscored version of their name in Ruby like `input.check_validity`, `input.value`, and `input.id`.
 
+Next, check out [Samples](#samples).
+
 ## Supported Glimmer DSL Keywords
 
 [All HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element), following the Ruby method name standard of lowercase and underscored names.
@@ -1613,7 +1629,7 @@ https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
 #### Hello, World!
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1659,11 +1675,13 @@ That produces the following under `<body></body>`:
 
 ![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
 
+You can also mount the `div` elsewhere by passing the `parent: parent_css_selector` option (e.g. `div(parent: 'div#app-container') { 'Hello, World!' }`).
+
 #### Hello, Button!
 
-Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to `window` to invoke functions like `alert`.
+Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to JS global scope from Ruby to invoke functions like `alert`.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1697,7 +1715,7 @@ Screenshot:
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby GUI DSL.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1851,9 +1869,9 @@ Screenshot:
 
 #### Hello, Observer!
 
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component) (covered later), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support (covered later).
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1937,7 +1955,7 @@ Screenshot:
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -2110,7 +2128,7 @@ If you need to regenerate HTML element content dynamically, you can use Content 
 rebuild HTML elements based on changes in a Model attribute that provides the source data.
 In this example, we generate multiple address forms based on the number of addresses the user has.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -2244,10 +2262,12 @@ by simply defining a class with `include Glimmer::Web::Component` and encasing t
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
 that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
-Below, we define an `AddressForm` component that generates a `address_form` keyword, and then we
+You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` 
+Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
+Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -2496,7 +2516,7 @@ Rails View code:
 </div>
 ```
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend (`app/assets/opal/address_form.rb`):
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -2661,7 +2681,7 @@ Screenshot:
 
 #### Hello, Paragraph!
 
-To facilitate building formatted textual paragraphs in Ruby, the Glimmer GUI DSL is advanced enough to behave differently when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
+To facilitate building formatted textual paragraphs in Ruby, thanks to [Glimmer](https://github.com/AndyObtiva/glimmer#dsl-engine), the most advanced DSL engine in Ruby, the Glimmer GUI DSL is advanced enough to intelligently behave differently under different situations, like when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
 
 Instead of returning Ruby objects that are nested as children within their parent, the Glimmer GUI DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
 
@@ -2693,7 +2713,7 @@ it returns a `String` to enable code like this:
 
 In any case, below is a full example leveraging the Glimmer GUI DSL alternative approach when utilizing formatting elements underneath a paragraph.
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -2754,7 +2774,7 @@ Screenshot:
 
 #### Hello, Input (Date/Time)!
 
-Glimmer GUI code:
+Glimmer GUI code in the frontend:
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -2859,7 +2879,7 @@ Screenshot:
 
 #### Button Counter
 
-Glimmer GUI code demonstrating MVC + Glimmer Web Components (Views) + Data-Binding:
+Glimmer GUI code in the frontend demonstrating MVC + Glimmer Web Components (Views) + Data-Binding:
 
 ```ruby
 require 'glimmer-dsl-web'
