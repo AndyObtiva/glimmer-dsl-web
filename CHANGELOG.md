@@ -2,7 +2,9 @@
 
 ## 0.2.1
 
-- Optimize performance by ~20% by not using glimmer-dsl-xml for rendering dom elements in the frontend as it is more suitable for backend rendering and we already have a separate dsl for the frontend
+- Optimize performance (~344% faster):
+  - Optimize performance (~20% faster) by not using glimmer-dsl-xml for rendering dom elements in the frontend as it is more suitable for backend rendering and we already have a separate dsl for the frontend
+  - Optimize performance (~287% faster) by adding Glimmer shortcut methods for all HTML element DSL keywords
 
 ## 0.2.0
 

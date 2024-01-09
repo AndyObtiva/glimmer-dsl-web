@@ -16,3 +16,14 @@ module Glimmer
     end
   end
 end
+
+module Glimmer
+  # Optimize performance through shortcut methods for all HTML elements that circumvent the DSL chain of responsibility
+  element_expression = Glimmer::DSL::Web::ElementExpression.new
+  Glimmer::Web::ElementProxy::ELEMENT_KEYWORDS.each do |keyword|
+    Glimmer::DSL::Engine.static_expressions[keyword] ||= Concurrent::Hash.new
+    element_expression_dsl = element_expression.class.dsl
+    Glimmer::DSL::Engine.static_expressions[keyword][element_expression_dsl] = element_expression
+    Glimmer.send(:define_method, keyword, &Glimmer::DSL::Engine::STATIC_EXPRESSION_METHOD_FACTORY.call(keyword))
+  end
+end
