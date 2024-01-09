@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.2
+
+- Fix bug in content data-binding that was caused by recent performance optimizations (+ fix Hello, Content Data-Binding! sample)
+- Fix bug in rendering formatting elements that was caused by recent performance optimizations (+ fix Hello, Paragraph! sample)
+
 ## 0.2.1
 
 - Optimize performance (~800% faster):
