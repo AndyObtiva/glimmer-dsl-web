@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2024-01-11"
-  s.description = "Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library) enables building Web GUI frontends using Ruby in the Browser, as per Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with DSLs and TIMTOWTDI) and the Rails way (Convention over Configuration) while supporting both Unidirectional (One-Way) Data-Binding (using <=) and Bidirectional (Two-Way) Data-Binding (using <=>). Dynamic rendering (and re-rendering) of HTML content is also supported via Content Data-Binding. And, modular design is supported with Glimmer Web Components. You can finally live in pure Rubyland on the Web in both the frontend and backend with Glimmer DSL for Web! This library relies on Opal Ruby.".freeze
+  s.date = "2024-01-13"
+  s.description = "Glimmer DSL for Web (Ruby in the Browser Web GUI Frontend Library) enables building Web GUI frontends using Ruby in the Browser, as per Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with DSLs and TIMTOWTDI) and the Rails way (Convention over Configuration) in building Isomorphic Ruby on Rails Applications. It supports both Unidirectional (One-Way) Data-Binding (using <=) and Bidirectional (Two-Way) Data-Binding (using <=>). Dynamic rendering (and re-rendering) of HTML content is also supported via Content Data-Binding. And, modular design is supported with Glimmer Web Components. You can finally live in pure Rubyland on the Web in both the frontend and backend with Glimmer DSL for Web! This library relies on Opal Ruby.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [
     "CHANGELOG.md",
@@ -54,10 +54,9 @@ Gem::Specification.new do |s|
     "lib/glimmer/dsl/web/general_element_expression.rb",
     "lib/glimmer/dsl/web/listener_expression.rb",
     "lib/glimmer/dsl/web/observe_expression.rb",
-    "lib/glimmer/dsl/web/p_expression.rb",
     "lib/glimmer/dsl/web/property_expression.rb",
-    "lib/glimmer/dsl/web/select_expression.rb",
     "lib/glimmer/dsl/web/shine_data_binding_expression.rb",
+    "lib/glimmer/dsl/web/span_expression.rb",
     "lib/glimmer/dsl/web/style_expression.rb",
     "lib/glimmer/helpers/glimmer_helper.rb",
     "lib/glimmer/util/proc_tracker.rb",

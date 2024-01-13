@@ -371,6 +371,12 @@ module Glimmer
         @element_id ||= "element-#{ElementProxy.next_id_number_for(name)}"
       end
       
+      def class_name=(value)
+        value = value.is_a?(Array) ? value.join(' ') : value.to_s
+        new_class_name = "#{name} #{element_id} #{value}"
+        dom_element.prop('className', new_class_name)
+      end
+      
       def add_css_class(css_class)
         dom_element.add_class(css_class)
       end
