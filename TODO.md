@@ -25,7 +25,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
 - Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
-  
+- Optimize performance of formatting html elements by adding Glimmer DSL shortcut methods
+
 ### 1.0.0
 
 - Router support to enable friendly URLs when needed
