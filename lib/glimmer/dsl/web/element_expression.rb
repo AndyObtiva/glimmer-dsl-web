@@ -17,6 +17,10 @@ module Glimmer
   end
 end
 
+module Kernel
+  alias pi p
+end
+
 module Glimmer
   # Optimize performance through shortcut methods for all HTML elements that circumvent the DSL chain of responsibility
   element_expression = Glimmer::DSL::Web::ElementExpression.new

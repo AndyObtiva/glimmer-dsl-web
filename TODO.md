@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
+- Rename references of GUI DSL to HTML DSL
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
@@ -84,6 +85,7 @@ Example:
 - Support backend Glimmer GUI DSL syntax as a replacement for ERB (using Glimmer DSL for XML)
 - Optimize performance of registering dom listeners by including real oneveny attributes where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
 - Consider optimizing performance by building GUI with a render call that assembles html from all nested elements all at once
+- Consider idea of auto-routing with components by embedding component keyword and its args into URL path parameters (or serializing paramters and deserializing them)
 
 ## Issues
 

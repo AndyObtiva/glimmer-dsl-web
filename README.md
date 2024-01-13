@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.2 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.3 (Beta)
 ## Ruby in the Browser Web GUI Frontend Library
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -480,7 +480,7 @@ Screenshot:
 You can define Glimmer web components (View components) to reuse visual concepts to your heart's content,
 by simply defining a class with `include Glimmer::Web::Component` and encasing the reusable markup inside
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
-that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
+that match the underscored versions of the component class names (e.g. an `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL). 
 You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` 
 Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
@@ -1147,7 +1147,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.2.2'
+gem 'glimmer-dsl-web', '~> 0.2.3'
 ```
 
 Run:
@@ -1372,7 +1372,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.2.2'
+gem 'glimmer-dsl-web', '~> 0.2.3'
 ```
 
 Run:
@@ -2260,7 +2260,7 @@ Screenshot:
 You can define Glimmer web components (View components) to reuse visual concepts to your heart's content,
 by simply defining a class with `include Glimmer::Web::Component` and encasing the reusable markup inside
 a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
-that match the underscored versions of the component class names (e.g. a `OrderSummary` class yields
+that match the underscored versions of the component class names (e.g. an `OrderSummary` class yields
 the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
 You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` 
 Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).

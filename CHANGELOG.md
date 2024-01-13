@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.3
+
+- Alias `Kernel#p` as `Kernel#pi` (puts inspect) to allow using `pi` in place of `p` for printing inspected objects given that `p` is used up by the HTML DSL.
+- Remove `element` from dynamic part of Glimmer DSL to allow it to fail faster if an invalid HTML element name was used
+
 ## 0.2.2
 
 - Fix bug in content data-binding that was caused by recent performance optimizations (+ fix Hello, Content Data-Binding! sample)

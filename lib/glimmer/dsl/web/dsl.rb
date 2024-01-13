@@ -47,7 +47,6 @@ module Glimmer
          content_data_binding
          shine_data_binding
          formatting_element
-         element
        ]
       )
     end
