@@ -10,6 +10,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
+- Override Opal implementations of `puts`, `p`, and `pp` to utilize `console.log` directly on an object if it is not an Opal enhanced JS object
 
 ### 0.3.0
 
@@ -26,6 +27,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
 - Optimize performance of formatting html elements by adding Glimmer DSL shortcut methods
+- Supporting embedding consumer markup anywhere in a used component by supporting block properties
 
 ### 1.0.0
 
@@ -44,6 +46,7 @@ Example:
       }
     }
   end
+- Support Glimmer Web Component Slots
 
 ### 1.1.0
 
@@ -53,6 +56,7 @@ Example:
 
 - Support Ruby WASM: https://github.com/ruby/ruby.wasm
 - Consider removing Opal-jQuery if possible switching to pure JS Document calls via Opal, to allow supporting WASM with technology neutral code
+- Support integrating with official HTML Web Components to allow reusing Web Component libraries from Glimmer DSL for Web
 
 ## Future
 
@@ -83,10 +87,13 @@ Example:
 - Consider generating a nonce for style tags (elements)
 - Consider ensuring display of elements immediately upon render by using setTimeout to render them (and perhaps limit that to 2nd level under root to avoid being too fine grained). Or you can have it render by accumulation count setting (like every 100 elements or every 1000 elements). Or you can do special rendering for controls that are known to contain a lot of things like `table`.
 - Generate Rails scaffolding directly with Glimmer GUI DSL code
-- Support backend Glimmer GUI DSL syntax as a replacement for ERB (using Glimmer DSL for XML)
+- Support backend server-side rendering of Glimmer Web components to help with SEO purposes on certain pages
+- Use backend server-side rendering of Glimmer Web components in glimmer_component Rails helper with an option that would pre-render the HTML in the backend, and then augment it with JS behavior using Glimmer GUI DSL on the frontend
 - Optimize performance of registering dom listeners by including real oneveny attributes where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
 - Consider optimizing performance by building GUI with a render call that assembles html from all nested elements all at once
 - Consider idea of auto-routing with components by embedding component keyword and its args into URL path parameters (or serializing paramters and deserializing them)
+- Support automatically displaying a progress bar or circle when rendering a component (like a giant one that might take more than the tolerable 500ms.. although that should be rare)
+- Provide form helpers similar to ERB form helpers, but in Glimmer DSL
 
 ## Issues
 

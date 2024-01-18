@@ -5,7 +5,7 @@
 
 **(Based on Original [Glimmer](https://github.com/AndyObtiva/glimmer) Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). And, modular design is supported with [Glimmer Web Components](#hello-component). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web GUI frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend library in existence. The library follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). And, modular design is supported with [Glimmer Web Components](#hello-component). Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 **Hello, World! Sample**
 
@@ -71,7 +71,7 @@ Screenshot:
 
 **Hello, Form!**
 
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby GUI DSL.
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby HTML DSL.
 
 Glimmer GUI code in the frontend:
 
@@ -479,9 +479,9 @@ Screenshot:
 
 You can define Glimmer web components (View components) to reuse visual concepts to your heart's content,
 by simply defining a class with `include Glimmer::Web::Component` and encasing the reusable markup inside
-a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
+a `markup {...}` block. Glimmer web components automatically extend the Glimmer HTML DSL with new keywords
 that match the underscored versions of the component class names (e.g. an `OrderSummary` class yields
-the `order_summary` keyword for reusing that component within the Glimmer GUI DSL). 
+the `order_summary` keyword for reusing that component within the Glimmer HTML DSL). 
 You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` 
 Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
 Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
@@ -567,9 +567,9 @@ end
 # AddressForm Glimmer Web Component (View component)
 #
 # Including Glimmer::Web::Component makes this class a View component and automatically
-# generates a new Glimmer GUI DSL keyword that matches the lowercase underscored version
+# generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
 # of the name of the class. AddressForm generates address_form keyword, which can be used
-# elsewhere in Glimmer GUI DSL code as done inside AddressPage below.
+# elsewhere in Glimmer HTML DSL code as done inside AddressPage below.
 class AddressForm
   include Glimmer::Web::Component
   
@@ -901,9 +901,9 @@ Screenshot:
 
 **Hello, Paragraph!**
 
-To facilitate building formatted textual paragraphs in Ruby, thanks to [Glimmer](https://github.com/AndyObtiva/glimmer#dsl-engine), the most advanced DSL engine in Ruby, the Glimmer GUI DSL is advanced enough to intelligently behave differently under different situations, like when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
+To facilitate building formatted textual paragraphs in Ruby, thanks to [Glimmer](https://github.com/AndyObtiva/glimmer#dsl-engine), the most advanced DSL engine in Ruby, the Glimmer HTML DSL is advanced enough to intelligently behave differently under different situations, like when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
 
-Instead of returning Ruby objects that are nested as children within their parent, the Glimmer GUI DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
+Instead of returning Ruby objects that are nested as children within their parent, the Glimmer HTML DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
 
 This enables writing code like:
 
@@ -931,7 +931,7 @@ it returns a `String` to enable code like this:
 
 `p {"#{span('Yesterday, ', style: 'text-decoration: underline;')}Robert suggested adding a new #{em('feature', class: 'very-emphasized')} to our software product.#{br}}`
 
-In any case, below is a full example leveraging the Glimmer GUI DSL alternative approach when utilizing formatting elements underneath a paragraph.
+In any case, below is a full example leveraging the Glimmer HTML DSL alternative approach when utilizing formatting elements underneath a paragraph.
 
 Glimmer GUI code in the frontend:
 
@@ -1074,7 +1074,7 @@ Screenshot:
 
 ![Hello, Observer!](/images/glimmer-dsl-web-samples-hello-hello-observer.gif)
 
-To get started, [Setup](#setup) Ruby gem, read [Usage](#usage) instructions, and check out more [Samples](#samples).
+To get started, [Setup](#setup) Ruby gem, read [Usage](#usage) instructions, and check out more [Samples](#samples) (including playing around with a [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app)).
 
 --
 
@@ -1089,6 +1089,9 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 - [Glimmer DSL for Web](#)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
+    - [Rails 7](#rails-7)
+    - [Rails 6](#rails-6)
+    - [Standalone (No Rails)](#standalone-no-rails)
   - [Usage](#usage)
   - [Supported Glimmer DSL Keywords](#supported-glimmer-dsl-keywords)
   - [Coming from Glimmer DSL for Opal](#coming-from-glimmer-dsl-for-opal)
@@ -1126,11 +1129,13 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Setup
 
+You can setup Glimmer DSL for Web in [Rails 7](#rails-7), [Rails 6](#rails-6), or [Standalone (No Rails)](#standalone-no-rails).
+
 (NOTE: Keep in mind this is a Beta. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
 
 ### Rails 7
 
-Please follow the following steps to setup.
+Please follow these steps to setup.
 
 Install a Rails 7 gem:
 
@@ -1220,7 +1225,7 @@ Edit and replace `app/assets/opal/opal_application.rb` content with code below (
 ```ruby
 require 'glimmer-dsl-web' # brings opal and other dependencies automatically
 
-# Add more require-statements or Glimmer GUI DSL code
+# Add more require-statements or Glimmer HTML DSL code
 ```
 
 ```ruby
@@ -1229,7 +1234,7 @@ require 'glimmer-dsl-web'
 require 'glimmer-dsl-web/samples/hello/hello_world.rb'
 ```
 
-If the `<body></body>` element (where the Glimmer GUI DSL adds elements by default) is not available when the JS file is loading, you need to put the code inside a `Document.ready? do; end` (but, it is recommended that you load the JS file after the parent element like `<body></body>` is in the page already for faster performance, which is guaranteed automatically by using `glimmer_component`, mentioned in details below):
+If the `<body></body>` element (where the Glimmer HTML DSL adds elements by default) is not available when the JS file is loading, you need to put the code inside a `Document.ready? do; end` (but, it is recommended that you load the JS file after the parent element like `<body></body>` is in the page already for faster performance, which is guaranteed automatically by using `glimmer_component`, mentioned in details below):
 
 ```ruby
 require 'glimmer-dsl-web'
@@ -1349,7 +1354,7 @@ Next, read [Usage](#usage) instructions, and check out [Samples](#samples).
 
 ### Rails 6
 
-Please follow the following steps to setup.
+Please follow these steps to setup.
 
 Install a Rails 6 gem:
 
@@ -1451,7 +1456,7 @@ Edit and replace `app/assets/opal/opal_application.rb` content with code below (
 ```ruby
 require 'glimmer-dsl-web' # brings opal and other dependencies automatically
 
-# Add more require-statements or Glimmer GUI DSL code
+# Add more require-statements or Glimmer HTML DSL code
 ```
 
 Example to confirm setup is working:
@@ -1533,9 +1538,15 @@ Otherwise, if you still cannot setup successfully (even with the help of the sam
 
 Next, read [Usage](#usage) instructions, and check out [Samples](#samples).
 
+### Standalone (No Rails)
+
+Andreas Idogawa-Wildi ([@Largo](https://github.com/Largo)) created a project that demonstrates how to use Glimmer DSL for Web standalone (without Rails):
+
+[https://github.com/Largo/glimmer-dsl-web-standalone-demo](https://github.com/Largo/glimmer-dsl-web-standalone-demo)
+
 ## Usage
 
-Glimmer DSL for Web offers a GUI DSL ([Graphical User Interface](https://en.wikipedia.org/wiki/Graphical_user_interface) [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language)) for building HTML Web User Interfaces declaratively in Ruby.
+Glimmer DSL for Web offers a HTML DSL ([Graphical User Interface](https://en.wikipedia.org/wiki/Graphical_user_interface) [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language)) for building HTML Web User Interfaces declaratively in Ruby.
 
 1- **Keywords (HTML Elements)**
 
@@ -1551,7 +1562,7 @@ Also, if the element has a little bit of text content that can fit in one line, 
 
 3- **Content Block (Properties + Listeners + Nested Elements + Text Content)**
 
-Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code (intentionally breaking away from Ruby imperative code conventions given this is a declarative GUI DSL ([Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language)), meaning a different language that has its own conventions, embedded within Ruby).
+Element methods can accept a Ruby content block. It intentionally has a `{...}` style even as a multi-line block to indicate that the code is declarative GUI structure code (intentionally breaking away from Ruby imperative code conventions given this is a declarative HTML DSL ([Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language)), meaning a different language that has its own conventions, embedded within Ruby).
 
 You can nest HTML element properties under an element like:
 
@@ -1617,7 +1628,7 @@ Next, check out [Samples](#samples).
 
 ## Coming from Glimmer DSL for Opal
 
-This project is inspired by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby. [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby to facilitate leveraging existing HTML/CSS/JS skills instead of adopting a desktop GUI DSL that is webified. As a result, applications written in Glimmer DSL for Opal are not compatible with Glimmer DSL for Web.
+This project is inspired by [Glimmer DSL for Opal](https://github.com/AndyObtiva/glimmer-dsl-opal) and is similar in enabling frontend GUI development with Ruby. [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) mainly differs from Glimmer DSL for Opal by adopting a DSL that follows web-like HTML syntax in Ruby to facilitate leveraging existing HTML/CSS/JS skills instead of adopting a desktop HTML DSL that is webified. As a result, applications written in Glimmer DSL for Opal are not compatible with Glimmer DSL for Web.
 
 ## Samples
 
@@ -1713,7 +1724,7 @@ Screenshot:
 
 #### Hello, Form!
 
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby GUI DSL.
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby HTML DSL.
 
 Glimmer GUI code in the frontend:
 
@@ -2259,9 +2270,9 @@ Screenshot:
 
 You can define Glimmer web components (View components) to reuse visual concepts to your heart's content,
 by simply defining a class with `include Glimmer::Web::Component` and encasing the reusable markup inside
-a `markup {...}` block. Glimmer web components automatically extend the Glimmer GUI DSL with new keywords
+a `markup {...}` block. Glimmer web components automatically extend the Glimmer HTML DSL with new keywords
 that match the underscored versions of the component class names (e.g. an `OrderSummary` class yields
-the `order_summary` keyword for reusing that component within the Glimmer GUI DSL).
+the `order_summary` keyword for reusing that component within the Glimmer HTML DSL).
 You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` 
 Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
 Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
@@ -2347,9 +2358,9 @@ end
 # AddressForm Glimmer Web Component (View component)
 #
 # Including Glimmer::Web::Component makes this class a View component and automatically
-# generates a new Glimmer GUI DSL keyword that matches the lowercase underscored version
+# generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
 # of the name of the class. AddressForm generates address_form keyword, which can be used
-# elsewhere in Glimmer GUI DSL code as done inside AddressPage below.
+# elsewhere in Glimmer HTML DSL code as done inside AddressPage below.
 class AddressForm
   include Glimmer::Web::Component
   
@@ -2681,9 +2692,9 @@ Screenshot:
 
 #### Hello, Paragraph!
 
-To facilitate building formatted textual paragraphs in Ruby, thanks to [Glimmer](https://github.com/AndyObtiva/glimmer#dsl-engine), the most advanced DSL engine in Ruby, the Glimmer GUI DSL is advanced enough to intelligently behave differently under different situations, like when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
+To facilitate building formatted textual paragraphs in Ruby, thanks to [Glimmer](https://github.com/AndyObtiva/glimmer#dsl-engine), the most advanced DSL engine in Ruby, the Glimmer HTML DSL is advanced enough to intelligently behave differently under different situations, like when using HTML formatting elements: `<br>`, `<strong>`, `<em>`, `<br>`, `<i>`, `<sub>`, `<sup>`, `<del>`, `<ins>`, `<small>`, `<mark>`
 
-Instead of returning Ruby objects that are nested as children within their parent, the Glimmer GUI DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
+Instead of returning Ruby objects that are nested as children within their parent, the Glimmer HTML DSL returns `String` objects directly that can be concatenated to or embedded within other `String` objects via interpolation.
 
 This enables writing code like:
 
@@ -2711,7 +2722,7 @@ it returns a `String` to enable code like this:
 
 `p {"#{span('Yesterday, ', style: 'text-decoration: underline;')}Robert suggested adding a new #{em('feature', class: 'very-emphasized')} to our software product.#{br}}`
 
-In any case, below is a full example leveraging the Glimmer GUI DSL alternative approach when utilizing formatting elements underneath a paragraph.
+In any case, below is a full example leveraging the Glimmer HTML DSL alternative approach when utilizing formatting elements underneath a paragraph.
 
 Glimmer GUI code in the frontend:
 
@@ -2958,7 +2969,7 @@ Screenshot:
 
 - The Ruby Way (including TIMTOWTDI: There Is More Than One Way To Do It)
 - The Rails Way Convention over Configuration via smart defaults and automation of low-level details
-- Requiring the least amount of syntax possible to build highly interactive web pages
+- Requiring the least amount of code possible to build highly interactive web pages
 - Declarative syntax that visually maps to the DOM (Document Object Model) hierarchy
 - Ability to mix declarative and imperative code conveniently in one language
 - Computers serve Software Engineers (not Software Engineers serve Computers)
