@@ -6,7 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
-- Rename references of GUI DSL to HTML DSL
+- Fix issue with Content Data-Binding when used from inside a `Glimmer::Web::Component`
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
@@ -28,6 +28,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
 - Optimize performance of formatting html elements by adding Glimmer DSL shortcut methods
 - Supporting embedding consumer markup anywhere in a used component by supporting block properties
+- Support integration with standard HTML Web Components
+- Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
 
 ### 1.0.0
 
@@ -51,6 +53,13 @@ Example:
 ### 1.1.0
 
 - Generate backend Rails views with Glimmer DSL for XML syntax as a Ruby alternative to ERB
+
+### 1.2.0
+
+- Server-Side Rendering of Glimmer Web Components that were designed originally for the Frontend, with automatic hydration upon rendering (hooking event listeners and data-bindings) [enable isomorphism by either supporting a server-side code path checker (`server?` and `client?`), or by enabling the import of js libraries in a flexible way that would make the code still work if a js library is not available in the backend). Start by supporting component options that are primitive data types (e.g. `String`, `Boolean`, `Integer`, etc...)
+- Support Server-Side Rendering of Components with automatically serialized/unserialized objects using YAML or [YASL](https://rubygems.org/gems/yasl)
+- Automatically generate Rails Model forms with an authenticity token correctly
+- Smart form components that can automatically generate the name attributes for a Rails model just like the Rails form helpers
 
 ### 2.0.0
 
