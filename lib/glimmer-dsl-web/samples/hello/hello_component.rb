@@ -96,9 +96,9 @@ end
 # AddressForm Glimmer Web Component (View component)
 #
 # Including Glimmer::Web::Component makes this class a View component and automatically
-# generates a new Glimmer GUI DSL keyword that matches the lowercase underscored version
+# generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
 # of the name of the class. AddressForm generates address_form keyword, which can be used
-# elsewhere in Glimmer GUI DSL code as done inside AddressPage below.
+# elsewhere in Glimmer HTML DSL code as done inside AddressPage below.
 class AddressForm
   include Glimmer::Web::Component
   
