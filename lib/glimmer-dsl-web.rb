@@ -64,6 +64,7 @@ else
   require 'glimmer'
   require 'glimmer-dsl-web/ext/exception'
   require 'glimmer-dsl-web/ext/date'
+  require 'glimmer-dsl-web/ext/kernel'
   
   # Spiking async logging
 #   logger = Glimmer::Config.logger

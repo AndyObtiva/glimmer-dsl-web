@@ -316,11 +316,16 @@ module Glimmer
       
       # Returns content block if used as an attribute reader (no args)
       # Otherwise, if a block is passed, it adds it as content to this Glimmer web component
-      def content(&block)
-        if block_given?
-          Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ComponentExpression.new, self.class.keyword, &block)
+      def content(*args, &block)
+        if args.empty?
+          if block_given?
+            Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ComponentExpression.new, self.class.keyword, &block)
+          else
+            @content
+          end
         else
-          @content
+          # delegate to GUI DSL ContentExpression
+          super
         end
       end
 

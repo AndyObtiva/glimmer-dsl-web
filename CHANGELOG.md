@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.4
+
+- Enhance `Kernel#puts` & `Kernel#p` to enable printing any native JS object with `console.log` (without having to manually wrap with `Native`)
+- Support Content Data-Binding from inside a `Glimmer::Web::Component`
+
 ## 0.2.3
 
 - Ensure that setting `element.class_name=classnameval` does not override its Glimmer built-in CSS classes

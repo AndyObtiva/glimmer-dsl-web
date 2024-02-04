@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
-- Fix issue with Content Data-Binding when used from inside a `Glimmer::Web::Component`
 - Add an example of talking to web APIs to populate GUI data via read-only ajax requests
 - Add an example of form submitting via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
@@ -103,6 +102,7 @@ Example:
 - Consider idea of auto-routing with components by embedding component keyword and its args into URL path parameters (or serializing paramters and deserializing them)
 - Support automatically displaying a progress bar or circle when rendering a component (like a giant one that might take more than the tolerable 500ms.. although that should be rare)
 - Provide form helpers similar to ERB form helpers, but in Glimmer DSL
+- Consider providing Serializer support in the backend that would yield the same models used in the Frontend 
 
 ## Issues
 
