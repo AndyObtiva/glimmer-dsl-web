@@ -5,7 +5,7 @@
 
 **(Based on Original [Glimmer](https://github.com/AndyObtiva/glimmer) Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). And, modular design is supported with [Glimmer Web Components](#hello-component). Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 **Hello, World! Sample**
 
@@ -1632,9 +1632,11 @@ This project is inspired by [Glimmer DSL for Opal](https://github.com/AndyObtiva
 
 ## Samples
 
-This external sample app contains all the samples mentioned below configured inside a Rails [Opal](https://opalrb.com/) app with all the prerequisites ready to go for convenience:
+This external Sample Selector app, which is built using Glimmer DSL for Web, contains all the samples mentioned below configured inside a Rails [Opal](https://opalrb.com/) app with all the prerequisites ready to go for convenience:
 
 https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
+
+![Sample Selector](https://raw.githubusercontent.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/master/sample-glimmer-dsl-web-rails7-app.png)
 
 ### Hello Samples
 
