@@ -1636,6 +1636,8 @@ This external sample app contains all the samples mentioned below configured ins
 
 https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
+![Sample Selector](https://raw.githubusercontent.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/master/sample-glimmer-dsl-web-rails7-app.png)
+
 ### Hello Samples
 
 #### Hello, World!
