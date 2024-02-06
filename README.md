@@ -1632,7 +1632,7 @@ This project is inspired by [Glimmer DSL for Opal](https://github.com/AndyObtiva
 
 ## Samples
 
-This external sample app, which is built using Glimmer DSL for Web, contains all the samples mentioned below configured inside a Rails [Opal](https://opalrb.com/) app with all the prerequisites ready to go for convenience:
+This external Sample Selector app, which is built using Glimmer DSL for Web, contains all the samples mentioned below configured inside a Rails [Opal](https://opalrb.com/) app with all the prerequisites ready to go for convenience:
 
 https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
