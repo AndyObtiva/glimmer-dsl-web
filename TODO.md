@@ -6,10 +6,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
-- Add an example of talking to web APIs to populate GUI data via read-only ajax requests
-- Add an example of form submitting via ajax request
+- Add an example of form submission via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
-- Override Opal implementations of `puts`, `p`, and `pp` to utilize `console.log` directly on an object if it is not an Opal enhanced JS object
 
 ### 0.3.0
 
