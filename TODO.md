@@ -27,6 +27,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Supporting embedding consumer markup anywhere in a used component by supporting block properties
 - Support integration with standard HTML Web Components
 - Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
+- Add nice CSS styling to some examples
 
 ### 1.0.0
 
@@ -100,7 +101,7 @@ Example:
 - Consider idea of auto-routing with components by embedding component keyword and its args into URL path parameters (or serializing paramters and deserializing them)
 - Support automatically displaying a progress bar or circle when rendering a component (like a giant one that might take more than the tolerable 500ms.. although that should be rare)
 - Provide form helpers similar to ERB form helpers, but in Glimmer DSL
-- Consider providing Serializer support in the backend that would yield the same models used in the Frontend 
+- Consider providing Serializer support in the backend that would yield the same models used in the Frontend
 
 ## Issues
 

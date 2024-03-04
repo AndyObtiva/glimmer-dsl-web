@@ -1,5 +1,3 @@
-# backtick_javascript: true
-
 # Copyright (c) 2023-2024 Andy Maleh
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -21,24 +19,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module ::Kernel
-  # TODO contribute to Opal
-  alias puts_without_glimmer puts
-  def puts(*strs)
-    puts_without_glimmer(*strs)
-  rescue Exception
-    strs.each do |str|
-      `console.log(#{str})`
-    end
+require 'glimmer-dsl-web'
+
+require_relative 'hello_form_mvp/presenters/hello_form_mvp_presenter'
+
+require_relative 'hello_form_mvp/views/contact_form'
+require_relative 'hello_form_mvp/views/contact_table'
+
+class HelloFormMvp
+  include Glimmer::Web::Component
+  
+  before_render do
+    @presenter = HelloFormMvpPresenter.new
   end
   
-  # TODO contribute to Opal
-  alias p_without_glimmer p
-  def p(*args)
-    p_without_glimmer(*args)
-  rescue Exception
-    args.each do |arg|
-      `console.log(#{arg})`
-    end
-  end
+  markup {
+    div {
+      h1('Contact Form')
+      
+      contact_form(presenter: @presenter)
+      
+      h1('Contacts Table')
+      
+      contact_table(presenter: @presenter)
+    }
+  }
+end
+
+Document.ready? do
+  HelloFormMvp.render
 end
