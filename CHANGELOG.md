@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.5
+
+- Support `Element#class_name` as an alternative to `Element#class` because `class` is a reserved method in Ruby
+- Handle case of data-binding an element that has no `type` attribute
+- Hello, Form MVP! Sample: `require 'glimmer-dsl-web/samples/hello/hello_form_mvp'`
+
 ## 0.2.4
 
 - Enhance `Kernel#puts` & `Kernel#p` to enable printing any native JS object with `console.log` (without having to manually wrap with `Native`)
