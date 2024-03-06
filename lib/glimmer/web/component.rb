@@ -49,6 +49,7 @@ module Glimmer
             def_option_attr_accessors(new_options)
           end
         end
+        alias attributes options
 
         def option(new_option, default: nil)
           new_option = new_option.to_s.to_sym
@@ -58,6 +59,7 @@ module Glimmer
           'def_option_attr_accessors(new_options)'
           def_option_attr_accessors(new_options)
         end
+        alias attribute option
 
         def def_option_attr_accessors(new_options)
           new_options.each do |option, default|
