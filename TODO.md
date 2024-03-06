@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
+- Alias `option` as `attribute` in Glimmer::Web::Component
 - Add an example of form submission via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
 
@@ -28,6 +29,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Support integration with standard HTML Web Components
 - Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
 - Add nice CSS styling to some examples
+- Resolve namespaced components by preferring the current namespace module we are in first if no namespace was specified
 
 ### 1.0.0
 
