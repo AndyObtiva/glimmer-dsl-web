@@ -1,5 +1,6 @@
 # [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.4 (Beta)
-## Ruby in the Browser Web Frontend Framework
+## Ruby in the Browser Web Frontend Framework 
+### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -7,11 +8,21 @@
 
 **(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) & [Frontend Ruby with Glimmer DSL for Web](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE))**
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
 
-(Attention Software Engineers, Bloggers, and Contributors: Please try Glimmer DSL for Web in a low-risk project, blog about it, and submit a PR with your article, project, and/or open-source-repo added to the README. Also, I give everyone permission to present about this project at their local Ruby user group, local Software Engineering meetup, or Software Conference. I am only willing to present at Software Conferences in North America or Japan (the birthplace of Ruby). If you want to have this project presented elsewhere, like in Europe or South America, feel free to prepare and give your own presentation of the project, and if needed, hit me up for help on [Glimmer Gitter chat](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge))
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based drop-in replacement for your existing JavaScript Frontend library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make Ajax HTTP requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make Ajax HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_selector_presenter.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb).
+
+After looking through the [samples](#samples) below, read the [FAQ (Frequently Asked Questions)](#faq) to learn more about how Glimmer DSL for Web compares to other approaches/libraries like Hotwire (Turbo), Phlex, ViewComponent, Angular, Vue, React, Svelte, and other JS frameworks.
+
+Anyone not considering this kind of technology in 2024 is like someone stuck in the dark ages riding horse carriage (e.g. JavaScript developers using frameworks like React) despite flying cars having been invented already and providing exponential jumps in productivity (way more than small linear jumps provided by some JavaScript libraries). Obviously, those who do make this jump will end up winning their work over from customers and beating the competition while delivering the best Frontend value possible to customers.
+
+(Attention Software Engineers, Bloggers, and Contributors: Please use Glimmer DSL for Web in web projects, blog about it, and submit a PR with your article, project, and/or open-source-repo added to the README. Also, I give everyone permission to present this project at their local Ruby user group, local Software Engineering meetup, or Software Conferences outside of North America (e.g. Europe). I am willing to present at Software Conferences in North America and Japan (the birthplace of Ruby) only. If you want to have this project presented elsewhere, like in Europe or South America, feel free to prepare and give your own presentations of the project, and if needed, hit me up for help on the [Glimmer Gitter chat](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge))
 
 **Hello, World! Sample**
+
+(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -40,6 +51,8 @@ That produces the following under `<body></body>`:
 You can also mount the `div` elsewhere by passing the `parent: parent_css_selector` option (e.g. `div(parent: 'div#app-container') { 'Hello, World!' }`).
 
 **Hello, Button!**
+
+(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to JS global scope from Ruby to invoke functions like `alert`.
 
@@ -74,6 +87,8 @@ Screenshot:
 ![Hello, Button!](/images/glimmer-dsl-web-samples-hello-hello-button.gif)
 
 **Hello, Form!**
+
+(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby HTML DSL. Also, you can apply CSS styles by including directly in Ruby code as a string, using [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css), or managing CSS completely separately using something like [SCSS](https://sass-lang.com/). The CSS techniques could be combined as well, like by managing common reusable CSS styles separately in SCSS, but adding component specific CSS styles in Ruby when it is more convenient.
 
@@ -231,6 +246,8 @@ Screenshot:
 
 **Hello, Data-Binding!**
 
+(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
+
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
 
 Glimmer HTML DSL Ruby code in the frontend:
@@ -347,6 +364,8 @@ Screenshot:
 ![Hello, Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-data-binding.gif)
 
 **Hello, Content Data-Binding!**
+
+(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 If you need to regenerate HTML element content dynamically, you can use Content Data-Binding to effortlessly
 rebuild HTML elements based on changes in a Model attribute that provides the source data.
@@ -2998,11 +3017,35 @@ Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/maste
 
 ## Help
 
+### FAQ
+
+F.A.Q. (Frequently Asked Questions):
+
+**How does Glimmer DSL for Web compare to Rails Hotwire (Turbo)?**
+
+Glimmer DSL for Web is a Frontend library, meaning it replaces the JavaScript layer in a web application (e.g. Rails app) with Ruby code. On the other hand, Rails Hotwire (Turbo) is mostly a Backend-driven technology that enables automatically replacing HTML DOM elements with HTML markup sent over the wire from a Rails Backend. So, the two technologies are mostly orthogonal, but can be used in the same Rails web application, albeit exclusively on separate web pages at the moment. In the future, we might explore supporting the ability to combine both technologies in the same pages, but until then, use on separate pages. Glimmer DSL for Web can handle any sort of Frontend interactions even without making HTTP calls to the Backend, so it can implement more use-cases than Hotwire. Using Glimmer DSL for Web with Rails API end-points is simpler than using Hotwire overall. That is because Glimmer Content Data-Binding is a simpler version of Turbo Frames that does not require worrying about setting and using element IDs (as that is handled automatically) and that operates at a more correct abstraction level for how we think about View component updates in relation to Model changes (we make updates at the Model layer, and they automatically get reflected in the View through data-binding). Also, Glimmer DSL for Web supports Glimmer Web Components, which enable better division of View code with higher readability than ERB. It is true that Hotwire is an improvement over using JavaScript frameworks like React when there is not much logic beyond updating elements with Server-Side rendered HTML. And, Glimmer DSL for Web is the next big advancement that brings a big improvement over the Hotwire approach.
+
+**How does Glimmer DSL for Web compare to Phlex or ViewComponent?**
+
+Glimmer DSL for Web is a Frontend library, meaning it replaces the JavaScript layer in a web application (e.g. Rails app) with Ruby code while providing its own View-layer component support using [`Glimmer::Web::Component`](#hello-component). On the other hand, Phlex and ViewComponent are Backend View-layer component libraries, so they serve 100% orthogonal needs, and can be used side by side with Glimmer DSL for Web if needed (e.g. Phlex components can consist of Backend HTML elements + Glimmer components that are rendered in the Frontend). That said, Phlex came out years after previous Glimmer libraries like Glimmer DSL for SWT, and Phlex's component system is very similar to Glimmer's component system in Glimmer DSL for SWT (perhaps inspired by it unconsciously or consciously). So, if you like Phlex in the Backend, you'll love Glimmer DSL for Web in the Frontend.
+
+**How does Glimmer DSL for Web compare to Angular, React, Vue, Svelte, or other JS frameworks?**
+
+Without delving into details, Glimmer DSL for Web is meant to be a Ruby-based drop-in replacement for Angular, React, Vue, Svelte, and other JS frameworks. Additionally, it enables writing both structure code and logic code in the same language (Ruby), greatly simplifying maintainability and improving productivity by eliminating multi-language dissonance and friction that drags down productivity as there is no need anymore to think in multiple languages unnecessarily, use XML based solutions (e.g. JSX), or use templating solutions (e.g. Mustache). Lastly, Glimmer DSL for Web supports familiar Software Engineering architectural patterns like Model-View-Controller and Model-View-Presenter, enabling Software Engineers to write the lightest and simplest code possible for building Web frontends in Ruby, with the best separation of concerns. Software Engineers can finally become happy Ruby developers by writing Ruby code in the Frontend too now in addition to the Backend.
+
+**How do I have a Glimmer Web Component re-render in a similar way to how React components re-render?**
+
+[Content Data-Binding](#hello-content-data-binding) supports re-rendering dynamic parts of a Glimmer Web Component (or the full component if all of it is dynamic). Glimmer DSL for Web simplifies Frontend Development significantly over React by not re-rendering everything if not needed (regardless of use of Virtual DOM) yet only re-rendering the parts of a component that do change dynamically. As a result, Software Engineers do not have to worry about the ripple effect of full re-renders or the possibility of breaking some parts of a page when making small changes to a single component in a hierarchy of page components. And, if only an element property changes, [Content Data-Binding](#hello-content-data-binding) is not even needed. It is much simpler to rely on simple [Property Data-Binding](#hello-data-binding) in that case. This makes reasoning about Glimmer DSL for Web Ruby code a lot simpler than reasoning about React component JavaScript code.
+
+**How do I reuse React components from Glimmer DSL for Web?**
+
+In the future, support for HTML Web Components will be added, and that will enable reuse of React components by using a library that converts them to HTML Web Components first like [react-to-web-component](https://github.com/bitovi/react-to-web-component) or [react-webcomponent](https://github.com/adobe/react-webcomponent).
+
 ### Issues
 
-You may submit [issues](https://github.com/AndyObtiva/glimmer-dsl-web /issues) on [GitHub](https://github.com/AndyObtiva/glimmer-dsl-web /issues).
+You may submit [issues](https://github.com/AndyObtiva/glimmer-dsl-web/issues) on [GitHub](https://github.com/AndyObtiva/glimmer-dsl-web/issues).
 
-[Click here to submit an issue.](https://github.com/AndyObtiva/glimmer-dsl-web /issues)
+[Click here to submit an issue.](https://github.com/AndyObtiva/glimmer-dsl-web/issues)
 
 ### Chat
 
@@ -3026,7 +3069,7 @@ These features have been suggested. You might see them in a future version of Gl
 
 * [Andy Maleh](https://github.com/AndyObtiva) (Founder)
 
-[Click here to view contributor commits.](https://github.com/AndyObtiva/glimmer-dsl-web /graphs/contributors)
+[Click here to view contributor commits.](https://github.com/AndyObtiva/glimmer-dsl-web/graphs/contributors)
 
 ## License
 
