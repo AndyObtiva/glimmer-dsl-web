@@ -1,5 +1,5 @@
 # [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.5 (Beta)
-## Ruby in the Browser Web Frontend Framework 
+## Ruby in the Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -1040,48 +1040,79 @@ class HelloObserver
   after_render do
     @number_input.value = @number_holder.number
     @range_input.value = @number_holder.number
-    # Observe Model attribute @number_holder.number for changes and update View
-    # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
-    # or its top-level element
+    
+    # Observe Model attribute @number_holder.number for changes and update View elements.
+    # Observer is automatically cleaned up when `remove` method is called on rendered
+    # HelloObserver web component or its top-level markup element (div)
     observe(@number_holder, :number) do
       number_string = @number_holder.number.to_s
       @number_input.value = number_string unless @number_input.value == number_string
       @range_input.value = number_string unless @range_input.value == number_string
     end
-    # Bidirectional Data-Binding does the same thing automatically
-    # Just disable the observe block above as well as the oninput listeners below
-    # and enable the `value <=> [@number_holder, :number]` lines to try the data-binding version
-    # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+    # Bidirectional Data-Binding does the same thing automatically as per alternative sample: Hello, Observer (Data-Binding)!
   end
   
   markup {
     div {
       div {
         @number_input = input(type: 'number', min: 0, max: 100) {
-          # oninput listener updates Model attribute @number_holder.number
+          # oninput listener (observer) updates Model attribute @number_holder.number
           oninput do
             @number_holder.number = @number_input.value.to_i
           end
-          
-          # Bidirectional Data-Binding simplifies the implementation significantly
-          # by enabling the following line and disabling oninput listeners as well
-          # as the after_body observe block observer
-          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
-#           value <=> [@number_holder, :number]
         }
       }
       div {
         @range_input = input(type: 'range', min: 0, max: 100) {
-          # oninput listener updates Model attribute @number_holder.number
+          # oninput listener (observer) updates Model attribute @number_holder.number
           oninput do
             @number_holder.number = @range_input.value.to_i
           end
-          
-          # Bidirectional Data-Binding simplifies the implementation significantly
-          # by enabling the following line and disabling oninput listeners as well
-          # as the after_body observe block observer
-          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
-#           value <=> [@number_holder, :number]
+        }
+      }
+    }
+  }
+end
+```
+
+Screenshot:
+
+![Hello, Observer!](/images/glimmer-dsl-web-samples-hello-hello-observer.gif)
+
+**Hello, Observer (Data-Binding)!**
+
+This is the data-binding edition of Hello, Observer!, which uses the `<=>` operator to perform bidirectional data-binding between a View property and a Model attribute, thus yield a lot less code that is declarative and is the most minimal code possible to express the requirements.
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class NumberHolder
+  attr_accessor :number
+  
+  def initialize
+    self.number = 50
+  end
+end
+
+class HelloObserver
+  include Glimmer::Web::Component
+  
+  before_render do
+    @number_holder = NumberHolder.new
+  end
+  
+  markup {
+    div {
+      div {
+        input(type: 'number', min: 0, max: 100) {
+          value <=> [@number_holder, :number]
+        }
+      }
+      div {
+        input(type: 'range', min: 0, max: 100) {
+          value <=> [@number_holder, :number]
         }
       }
     }
@@ -1123,7 +1154,9 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, World!](#hello-world)
       - [Hello, Button!](#hello-button)
       - [Hello, Form!](#hello-form)
+      - [Hello, Form (MVP)!](#hello-form-mvp)
       - [Hello, Observer!](#hello-observer)
+      - [Hello, Observer (Data-Binding)!](#hello-observer)
       - [Hello, Data-Binding!](#hello-data-binding)
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
       - [Hello, Component!](#hello-content-data-binding)
@@ -1903,6 +1936,49 @@ Screenshot:
 
 ![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
 
+#### Hello, Form (MVP)!
+
+This is the MVP (Model-View-Presenter) edition of Hello, Form! leveraging Glimmer Web Components and the MVP Architectural Pattern.
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+require_relative 'hello_form_mvp/presenters/hello_form_mvp_presenter'
+
+require_relative 'hello_form_mvp/views/contact_form'
+require_relative 'hello_form_mvp/views/contact_table'
+
+class HelloFormMvp
+  include Glimmer::Web::Component
+  
+  before_render do
+    @presenter = HelloFormMvpPresenter.new
+  end
+  
+  markup {
+    div {
+      h1('Contact Form')
+      
+      contact_form(presenter: @presenter)
+      
+      h1('Contacts Table')
+      
+      contact_table(presenter: @presenter)
+    }
+  }
+end
+
+Document.ready? do
+  HelloFormMvp.render
+end
+```
+
+Screenshot:
+
+![Hello, Form!](/images/glimmer-dsl-web-samples-hello-hello-form.gif)
+
 #### Hello, Observer!
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support.
@@ -1930,48 +2006,83 @@ class HelloObserver
   after_render do
     @number_input.value = @number_holder.number
     @range_input.value = @number_holder.number
-    # Observe Model attribute @number_holder.number for changes and update View
-    # Observer is automatically cleaned up if remove method is called on rendered HelloObserver
-    # or its top-level element
+    
+    # Observe Model attribute @number_holder.number for changes and update View elements.
+    # Observer is automatically cleaned up when `remove` method is called on rendered
+    # HelloObserver web component or its top-level markup element (div)
     observe(@number_holder, :number) do
       number_string = @number_holder.number.to_s
       @number_input.value = number_string unless @number_input.value == number_string
       @range_input.value = number_string unless @range_input.value == number_string
     end
-    # Bidirectional Data-Binding does the same thing automatically
-    # Just disable the observe block above as well as the oninput listeners below
-    # and enable the `value <=> [@number_holder, :number]` lines to try the data-binding version
-    # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
+    # Bidirectional Data-Binding does the same thing automatically as per alternative sample: Hello, Observer (Data-Binding)!
   end
   
   markup {
     div {
       div {
         @number_input = input(type: 'number', min: 0, max: 100) {
-          # oninput listener updates Model attribute @number_holder.number
+          # oninput listener (observer) updates Model attribute @number_holder.number
           oninput do
             @number_holder.number = @number_input.value.to_i
           end
-          
-          # Bidirectional Data-Binding simplifies the implementation significantly
-          # by enabling the following line and disabling oninput listeners as well
-          # as the after_body observe block observer
-          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
-#           value <=> [@number_holder, :number]
         }
       }
       div {
         @range_input = input(type: 'range', min: 0, max: 100) {
-          # oninput listener updates Model attribute @number_holder.number
+          # oninput listener (observer) updates Model attribute @number_holder.number
           oninput do
             @number_holder.number = @range_input.value.to_i
           end
-          
-          # Bidirectional Data-Binding simplifies the implementation significantly
-          # by enabling the following line and disabling oninput listeners as well
-          # as the after_body observe block observer
-          # Learn more about Bidirectional and Unidirectional Data-Binding in hello_data_binding.rb
-#           value <=> [@number_holder, :number]
+        }
+      }
+    }
+  }
+end
+
+Document.ready? do
+  HelloObserver.render
+end
+```
+
+Screenshot:
+
+![Hello, Observer!](/images/glimmer-dsl-web-samples-hello-hello-observer.gif)
+
+#### Hello, Observer (Data-Binding)!
+
+This is the data-binding edition of Hello, Observer!, which uses the `<=>` operator to perform bidirectional data-binding between a View property and a Model attribute, thus yield a lot less code that is declarative and is the most minimal code possible to express the requirements.
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class NumberHolder
+  attr_accessor :number
+  
+  def initialize
+    self.number = 50
+  end
+end
+
+class HelloObserver
+  include Glimmer::Web::Component
+  
+  before_render do
+    @number_holder = NumberHolder.new
+  end
+  
+  markup {
+    div {
+      div {
+        input(type: 'number', min: 0, max: 100) {
+          value <=> [@number_holder, :number]
+        }
+      }
+      div {
+        input(type: 'range', min: 0, max: 100) {
+          value <=> [@number_holder, :number]
         }
       }
     }

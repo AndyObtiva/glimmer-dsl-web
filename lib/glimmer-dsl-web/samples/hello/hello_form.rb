@@ -23,6 +23,8 @@ require 'glimmer-dsl-web'
 
 include Glimmer
 
+# This is an introductory version of Hello, Form!
+# Check out Hello, Form (MVP)! for a more serious advanced version built with Glimmer Web Components.
 Document.ready? do
   div {
     h1('Contact Form')

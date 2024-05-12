@@ -4,8 +4,9 @@
 
 - Support `Element#class_name` as an alternative to `Element#class` because `class` is a reserved method in Ruby
 - Handle case of data-binding an element that has no `type` attribute
-- Hello, Form MVP! Sample: `require 'glimmer-dsl-web/samples/hello/hello_form_mvp'`
 - Provide `attribute`/`attributes` as aliases for `option`/`options` inside classes mixing `Glimmer::Web::Component` given that the options behave like HTML attributes
+- Hello, Form MVP! Sample: `require 'glimmer-dsl-web/samples/hello/hello_form_mvp'`
+- Hello, Observer (Data-Binding)! Sample: `require 'glimmer-dsl-web/samples/hello/hello_observer_data_binding'`
 
 ## 0.2.4
 
