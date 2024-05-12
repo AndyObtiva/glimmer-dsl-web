@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2024-03-04"
+  s.date = "2024-05-12"
   s.description = "Glimmer DSL for Web (Ruby in the Browser Web Frontend Framework) enables building Web Frontends using Ruby in the Browser, as per Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with DSLs and TIMTOWTDI) and the Rails way (Convention over Configuration) in building Isomorphic Ruby on Rails Applications. It provides a Ruby HTML DSL, which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) Data-Binding (using <=) and Bidirectional (Two-Way) Data-Binding (using <=>). Dynamic rendering (and re-rendering) of HTML content is also supported via Content Data-Binding. Modular design is supported with Glimmer Web Components. And, a Ruby CSS DSL is supported with the included Glimmer DSL for CSS. Many samples are demonstrated in the Rails sample app (there is a very minimal Standalone [No Rails] sample app too). You can finally live in pure Rubyland on the Web in both the frontend and backend with Glimmer DSL for Web! This gem relies on Opal Ruby.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -39,9 +39,12 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/samples/hello/hello_form_mvp.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_form_mvp/models/contact.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_form_mvp/presenters/hello_form_mvp_presenter.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_form_mvp/views/contact_form.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_form_mvp/views/contact_table.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_glimmer_component_helper/address_form.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_input_date_time.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_observer.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_observer_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_paragraph.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_world.rb",
     "lib/glimmer-dsl-web/samples/regular/button_counter.rb",

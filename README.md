@@ -24,6 +24,8 @@ Anyone not considering this kind of technology in 2024 is like someone stuck in 
 
 (Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
+[lib/glimmer-dsl-web/samples/hello/hello_world.rb](/lib/glimmer-dsl-web/samples/hello/hello_world.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -55,6 +57,8 @@ You can also mount the `div` elsewhere by passing the `parent: parent_css_select
 (Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to JS global scope from Ruby to invoke functions like `alert`.
+
+[lib/glimmer-dsl-web/samples/hello/hello_button.rb](/lib/glimmer-dsl-web/samples/hello/hello_button.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -91,6 +95,8 @@ Screenshot:
 (Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby HTML DSL. Also, you can apply CSS styles by including directly in Ruby code as a string, using [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css), or managing CSS completely separately using something like [SCSS](https://sass-lang.com/). The CSS techniques could be combined as well, like by managing common reusable CSS styles separately in SCSS, but adding component specific CSS styles in Ruby when it is more convenient.
+
+[lib/glimmer-dsl-web/samples/hello/hello_form.rb](/lib/glimmer-dsl-web/samples/hello/hello_form.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -250,6 +256,8 @@ Screenshot:
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
 
+[lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -370,6 +378,8 @@ Screenshot:
 If you need to regenerate HTML element content dynamically, you can use Content Data-Binding to effortlessly
 rebuild HTML elements based on changes in a Model attribute that provides the source data.
 In this example, we generate multiple address forms based on the number of addresses the user has.
+
+[lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -509,6 +519,8 @@ You may insert a Glimmer component anywhere into a Rails View using `glimmer_com
 Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
 Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
+
+[lib/glimmer-dsl-web/samples/hello/hello_component.rb](/lib/glimmer-dsl-web/samples/hello/hello_component.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -724,6 +736,8 @@ Screenshot:
 You may insert a Glimmer component anywhere into a Rails View using
 `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
 or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+
+[lib/glimmer-dsl-web/samples/hello/hello_glimmer_component_helper/address_form.rb](/lib/glimmer-dsl-web/samples/hello/hello_glimmer_component_helper/address_form.rb)
 
 Rails `ApplicationHelper` setup code:
 
@@ -956,6 +970,8 @@ it returns a `String` to enable code like this:
 
 In any case, below is a full example leveraging the Glimmer HTML DSL alternative approach when utilizing formatting elements underneath a paragraph.
 
+[lib/glimmer-dsl-web/samples/hello/hello_paragraph.rb](/lib/glimmer-dsl-web/samples/hello/hello_paragraph.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -1016,6 +1032,8 @@ Screenshot:
 **Hello, Observer!**
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support.
+
+[lib/glimmer-dsl-web/samples/hello/hello_observer.rb](/lib/glimmer-dsl-web/samples/hello/hello_observer.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -1082,6 +1100,8 @@ Screenshot:
 **Hello, Observer (Data-Binding)!**
 
 This is the data-binding edition of Hello, Observer!, which uses the `<=>` operator to perform bidirectional data-binding between a View property and a Model attribute, thus yield a lot less code that is declarative and is the most minimal code possible to express the requirements.
+
+[lib/glimmer-dsl-web/samples/hello/hello_observer_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_observer_data_binding.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -1698,6 +1718,8 @@ https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
 #### Hello, World!
 
+[lib/glimmer-dsl-web/samples/hello/hello_world.rb](/lib/glimmer-dsl-web/samples/hello/hello_world.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -1750,6 +1772,8 @@ You can also mount the `div` elsewhere by passing the `parent: parent_css_select
 
 Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to JS global scope from Ruby to invoke functions like `alert`.
 
+[lib/glimmer-dsl-web/samples/hello/hello_button.rb](/lib/glimmer-dsl-web/samples/hello/hello_button.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -1783,6 +1807,8 @@ Screenshot:
 #### Hello, Form!
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby HTML DSL. Also, you can apply CSS styles by including directly in Ruby code as a string, using [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css), or managing CSS completely separately using something like [SCSS](https://sass-lang.com/). The CSS techniques could be combined as well, like by managing common reusable CSS styles separately in SCSS, but adding component specific CSS styles in Ruby when it is more convenient.
+
+[lib/glimmer-dsl-web/samples/hello/hello_form.rb](/lib/glimmer-dsl-web/samples/hello/hello_form.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -1940,6 +1966,14 @@ Screenshot:
 
 This is the MVP (Model-View-Presenter) edition of Hello, Form! leveraging Glimmer Web Components and the MVP Architectural Pattern.
 
+Main file:
+
+[lib/glimmer-dsl-web/samples/hello/hello_form_mvp.rb](/lib/glimmer-dsl-web/samples/hello/hello_form_mvp.rb)
+
+Other files:
+
+[lib/glimmer-dsl-web/samples/hello/hello_form_mvp](/lib/glimmer-dsl-web/samples/hello/hello_form_mvp)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -1982,6 +2016,8 @@ Screenshot:
 #### Hello, Observer!
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) provides the `observe(model, attribute) { ... }` keyword to employ the [Observer Design Pattern](https://en.wikipedia.org/wiki/Observer_pattern) as per [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (Model View Controller), enabling Views to observe Models and update themselves in response to changes. If the `observe` keyword is used from inside a [Component](#hello-component), when the Component is removed or its top-level element is removed, the observer is automatically cleaned up. The need for such explicit observers is significantly diminished by the availablility of the more advanced Unidirectional [Data-Binding](#hello-data-binding) Support and Bidirectional [Data-Binding](#hello-data-binding) Support.
+
+[lib/glimmer-dsl-web/samples/hello/hello_observer.rb](/lib/glimmer-dsl-web/samples/hello/hello_observer.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -2053,6 +2089,8 @@ Screenshot:
 
 This is the data-binding edition of Hello, Observer!, which uses the `<=>` operator to perform bidirectional data-binding between a View property and a Model attribute, thus yield a lot less code that is declarative and is the most minimal code possible to express the requirements.
 
+[lib/glimmer-dsl-web/samples/hello/hello_observer_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_observer_data_binding.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -2101,6 +2139,8 @@ Screenshot:
 #### Hello, Data-Binding!
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
+
+[lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_data_binding.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -2275,6 +2315,8 @@ If you need to regenerate HTML element content dynamically, you can use Content 
 rebuild HTML elements based on changes in a Model attribute that provides the source data.
 In this example, we generate multiple address forms based on the number of addresses the user has.
 
+[lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -2413,6 +2455,8 @@ You may insert a Glimmer component anywhere into a Rails View using `glimmer_com
 Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
 Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
+
+[lib/glimmer-dsl-web/samples/hello/hello_component.rb](/lib/glimmer-dsl-web/samples/hello/hello_component.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -2628,6 +2672,8 @@ Screenshot:
 You may insert a Glimmer component anywhere into a Rails View using
 `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper`
 or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
+
+[lib/glimmer-dsl-web/samples/hello/hello_glimmer_component_helper/address_form.rb](/lib/glimmer-dsl-web/samples/hello/hello_glimmer_component_helper/address_form.rb)
 
 Rails `ApplicationHelper` setup code:
 
@@ -2860,6 +2906,8 @@ it returns a `String` to enable code like this:
 
 In any case, below is a full example leveraging the Glimmer HTML DSL alternative approach when utilizing formatting elements underneath a paragraph.
 
+[lib/glimmer-dsl-web/samples/hello/hello_paragraph.rb](/lib/glimmer-dsl-web/samples/hello/hello_paragraph.rb)
+
 Glimmer HTML DSL Ruby code in the frontend:
 
 ```ruby
@@ -2920,6 +2968,8 @@ Screenshot:
 --
 
 #### Hello, Input (Date/Time)!
+
+[lib/glimmer-dsl-web/samples/hello/hello_input_date_time.rb](/lib/glimmer-dsl-web/samples/hello/hello_input_date_time.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
 
@@ -3025,6 +3075,8 @@ Screenshot:
 ![Hello, Input (Date/Time)!](/images/glimmer-dsl-web-samples-hello-hello-input-date-time.gif)
 
 #### Button Counter
+
+[lib/glimmer-dsl-web/samples/regular/button_counter.rb](/lib/glimmer-dsl-web/samples/regular/button_counter.rb)
 
 Glimmer HTML DSL Ruby code in the frontend demonstrating MVC + Glimmer Web Components (Views) + Data-Binding:
 
