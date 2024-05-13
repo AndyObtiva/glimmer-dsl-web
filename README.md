@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.5 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.6 (Beta)
 ## Ruby in the Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
@@ -1211,6 +1211,8 @@ You can setup Glimmer DSL for Web in [Rails 7](#rails-7), [Rails 6](#rails-6), o
 
 ### Rails 7
 
+(NOTE: In the future, we plan to automate the setup steps below. If you would like to help contribute that to the project, please do so and open a Pull Request.)
+
 Please follow these steps to setup.
 
 Install a Rails 7 gem:
@@ -1228,7 +1230,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.2.5'
+gem 'glimmer-dsl-web', '~> 0.2.6'
 ```
 
 Run:
@@ -1430,6 +1432,8 @@ Next, read [Usage](#usage) instructions, and check out [Samples](#samples).
 
 ### Rails 6
 
+(NOTE: In the future, we plan to automate the setup steps below. If you would like to help contribute that to the project, please do so and open a Pull Request.)
+
 Please follow these steps to setup.
 
 Install a Rails 6 gem:
@@ -1453,7 +1457,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.2.5'
+gem 'glimmer-dsl-web', '~> 0.2.6'
 ```
 
 Run:
@@ -3184,9 +3188,13 @@ Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/maste
 
 F.A.Q. (Frequently Asked Questions):
 
+**Can I reuse JavaScript libraries from Glimmer DSL for Web in Ruby?**
+
+Absolutely. Glimmer DSL for Web can integrate with any JavaScript libraries. You can either load the JavaScript libraries in advance by linking to them in the Rails View/Layout (e.g. linking to JS library CDN URLs) or by including JavaScript files in the lookup directories of Opal Ruby, and adding a Ruby `require('path_to_js_lib')` call in the code. In Ruby, the `$$` global variable gives access to the top-level JavaScript global scope, which enables invocations on any JavaScript objects. For example, `$$.hljs` gives access to the loaded `window.hljs` object for the Highlight.js library, and that enables invoking any functions from that library as needed, like `$$.hljs.highlightAll` to activate code syntax highlighting.
+
 **How does Glimmer DSL for Web compare to Rails Hotwire (Turbo)?**
 
-Glimmer DSL for Web is a Frontend library, meaning it replaces the JavaScript layer in a web application (e.g. Rails app) with Ruby code. On the other hand, Rails Hotwire (Turbo) is mostly a Backend-driven technology that enables automatically replacing HTML DOM elements with HTML markup sent over the wire from a Rails Backend. So, the two technologies are mostly orthogonal, but can be used in the same Rails web application, albeit exclusively on separate web pages at the moment. In the future, we might explore supporting the ability to combine both technologies in the same pages, but until then, use on separate pages. Glimmer DSL for Web can handle any sort of Frontend interactions even without making HTTP calls to the Backend, so it can implement more use-cases than Hotwire. Using Glimmer DSL for Web with Rails API end-points is simpler than using Hotwire overall. That is because Glimmer Content Data-Binding is a simpler version of Turbo Frames that does not require worrying about setting and using element IDs (as that is handled automatically) and that operates at a more correct abstraction level for how we think about View component updates in relation to Model changes (we make updates at the Model layer, and they automatically get reflected in the View through data-binding). Also, Glimmer DSL for Web supports Glimmer Web Components, which enable better division of View code with higher readability than ERB. It is true that Hotwire is an improvement over using JavaScript frameworks like React when there is not much logic beyond updating elements with Server-Side rendered HTML. And, Glimmer DSL for Web is the next big advancement that brings a big improvement over the Hotwire approach.
+Glimmer DSL for Web is a Frontend library, meaning it replaces the JavaScript layer in a web application (e.g. Rails app) with Ruby code. On the other hand, Rails Hotwire (Turbo) is mostly a Backend-driven technology that enables automatically replacing HTML DOM elements with HTML markup sent over the wire from a Rails Backend. So, the two technologies are mostly orthogonal, but can be used in the same Rails web application, albeit exclusively on separate web pages at the moment. In the future, we might explore supporting the ability to combine both technologies in the same pages, but until then, use on separate pages. Glimmer DSL for Web can handle any sort of Frontend interactions even without making HTTP calls to the Backend, so it can implement more use-cases than Hotwire. Using Glimmer DSL for Web with Rails API end-points is simpler than using Hotwire overall. That is because Glimmer Content Data-Binding is a simpler version of Turbo Frames that does not require worrying about setting and using element IDs (as that is handled automatically) and that operates at a more correct abstraction level for how we think about View component updates in relation to Model changes (we make updates at the Model layer, and they automatically get reflected in the View through data-binding). Also, Glimmer DSL for Web supports Glimmer Web Components, which enable better division and organization of View code into modular components than ERB plus having higher readability. It is true that Hotwire is an improvement over using JavaScript frameworks like React when there is not much logic beyond updating elements with Server-Side rendered HTML. And, Glimmer DSL for Web is the next big advancement that provides an even simpler approach while also giving you full Frontend Development capabilities using Ruby in the Browser.
 
 **How does Glimmer DSL for Web compare to Phlex or ViewComponent?**
 
@@ -3203,6 +3211,7 @@ Without delving into details, Glimmer DSL for Web is meant to be a Ruby-based dr
 **How do I reuse React components from Glimmer DSL for Web?**
 
 In the future, support for HTML Web Components will be added, and that will enable reuse of React components by using a library that converts them to HTML Web Components first like [react-to-web-component](https://github.com/bitovi/react-to-web-component) or [react-webcomponent](https://github.com/adobe/react-webcomponent).
+
 
 ### Issues
 

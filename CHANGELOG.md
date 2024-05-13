@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.6
+
+- Upgrade to `glimmer-dsl-xml` 1.4.0 to provide access to `html_to_glimmer` converter command (converts legacy HTML to Glimmer DSL syntax)
+- Upgrade to `glimmer-dsl-css` 1.4.0 to provide access to `css_to_glimmer` converter command (converts legacy CSS to Glimmer DSL syntax)
+
 ## 0.2.5
 
 - Support `Element#class_name` as an alternative to `Element#class` because `class` is a reserved method in Ruby

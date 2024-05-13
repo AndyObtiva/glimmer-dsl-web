@@ -104,6 +104,9 @@ Example:
 - Support automatically displaying a progress bar or circle when rendering a component (like a giant one that might take more than the tolerable 500ms.. although that should be rare)
 - Provide form helpers similar to ERB form helpers, but in Glimmer DSL
 - Consider providing Serializer support in the backend that would yield the same models used in the Frontend
+- Provide a generic Api class to enable frontend to pull data from backend with as little arguments as possible (e.g. `Api.show('sample', id) {|sample| }` invokes show action on samples_controller under `/samples` ). It could become customizable in the future.
+- Support setting `style` on Glimmer Web Components and having its value override the `style` value on the markup root (unless it made more sense to concatenate it)
+- Support setting `class` on Glimmer Web Components and having its value override the `class` value on the markup root (unless it made more sense to concatenate it)
 
 ## Issues
 
