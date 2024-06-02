@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.7
+
+- Unidirectional Data-Binding of element `style` property
+- Todo MVC Sample
+
 ## 0.2.6
 
 - Upgrade to `glimmer-dsl-xml` 1.4.0 to provide access to `html_to_glimmer` converter command (converts legacy HTML to Glimmer DSL syntax)

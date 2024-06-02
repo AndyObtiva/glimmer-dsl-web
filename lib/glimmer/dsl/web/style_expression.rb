@@ -1,12 +1,17 @@
-require 'glimmer/dsl/static_expression'
+require 'glimmer/dsl/expression'
 require 'glimmer/dsl/web/general_element_expression'
 
 module Glimmer
   module DSL
     module Web
-      class StyleExpression < StaticExpression
+      class StyleExpression < Expression
         include GeneralElementExpression
         include Glimmer
+        
+        def can_interpret?(parent, keyword, *args, &block)
+          keyword == 'style' &&
+            !block.nil?
+        end
         
         def add_content(parent, keyword, *args, &block)
           if parent.rendered? || parent.skip_content_on_render_blocks?
