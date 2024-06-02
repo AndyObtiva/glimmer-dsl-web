@@ -6,7 +6,10 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
-- Alias `option` as `attribute` in Glimmer::Web::Component
+- Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
+- Think about solutions for overriding class_name of div conflicting with its initial class attribute
+- Support always being able to pass id and class to glimmer web component as an extra argument
+- Enable data-binding component attributes (by nesting within component in consumer code)
 - Add an example of form submission via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
 
@@ -71,6 +74,7 @@ Example:
 
 - JavaScript Canvas API
 - Build a HTML to Glimmer GUI DSL converter to enable Software Engineers to reuse older HTML in a Glimmer DSL for Web app
+- Build a CSS to Glimmer GUI DSL converter to enable Software Engineers to reuse older CSS in a Glimmer DSL for Web app
 - Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
 
 ## Maybe
@@ -107,6 +111,8 @@ Example:
 - Provide a generic Api class to enable frontend to pull data from backend with as little arguments as possible (e.g. `Api.show('sample', id) {|sample| }` invokes show action on samples_controller under `/samples` ). It could become customizable in the future.
 - Support setting `style` on Glimmer Web Components and having its value override the `style` value on the markup root (unless it made more sense to concatenate it)
 - Support setting `class` on Glimmer Web Components and having its value override the `class` value on the markup root (unless it made more sense to concatenate it)
+- Display exceptions in a Modal (perhaps make it an option)
+- See why element_proxy.css('something', 'something') doesn't work and requires .dom_element.css() instead.
 
 ## Issues
 
