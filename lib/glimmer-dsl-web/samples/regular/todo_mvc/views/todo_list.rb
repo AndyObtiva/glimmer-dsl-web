@@ -5,22 +5,24 @@ class TodoList
   
   markup {
     main(class: 'main') {
-      style <= [ presenter, :todos,
+      style <= [ Todo, :all,
                  on_read: ->(todos) { todos.empty? ? 'display: none;' : '' }
                ]
       
       div(class: 'toggle-all-container') {
-        # TODO implement what this checkbox does
         input(class: 'toggle-all', type: 'checkbox')
         
-        label(class: 'toggle-all-label', for: 'toggle-all') {
-          "Mark all as complete"
+        label('Mark all as complete', class: 'toggle-all-label', for: 'toggle-all') {
+          onclick do |event|
+            presenter.toggle_all_completed
+          end
         }
       }
       
       ul(class: 'todo-list') {
         content(presenter, :todos) {
           presenter.todos.each do |todo|
+            # TODO implement Edit functionality
             li {
               class_name <= [ todo, :completed,
                               on_read: -> (completed) { completed ? 'completed' : '' }

@@ -5,15 +5,13 @@ class TodoFilters
   
   markup {
     footer(class: 'footer') {
-      style <= [ presenter, :todos,
+      style <= [ Todo, :all,
                  on_read: ->(todos) { todos.empty? ? 'display: none;' : '' }
                ]
       
       span(class: 'todo-count') {
         span('.strong') {
-          inner_text <= [ Todo, :all,
-                          on_read: ->(todos) { todos.size }
-                        ]
+          inner_text <= [presenter, :active_todo_count]
         }
         span {
           " items left"
@@ -36,8 +34,14 @@ class TodoFilters
         end
       }
       
-      button(class: 'clear-completed', style: 'display: block;') {
-        "Clear completed"
+      button('Clear completed', class: 'clear-completed') {
+        style <= [ presenter, :can_clear_completed,
+                   on_read: -> (can_clear_completed) { can_clear_completed ? '' : 'display: none;' },
+                 ]
+      
+        onclick do |event|
+          presenter.clear_completed
+        end
       }
       
       style {
@@ -52,7 +56,7 @@ class TodoFilters
         rule('.footer:before') {
           bottom '0'
           box_shadow '0 1px 1px rgba(0,0,0,.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0,0,0,.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0,0,0,.2)'
-          content ''
+          content '""'
           height '50px'
           left '0'
           overflow 'hidden'

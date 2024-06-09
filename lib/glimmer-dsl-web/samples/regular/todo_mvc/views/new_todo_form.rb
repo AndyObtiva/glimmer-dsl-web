@@ -8,6 +8,7 @@ class NewTodoForm
   markup {
     header(class: 'header') {
       h1('todos')
+      
       todo_input(edit: false, placeholder: "What needs to be done?") {
         value <=> [presenter.new_todo, :task]
       

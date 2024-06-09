@@ -43,34 +43,38 @@ class TodoMvc
       todo_filters(presenter: @presenter)
             
       style {
-        rule('body, button, html') {
-          margin '0'
-          padding '0'
-        }
-        
-        rule('.todoapp') {
-          background '#fff'
-          margin '130px 0 40px 0'
-          position 'relative'
-          box_shadow '0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1)'
-        }
-      
-        media('screen and (-webkit-min-device-pixel-ratio:0)') {
-          rule('body') {
-            font "14px 'Helvetica Neue', Helvetica, Arial, sans-serif"
-            line_height '1.4em'
-            background '#f5f5f5'
-            color '#111111'
-            min_width '230px'
-            max_width '550px'
-            margin '0 auto'
-            smoothing 'grayscale'
-            font_weight '300'
-          }
-        }
+        todo_mvc_styles
       }
     }
   }
+  
+  def todo_mvc_styles
+    rule('body, button, html') {
+      margin '0'
+      padding '0'
+    }
+    
+    rule('.todoapp') {
+      background '#fff'
+      margin '130px 0 40px 0'
+      position 'relative'
+      box_shadow '0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1)'
+    }
+  
+    media('screen and (-webkit-min-device-pixel-ratio:0)') {
+      rule('body') {
+        font "14px 'Helvetica Neue', Helvetica, Arial, sans-serif"
+        line_height '1.4em'
+        background '#f5f5f5'
+        color '#111111'
+        min_width '230px'
+        max_width '550px'
+        margin '0 auto'
+        _webkit_font_smoothing 'antialiased'
+        font_weight '300'
+      }
+    }
+  end
 end
 
 Document.ready? do

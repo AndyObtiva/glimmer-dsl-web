@@ -1,13 +1,9 @@
 Todo = Struct.new(:task, :completed, keyword_init: true) do
   class << self
-    attr_accessor :all
-  
+    attr_writer :all
+    
     def all
-      @all ||= [
-        Todo.new(task: 'Go Shopping', completed: false),
-        Todo.new(task: 'Exercise', completed: true),
-        Todo.new(task: 'Clean', completed: false)
-      ]
+      @all ||= []
     end
     
     def active

@@ -44,5 +44,11 @@ class TodoInput
       background 'rgba(0, 0, 0, 0.003)'
       box_shadow 'inset 0 -2px 1px rgba(0,0,0,0.03)'
     }
+    
+    rule('.new-todo::placeholder') {
+      font_style 'italic'
+      font_weight '400'
+      color 'rgba(0, 0, 0, 0.4)'
+    }
   end
 end

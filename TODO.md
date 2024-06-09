@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.2.x
 
+- Do not require attribute setter/writer when doing unidirectional or content data-binding
 - Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
 - Think about solutions for overriding class_name of div conflicting with its initial class attribute
 - Support always being able to pass id and class to glimmer web component as an extra argument
