@@ -4,7 +4,7 @@ class TodoFilters
   option :presenter
   
   markup {
-    footer(class: 'footer') {
+    footer(class: 'todo-filters') {
       style <= [ Todo, :all,
                  on_read: ->(todos) { todos.empty? ? 'display: none;' : '' }
                ]
@@ -17,6 +17,7 @@ class TodoFilters
           " items left"
         }
       }
+      
       ul(class: 'filters') {
         Todo::FILTERS.each do |filter|
           li {
@@ -45,7 +46,7 @@ class TodoFilters
       }
       
       style {
-        rule('.footer') {
+        rule('.todo-filters') {
           border_top '1px solid #e6e6e6'
           font_size '15px'
           height '20px'
@@ -53,7 +54,7 @@ class TodoFilters
           text_align 'center'
         }
         
-        rule('.footer:before') {
+        rule('.todo-filters:before') {
           bottom '0'
           box_shadow '0 1px 1px rgba(0,0,0,.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0,0,0,.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0,0,0,.2)'
           content '""'
@@ -106,6 +107,16 @@ class TodoFilters
           line_height '19px'
           position 'relative'
           text_decoration 'none'
+        }
+        
+        media('(max-width: 430px)') {
+          rule('.todo-filters') {
+            height '50px'
+          }
+          
+          rule('.filters') {
+            bottom '10px'
+          }
         }
       }
     }
