@@ -26,6 +26,7 @@ require_relative 'todo_mvc/presenters/todo_presenter'
 require_relative 'todo_mvc/views/new_todo_form'
 require_relative 'todo_mvc/views/todo_list'
 require_relative 'todo_mvc/views/todo_filters'
+require_relative 'todo_mvc/views/todo_mvc_footer'
 
 class TodoMvc
   include Glimmer::Web::Component
@@ -35,16 +36,20 @@ class TodoMvc
   end
   
   markup {
-    section(class: 'todoapp') {
-      new_todo_form(presenter: @presenter)
-      
-      todo_list(presenter: @presenter)
-      
-      todo_filters(presenter: @presenter)
-            
-      style {
-        todo_mvc_styles
+    div(class: 'todomvc') {
+      section(class: 'todoapp') {
+        new_todo_form(presenter: @presenter)
+        
+        todo_list(presenter: @presenter)
+        
+        todo_filters(presenter: @presenter)
+              
+        style {
+          todo_mvc_styles
+        }
       }
+      
+      todo_mvc_footer
     }
   }
   

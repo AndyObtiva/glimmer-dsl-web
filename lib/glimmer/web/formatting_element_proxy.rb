@@ -33,7 +33,8 @@ module Glimmer
           keyword = keyword.to_s
           (
             FORMATTING_ELEMENT_KEYWORDS.include?(keyword) ||
-            (keyword == 'span' && parent&.keyword == 'p')
+            (keyword == 'span' && parent&.keyword == 'p') ||
+            (keyword == 'a' && parent&.keyword == 'p')
           )
         end
       

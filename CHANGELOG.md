@@ -3,6 +3,7 @@
 ## 0.2.7
 
 - Unidirectional Data-Binding of element `style` property
+- Support `a` as a formatting element under `p`
 - Todo MVC Sample
 
 ## 0.2.6
