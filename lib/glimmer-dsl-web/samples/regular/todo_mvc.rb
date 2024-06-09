@@ -35,6 +35,10 @@ class TodoMvc
     @presenter = TodoPresenter.new
   end
   
+  after_render do
+    @presenter.setup_filter_routes
+  end
+  
   markup {
     div(class: 'todomvc') {
       section(class: 'todoapp') {
@@ -50,6 +54,10 @@ class TodoMvc
       }
       
       todo_mvc_footer
+      
+      on_remove do
+        @presenter.unsetup_filter_routes
+      end
     }
   }
   

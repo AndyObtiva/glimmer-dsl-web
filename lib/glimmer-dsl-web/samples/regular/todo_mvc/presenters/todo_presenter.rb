@@ -3,6 +3,8 @@ require 'glimmer/data_binding/observer'
 require_relative '../models/todo'
 
 class TodoPresenter
+  FILTER_ROUTE_REGEXP = /\#\/([^\/]*)$/
+  
   attr_accessor :todos, :can_clear_completed, :active_todo_count
   attr_reader :new_todo, :filter
   
@@ -33,6 +35,7 @@ class TodoPresenter
   end
   
   def filter=(filter)
+    return if filter == @filter
     @filter = filter
     refresh_todos_with_filter
   end
@@ -52,6 +55,25 @@ class TodoPresenter
     target_completed_value = Todo.active.any?
     todos_to_update = target_completed_value ? Todo.active : Todo.completed
     todos_to_update.each { |todo| todo.completed = target_completed_value }
+  end
+  
+  def setup_filter_routes
+    @filter_router_function = -> (event) { apply_route_filter }
+    $$.addEventListener('popstate', &@filter_router_function)
+    apply_route_filter
+  end
+  
+  def apply_route_filter
+    route_filter_match = $$.document.location.href.to_s.match(FILTER_ROUTE_REGEXP)
+    return if route_filter_match.nil?
+    route_filter = route_filter_match[1]
+    route_filter = 'all' if route_filter == ''
+    self.filter = route_filter
+  end
+  
+  def unsetup_filter_routes
+    $$.removeEventListener('popstate', &@filter_router_function)
+    @filter_router_function = nil
   end
   
   private

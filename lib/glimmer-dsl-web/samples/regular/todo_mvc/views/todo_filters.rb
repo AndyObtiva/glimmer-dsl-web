@@ -21,13 +21,12 @@ class TodoFilters
       ul(class: 'filters') {
         Todo::FILTERS.each do |filter|
           li {
-            a(filter.capitalize) {
+            a(filter.capitalize, href: "#/#{filter unless filter == 'all'}") {
               class_name <= [ presenter, :filter,
                               on_read: -> (presenter_filter) { presenter_filter == filter ? 'selected' : '' }
                             ]
             
               onclick do |event|
-                event.prevent_default
                 presenter.filter = filter
               end
             }
