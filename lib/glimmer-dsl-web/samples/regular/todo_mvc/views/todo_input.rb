@@ -9,6 +9,7 @@ class TodoInput
   end
   
   markup {
+    # TODO split new from edit functionality into new_todo_input and edit_todo_input
     input(class: @input_class, placeholder: placeholder, autofocus: "") {
       style {
         todo_input_styles
@@ -49,6 +50,19 @@ class TodoInput
       font_style 'italic'
       font_weight '400'
       color 'rgba(0, 0, 0, 0.4)'
+    }
+    
+    rule('*:has(> .edit)') {
+      position 'relative'
+    }
+    
+    rule('.edit') {
+      position 'absolute'
+      display 'block'
+      width 'calc(100% - 43px)'
+      padding '12px 16px'
+      margin '0 0 0 43px'
+      top '0'
     }
   end
 end

@@ -22,10 +22,12 @@ class TodoList
       ul(class: 'todo-list') {
         content(presenter, :todos) {
           presenter.todos.each do |todo|
-            # TODO implement Edit functionality
             li {
               class_name <= [ todo, :completed,
-                              on_read: -> (completed) { completed ? 'completed' : '' }
+                              on_read: -> (completed) { li_class_name(todo) }
+                            ]
+              class_name <= [ todo, :editing,
+                              on_read: -> (editing) { li_class_name(todo) }
                             ]
               
               div(class: 'view') {
@@ -33,13 +35,40 @@ class TodoList
                   checked <=> [todo, :completed]
                 }
                 
-                label(todo.task)
+                label {
+                  inner_html <= [todo, :task]
+                  
+                  ondblclick do |event|
+                    todo.start_editing
+                  end
+                }
                 
                 button(class: 'destroy') {
                   onclick do |event|
                     presenter.destroy(todo)
                   end
                 }
+              }
+              
+              edit_input = input(class: 'edit') {
+                style <= [ todo, :editing,
+                           on_read: ->(editing) { editing ? '' : 'display: none;' },
+                           after_read: ->(_) { edit_input.focus if todo.editing? }
+                         ]
+              
+                value <=> [todo, :task]
+                
+                onkeyup do |event|
+                  if event.key == 'Enter' || event.keyCode == "\r"
+                    todo.save_editing
+                  elsif event.key == 'Escape' || event.keyCode == 27
+                    todo.cancel_editing
+                  end
+                end
+                
+                onblur do |event|
+                  todo.save_editing
+                end
               }
             }
           end
@@ -96,9 +125,9 @@ class TodoList
         }
         
         rule('.todo-list') {
-            list_style 'none'
-            margin '0'
-            padding '0'
+          list_style 'none'
+          margin '0'
+          padding '0'
         }
         
         rule('.todo-list li') {
@@ -144,6 +173,15 @@ class TodoList
         
         rule('.todo-list li .toggle:checked+label') {
           background_image 'url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%2359A193%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20fill%3D%22%233EA390%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22%2F%3E%3C%2Fsvg%3E)'
+        }
+        
+        rule('.todo-list li.editing') {
+          border_bottom 'none'
+          padding '0'
+        }
+        
+        rule('.todo-list li.editing input[type=checkbox], .todo-list li.editing label') {
+          opacity '0'
         }
         
         rule('button') {
@@ -201,4 +239,11 @@ class TodoList
       }
     }
   }
+  
+  def li_class_name(todo)
+    classes = []
+    classes << 'completed' if todo.completed?
+    classes << 'editing' if todo.editing?
+    classes.join(' ')
+  end
 end
