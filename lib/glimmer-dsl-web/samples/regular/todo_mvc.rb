@@ -67,6 +67,19 @@ class TodoMvc
       padding '0'
     }
     
+    rule('button') {
+      _webkit_font_smoothing 'antialiased'
+      _webkit_appearance 'none'
+      appearance 'none'
+      background 'none'
+      border '0'
+      color 'inherit'
+      font_family 'inherit'
+      font_size '100%'
+      font_weight 'inherit'
+      vertical_align 'baseline'
+    }
+    
     rule('.todoapp') {
       background '#fff'
       margin '130px 0 40px 0'

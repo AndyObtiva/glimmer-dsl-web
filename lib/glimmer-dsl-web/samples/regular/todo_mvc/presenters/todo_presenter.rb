@@ -11,13 +11,7 @@ class TodoPresenter
   def initialize
     @todos = Todo.all.clone
     @new_todo = Todo.new(task: '')
-    @filter = 'all'
-    # TODO remove todo tasks when done development
-    [
-      Todo.new(task: 'Go Shopping', completed: false),
-      Todo.new(task: 'Exercise', completed: true),
-      Todo.new(task: 'Clean', completed: false)
-    ].each { |todo| create_todo(todo) }
+    @filter = :all
     refresh_todo_stats
   end
   
@@ -43,6 +37,7 @@ class TodoPresenter
   def destroy(todo)
     delete(todo)
     refresh_todos_with_filter
+    refresh_todo_stats
   end
   
   def clear_completed

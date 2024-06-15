@@ -1,24 +1,13 @@
+# Superclass for NewTodoInput and EditTodoInput with common styles
 class TodoInput
   include Glimmer::Web::Component
   
-  option :edit
-  option :placeholder
-  
-  before_render do
-    @input_class = edit ? 'edit' : 'new-todo'
+  def todo_input_class
+    'todo-input'
   end
   
-  markup {
-    # TODO split new from edit functionality into new_todo_input and edit_todo_input
-    input(class: @input_class, placeholder: placeholder, autofocus: "") {
-      style {
-        todo_input_styles
-      }
-    }
-  }
-  
   def todo_input_styles
-    rule('.new-todo, .edit') {
+    rule(".#{todo_input_class}") {
       position 'relative'
       margin '0'
       width '100%'
@@ -34,35 +23,8 @@ class TodoInput
       _webkit_font_smoothing 'antialiased'
     }
     
-    rule('.new-todo::selection, .edit::selection') {
+    rule(".#{todo_input_class}::selection") {
       background 'red'
-    }
-    
-    rule('.new-todo') {
-      padding '16px 16px 16px 60px'
-      height '65px'
-      border 'none'
-      background 'rgba(0, 0, 0, 0.003)'
-      box_shadow 'inset 0 -2px 1px rgba(0,0,0,0.03)'
-    }
-    
-    rule('.new-todo::placeholder') {
-      font_style 'italic'
-      font_weight '400'
-      color 'rgba(0, 0, 0, 0.4)'
-    }
-    
-    rule('*:has(> .edit)') {
-      position 'relative'
-    }
-    
-    rule('.edit') {
-      position 'absolute'
-      display 'block'
-      width 'calc(100% - 43px)'
-      padding '12px 16px'
-      margin '0 0 0 43px'
-      top '0'
     }
   end
 end

@@ -21,7 +21,7 @@ class TodoFilters
       ul(class: 'filters') {
         Todo::FILTERS.each do |filter|
           li {
-            a(filter.capitalize, href: "#/#{filter unless filter == 'all'}") {
+            a(filter.to_s.capitalize, href: "#/#{filter unless filter == :all}") {
               class_name <= [ presenter, :filter,
                               on_read: -> (presenter_filter) { presenter_filter == filter ? 'selected' : '' }
                             ]

@@ -15,7 +15,7 @@ Todo = Struct.new(:task, :completed, :editing, keyword_init: true) do
     end
   end
   
-  FILTERS = ['all', 'active', 'completed']
+  FILTERS = [:all, :active, :completed]
   
   alias completed? completed
   alias editing? editing
