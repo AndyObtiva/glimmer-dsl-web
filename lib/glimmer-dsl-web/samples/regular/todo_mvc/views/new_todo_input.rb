@@ -2,10 +2,9 @@ require_relative 'todo_input'
 
 class NewTodoInput < TodoInput
   option :presenter
-  option :placeholder
   
   markup {
-    input(class: todo_input_class, placeholder: placeholder, autofocus: "") {
+    input(class: todo_input_class, placeholder: "What needs to be done?", autofocus: "") {
       value <=> [presenter.new_todo, :task]
     
       onkeyup do |event|

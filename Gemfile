@@ -10,7 +10,7 @@ gem 'opal-jquery', '~> 0.5.1'
 gem 'to_collection', '>= 2.0.1', '< 3.0.0'
 
 group :development, :test do
-  gem 'puts_debuggerer', require: false
+  gem 'puts_debuggerer', '>= 1.0.0', require: false
   gem 'rake', '>= 10.1.0', '< 14.0.0'
   gem 'rake-tui'
   gem 'jeweler', '>= 2.3.9', '< 3.0.0'

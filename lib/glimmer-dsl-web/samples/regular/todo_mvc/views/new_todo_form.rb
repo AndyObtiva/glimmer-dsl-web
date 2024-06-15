@@ -9,7 +9,7 @@ class NewTodoForm
     header(class: 'header') {
       h1('todos')
       
-      new_todo_input(presenter: presenter, placeholder: "What needs to be done?")
+      new_todo_input(presenter: presenter)
       
       style {
         rule('.header h1') {

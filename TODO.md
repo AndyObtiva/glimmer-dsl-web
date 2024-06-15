@@ -114,6 +114,7 @@ Example:
 - Support setting `class` on Glimmer Web Components and having its value override the `class` value on the markup root (unless it made more sense to concatenate it)
 - Display exceptions in a Modal (perhaps make it an option)
 - See why element_proxy.css('something', 'something') doesn't work and requires .dom_element.css() instead.
+- Consider providing an alternative CSS style syntax that is Hash based as it could be good enough for some applications.
 
 ## Issues
 

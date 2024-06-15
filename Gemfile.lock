@@ -187,7 +187,7 @@ GEM
       stringio
     psych (5.1.2-java)
       jar-dependencies (>= 0.1.7)
-    puts_debuggerer (0.13.5)
+    puts_debuggerer (1.0.0)
       awesome_print (~> 1.9.2)
     racc (1.7.3)
     racc (1.7.3-java)
@@ -277,7 +277,7 @@ DEPENDENCIES
   opal-jquery (~> 0.5.1)
   opal-rails (= 2.0.3)
   opal-rspec (~> 0.8.0.alpha2)
-  puts_debuggerer
+  puts_debuggerer (>= 1.0.0)
   rake (>= 10.1.0, < 14.0.0)
   rake-tui
   rdoc (>= 6.2.1, < 7.0.0)
