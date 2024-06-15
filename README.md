@@ -10,7 +10,7 @@
 
 [![Todo MVC](/images/glimmer-dsl-web-samples-regular-todo-mvc.gif)](/lib/glimmer-dsl-web/samples/regular/todo_mvc.rb)
 
-You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. Also, companies can cut their hiring budget in half by having Backend Ruby Software Engineers do Frontend Development with Ruby! [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
+You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. Also, with Frontend Ruby, companies can cut their hiring budget in half by having Backend Ruby Software Engineers do Frontend Development in Ruby! [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every smart highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
@@ -1152,6 +1152,8 @@ Screenshot:
 
 **Todo MVC**
 
+[Todo MVC Ruby Edition Is the One Todo MVC To Rule Them All!!!](https://andymaleh.blogspot.com/2024/06/todo-mvc-in-ruby-is-one-todo-mvc-to.html)
+
 ```ruby
 require 'glimmer-dsl-web'
 
@@ -1280,6 +1282,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Paragraph!](#hello-paragraph)
       - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
+      - [Todo MVC](#todo-mvc)
   - [Design Principles](#design-principles)
   - [Supporting Libraries](#supporting-libraries)
   - [Glimmer Process](#glimmer-process)
@@ -3252,6 +3255,108 @@ When clicked 7 times:
 Screenshot:
 
 ![Button Counter](/images/glimmer-dsl-web-samples-regular-button-counter.gif)
+
+#### Todo MVC
+
+[Todo MVC Ruby Edition Is the One Todo MVC To Rule Them All!!!](https://andymaleh.blogspot.com/2024/06/todo-mvc-in-ruby-is-one-todo-mvc-to.html)
+
+[lib/glimmer-dsl-web/samples/regular/todo_mvc.rb](/lib/glimmer-dsl-web/samples/regular/todo_mvc.rb)
+
+```ruby
+require 'glimmer-dsl-web'
+
+require_relative 'todo_mvc/presenters/todo_presenter'
+
+require_relative 'todo_mvc/views/new_todo_form'
+require_relative 'todo_mvc/views/todo_list'
+require_relative 'todo_mvc/views/todo_filters'
+require_relative 'todo_mvc/views/todo_mvc_footer'
+
+class TodoMvc
+  include Glimmer::Web::Component
+  
+  before_render do
+    @presenter = TodoPresenter.new
+  end
+  
+  after_render do
+    @presenter.setup_filter_routes
+  end
+  
+  markup {
+    div(class: 'todomvc') {
+      section(class: 'todoapp') {
+        new_todo_form(presenter: @presenter)
+        
+        todo_list(presenter: @presenter)
+        
+        todo_filters(presenter: @presenter)
+              
+        style {
+          todo_mvc_styles
+        }
+      }
+      
+      todo_mvc_footer
+      
+      on_remove do
+        @presenter.unsetup_filter_routes
+      end
+    }
+  }
+  
+  def todo_mvc_styles
+    rule('body, button, html') {
+      margin '0'
+      padding '0'
+    }
+    
+    rule('button') {
+      _webkit_font_smoothing 'antialiased'
+      _webkit_appearance 'none'
+      appearance 'none'
+      background 'none'
+      border '0'
+      color 'inherit'
+      font_family 'inherit'
+      font_size '100%'
+      font_weight 'inherit'
+      vertical_align 'baseline'
+    }
+    
+    rule('.todoapp') {
+      background '#fff'
+      margin '130px 0 40px 0'
+      position 'relative'
+      box_shadow '0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1)'
+    }
+  
+    media('screen and (-webkit-min-device-pixel-ratio:0)') {
+      rule('body') {
+        font "14px 'Helvetica Neue', Helvetica, Arial, sans-serif"
+        line_height '1.4em'
+        background '#f5f5f5'
+        color '#111111'
+        min_width '230px'
+        max_width '550px'
+        margin '0 auto'
+        _webkit_font_smoothing 'antialiased'
+        font_weight '300'
+      }
+    }
+  end
+end
+
+Document.ready? do
+  TodoMvc.render
+end
+```
+
+![Todo MVC](/images/glimmer-dsl-web-samples-regular-todo-mvc.gif)
+
+The rest of the files are found at:
+
+[lib/glimmer-dsl-web/samples/regular/todo_mvc](/lib/glimmer-dsl-web/samples/regular/todo_mvc)
 
 ## Design Principles
 
