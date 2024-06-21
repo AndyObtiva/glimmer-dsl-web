@@ -100,8 +100,8 @@ Document.ready? do
     
     div {
       # Content Data-Binding is used to dynamically (re)generate content of div
-      # based on changes to @user.addresses, replacing older content on every change
-      content(@user, :addresses) do
+      # based on changes to @user.address_count, replacing older content on every change
+      content(@user, :address_count) do
         @user.addresses.each do |address|
           div {
             div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|

@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.8
+
+- Support Content Data-Binding to multiple model attributes via `computed_by` option (e.g. `content(@game, :scale, computed_by: [:width, :height])` or `content(@game, computed_by: [:scale, :width, :height])` will re-render content on changes to `:scale`, `:width`, or `:height`)
+
 ## 0.2.7
 
 - Unidirectional Data-Binding of element `style` property

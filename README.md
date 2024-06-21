@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.7 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.2.8 (Beta)
 ## Ruby in the Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
@@ -379,7 +379,7 @@ Screenshot:
 
 If you need to regenerate HTML element content dynamically, you can use Content Data-Binding to effortlessly
 rebuild HTML elements based on changes in a Model attribute that provides the source data.
-In this example, we generate multiple address forms based on the number of addresses the user has.
+In this example, we generate multiple address forms based on the number of addresses the user has using `content(@user, :address_count)` (you can add a `computed_by: array_of_attributes` option if you want to re-render content based on changes to multiple attributes like `content(@user, computed_by: [:address_count, :street_count])`, which fires on changes to `address_count` or `street_count`) .
 
 [lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb)
 
@@ -468,7 +468,7 @@ Document.ready? do
     div {
       # Content Data-Binding is used to dynamically (re)generate content of div
       # based on changes to @user.addresses, replacing older content on every change
-      content(@user, :addresses) do
+      content(@user, :address_count) do
         @user.addresses.each do |address|
           div {
             div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
@@ -1329,7 +1329,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.2.7'
+gem 'glimmer-dsl-web', '~> 0.2.8'
 ```
 
 Run:
@@ -1556,7 +1556,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.2.7'
+gem 'glimmer-dsl-web', '~> 0.2.8'
 ```
 
 Run:
@@ -2414,9 +2414,9 @@ Screenshot:
 
 #### Hello, Content Data-Binding!
 
-If you need to regenerate HTML element content dynamically, you can use Content Data-Binding to effortlessly
-rebuild HTML elements based on changes in a Model attribute that provides the source data.
-In this example, we generate multiple address forms based on the number of addresses the user has.
+If you need to regenerate (re-render) HTML element content dynamically, you can use Content Data-Binding to effortlessly
+rebuild (rerender) HTML elements based on changes in a Model attribute that provides the source data.
+In this example, we generate multiple address forms based on the number of addresses the user has using `content(@user, :address_count)` (you can add a `computed_by: array_of_attributes` option if you want to re-render content based on changes to multiple attributes like `content(@user, computed_by: [:address_count, :street_count])`, which fires on changes to `address_count` or `street_count`) .
 
 [lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_content_data_binding.rb)
 
@@ -2504,8 +2504,8 @@ Document.ready? do
     
     div {
       # Content Data-Binding is used to dynamically (re)generate content of div
-      # based on changes to @user.addresses, replacing older content on every change
-      content(@user, :addresses) do
+      # based on changes to @user.address_count, replacing older content on every change
+      content(@user, :address_count) do
         @user.addresses.each do |address|
           div {
             div(style: 'display: grid; grid-auto-columns: 80px 280px;') { |address_div|
