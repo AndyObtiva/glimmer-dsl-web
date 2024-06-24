@@ -4,17 +4,18 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.2.x
+### 0.3.x
 
+- Optimize performance by building GUI with a render call that assembles html as a string from all nested elements and mounts all HTML at once (instead of making many small DOM mount calls). That also requires recording calls to update properties or setup listeners, and then play them as soon as the DOM element is mounted.
+- Support slower performance GUI building mode that enables building with small DOM calls instead of one big DOM call (can be configured globally at the top level component)
+- Document in README how to troubleshoot Opal code, including 3 cases, Ruby interpretation issues, Ruby syntax issues, and crazy issue that requires `rm -rf tmp/cache` and restart of server
+- Update Todo MVC to hide/show tasks upon switching All/Active/Completed filters (instead of re-rendering)
+- Make after-write hook not need to take a _ argument if it won't use it (and same with all data-binding hooks/converters)
 - Do not require attribute setter/writer when doing unidirectional or content data-binding
 - Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
 - Think about solutions for overriding class_name of div conflicting with its initial class attribute
 - Support always being able to pass id and class to glimmer web component as an extra argument
 - Enable data-binding component attributes (by nesting within component in consumer code)
-- Add an example of form submission via ajax request
-- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
-
-### 0.3.0
 
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
@@ -103,8 +104,6 @@ Example:
 - Generate Rails scaffolding directly with Glimmer GUI DSL code
 - Support backend server-side rendering of Glimmer Web components to help with SEO purposes on certain pages
 - Use backend server-side rendering of Glimmer Web components in glimmer_component Rails helper with an option that would pre-render the HTML in the backend, and then augment it with JS behavior using Glimmer GUI DSL on the frontend
-- Optimize performance of registering dom listeners by including real oneveny attributes where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
-- Consider optimizing performance by building GUI with a render call that assembles html from all nested elements all at once
 - Consider idea of auto-routing with components by embedding component keyword and its args into URL path parameters (or serializing paramters and deserializing them)
 - Support automatically displaying a progress bar or circle when rendering a component (like a giant one that might take more than the tolerable 500ms.. although that should be rare)
 - Provide form helpers similar to ERB form helpers, but in Glimmer DSL
@@ -115,6 +114,7 @@ Example:
 - Display exceptions in a Modal (perhaps make it an option)
 - See why element_proxy.css('something', 'something') doesn't work and requires .dom_element.css() instead.
 - Consider providing an alternative CSS style syntax that is Hash based as it could be good enough for some applications.
+- Consider optimizing performance of registering dom listeners by including real onevent attributes (instead of registering via JS calls) where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
 
 ## Issues
 
@@ -122,6 +122,6 @@ Example:
 
 ## Samples
 
-- Sample showing a progress bar or progress circle
-
-## Samples
+- Sample showing a progress bar or progress circle (or add a web component to support it)
+- Add an example of form submission via ajax request
+- Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page

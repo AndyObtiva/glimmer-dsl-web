@@ -118,12 +118,13 @@ module Glimmer
       REGEX_FORMAT_DATE = /^\d{4}-\d{2}-\d{2}$/
       REGEX_FORMAT_TIME = /^\d{2}:\d{2}$/
       
-      attr_reader :keyword, :parent, :args, :options, :children, :enabled, :foreground, :background, :removed?, :rendered
+      attr_reader :keyword, :parent, :parent_component, :args, :options, :children, :enabled, :foreground, :background, :removed?, :rendered
       alias rendered? rendered
       
       def initialize(keyword, parent, args, block)
         @keyword = keyword
-        @parent = parent
+        @parent = parent.is_a?(Glimmer::Web::Component) ? parent.markup_root : parent
+        @parent_component = parent if parent.is_a?(Glimmer::Web::Component)
         @options = args.last.is_a?(Hash) ? args.last.symbolize_keys : {}
         if parent.nil?
           options[:parent] ||= Component.interpretation_stack.last&.options&.[](:parent)
