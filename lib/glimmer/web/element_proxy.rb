@@ -375,9 +375,12 @@ module Glimmer
         html_options
       end
       
-      def content(&block)
-        # TODO support calling content without bulk_render when bulk_render mode is on
-        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, &block)
+      def content(bulk_render: false, &block)
+        original_bulk_render = options[:bulk_render]
+        options[:bulk_render] = bulk_render if rendered?
+        return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, &block)
+        options[:bulk_render] = original_bulk_render if rendered?
+        return_value
       end
       
       # Subclasses must override with their own mappings
@@ -565,7 +568,7 @@ module Glimmer
           # To do so, we must avoid generating new content with new unique IDs/Classes and only append the new IDs classes after mounting
           # TODO consider optimizing remove performance by doing clear instead and removing listeners separately
           children.dup.each { |child| child.remove }
-          content(&content_block)
+          content(bulk_render: true, &content_block)
           if bulk_render? && rendered?
             self.inner_html = children_dom_content
             children.each(&:mark_rendered)

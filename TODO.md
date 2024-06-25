@@ -6,10 +6,15 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.3.x
 
-- Support slower performance GUI building mode that enables building with small DOM calls instead of one big DOM call (can be configured globally at the top level component)
 - Document in README how to troubleshoot Opal code, including 3 cases, Ruby interpretation issues, Ruby syntax issues, and crazy issue that requires `rm -rf tmp/cache` and restart of server
 - Update Todo MVC to hide/show tasks upon switching All/Active/Completed filters (instead of re-rendering)
 - Make after-write hook not need to take a _ argument if it won't use it (and same with all data-binding hooks/converters)
+- Consider optimizing performance of registering dom listeners by including real onevent (e.g. onclick) attributes (instead of registering via JS calls) where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
+- Optimize performance of component expressions by memoizing declared components
+- Optimize performance of formatting element expressions by memoizing formatting elements
+- Optimize performance of listener expressions by memoizing listeners
+- Optimize performance of style expressions by turning into a static expression that behaves as both a property and an element
+- Optimize performance of content expressions by turning into a static expression that behaves as both an open content block adder and a content data-binding block
 - Do not require attribute setter/writer when doing unidirectional or content data-binding
 - Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
 - Think about solutions for overriding class_name of div conflicting with its initial class attribute
@@ -112,7 +117,6 @@ Example:
 - Display exceptions in a Modal (perhaps make it an option)
 - See why element_proxy.css('something', 'something') doesn't work and requires .dom_element.css() instead.
 - Consider providing an alternative CSS style syntax that is Hash based as it could be good enough for some applications.
-- Consider optimizing performance of registering dom listeners by including real onevent attributes (instead of registering via JS calls) where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
 - Support content_for_each as an optimized version of `content` data-binding that would diff models first before updating elements.
     content_for_each(presenter, :todos) { |todo|
       todo_list_item(presenter:, todo:)
