@@ -281,7 +281,10 @@ module Glimmer
       end
       
       def render(parent: nil, custom_parent_dom_element: nil, brand_new: false)
-        # TODO what happens in content data binding? Does it render in bulk or not?
+        # TODO fix hello form and hello form mvc content data-binding in bulk render mode
+        # TODO fix content data-binding in bulk render mode
+        # TODO fix Todo MVC in bulk render mode
+        # TODO does bulk render work with dynamic adding of content using content { ... } ?
         parent_selector = parent
         options[:parent] = parent_selector if !parent_selector.to_s.empty?
         if !options[:parent].to_s.empty?
@@ -525,9 +528,9 @@ module Glimmer
       
       def type
         if rendered?
-          options[:type] || 'text'
-        else
           super
+        else
+          options[:type] || 'text'
         end
       end
       
