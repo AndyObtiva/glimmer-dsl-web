@@ -134,17 +134,17 @@ module Glimmer
         if parent.nil?
           options[:parent] ||= Component.interpretation_stack.last&.options&.[](:parent)
           options[:render] ||= Component.interpretation_stack.last&.options&.[](:render)
-          options[:batch_render] ||= Component.interpretation_stack.last&.options&.[](:batch_render)
+          options[:bulk_render] ||= Component.interpretation_stack.last&.options&.[](:bulk_render)
         end
         @args = args
         @block = block
         @children = []
         @parent&.post_initialize_child(self)
-        render if !batch_render? && !@rendered && render_after_create?
+        render if !bulk_render? && !@rendered && render_after_create?
       end
       
-      def batch_render?
-        options[:batch_render] != false && (@parent.nil? || @parent.batch_render?)
+      def bulk_render?
+        options[:bulk_render] != false && (@parent.nil? || @parent.bulk_render?)
       end
       
       def render_after_create?
@@ -154,7 +154,7 @@ module Glimmer
       # Executes for the parent of a child that just got added
       def post_initialize_child(child)
         @children << child
-        child.render if !batch_render? && !render_after_create?
+        child.render if !bulk_render? && !render_after_create?
       end
       
       # Executes for the parent of a child that just got removed
@@ -164,7 +164,7 @@ module Glimmer
       
       # Executes at the closing of a parent widget curly braces after all children/properties have been added/set
       def post_add_content
-        render if batch_render? && @parent.nil?
+        render if bulk_render? && @parent.nil?
       end
       
       def css_classes
@@ -281,10 +281,6 @@ module Glimmer
       end
       
       def render(parent: nil, custom_parent_dom_element: nil, brand_new: false)
-        # TODO fix hello form and hello form mvc content data-binding in bulk render mode
-        # TODO fix content data-binding in bulk render mode
-        # TODO fix Todo MVC in bulk render mode
-        # TODO does bulk render work with dynamic adding of content using content { ... } ?
         parent_selector = parent
         options[:parent] = parent_selector if !parent_selector.to_s.empty?
         if !options[:parent].to_s.empty?
@@ -301,9 +297,9 @@ module Glimmer
           reattach(old_element)
         end
         mark_rendered
-        invoke_post_render_method_calls if batch_render?
+        invoke_post_render_method_calls if bulk_render?
         handle_observation_requests
-        children.each(&:render) if !batch_render? && !render_after_create?
+        children.each(&:render) if !bulk_render? && !render_after_create?
         add_contents_for_render_blocks
         notify_on_render_listeners
       end
@@ -319,7 +315,7 @@ module Glimmer
       
       def mark_rendered
         @rendered = true
-        children.each(&:mark_rendered) if batch_render?
+        children.each(&:mark_rendered) if bulk_render?
       end
       
       def add_text_content(text, on_empty: false)
@@ -356,9 +352,13 @@ module Glimmer
         # TODO check if we need to avoid rendering content block if no content is available
         @dom ||= begin
           content = args.first.is_a?(String) ? args.first : ''
-          children.each { |child| content += child.dom } if batch_render?
+          content += children_dom_content if bulk_render?
           ElementProxy.render_html(keyword, html_options, content)
         end
+      end
+      
+      def children_dom_content
+        children.map(&:dom).join
       end
       
       def html_options
@@ -376,6 +376,7 @@ module Glimmer
       end
       
       def content(&block)
+        # TODO support calling content without bulk_render when bulk_render mode is on
         Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, &block)
       end
       
@@ -519,7 +520,7 @@ module Glimmer
       
       def notify_on_render_listeners
         notify_listeners('on_render')
-        children.each(&:notify_on_render_listeners) if batch_render?
+        children.each(&:notify_on_render_listeners) if bulk_render?
       end
       
       def data_bindings
@@ -562,8 +563,17 @@ module Glimmer
         content_binding_work = proc do |*values|
           # TODO in the future, consider optimizing code by diffing content if that makes sense (e.g. using opal-virtual-dom)
           # To do so, we must avoid generating new content with new unique IDs/Classes and only append the new IDs classes after mounting
+          # TODO consider optimizing remove performance by doing clear instead and removing listeners separately
           children.dup.each { |child| child.remove }
           content(&content_block)
+          if bulk_render? && rendered?
+            self.inner_html = children_dom_content
+            children.each(&:mark_rendered)
+            children.each(&:invoke_post_render_method_calls)
+            children.each(&:handle_observation_requests)
+            children.each(&:add_contents_for_render_blocks)
+            children.each(&:notify_on_render_listeners)
+          end
         end
         model_binding_observer = Glimmer::DataBinding::ModelBinding.new(*binding_args)
         content_binding_observer = Glimmer::DataBinding::Observer.proc(&content_binding_work)
@@ -650,7 +660,7 @@ module Glimmer
         post_render_method_calls.each do |method_name, args, block|
           send(method_name, *args, &block)
         end
-        children.each(&:invoke_post_render_method_calls)
+        children.each(&:invoke_post_render_method_calls) if bulk_render?
       end
       
       def handle_observation_requests
@@ -659,7 +669,7 @@ module Glimmer
             handle_observation_request(keyword, event_listener)
           end
         end
-        children.each(&:handle_observation_requests) if batch_render?
+        children.each(&:handle_observation_requests) if bulk_render?
       end
       
       def add_contents_for_render_blocks
@@ -668,7 +678,7 @@ module Glimmer
             content(&content_block)
           end
         end
-        children.each(&:add_contents_for_render_blocks) if batch_render?
+        children.each(&:add_contents_for_render_blocks) if bulk_render?
       end
       
       def property_name_for(method_name)

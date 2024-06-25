@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.3.x
 
-- Optimize performance by building GUI with a render call that assembles html as a string from all nested elements and mounts all HTML at once (instead of making many small DOM mount calls). That also requires recording calls to update properties or setup listeners, and then play them as soon as the DOM element is mounted.
 - Support slower performance GUI building mode that enables building with small DOM calls instead of one big DOM call (can be configured globally at the top level component)
 - Document in README how to troubleshoot Opal code, including 3 cases, Ruby interpretation issues, Ruby syntax issues, and crazy issue that requires `rm -rf tmp/cache` and restart of server
 - Update Todo MVC to hide/show tasks upon switching All/Active/Completed filters (instead of re-rendering)
@@ -16,7 +15,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Think about solutions for overriding class_name of div conflicting with its initial class attribute
 - Support always being able to pass id and class to glimmer web component as an extra argument
 - Enable data-binding component attributes (by nesting within component in consumer code)
-
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
