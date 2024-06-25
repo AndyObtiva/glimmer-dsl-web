@@ -164,8 +164,7 @@ module Glimmer
       
       # Executes at the closing of a parent widget curly braces after all children/properties have been added/set
       def post_add_content
-        # TODO double check every place we should call this method
-        # No Op
+        render if batch_render? && @parent.nil?
       end
       
       def css_classes
@@ -282,6 +281,7 @@ module Glimmer
       end
       
       def render(parent: nil, custom_parent_dom_element: nil, brand_new: false)
+        # TODO what happens in content data binding? Does it render in bulk or not?
         parent_selector = parent
         options[:parent] = parent_selector if !parent_selector.to_s.empty?
         if !options[:parent].to_s.empty?
@@ -297,7 +297,7 @@ module Glimmer
         else
           reattach(old_element)
         end
-        @rendered = true
+        mark_rendered
         invoke_post_render_method_calls if batch_render?
         handle_observation_requests
         children.each(&:render) if !batch_render? && !render_after_create?
@@ -312,6 +312,11 @@ module Glimmer
         
       def reattach(old_element)
         old_element.replace_with(@dom)
+      end
+      
+      def mark_rendered
+        @rendered = true
+        children.each(&:mark_rendered) if batch_render?
       end
       
       def add_text_content(text, on_empty: false)
@@ -349,7 +354,6 @@ module Glimmer
         @dom ||= begin
           content = args.first.is_a?(String) ? args.first : ''
           children.each { |child| content += child.dom } if batch_render?
-          @rendered = true if batch_render? && @parent
           ElementProxy.render_html(keyword, html_options, content)
         end
       end
@@ -517,6 +521,14 @@ module Glimmer
       
       def data_bindings
         @data_bindings ||= {}
+      end
+      
+      def type
+        if rendered?
+          options[:type] || 'text'
+        else
+          super
+        end
       end
       
       def data_bind(property, model_binding)

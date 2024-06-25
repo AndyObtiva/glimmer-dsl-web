@@ -106,7 +106,6 @@ module Glimmer
         # Creates and renders component
         def render(*args)
           rendered_component = send(keyword, *args)
-          rendered_component.render if args.empty? || (args.last.is_a?(Hash) && args.last[:batch_render] != false)
           rendered_component
         end
       end
