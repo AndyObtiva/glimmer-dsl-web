@@ -1521,6 +1521,8 @@ module ApplicationHelper
 end
 ```
 
+By default, elements are rendered in bulk for faster performance, meaning you cannot interact with element objects until rendering is done. This is a sensible default because most of the time, there is no need to interact with elements until the full frontend application is fully rendered. That said, if it is preferred every once in a while to render elements piecemeal instead of in bulk, this behavior can be adjusted by passing the option `bulk_render: false` to the top-level component or top-level element (if there is no component).
+
 Note that Turbo is disabled on Glimmer elements/components. You can still use Turbo/Hotwire side by side with Glimmer DSL for Web by using one of the two technologies in every page. But, mixing them in the same pages is not recommended at the moment, so any pages loaded with Glimmer DSL for Web must be loaded without Turbo (e.g. by putting "data-turbo"="false" on anchor "a" tag links to Glimmer pages).
 
 If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake).

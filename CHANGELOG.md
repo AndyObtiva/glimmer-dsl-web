@@ -2,7 +2,7 @@
 
 ## 0.3.0
 
-- Optimize performance (~170%-226% faster) by building GUI with a bulk_render call that assembles html as a string from all nested elements and mounts all HTML at once (instead of making many small DOM mount calls). The trade-off is not being able to interact with elements until rendering of the complete hierarchy is complete, which is acceptable because interactions do not happen till after everything is rendered anyways. Can be disabled by passing `bulk_render: false` option to the top-level element of a frontend app.
+- Optimize performance (~170%-226% faster) of rendering by building GUI in bulk, assembling html as a string from all nested elements and mounting all HTML at once (instead of making many small DOM mount calls). The trade-off is not being able to interact with elements until rendering of the complete hierarchy is complete, which is acceptable because interactions do not happen till after everything is rendered anyways. Can be disabled by passing the `bulk_render: false` option to the top-level component/element of a frontend app.
 - Fix issue with not being able to add content to a custom control by opening a block that should add content inside its markup root element
 
 ## 0.2.8
