@@ -12,11 +12,9 @@ module Glimmer
         end
         
         def add_content(parent, keyword, *args, &block)
-          if parent.rendered? || parent.skip_content_on_render_blocks?
+          if parent.batch_render? || parent.rendered? || parent.skip_content_on_render_blocks?
             return_value = super(parent, keyword, *args, &block)
-            if return_value.is_a?(String) && parent.dom_element.text.to_s.empty?
-              parent.add_text_content(return_value)
-            end
+            parent.add_text_content(return_value, on_empty: true) if return_value.is_a?(String)
             parent.post_add_content
             return_value
           else

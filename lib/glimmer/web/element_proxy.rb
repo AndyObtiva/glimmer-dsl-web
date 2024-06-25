@@ -83,6 +83,11 @@ module Glimmer
             "<#{element}#{attributes}>#{content}</#{element}>"
           end
         end
+        
+        def unrendered_dom_element(keyword)
+          @unrendered_dom_elements ||= {}
+          @unrendered_dom_elements[keyword] ||= Element["<#{keyword} />"]
+        end
       end
       
       include Glimmer
@@ -129,12 +134,17 @@ module Glimmer
         if parent.nil?
           options[:parent] ||= Component.interpretation_stack.last&.options&.[](:parent)
           options[:render] ||= Component.interpretation_stack.last&.options&.[](:render)
+          options[:batch_render] ||= Component.interpretation_stack.last&.options&.[](:batch_render)
         end
         @args = args
         @block = block
         @children = []
         @parent&.post_initialize_child(self)
-        render if !@rendered && render_after_create?
+        render if !batch_render? && !@rendered && render_after_create?
+      end
+      
+      def batch_render?
+        options[:batch_render] != false && (@parent.nil? || @parent.batch_render?)
       end
       
       def render_after_create?
@@ -144,7 +154,7 @@ module Glimmer
       # Executes for the parent of a child that just got added
       def post_initialize_child(child)
         @children << child
-        child.render if !render_after_create?
+        child.render if !batch_render? && !render_after_create?
       end
       
       # Executes for the parent of a child that just got removed
@@ -159,16 +169,18 @@ module Glimmer
       end
       
       def css_classes
-        dom_element.attr('class').to_s.split
+        dom_element.attr('class').to_s.split if rendered?
       end
       
       def remove
-        @children.dup.each do |child|
-          child.remove
-        end
         on_remove_listeners = listeners_for('on_remove').dup
-        remove_all_listeners
-        dom_element.remove
+        if rendered?
+          @children.dup.each do |child|
+            child.remove
+          end
+          remove_all_listeners
+          dom_element.remove
+        end
         parent&.post_remove_child(self)
         @removed = true
         on_remove_listeners.each do |listener|
@@ -223,20 +235,32 @@ module Glimmer
       end
 
       def enabled=(value)
-        @enabled = value
-        dom_element.prop('disabled', !@enabled)
+        if rendered?
+          @enabled = value
+          dom_element.prop('disabled', !@enabled)
+        else
+          enqueue_post_render_method_call('enabled=', value)
+        end
       end
       
       def foreground=(value)
-        value = ColorProxy.new(value) if value.is_a?(String)
-        @foreground = value
-        dom_element.css('color', foreground.to_css) unless foreground.nil?
+        if rendered?
+          value = ColorProxy.new(value) if value.is_a?(String)
+          @foreground = value
+          dom_element.css('color', foreground.to_css) unless foreground.nil?
+        else
+          enqueue_post_render_method_call('foreground=', value)
+        end
       end
       
       def background=(value)
-        value = ColorProxy.new(value) if value.is_a?(String)
-        @background = value
-        dom_element.css('background-color', background.to_css) unless background.nil?
+        if rendered?
+          value = ColorProxy.new(value) if value.is_a?(String)
+          @background = value
+          dom_element.css('background-color', background.to_css) unless background.nil?
+        else
+          enqueue_post_render_method_call('background=', value)
+        end
       end
       
       def parent_selector
@@ -244,8 +268,8 @@ module Glimmer
       end
       
       def parent_dom_element
-        if parent_selector
-          Document.find(parent_selector)
+        if parent
+          parent.dom_element
         else
           options[:parent] ||= 'body'
           the_element = Document.find(options[:parent])
@@ -273,26 +297,12 @@ module Glimmer
         else
           reattach(old_element)
         end
-        observation_requests&.each do |keyword, event_listener_set|
-          event_listener_set.each do |event_listener|
-            handle_observation_request(keyword, event_listener)
-          end
-        end
-        unless render_after_create?
-          children.each do |child|
-            child.render
-          end
-        end
         @rendered = true
-        unless skip_content_on_render_blocks?
-          content_on_render_blocks.each do |content_block|
-            content(&content_block)
-          end
-        end
-        # TODO replace following line with a method call like (`notify_listeners('on_render')`)
-        listeners_for('on_render').each do |listener|
-          listener.original_event_listener.call(EventProxy.new(listener: listener))
-        end
+        invoke_post_render_method_calls if batch_render?
+        handle_observation_requests
+        children.each(&:render) if !batch_render? && !render_after_create?
+        add_contents_for_render_blocks
+        notify_on_render_listeners
       end
       alias rerender render
         
@@ -304,8 +314,12 @@ module Glimmer
         old_element.replace_with(@dom)
       end
       
-      def add_text_content(text)
-        dom_element.append(text.to_s)
+      def add_text_content(text, on_empty: false)
+        if rendered?
+          dom_element.append(text.to_s) if !on_empty || dom_element.text.to_s.empty?
+        else
+          enqueue_post_render_method_call('add_text_content', text, on_empty:)
+        end
       end
       
       def content_on_render_blocks
@@ -333,7 +347,9 @@ module Glimmer
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
         # TODO check if we need to avoid rendering content block if no content is available
         @dom ||= begin
-          content = args.first if args.first.is_a?(String)
+          content = args.first.is_a?(String) ? args.first : ''
+          children.each { |child| content += child.dom } if batch_render?
+          @rendered = true if batch_render? && @parent
           ElementProxy.render_html(keyword, html_options, content)
         end
       end
@@ -373,13 +389,21 @@ module Glimmer
       end
       
       def class_name=(value)
-        value = value.is_a?(Array) ? value.join(' ') : value.to_s
-        new_class_name = "#{name} #{element_id} #{value}"
-        dom_element.prop('className', new_class_name)
+        if rendered?
+          value = value.is_a?(Array) ? value.join(' ') : value.to_s
+          new_class_name = "#{name} #{element_id} #{value}"
+          dom_element.prop('className', new_class_name)
+        else
+          enqueue_post_render_method_call('class_name=', value)
+        end
       end
       
       def add_css_class(css_class)
-        dom_element.add_class(css_class)
+        if rendered?
+          dom_element.add_class(css_class)
+        else
+          enqueue_post_render_method_call('class_name=', value)
+        end
       end
       
       def add_css_classes(css_classes_to_add)
@@ -387,7 +411,11 @@ module Glimmer
       end
       
       def remove_css_class(css_class)
-        dom_element.remove_class(css_class)
+        if rendered?
+          dom_element.remove_class(css_class)
+        else
+          enqueue_post_render_method_call('class_name=', value)
+        end
       end
       
       def remove_css_classes(css_classes_to_remove)
@@ -398,38 +426,17 @@ module Glimmer
         css_classes.each {|css_class| remove_css_class(css_class)}
       end
       
-      def has_style?(symbol)
-        @args.include?(symbol) # not a very solid implementation. Bring SWT constants eventually
-      end
-      
       def dom_element
-        # TODO consider making this pick an element in relation to its parent, allowing unhooked dom elements to be built if needed (unhooked to the visible page dom)
-        Document.find(selector)
+        if rendered?
+          # TODO consider making this pick an element in relation to its parent, allowing unhooked dom elements to be built if needed (unhooked to the visible page dom)
+          Document.find(selector)
+        else
+          # Using a fill-in dom element until self is rendered
+          ElementProxy.unrendered_dom_element(keyword)
+        end
       end
       
       # TODO consider adding a default #dom method implementation for the common case, automatically relying on #element and other methods to build the dom html
-      
-      def style_element
-        style_element_id = "#{id}-style"
-        style_element_selector = "style##{style_element_id}"
-        element = dom_element.find(style_element_selector)
-        if element.empty?
-          new_element = Element.new(:style)
-          new_element.attr('id', style_element_id)
-          new_element.attr('class', "#{name.gsub('_', '-')}-instance-style widget-instance-style")
-          dom_element.prepend(new_element)
-          element = dom_element.find(style_element_selector)
-        end
-        element
-      end
-      
-      def listener_selector
-        selector
-      end
-      
-      def listener_dom_element
-        Document.find(listener_selector)
-      end
       
       def observation_requests
         @observation_requests ||= {}
@@ -474,16 +481,20 @@ module Glimmer
       end
       
       def handle_observation_request(keyword, original_event_listener)
-        listener = ListenerProxy.new(
-          element: self,
-          selector: selector,
-          dom_element: dom_element,
-          event_attribute: keyword,
-          original_event_listener: original_event_listener,
-        )
-        listener.register
-        listeners_for(keyword) << listener
-        listener
+        if rendered?
+          listener = ListenerProxy.new(
+            element: self,
+            selector: selector,
+            dom_element: dom_element,
+            event_attribute: keyword,
+            original_event_listener: original_event_listener,
+          )
+          listener.register
+          listeners_for(keyword) << listener
+          listener
+        else
+          enqueue_post_render_method_call('handle_observation_request', keyword, original_event_listener)
+        end
       end
       
       def remove_event_listener_proxies
@@ -491,6 +502,17 @@ module Glimmer
           event_listener_proxy.unregister
         end
         event_listener_proxies.clear
+      end
+      
+      def notify_listeners(event)
+        listeners_for(event).each do |listener|
+          listener.original_event_listener.call(EventProxy.new(listener: listener))
+        end
+      end
+      
+      def notify_on_render_listeners
+        notify_listeners('on_render')
+        children.each(&:notify_on_render_listeners) if batch_render?
       end
       
       def data_bindings
@@ -522,8 +544,9 @@ module Glimmer
       # Data-binds the generation of nested content to a model/property (in binding args)
       # consider providing an option to avoid initial rendering without any changes happening
       def bind_content(*binding_args, &content_block)
-        # TODO in the future, consider optimizing code by diffing content if that makes sense
         content_binding_work = proc do |*values|
+          # TODO in the future, consider optimizing code by diffing content if that makes sense (e.g. using opal-virtual-dom)
+          # To do so, we must avoid generating new content with new unique IDs/Classes and only append the new IDs classes after mounting
           children.dup.each { |child| child.remove }
           content(&content_block)
         end
@@ -553,33 +576,84 @@ module Glimmer
         if method_name.to_s.start_with?('on_')
           handle_observation_request(method_name, block)
         elsif dom_element.respond_to?(method_name)
-          dom_element.send(method_name, *args, &block)
-        elsif !dom_element.prop(property_name).nil? && !dom_element.prop(property_name).is_a?(Proc)
-          if method_name.end_with?('=')
-            dom_element.prop(property_name, *args)
+          if rendered?
+            dom_element.send(method_name, *args, &block)
           else
-            dom_element.prop(property_name)
+            enqueue_post_render_method_call(method_name, *args, &block)
+          end
+        elsif !dom_element.prop(property_name).nil? && !dom_element.prop(property_name).is_a?(Proc)
+          if rendered?
+            if method_name.end_with?('=')
+              dom_element.prop(property_name, *args)
+            else
+              dom_element.prop(property_name)
+            end
+          else
+            enqueue_post_render_method_call(method_name, *args, &block)
           end
         elsif !dom_element.prop(unnormalized_property_name).nil? && !dom_element.prop(unnormalized_property_name).is_a?(Proc)
-          if method_name.end_with?('=')
-            dom_element.prop(unnormalized_property_name, *args)
+          if rendered?
+            if method_name.end_with?('=')
+              dom_element.prop(unnormalized_property_name, *args)
+            else
+              dom_element.prop(unnormalized_property_name)
+            end
           else
-            dom_element.prop(unnormalized_property_name)
+            enqueue_post_render_method_call(method_name, *args, &block)
           end
         elsif dom_element && dom_element.length > 0
-          js_args = block.nil? ? args : (args + [block])
-          begin
-            Native.call(dom_element, '0').method_missing(method_name.to_s.camelcase, *js_args)
-          rescue Exception => e
+          if rendered?
+            js_args = block.nil? ? args : (args + [block])
             begin
-              Native.call(dom_element, '0').method_missing(method_name.to_s, *js_args)
+              Native.call(dom_element, '0').method_missing(method_name.to_s.camelcase, *js_args)
             rescue Exception => e
-              super(method_name, *args, &block)
+              begin
+                Native.call(dom_element, '0').method_missing(method_name.to_s, *js_args)
+              rescue Exception => e
+                super(method_name, *args, &block)
+              end
             end
+          else
+            enqueue_post_render_method_call(method_name, *args, &block)
           end
         else
           super(method_name, *args, &block)
         end
+      end
+      
+      def post_render_method_calls
+        @post_render_method_calls ||= []
+      end
+      
+      def enqueue_post_render_method_call(method_name, *args, &block)
+        post_render_method_calls << [method_name, args, block]
+        nil
+      end
+      
+      def invoke_post_render_method_calls
+        return unless rendered?
+        post_render_method_calls.each do |method_name, args, block|
+          send(method_name, *args, &block)
+        end
+        children.each(&:invoke_post_render_method_calls)
+      end
+      
+      def handle_observation_requests
+        observation_requests&.each do |keyword, event_listener_set|
+          event_listener_set.each do |event_listener|
+            handle_observation_request(keyword, event_listener)
+          end
+        end
+        children.each(&:handle_observation_requests) if batch_render?
+      end
+      
+      def add_contents_for_render_blocks
+        unless skip_content_on_render_blocks?
+          content_on_render_blocks.each do |content_block|
+            content(&content_block)
+          end
+        end
+        children.each(&:add_contents_for_render_blocks) if batch_render?
       end
       
       def property_name_for(method_name)

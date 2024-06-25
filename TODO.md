@@ -115,6 +115,11 @@ Example:
 - See why element_proxy.css('something', 'something') doesn't work and requires .dom_element.css() instead.
 - Consider providing an alternative CSS style syntax that is Hash based as it could be good enough for some applications.
 - Consider optimizing performance of registering dom listeners by including real onevent attributes (instead of registering via JS calls) where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
+- Support content_for_each as an optimized version of `content` data-binding that would diff models first before updating elements.
+    content_for_each(presenter, :todos) { |todo|
+      todo_list_item(presenter:, todo:)
+    }
+
 
 ## Issues
 
