@@ -18,10 +18,16 @@ class TodoPresenter
   def create_todo(todo = nil)
     todo ||= new_todo.clone
     Todo.all.prepend(todo)
-    observers_for_todo_stats[todo.object_id] = todo_stat_observer.observe(todo, :completed) unless observers_for_todo_stats.has_key?(todo.object_id)
+    observe_todo_completion_to_update_todo_stats(todo)
     refresh_todos_with_filter
     refresh_todo_stats
     new_todo.task = ''
+  end
+  
+  def observe_todo_completion_to_update_todo_stats(todo)
+    if !observers_for_todo_stats.has_key?(todo.object_id)
+      observers_for_todo_stats[todo.object_id] = todo_stat_observer.observe(todo, :completed)
+    end
   end
   
   def refresh_todos_with_filter
