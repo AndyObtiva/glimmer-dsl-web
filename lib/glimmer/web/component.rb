@@ -316,6 +316,10 @@ module Glimmer
         @markup_root&.render(parent: parent, custom_parent_dom_element: custom_parent_dom_element, brand_new: brand_new)
       end
       
+      def remove
+        @markup_root&.remove
+      end
+      
       # Returns content block if used as an attribute reader (no args)
       # Otherwise, if a block is passed, it adds it as content to this Glimmer web component
       def content(*args, &block)

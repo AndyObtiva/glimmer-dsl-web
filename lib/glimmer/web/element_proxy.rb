@@ -542,9 +542,9 @@ module Glimmer
         element_binding_translator = value_converters_for_input_type(type)[:model_to_view]
         element_binding_parameters = [self, property, element_binding_translator]
         element_binding = DataBinding::ElementBinding.new(*element_binding_parameters)
-        element_binding.call(model_binding.evaluate_property)
         #TODO make this options observer dependent and all similar observers in element specific data binding handlers
         element_binding.observe(model_binding)
+        element_binding.call(model_binding.evaluate_property)
         data_bindings[element_binding] = model_binding
         unless model_binding.binding_options[:read_only]
           # TODO add guards against nil cases for hash below

@@ -9,6 +9,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Document in README how to troubleshoot Opal code, including 3 cases, Ruby interpretation issues, Ruby syntax issues, and crazy issue that requires `rm -rf tmp/cache` and restart of server
 - Update Todo MVC to hide/show tasks upon switching All/Active/Completed filters (instead of re-rendering) / Optimize performance of Clear all elements by ensuring no intermediate refreshes happen
 - Make after-write hook not need to take a _ argument if it won't use it (and same with all data-binding hooks/converters)
+- Support Content Data-Binding progress circle (and ability to update with any image)
 - Consider optimizing performance of registering dom listeners by including real onevent (e.g. onclick) attributes (instead of registering via JS calls) where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
 - Optimize performance of component expressions by memoizing declared components
 - Optimize performance of formatting element expressions by memoizing formatting elements

@@ -6,20 +6,25 @@ class TodoListItem
   option :presenter
   option :todo
   
+  after_render do
+    # after rendering markup, observe todo deleted attribute and remove component when deleted
+    observe(todo, :deleted) do |deleted|
+      self.remove if deleted
+    end
+  end
+  
   markup {
     li {
       class_name <= [ todo, :completed,
-                      on_read: -> (completed) { li_class_name(todo) }
+                      on_read: -> { li_class_name(todo) }
                     ]
       class_name <= [ todo, :editing,
-                      on_read: -> (editing) { li_class_name(todo) }
+                      on_read: -> { li_class_name(todo) }
                     ]
       
       div(class: 'view') {
         input(class: 'toggle', type: 'checkbox') {
-          checked <=> [ todo, :completed,
-                        after_write: -> (_) { presenter.refresh_todos_with_filter if presenter.filter != :all }
-                      ]
+          checked <=> [todo, :completed]
         }
         
         label {
@@ -38,23 +43,18 @@ class TodoListItem
       }
       
       edit_todo_input(presenter:, todo:)
-      
-      if todo == presenter.todos.first
-        style {
-          todo_list_item_styles
-        }
-      end
     }
   }
   
   def li_class_name(todo)
     classes = []
     classes << 'completed' if todo.completed?
+    classes << 'active' if !todo.completed?
     classes << 'editing' if todo.editing?
     classes.join(' ')
   end
   
-  def todo_list_item_styles
+  def self.todo_list_item_styles
     rule('.todo-list li.completed label') {
       color '#949494'
       text_decoration 'line-through'

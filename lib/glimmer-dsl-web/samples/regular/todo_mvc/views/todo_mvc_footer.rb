@@ -7,10 +7,10 @@ class TodoMvcFooter
         "Double-click to edit a todo"
       }
       p {
-        "Created by #{a('Andy Maleh', href: 'https://github.com/AndyObtiva')}"
+        "Created by #{a('Andy Maleh', href: 'https://github.com/AndyObtiva', target: '_blank')}"
       }
       p {
-        "Part of #{a('TodoMVC', href: 'http://todomvc.com')}"
+        "Part of #{a('TodoMVC', href: 'http://todomvc.com', target: '_blank')}"
       }
       
       style {

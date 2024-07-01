@@ -5,9 +5,17 @@ class TodoList
   
   option :presenter
   
+  after_render do
+    observe(presenter, :created_todo) do |todo|
+      @todo_ul.content { # re-open todo ul content to add created todo
+        todo_list_item(presenter:, todo:)
+      }
+    end
+  end
+  
   markup {
     main(class: 'main') {
-      style <= [ Todo, :all,
+      style <= [ presenter, :todos,
                  on_read: ->(todos) { todos.empty? ? 'display: none;' : '' }
                ]
       
@@ -21,12 +29,14 @@ class TodoList
         }
       }
       
-      ul(class: 'todo-list') {
-        content(presenter, :todos) {
-          presenter.todos.each do |todo|
-            todo_list_item(presenter:, todo:)
-          end
-        }
+      @todo_ul = ul {
+        class_name <= [presenter, :filter,
+                        on_read: ->(filter) { "todo-list #{filter}" }
+                      ]
+      
+        presenter.todos.each do |todo|
+          todo_list_item(presenter:, todo:)
+        end
       }
       
       style {
@@ -84,5 +94,15 @@ class TodoList
       margin '0'
       padding '0'
     }
+    
+    rule('.todo-list.active li.completed') {
+      display 'none'
+    }
+    
+    rule('.todo-list.completed li.active') {
+      display 'none'
+    }
+    
+    TodoListItem.todo_list_item_styles
   end
 end

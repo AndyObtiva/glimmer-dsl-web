@@ -1154,6 +1154,10 @@ Screenshot:
 
 [Todo MVC Ruby Edition Is the One Todo MVC To Rule Them All!!!](https://andymaleh.blogspot.com/2024/06/todo-mvc-in-ruby-is-one-todo-mvc-to.html)
 
+[lib/glimmer-dsl-web/samples/regular/todo_mvc.rb](/lib/glimmer-dsl-web/samples/regular/todo_mvc.rb)
+
+[lib/glimmer-dsl-web/samples/regular/todo_mvc](/lib/glimmer-dsl-web/samples/regular/todo_mvc)
+
 ```ruby
 require 'glimmer-dsl-web'
 
@@ -3264,6 +3268,8 @@ Screenshot:
 
 [lib/glimmer-dsl-web/samples/regular/todo_mvc.rb](/lib/glimmer-dsl-web/samples/regular/todo_mvc.rb)
 
+[lib/glimmer-dsl-web/samples/regular/todo_mvc](/lib/glimmer-dsl-web/samples/regular/todo_mvc)
+
 ```ruby
 require 'glimmer-dsl-web'
 
@@ -3355,10 +3361,6 @@ end
 ```
 
 ![Todo MVC](/images/glimmer-dsl-web-samples-regular-todo-mvc.gif)
-
-The rest of the files are found at:
-
-[lib/glimmer-dsl-web/samples/regular/todo_mvc](/lib/glimmer-dsl-web/samples/regular/todo_mvc)
 
 ## Design Principles
 

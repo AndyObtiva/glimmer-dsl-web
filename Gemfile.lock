@@ -67,7 +67,7 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
     addressable (2.4.0)
-    array_include_methods (1.4.0)
+    array_include_methods (1.5.1)
     ast (2.4.2)
     awesome_print (1.9.2)
     builder (3.2.4)
@@ -92,8 +92,8 @@ GEM
       hashie (>= 3.4)
       mime-types (>= 1.16, < 3.0)
       oauth2 (~> 1.0)
-    glimmer (2.7.6)
-      array_include_methods (~> 1.4.0)
+    glimmer (2.7.8)
+      array_include_methods (>= 1.4.0, < 1.6.0)
       facets (>= 3.1.0, < 4.0.0)
     glimmer-dsl-css (1.4.0)
       css_parser (>= 1.0.0, < 2.0.0)
@@ -268,7 +268,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  glimmer (~> 2.7.6)
+  glimmer (~> 2.7.8)
   glimmer-dsl-css (~> 1.4.0)
   glimmer-dsl-xml (~> 1.4.0)
   jeweler (>= 2.3.9, < 3.0.0)

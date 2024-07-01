@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.3.1
+
+- Optimize Todo MVC performance for filtering between all, active, and completed (it happens instantly now)
+- Append Todo MVC todos at the bottom instead of prepending them at the top (I copied the ES6 version initially which did things the opposite way from how Todo MVC behaves normally in other versions)
+- Make Todo MVC "items left" text show "item left" if there is only 1 todo (I missed this detail before)
+- Make Todo MVC footer links open a new tab/window (with `target: '_blank'` option)
+- Refactor/Simplify Todo MVC sample code
+- Upgrade to glimmer 2.7.8
+
 ## 0.3.0
 
 - Optimize performance (~170%-226% faster) of rendering by building GUI in bulk, assembling html as a string from all nested elements and mounting all HTML at once (instead of making many small DOM mount calls). The trade-off is not being able to interact with elements until rendering of the complete hierarchy is complete, which is acceptable because interactions do not happen till after everything is rendered anyways. Can be disabled by passing the `bulk_render: false` option to the top-level component/element of a frontend app.

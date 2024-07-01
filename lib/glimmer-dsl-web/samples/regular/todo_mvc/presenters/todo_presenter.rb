@@ -3,59 +3,54 @@ require 'glimmer/data_binding/observer'
 require_relative '../models/todo'
 
 class TodoPresenter
+  FILTERS = [:all, :active, :completed]
   FILTER_ROUTE_REGEXP = /\#\/([^\/]*)$/
   
-  attr_accessor :todos, :can_clear_completed, :active_todo_count
-  attr_reader :new_todo, :filter
+  attr_accessor :can_clear_completed, :active_todo_count, :created_todo
+  attr_reader :todos, :new_todo, :filter
   
   def initialize
-    @todos = Todo.all.clone
+    @todos = []
     @new_todo = Todo.new(task: '')
     @filter = :all
-    refresh_todo_stats
+    @can_clear_completed = false
+    @active_todo_count = 0
+    todo_stat_refresh_observer.observe(todos) # refresh stats if todos array adds/removes todo objects
   end
   
-  def create_todo(todo = nil)
-    todo ||= new_todo.clone
-    Todo.all.prepend(todo)
+  def active_todos = todos.select(&:active?)
+  
+  def completed_todos = todos.select(&:completed?)
+  
+  def create_todo
+    todo = new_todo.clone
+    todos.append(todo)
     observe_todo_completion_to_update_todo_stats(todo)
-    refresh_todos_with_filter
-    refresh_todo_stats
     new_todo.task = ''
-  end
-  
-  def observe_todo_completion_to_update_todo_stats(todo)
-    if !observers_for_todo_stats.has_key?(todo.object_id)
-      observers_for_todo_stats[todo.object_id] = todo_stat_observer.observe(todo, :completed)
-    end
-  end
-  
-  def refresh_todos_with_filter
-    self.todos = Todo.send(filter).clone
+    self.created_todo = todo # notifies View observer indirectly to add created todo to todo list
   end
   
   def filter=(filter)
     return if filter == @filter
     @filter = filter
-    refresh_todos_with_filter
   end
   
   def destroy(todo)
     delete(todo)
-    refresh_todos_with_filter
-    refresh_todo_stats
   end
   
   def clear_completed
-    Todo.completed.each { |todo| delete(todo) }
-    refresh_todos_with_filter
-    refresh_todo_stats
+    refresh_todo_stats do
+      completed_todos.each { |todo| delete(todo) }
+    end
   end
   
   def toggle_all_completed
-    target_completed_value = Todo.active.any?
-    todos_to_update = target_completed_value ? Todo.active : Todo.completed
-    todos_to_update.each { |todo| todo.completed = target_completed_value }
+    target_completed_value = active_todos.any?
+    todos_to_update = target_completed_value ? active_todos : completed_todos
+    refresh_todo_stats do
+      todos_to_update.each { |todo| todo.completed = target_completed_value }
+    end
   end
   
   def setup_filter_routes
@@ -79,30 +74,42 @@ class TodoPresenter
   
   private
   
+  def observe_todo_completion_to_update_todo_stats(todo)
+    # saving observer registration object to deregister when deleting todo
+    observers_for_todo_stats[todo.object_id] = todo_stat_refresh_observer.observe(todo, :completed)
+  end
+  
+  def todo_stat_refresh_observer
+    @todo_stat_refresh_observer ||= Glimmer::DataBinding::Observer.proc { refresh_todo_stats }
+  end
+  
   def delete(todo)
-    Todo.all.delete(todo)
+    todos.delete(todo)
     observer_registration = observers_for_todo_stats.delete(todo.object_id)
     observer_registration&.deregister
+    todo.deleted = true # notifies View observer indirectly to delete todo
   end
   
   def observers_for_todo_stats
     @observers_for_todo_stats = {}
   end
   
-  def todo_stat_observer
-    @todo_stat_observer ||= Glimmer::DataBinding::Observer.proc { refresh_todo_stats }
-  end
-  
-  def refresh_todo_stats
+  def refresh_todo_stats(&work_before_refresh)
+    if work_before_refresh
+      @do_not_refresh_todo_stats = true
+      work_before_refresh.call
+      @do_not_refresh_todo_stats = nil
+    end
+    return if @do_not_refresh_todo_stats
     refresh_can_clear_completed
     refresh_active_todo_count
   end
   
   def refresh_can_clear_completed
-    self.can_clear_completed = Todo.completed.any?
+    self.can_clear_completed = todos.any?(&:completed?)
   end
   
   def refresh_active_todo_count
-    self.active_todo_count = Todo.active.count
+    self.active_todo_count = active_todos.count
   end
 end

@@ -5,7 +5,7 @@ class TodoFilters
   
   markup {
     footer(class: 'todo-filters') {
-      style <= [ Todo, :all,
+      style <= [ presenter, :todos,
                  on_read: ->(todos) { todos.empty? ? 'display: none;' : '' }
                ]
       
@@ -14,12 +14,14 @@ class TodoFilters
           inner_text <= [presenter, :active_todo_count]
         }
         span {
-          " items left"
+          inner_text <= [presenter, :active_todo_count,
+                          on_read: -> (active_todo_count) { " item#{'s' if active_todo_count != 1} left" }
+                        ]
         }
       }
       
       ul(class: 'filters') {
-        Todo::FILTERS.each do |filter|
+        TodoPresenter::FILTERS.each do |filter|
           li {
             a(filter.to_s.capitalize, href: "#/#{filter unless filter == :all}") {
               class_name <= [ presenter, :filter,
