@@ -55,6 +55,8 @@ class TodoListItem
   end
   
   def self.todo_list_item_styles
+    EditTodoInput.todo_input_styles
+    
     rule('.todo-list li.completed label') {
       color '#949494'
       text_decoration 'line-through'

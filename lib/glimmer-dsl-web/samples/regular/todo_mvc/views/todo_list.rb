@@ -46,6 +46,8 @@ class TodoList
   }
   
   def todo_list_styles
+    TodoListItem.todo_list_item_styles
+    
     rule('.main') {
       border_top '1px solid #e6e6e6'
       position 'relative'
@@ -102,7 +104,5 @@ class TodoList
     rule('.todo-list.completed li.active') {
       display 'none'
     }
-    
-    TodoListItem.todo_list_item_styles
   end
 end

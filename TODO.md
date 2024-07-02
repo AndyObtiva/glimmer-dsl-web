@@ -6,16 +6,11 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.3.x
 
+- Support `css {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
+
 - Document in README how to troubleshoot Opal code, including 3 cases, Ruby interpretation issues, Ruby syntax issues, and crazy issue that requires `rm -rf tmp/cache` and restart of server
-- Update Todo MVC to hide/show tasks upon switching All/Active/Completed filters (instead of re-rendering) / Optimize performance of Clear all elements by ensuring no intermediate refreshes happen
 - Make after-write hook not need to take a _ argument if it won't use it (and same with all data-binding hooks/converters)
 - Support Content Data-Binding progress circle (and ability to update with any image)
-- Consider optimizing performance of registering dom listeners by including real onevent (e.g. onclick) attributes (instead of registering via JS calls) where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
-- Optimize performance of component expressions by memoizing declared components
-- Optimize performance of formatting element expressions by memoizing formatting elements
-- Optimize performance of listener expressions by memoizing listeners
-- Optimize performance of style expressions by turning into a static expression that behaves as both a property and an element
-- Optimize performance of content expressions by turning into a static expression that behaves as both an open content block adder and a content data-binding block
 - Do not require attribute setter/writer when doing unidirectional or content data-binding
 - Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
 - Think about solutions for overriding class_name of div conflicting with its initial class attribute
@@ -33,12 +28,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
 - Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
-- Optimize performance of formatting html elements by adding Glimmer DSL shortcut methods
-- Supporting embedding consumer markup anywhere in a used component by supporting block properties
-- Support integration with standard HTML Web Components
 - Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
 - Add nice CSS styling to some examples
-- Resolve namespaced components by preferring the current namespace module we are in first if no namespace was specified
 
 ### 1.0.0
 
@@ -83,6 +74,21 @@ Example:
 - Build a CSS to Glimmer GUI DSL converter to enable Software Engineers to reuse older CSS in a Glimmer DSL for Web app
 - Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
 
+## Performance Optimizations
+
+- Consider optimizing performance of registering dom listeners by including real onevent (e.g. onclick) attributes (instead of registering via JS calls) where that works tgat would register the listener in first use. This works in tandem witj building html for all dom elements at once for much faster initial rendering
+- Enhance performance optimization of registering dom listeners by including real onevent (e.g. onclick) attributes by having it handle data-binding listener registrations too
+- Optimize performance of listener expressions by memoizing listeners or by creating Glimmer module methods on the fly
+- Optimize performance of style expressions by turning into a static expression that behaves as both a property and an element
+- Optimize performance of content expressions by turning into a static expression that behaves as both an open content block adder and a content data-binding block
+- Consider optimizing Content Data-Binding with Virtual DOM
+- As an optimization in Content Data-Binding, consider saving rendered DOMs per model attribute values and reshowing them instead of recreating them.
+- As an optimization in Content Data-Binding, consider diffing, removing all listeners and re-installing listeners on the same elements.
+- Optimize performance of Shine Data-Binding syntax by having `<=>` and `<=` invoke data-binding logic directly without going through `bind` method (this optimization has to happen in the glimmer gem with a new version number if it breaks APIs)
+- Optimize performance of Glimmer CSS DSL with shortcut methods
+- Optimize performance of a and span formatting html elements by processing them conditionally in their static expressions
+- Optimize performance of `observe(*args)` keyword through memoization or some other solution
+
 ## Maybe
 
 - Implement `DateTime#strptime` & `Date#strptime` (unless the Opal project beats me to it)
@@ -100,8 +106,6 @@ Example:
 - Support setting element `style` CSS properties with Glimmer DSL for CSS when using the nested property version (assuming Glimmer DSL for CSS underwent some improvements as per its TODO next items)
 - Build a Rails generator for installing this gem properly in a Rails app
 - Consider the idea of having Formatting Elements actually return elements, not strings, but with a properly implemented `to_s` method.
-- As an optimization in Content Data-Binding, consider saving rendered DOMs per model attribute values and reshowing them instead of recreating them.
-- As an optimization in Content Data-Binding, consider diffing, removing all listeners and re-installing listeners on the same elements.
 - Consider optimizing component rendering by pre-generating a component template, and copying (if/else conditions are simulated with show/hide on an element)
 - Consider generating a nonce for style tags (elements)
 - Consider ensuring display of elements immediately upon render by using setTimeout to render them (and perhaps limit that to 2nd level under root to avoid being too fine grained). Or you can have it render by accumulation count setting (like every 100 elements or every 1000 elements). Or you can do special rendering for controls that are known to contain a lot of things like `table`.
@@ -122,7 +126,9 @@ Example:
     content_for_each(presenter, :todos) { |todo|
       todo_list_item(presenter:, todo:)
     }
-
+- Supporting embedding consumer markup anywhere in a used component by supporting block properties
+- Support integration with standard HTML Web Components
+- Resolve namespaced components by preferring the current namespace module we are in first if no namespace was specified (glimmer library must be aware of current namespace by checking in method_missing and passing that information to the Glimmer DSL Engine in some stack)
 
 ## Issues
 

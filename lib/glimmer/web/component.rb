@@ -119,71 +119,54 @@ module Glimmer
         end
       end
       
+      ADD_COMPONENT_KEYWORDS_UPON_INHERITANCE = proc do
+        class << self
+          def inherited(subclass)
+            Glimmer::Web::Component.add_component_keyword_to_classes_map_for(subclass)
+            subclass.class_eval(&Glimmer::Web::Component::ADD_COMPONENT_KEYWORDS_UPON_INHERITANCE)
+          end
+        end
+      end
+      
       class << self
         def included(klass)
           if !klass.ancestors.include?(GlimmerSupersedable)
             klass.extend(ClassMethods)
             klass.include(Glimmer)
             klass.prepend(GlimmerSupersedable)
-            Glimmer::Web::Component.add_component_namespaces_for(klass)
+            Glimmer::Web::Component.add_component_keyword_to_classes_map_for(klass)
+            klass.class_eval(&Glimmer::Web::Component::ADD_COMPONENT_KEYWORDS_UPON_INHERITANCE)
           end
         end
       
         def for(underscored_component_name)
-          extracted_namespaces = underscored_component_name.
-            to_s.
-            split(/__/).map do |namespace|
-              namespace.camelcase(:upper)
-            end
-          Glimmer::Web::Component.component_namespaces.each do |base|
-            extracted_namespaces.reduce(base) do |result, namespace|
-              if !result.constants.include?(namespace)
-                namespace = result.constants.detect {|c| c.to_s.upcase == namespace.to_s.upcase } || namespace
-              end
-              begin
-                constant = result.const_get(namespace)
-                return constant if constant&.respond_to?(:ancestors) &&
-                                   (
-                                     constant&.ancestors&.to_a.include?(Glimmer::Web::Component) ||
-                                     # TODO checking GlimmerSupersedable as a hack because when a class is loaded twice (like when loading samples
-                                     # by reloading ruby files), it loses its Glimmer::Web::Component ancestor as a bug in Opal
-                                     # but somehow the prepend module remains
-                                     constant&.ancestors&.to_a.include?(GlimmerSupersedable)
-                                   )
-                constant
-              rescue => e
-                # Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
-                result
-              end
-            end
+          component_classes = Glimmer::Web::Component.component_keyword_to_classes_map[underscored_component_name]
+          if component_classes.nil? || component_classes.empty?
+            Glimmer::Config.logger.debug {"#{underscored_component_name} has no Glimmer web component class!" }
+            nil
+          else
+            component_class = component_classes.first
           end
-          raise "#{underscored_component_name} has no Glimmer web component class!"
-        rescue => e
-          Glimmer::Config.logger.debug {e.message}
-          Glimmer::Config.logger.debug {"#{e.message}\n#{e.backtrace.join("\n")}"}
-          nil
         end
  
-        def add_component_namespaces_for(klass)
-          Glimmer::Web::Component.namespaces_for_class(klass).drop(1).each do |namespace|
-            Glimmer::Web::Component.component_namespaces << namespace
+        def add_component_keyword_to_classes_map_for(component_class)
+          keywords_for_class(component_class).each do |keyword|
+            Glimmer::Web::Component.component_keyword_to_classes_map[keyword] ||= []
+            Glimmer::Web::Component.component_keyword_to_classes_map[keyword] << component_class
           end
         end
 
-        def namespaces_for_class(m)
-          return [m] if m.name.nil?
-          namespace_constants = m.name.split(/::/).map(&:to_sym)
-          namespace_constants.reduce([Object]) do |output, namespace_constant|
-            output += [output.last.const_get(namespace_constant)]
-          end[1..-1].uniq.reverse
+        def keywords_for_class(component_class)
+          namespaces = component_class.to_s.split(/::/).map(&:underscore).reverse
+          namespaces.size.times.map { |n| namespaces[0..n].reverse.join('__') }
         end
 
-        def component_namespaces
-          @component_namespaces ||= reset_component_namespaces
+        def component_keyword_to_classes_map
+          @component_keyword_to_classes_map ||= reset_component_keyword_to_classes_map
         end
 
-        def reset_component_namespaces
-          @component_namespaces = Set[Object, Glimmer::Web]
+        def reset_component_keyword_to_classes_map
+          @component_keyword_to_classes_map = {}
         end
         
         def interpretation_stack
@@ -318,6 +301,14 @@ module Glimmer
       
       def remove
         @markup_root&.remove
+      end
+
+      def data_bind(property, model_binding)
+        @markup_root&.data_bind(property, model_binding)
+      end
+      
+      def bind_content(*binding_args, &content_block)
+        @markup_root&.bind_content(*binding_args, &content_block)
       end
       
       # Returns content block if used as an attribute reader (no args)

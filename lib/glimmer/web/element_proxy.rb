@@ -539,8 +539,8 @@ module Glimmer
       end
       
       def data_bind(property, model_binding)
-        element_binding_translator = value_converters_for_input_type(type)[:model_to_view]
-        element_binding_parameters = [self, property, element_binding_translator]
+        element_binding_read_translator = value_converters_for_input_type(type)&.[](:model_to_view)
+        element_binding_parameters = [self, property, element_binding_read_translator]
         element_binding = DataBinding::ElementBinding.new(*element_binding_parameters)
         #TODO make this options observer dependent and all similar observers in element specific data binding handlers
         element_binding.observe(model_binding)
@@ -552,7 +552,8 @@ module Glimmer
           if listener_keyword
             data_binding_read_listener = lambda do |event|
               view_property_value = send(property)
-              converted_view_property_value = value_converters_for_input_type(type)[:view_to_model].call(view_property_value, model_binding.evaluate_property)
+              element_binding_write_translator = value_converters_for_input_type(type)&.[](:view_to_model)
+              converted_view_property_value = element_binding_write_translator&.call(view_property_value, model_binding.evaluate_property) || view_property_value
               model_binding.call(converted_view_property_value)
             end
             handle_observation_request(listener_keyword, data_binding_read_listener)
@@ -722,7 +723,7 @@ module Glimmer
       end
       
       def value_converters_for_input_type(input_type)
-        input_value_converters[input_type] || {model_to_view: ->(value, old_value) {value}, view_to_model: ->(value, old_value) {value}}
+        input_value_converters[input_type]
       end
       
       def input_value_converters

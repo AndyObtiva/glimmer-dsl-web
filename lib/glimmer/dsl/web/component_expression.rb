@@ -8,7 +8,7 @@ module Glimmer
         include ParentExpression
 
         def can_interpret?(parent, keyword, *args, &block)
-          !!Glimmer::Web::Component.for(keyword)
+          Glimmer::Web::Component.for(keyword)
         end
   
         def interpret(parent, keyword, *args, &block)

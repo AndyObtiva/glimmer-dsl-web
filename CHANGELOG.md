@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.3.2
+
+- Optimize performance (~248% faster) of rendering by changing DSL ordering to avoid component checks at the top
+- Optimize performance of formatting html elements by adding Glimmer DSL shortcut methods
+- Optimize performance of component expressions by indexing component keywords
+
 ## 0.3.1
 
 - Optimize Todo MVC performance for filtering between all, active, and completed (it happens instantly now)

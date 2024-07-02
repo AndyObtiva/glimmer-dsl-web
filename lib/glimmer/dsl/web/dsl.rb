@@ -40,14 +40,14 @@ module Glimmer
       Engine.add_dynamic_expressions(
        Web,
        %w[
-         component
          listener
-         data_binding
-         property
-         content_data_binding
-         shine_data_binding
          style
+         content_data_binding
+         component
          formatting_element
+         data_binding
+         shine_data_binding
+         property
        ]
       )
     end
