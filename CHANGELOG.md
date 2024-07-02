@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.3
+
+- Optimize performance of Todo MVC by not adding an edit input field to every todo, yet adding it only upon editing a todo.
+
 ## 0.3.2
 
 - Optimize performance (~248% faster) of rendering by changing DSL ordering to avoid component checks at the top

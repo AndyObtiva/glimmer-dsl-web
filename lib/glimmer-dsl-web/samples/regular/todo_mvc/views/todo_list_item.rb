@@ -31,6 +31,12 @@ class TodoListItem
           inner_html <= [todo, :task]
           
           ondblclick do |event|
+            # if the markup root (li) last child is not an input field, re-open content and add an edit input field
+            unless markup_root.children.last.keyword == 'input'
+              markup_root.content {
+                edit_todo_input(presenter:, todo:)
+              }
+            end
             todo.start_editing
           end
         }
@@ -41,8 +47,6 @@ class TodoListItem
           end
         }
       }
-      
-      edit_todo_input(presenter:, todo:)
     }
   }
   
