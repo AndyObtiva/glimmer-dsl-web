@@ -4,32 +4,25 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.3.x
+### 0.4.x
 
-- Support `css {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
-
-- Document in README how to troubleshoot Opal code, including 3 cases, Ruby interpretation issues, Ruby syntax issues, and crazy issue that requires `rm -rf tmp/cache` and restart of server
-- Make after-write hook not need to take a _ argument if it won't use it (and same with all data-binding hooks/converters)
-- Support Content Data-Binding progress circle (and ability to update with any image)
-- Do not require attribute setter/writer when doing unidirectional or content data-binding
-- Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
-- Think about solutions for overriding class_name of div conflicting with its initial class attribute
-- Support always being able to pass id and class to glimmer web component as an extra argument
-- Enable data-binding component attributes (by nesting within component in consumer code)
-- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
-- Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
-- Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
-- Use descendants_tracker gem instead of implementing descendants manually
-- Document how to reuse Ruby code both server-side (backend) and client-side (frontend)
-- Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
-- svg example
-- Consider keeping track of all Glimmer rendered elements on the page as Ruby view objects to be able to remove them cleanly including their observers
-- Alert user if they attempt to build a component that shadows an HTML element
+- Support Glimmer Web Component Slots
+- Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
 - Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
-- Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
-- Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
-- Add nice CSS styling to some examples
+- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
+- Alert user if they attempt to build a component that shadows an HTML element
+
+### 0.5.x
+
+- Support `css {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
+- Support `static_css {}` block in `style` and `css` blocks (support inside Glimmer DSL for CSS)
+
+- Support always being able to pass id, class, and string content to glimmer web component as an extra argument
+- Enable data-binding component attributes (by nesting within component in consumer code)
+- Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
+- Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
+- Think about a simpler way to set CSS style or CSS class via data-binding (instead of doing the ternery operator)
 
 ### 1.0.0
 
@@ -48,11 +41,11 @@ Example:
       }
     }
   end
-- Support Glimmer Web Component Slots
 
 ### 1.1.0
 
 - Generate backend Rails views with Glimmer DSL for XML syntax as a Ruby alternative to ERB
+- Support Content Data-Binding progress circle (and ability to update with any image)
 
 ### 1.2.0
 
@@ -73,6 +66,8 @@ Example:
 - Build a HTML to Glimmer GUI DSL converter to enable Software Engineers to reuse older HTML in a Glimmer DSL for Web app
 - Build a CSS to Glimmer GUI DSL converter to enable Software Engineers to reuse older CSS in a Glimmer DSL for Web app
 - Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
+- Model Proxies (Use Backend Models in the Frontend through Automatically Generated REST Controllers for ActiveRecord models with secure whitelisting of the attributes/instance-methods/class-methods that need to be exposed only. For example, calling Purchases.limit(5) in the Frontend would call a Backend Purchase model indirectly via a PurchaseProxy that securely whitelists all available attributes/methods on Purchase)
+- Model Proxy Observers (Observe Backend Model events like creation, update, destruction, etc... via automatically generated Websocket-based channels for observing Backend Models view Proxy Observers)
 
 ## Performance Optimizations
 
@@ -129,13 +124,25 @@ Example:
 - Supporting embedding consumer markup anywhere in a used component by supporting block properties
 - Support integration with standard HTML Web Components
 - Resolve namespaced components by preferring the current namespace module we are in first if no namespace was specified (glimmer library must be aware of current namespace by checking in method_missing and passing that information to the Glimmer DSL Engine in some stack)
+- Use descendants_tracker gem instead of implementing descendants manually
+- Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
+- Consider cashing DOM element in every ElementProxy to avoid looking it up again with jQuery (in case that speeds up performance)
 
 ## Issues
 
-- Figure out why when an error occurs, a glimmer component is rendered twice
+N/A
 
 ## Samples
 
 - Sample showing a progress bar or progress circle (or add a web component to support it)
 - Add an example of form submission via ajax request
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
+- Add nice CSS styling to some samples
+- svg sample
+
+## Documentation
+
+- Document in README how to troubleshoot Opal code, including 3 cases, Ruby interpretation issues, Ruby syntax issues, and crazy issue that requires `rm -rf tmp/cache` and restart of server
+- Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
+- Document how to reuse Ruby code both server-side (backend) and client-side (frontend)
+- Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)

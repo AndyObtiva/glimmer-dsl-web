@@ -5,12 +5,13 @@
 - Optimize performance (~248% faster) of rendering by changing DSL ordering to avoid component checks at the top
 - Optimize performance of formatting html elements by adding Glimmer DSL shortcut methods
 - Optimize performance of component expressions by indexing component keywords
+- Upgrade to glimmer 2.7.9
 
 ## 0.3.1
 
 - Optimize Todo MVC performance for filtering between all, active, and completed (it happens instantly now)
-- Append Todo MVC todos at the bottom instead of prepending them at the top (I copied the ES6 version initially which did things the opposite way from how Todo MVC behaves normally in other versions)
-- Make Todo MVC "items left" text show "item left" if there is only 1 todo (I missed this detail before)
+- Append Todo MVC todos at the bottom instead of prepending them at the top (the ES6 version was copied initially, which ordered todos the opposite way from how Todo MVC behaves in other versions)
+- Make Todo MVC "items left" text show "item left" if there is only 1 todo
 - Make Todo MVC footer links open a new tab/window (with `target: '_blank'` option)
 - Refactor/Simplify Todo MVC sample code
 - Upgrade to glimmer 2.7.8

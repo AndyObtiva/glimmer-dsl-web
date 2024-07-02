@@ -14,7 +14,7 @@ You can finally have Ruby developer happiness and productivity in the Frontend! 
 
 [Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based drop-in replacement for your existing JavaScript Frontend library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make Ajax HTTP requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make Ajax HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_selector_presenter.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb).
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based drop-in replacement for your existing JavaScript Frontend library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make HTTP/Ajax requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_api.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb).
 
 After looking through the [samples](#samples) below, read the [FAQ (Frequently Asked Questions)](#faq) to learn more about how Glimmer DSL for Web compares to other approaches/libraries like Hotwire (Turbo), Phlex, ViewComponent, Angular, Vue, React, Svelte, and other JS frameworks.
 
@@ -265,8 +265,64 @@ Glimmer HTML DSL Ruby code in the frontend:
 ```ruby
 require 'glimmer-dsl-web'
 
-Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: true) do
-  STATES = {...} # contains US States
+Address = Struct.new(:street, :street2, :city, :state, :zip_code, :billing_and_shipping, keyword_init: true) do
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
   
   def state_code
     STATES.invert[state]
@@ -1310,6 +1366,8 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 You can setup Glimmer DSL for Web in [Rails 7](#rails-7), [Rails 6](#rails-6), or [Standalone (No Rails)](#standalone-no-rails).
 
+Once done, read [Usage](#usage) instructions. Note that for serious app usage, it is recommended to build [components](#hello-component) and use the [`glimmer_component` Rails Helper](#hello-glimmer_component-rails-helper) to embed the top-level Web Frontend component in a Rails View.
+
 (NOTE: Keep in mind this is a Beta. If you run into issues, try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
 
 ### Rails 7
@@ -1803,6 +1861,8 @@ You can get/set any element property or invoke any element function by simply ca
 
 Next, check out [Samples](#samples).
 
+Note that for serious app usage, it is recommended to build [components](#hello-component) and use the [`glimmer_component` Rails Helper](#hello-glimmer_component-rails-helper) to embed the top-level Web Frontend component in a Rails View.
+
 ## Supported Glimmer DSL Keywords
 
 [All HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element), following the Ruby method name standard of lowercase and underscored names.
@@ -2256,7 +2316,7 @@ Glimmer HTML DSL Ruby code in the frontend:
 ```ruby
 require 'glimmer-dsl-web'
 
-Address = Struct.new(:street, :street2, :city, :state, :zip_code, keyword_init: true) do
+Address = Struct.new(:street, :street2, :city, :state, :zip_code, :billing_and_shipping, keyword_init: true) do
   STATES = {
     "AK"=>"Alaska",
     "AL"=>"Alabama",
@@ -2391,7 +2451,9 @@ Document.ready? do
         }
       }
       
+      # Programmable CSS using Glimmer DSL for CSS
       style {
+        # `r` is an alias for `rule`, generating a CSS rule
         r("#{address_div.selector} *") {
           margin '5px'
         }
@@ -3370,8 +3432,9 @@ end
 - Declarative syntax that visually maps to the DOM (Document Object Model) hierarchy
 - Ability to mix declarative and imperative code conveniently in one language
 - Computers serve Software Engineers (not Software Engineers serve Computers)
-- Think only about real world concepts directly relevant to web page interaction
+- Think only about real world concepts directly relevant to web page interaction and application domain model
 - Modular Software Design (e.g. support for Components)
+- No premature optimizations
 
 ## Supporting Libraries
 
