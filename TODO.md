@@ -6,8 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.3.x
 
-- Support `css {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
-- Support `static_css` block or method in `style` and `css` blocks (support inside Glimmer DSL for CSS)
+- Support `style {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
 - Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`

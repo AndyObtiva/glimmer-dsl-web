@@ -3,6 +3,7 @@
 ## 0.3.3
 
 - Optimize performance of Todo MVC by not adding an edit input field to every todo, yet adding it only upon editing a todo.
+- Upgrade to Glimmer DSL for CSS 1.5.0
 
 ## 0.3.2
 
