@@ -73,8 +73,7 @@ module Glimmer
         end
 
         def before_render(&block)
-          @before_render_blocks ||= []
-          @before_render_blocks << block
+          @before_render = block
         end
 
         def markup(&block)
@@ -87,8 +86,7 @@ module Glimmer
         end
 
         def after_render(&block)
-          @after_render_blocks ||= []
-          @after_render_blocks << block
+          @after_render = block
         end
         
         def keyword
@@ -419,9 +417,8 @@ module Glimmer
       private
 
       def execute_hooks(hook_name)
-        self.class.instance_variable_get("@#{hook_name}_blocks")&.each do |hook_block|
-          instance_exec(&hook_block)
-        end
+        hook_block = self.class.instance_variable_get("@#{hook_name}")
+        instance_exec(&hook_block) if hook_block
       end
       
       def add_style_block

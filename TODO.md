@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.4.x
 
-- Support `style {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
 - Document automatic css class generated for components (maybe in samples too)
 - Is there an issue with setting CSS class with unique element name on elements
 
