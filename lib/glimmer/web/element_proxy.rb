@@ -123,8 +123,9 @@ module Glimmer
       REGEX_FORMAT_DATE = /^\d{4}-\d{2}-\d{2}$/
       REGEX_FORMAT_TIME = /^\d{2}:\d{2}$/
       
-      attr_reader :keyword, :parent, :parent_component, :args, :options, :children, :enabled, :foreground, :background, :removed?, :rendered
+      attr_reader :keyword, :parent, :parent_component, :component, :args, :options, :children, :enabled, :foreground, :background, :removed, :rendered
       alias rendered? rendered
+      alias removed? removed
       
       def initialize(keyword, parent, args, block)
         @keyword = keyword
@@ -164,7 +165,7 @@ module Glimmer
       
       # Executes at the closing of a parent widget curly braces after all children/properties have been added/set
       def post_add_content
-        render if bulk_render? && @parent.nil?
+        render if bulk_render? && @parent.nil? && !rendered?
       end
       
       def css_classes
@@ -172,6 +173,7 @@ module Glimmer
       end
       
       def remove
+        return if @removed
         on_remove_listeners = listeners_for('on_remove').dup
         if rendered?
           @children.dup.each do |child|
@@ -181,6 +183,10 @@ module Glimmer
           dom_element.remove
         end
         parent&.post_remove_child(self)
+        if component
+          Glimmer::Web::Component.remove_component(component)
+          component.remove_style_block
+        end
         @removed = true
         on_remove_listeners.each do |listener|
           listener.original_event_listener.call(EventProxy.new(listener: listener))

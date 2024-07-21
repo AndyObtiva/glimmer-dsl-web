@@ -81,6 +81,11 @@ module Glimmer
           @markup_block = block
         end
 
+        # TODO in the future support a string value too
+        def style(&block)
+          @style_block = block
+        end
+
         def after_render(&block)
           @after_render_blocks ||= []
           @after_render_blocks << block
@@ -105,6 +110,7 @@ module Glimmer
         
         # Creates and renders component
         def render(*args)
+          Glimmer::DSL::Engine.new_parent_stack unless Glimmer::DSL::Engine.parent.nil?
           rendered_component = send(keyword, *args)
           rendered_component
         end
@@ -172,14 +178,76 @@ module Glimmer
         def interpretation_stack
           @interpretation_stack ||= []
         end
+        
+        def add_component(component)
+          component_class_to_components_map[component.class] ||= {}
+          component_class_to_components_map[component.class][component.object_id] = component
+        end
+        
+        def remove_component(component)
+          component_class_to_components_map[component.class].delete(component.object_id)
+          component_class_to_components_map.delete(component.class) if component_class_to_components_map[component.class].empty?
+        end
+        
+        def add_component_style(component)
+          # We must not remove the head style element until all components are removed of a component class
+          if Glimmer::Web::Component.component_count(component.class) == 1
+            Glimmer::Web::Component.component_styles[component.class] = ComponentStyleContainer.render(parent: 'head', component: component, component_style_container_block: component.style_block)
+          end
+        end
+        
+        def remove_component_style(component)
+          if Glimmer::Web::Component.any_component_style?(component.class)
+            # TODO in the future, you would need to remove style using a jQuery call if you created head element in bulk
+            Glimmer::Web::Component.component_styles[component.class].remove
+            Glimmer::Web::Component.component_styles.delete(component.class)
+          end
+        end
+        
+        def any_component?(component_class)
+          component_class_to_components_map.has_key?(component_class)
+        end
+        
+        def any_component_style?(component_class)
+          component_styles.has_key?(component_class)
+        end
+        
+        def component_count(component_class)
+          component_class_to_components_map[component_class].size
+        end
+        
+        def components
+          component_class_to_components_map.values.map(&:values).flatten
+        end
+        
+        def body_components
+          components.reject {|component| component.is_a?(ComponentStyleContainer)}
+        end
+        
+        def head_components
+          components.select {|component| component.is_a?(ComponentStyleContainer)}
+        end
+        
+        def remove_all_components
+          # removing body components automatically removes corresponding head components
+          body_components.each(&:remove)
+        end
+        
+        def component_class_to_components_map
+          @component_class_to_components_map ||= {}
+        end
+        
+        def component_styles
+          @component_styles ||= {}
+        end
       end
       # <- end of class methods
       
-
-      attr_reader :markup_root, :parent, :args, :options
+      attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style
       alias parent_proxy parent
 
       def initialize(parent, args, options, &content)
+        Glimmer::Web::Component.add_component(self)
         Component.interpretation_stack.push(self)
         @parent = parent
         options = args.delete_at(-1) if args.is_a?(Array) && args.last.is_a?(Hash)
@@ -192,10 +260,15 @@ module Glimmer
         options ||= {}
         @options = self.class.options.merge(options)
         @content = Util::ProcTracker.new(content) if content
+#         @style_blocks = {} # TODO enable when doing bulk head rendering in the future
         execute_hooks('before_render')
         markup_block = self.class.instance_variable_get("@markup_block")
+#         add_style_block
         raise Glimmer::Error, 'Invalid Glimmer web component for having no markup! Please define markup block!' if markup_block.nil?
         @markup_root = instance_exec(&markup_block)
+        @markup_root.instance_variable_set("@component", self)
+        add_style_block
+#         add_style_to_markup_root
         @markup_root.options[:parent] = options[:parent] if !options[:parent].nil?
         @parent ||= @markup_root.parent
         raise Glimmer::Error, 'Invalid Glimmer web component for having an empty markup! Please fill markup block!' if @markup_root.nil?
@@ -350,6 +423,32 @@ module Glimmer
           instance_exec(&hook_block)
         end
       end
+      
+      def add_style_block
+        style_block = self.class.instance_variable_get("@style_block")
+        # TODO handle case of style_block being a nil with style value being a string
+        return if style_block.nil?
+#         style_block_component_index = Component.interpretation_stack.size > 1 ? -2 : -1
+        # TODO It might be better to have each component create a style tag in head by accumulating style blocks here first
+#         Component.interpretation_stack[style_block_component_index].style_blocks << style_block
+        Glimmer::Web::Component.add_component_style(self)
+      end
+
+# TODO render style blocks in head in bulk in the future
+#       def add_style_to_markup_root
+#         if Component.interpretation_stack.size == 1 && !style_blocks.empty?
+          ## TODO it might be better to generate element directly instead of relying on ComponentStyle
+          ## for performance reasons
+          ## TODO rename component_style and capture it by component (might need to have style_blocks a hash mapping component classes to style blocks)
+#           @component_style = ComponentStyleContainer.render(parent: 'head', component: self, style_blocks:)
+#         end
+#       end
+      
+      def remove_style_block
+        Glimmer::Web::Component.remove_component_style(self)
+      end
     end
   end
 end
+
+require 'glimmer/web/component/component_style_container'

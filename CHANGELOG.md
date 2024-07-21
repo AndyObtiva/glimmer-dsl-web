@@ -1,9 +1,10 @@
 # Change Log
 
-## 0.3.3
+## 0.4.0
 
 - Optimize performance of Todo MVC by not adding an edit input field to every todo, yet adding it only upon editing a todo.
 - Upgrade to Glimmer DSL for CSS 1.5.0
+- Support `style {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
 
 ## 0.3.2
 

@@ -4,9 +4,21 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.3.x
+### 0.4.x
 
 - Support `style {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
+- Document automatic css class generated for components (maybe in samples too)
+- Is there an issue with setting CSS class with unique element name on elements
+
+- Support `style 'string'` block in `Glimmer::Web::Component`
+- Render styles produced by `style {}` block in `head` of document (make it removable if the element is removed)
+- Auto-generate CSS for embedded (internal) styles in `head` of document
+
+- Support setting `class_name` array of strings value (like `['pushed', 'round']` becoming "pushed round"), including option of array of symbols
+- Support setting `style` hash (like `{background_color: 'yellow', font_size: '12px'}`)
+- Support element class name inclusion data-binding (e.g. `class_name('pushed') <= [@button_model, :pushed]`)
+- Support element inline style data-binding (e.g. `style('border_style') <= [@button_model, :pushed, on_read: ->(val) {val ? 'inset' : 'outset'}]`)
+
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
 - Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
@@ -14,7 +26,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Alert user if they attempt to build a component that shadows an HTML element
 - Optimize performance of `ElementProxy` respond_to_missing? & method_missing by memoizing results
 
-### 0.4.x
+### 0.5.x
 
 - Support Glimmer Web Component Slots
 
@@ -24,7 +36,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Enable data-binding component attributes (by nesting within component in consumer code)
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
-- Think about a simpler way to set CSS style or CSS class via data-binding (instead of doing the ternery operator)
 
 ### 1.0.0
 
@@ -129,6 +140,7 @@ Example:
 - Use descendants_tracker gem instead of implementing descendants manually
 - Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
 - Consider cashing DOM element in every ElementProxy to avoid looking it up again with jQuery (in case that speeds up performance)
+- Auto-generate CSS for inline styles in `head` of document by assigning them to CSS classes and adding the CSS classes to elements instead
 
 ## Issues
 
