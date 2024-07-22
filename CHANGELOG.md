@@ -2,12 +2,13 @@
 
 ## 0.4.0
 
-- Optimize performance of Todo MVC by not adding an edit input field to every todo, yet adding it only upon editing a todo.
-- Upgrade to Glimmer DSL for CSS 1.5.0
 - Support `style {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
+- Upgrade to Glimmer DSL for CSS 1.5.0
 - Remove support for including multiple `before_render` and `after_render` blocks in a component as it is not needed and can be confusing
 - Hello, Style! Sample: `require 'glimmer-dsl-web/samples/hello/hello_style'`
+- Optimize performance of Todo MVC by not adding an edit input field to every todo, yet adding it only upon editing a todo.
 - Fix issue with `ElementProxy#add_css_class` and `ElementProxy#remove_css_class` crashing if called before rendering an element
+- Fix issue with Hello, Observer (Data-Binding)! crashing if run after Hello, Observer! due to both samples sharing the same class by mistake
 
 ## 0.3.2
 

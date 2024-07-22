@@ -29,7 +29,7 @@ class NumberHolder
   end
 end
 
-class HelloObserver
+class HelloObserverDataBinding
   include Glimmer::Web::Component
   
   before_render do
@@ -53,5 +53,5 @@ class HelloObserver
 end
 
 Document.ready? do
-  HelloObserver.render
+  HelloObserverDataBinding.render
 end
