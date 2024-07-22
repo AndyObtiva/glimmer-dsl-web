@@ -12,14 +12,10 @@ class TodoMvcFooter
       p {
         "Part of #{a('TodoMVC', href: 'http://todomvc.com', target: '_blank')}"
       }
-      
-      style {
-        todo_mvc_styles
-      }
     }
   }
   
-  def todo_mvc_styles
+  style {
     rule('footer.info') {
       margin '65px auto 0'
       color '#4d4d4d'
@@ -41,5 +37,5 @@ class TodoMvcFooter
     rule('footer.info a:hover') {
       text_decoration 'underline'
     }
-  end
+  }
 end

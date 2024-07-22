@@ -58,9 +58,7 @@ class TodoListItem
     classes.join(' ')
   end
   
-  def self.todo_list_item_styles
-    EditTodoInput.todo_input_styles
-    
+  style {
     rule('.todo-list li.completed label') {
       color '#949494'
       text_decoration 'line-through'
@@ -159,6 +157,6 @@ class TodoListItem
         height '40px'
       }
     }
-  end
+  }
 end
             

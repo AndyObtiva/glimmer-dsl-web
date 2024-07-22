@@ -26,10 +26,6 @@ class TodoMvc
         todo_list(presenter: @presenter)
         
         todo_filters(presenter: @presenter)
-              
-        style {
-          todo_mvc_styles
-        }
       }
       
       todo_mvc_footer
@@ -40,7 +36,7 @@ class TodoMvc
     }
   }
   
-  def todo_mvc_styles
+  style {
     rule('body, button, html') {
       margin '0'
       padding '0'
@@ -79,7 +75,7 @@ class TodoMvc
         font_weight '300'
       }
     }
-  end
+  }
 end
 
 Document.ready? do

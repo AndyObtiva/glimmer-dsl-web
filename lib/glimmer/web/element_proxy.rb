@@ -131,6 +131,10 @@ module Glimmer
         @keyword = keyword
         @parent = parent.is_a?(Glimmer::Web::Component) ? parent.markup_root : parent
         @parent_component = parent if parent.is_a?(Glimmer::Web::Component)
+        if Component.interpretation_stack.last&.markup_root.nil?
+          @component = Component.interpretation_stack.last
+          @component&.instance_variable_set("@markup_root", self)
+        end
         @options = args.last.is_a?(Hash) ? args.last.symbolize_keys : {}
         if parent.nil?
           options[:parent] ||= Component.interpretation_stack.last&.options&.[](:parent)
@@ -368,7 +372,12 @@ module Glimmer
       end
       
       def html_options
-        body_class = ([name, element_id] + css_classes.to_a).join(' ')
+        framework_css_classes = [name, element_id]
+        if component
+          framework_css_classes.prepend(component.class.component_element_class)
+          framework_css_classes.prepend(component.class.component_shortcut_element_class) if component.class.component_shortcut_element_class != component.class.component_element_class
+        end
+        body_class = (framework_css_classes + css_classes.to_a).join(' ')
         html_options = options.dup
         GLIMMER_ATTRIBUTES.each do |attribute|
           next unless html_options.include?(attribute)
@@ -419,7 +428,7 @@ module Glimmer
         if rendered?
           dom_element.add_class(css_class)
         else
-          enqueue_post_render_method_call('class_name=', value)
+          enqueue_post_render_method_call('add_css_class', css_class)
         end
       end
       
@@ -431,7 +440,7 @@ module Glimmer
         if rendered?
           dom_element.remove_class(css_class)
         else
-          enqueue_post_render_method_call('class_name=', value)
+          enqueue_post_render_method_call('remove_css_class', css_class)
         end
       end
       

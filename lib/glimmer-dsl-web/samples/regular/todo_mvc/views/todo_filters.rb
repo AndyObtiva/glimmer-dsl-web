@@ -45,14 +45,10 @@ class TodoFilters
           presenter.clear_completed
         end
       }
-      
-      style {
-        todo_filter_styles
-      }
     }
   }
   
-  def todo_filter_styles
+  style {
     rule('.todo-filters') {
       border_top '1px solid #e6e6e6'
       font_size '15px'
@@ -125,5 +121,5 @@ class TodoFilters
         bottom '10px'
       }
     }
-  end
+  }
 end

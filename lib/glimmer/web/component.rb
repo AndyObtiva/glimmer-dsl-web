@@ -98,6 +98,14 @@ module Glimmer
           self.name.underscore.gsub('::', '__').split('__').last
         end
         
+        def component_element_class
+          self.keyword.gsub('_', '-')
+        end
+        
+        def component_shortcut_element_class
+          self.shortcut_keyword.gsub('_', '-')
+        end
+        
         # Creates component without rendering
         def create(*args)
           args << {} unless args.last.is_a?(Hash)
@@ -264,7 +272,6 @@ module Glimmer
 #         add_style_block
         raise Glimmer::Error, 'Invalid Glimmer web component for having no markup! Please define markup block!' if markup_block.nil?
         @markup_root = instance_exec(&markup_block)
-        @markup_root.instance_variable_set("@component", self)
         add_style_block
 #         add_style_to_markup_root
         @markup_root.options[:parent] = options[:parent] if !options[:parent].nil?

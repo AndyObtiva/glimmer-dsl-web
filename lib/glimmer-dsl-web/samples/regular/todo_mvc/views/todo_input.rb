@@ -3,12 +3,8 @@ class TodoInput
   include Glimmer::Web::Component
   
   class << self
-    def todo_input_class
-      'todo-input'
-    end
-    
     def todo_input_styles
-      rule(".#{todo_input_class}") {
+      rule(".#{component_element_class}") {
         position 'relative'
         margin '0'
         width '100%'
@@ -24,8 +20,13 @@ class TodoInput
         _webkit_font_smoothing 'antialiased'
       }
       
-      rule(".#{todo_input_class}::selection") {
+      rule(".#{component_element_class}::selection") {
         background 'red'
+      }
+      
+      rule(".#{component_element_class}:focus") {
+        box_shadow '0 0 2px 2px #cf7d7d'
+        outline '0'
       }
     end
   end

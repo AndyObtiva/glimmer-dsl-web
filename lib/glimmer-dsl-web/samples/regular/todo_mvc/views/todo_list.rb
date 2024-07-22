@@ -38,16 +38,10 @@ class TodoList
           todo_list_item(presenter:, todo:)
         end
       }
-      
-      style {
-        todo_list_styles
-      }
     }
   }
   
-  def todo_list_styles
-    TodoListItem.todo_list_item_styles
-    
+  style {
     rule('.main') {
       border_top '1px solid #e6e6e6'
       position 'relative'
@@ -86,7 +80,7 @@ class TodoList
       transform 'rotate(90deg)'
     }
     
-    rule('.toggle-all:focus+label, .toggle:focus+label, :focus') {
+    rule('.toggle-all:focus+label, .toggle:focus+label') {
       box_shadow '0 0 2px 2px #cf7d7d'
       outline '0'
     }
@@ -104,5 +98,5 @@ class TodoList
     rule('.todo-list.completed li.active') {
       display 'none'
     }
-  end
+  }
 end

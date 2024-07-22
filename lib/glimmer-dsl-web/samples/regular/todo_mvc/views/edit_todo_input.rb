@@ -4,8 +4,8 @@ class EditTodoInput < TodoInput
   option :presenter
   option :todo
   
-  markup {
-    input(class: self.class.todo_input_class) { |edit_input|
+  markup { # evaluated against instance as a smart default convention
+    input { |edit_input|
       style <= [ todo, :editing,
                  on_read: ->(editing) { editing ? '' : 'display: none;' },
                  after_read: -> { edit_input.focus if todo.editing? }
@@ -27,27 +27,21 @@ class EditTodoInput < TodoInput
       end
     }
   }
-  
-  class << self
-    def todo_input_class
-      'edit-todo'
-    end
     
-    def todo_input_styles
-      super
-      
-      rule("*:has(> .#{todo_input_class})") {
-        position 'relative'
-      }
-      
-      rule(".#{todo_input_class}") {
-        position 'absolute'
-        display 'block'
-        width 'calc(100% - 43px)'
-        padding '12px 16px'
-        margin '0 0 0 43px'
-        top '0'
-      }
-    end
-  end
+  style { # evaluated against class as a smart default convention (common to all instances)
+    todo_input_styles
+    
+    rule("*:has(> .#{component_element_class})") {
+      position 'relative'
+    }
+    
+    rule(".#{component_element_class}") {
+      position 'absolute'
+      display 'block'
+      width 'calc(100% - 43px)'
+      padding '12px 16px'
+      margin '0 0 0 43px'
+      top '0'
+    }
+  }
 end
