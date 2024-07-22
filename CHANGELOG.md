@@ -6,6 +6,7 @@
 - Upgrade to Glimmer DSL for CSS 1.5.0
 - Support `style {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all components, without repeating style for repeating components
 - Remove support for including multiple `before_render` and `after_render` blocks in a component as it is not needed and can be confusing
+- Hello, Style! Sample: `require 'glimmer-dsl-web/samples/hello/hello_style'`
 
 ## 0.3.2
 
