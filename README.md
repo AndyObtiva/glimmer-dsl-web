@@ -1,5 +1,5 @@
 # [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.4.0 (Beta)
-## Ruby in the Browser Web Frontend Framework
+## Ruby-in-the-Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -8,7 +8,7 @@
 
 **(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) & [Frontend Ruby with Glimmer DSL for Web](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE))**
 
-[![Todo MVC](/images/glimmer-dsl-web-samples-regular-todo-mvc.gif)](/lib/glimmer-dsl-web/samples/regular/todo_mvc.rb)
+[![Todo MVC](/images/glimmer-dsl-web-samples-regular-todo-mvc.gif)](https://sample-glimmer-dsl-web-rails7-app-black-sound-6793.fly.dev/)
 
 You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. Also, with Frontend Ruby, companies can cut their hiring budget in half by having Backend Ruby Software Engineers do Frontend Development in Ruby! [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every smart highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
 
@@ -1881,7 +1881,11 @@ This external Sample Selector app is built using Rails and Glimmer DSL for Web, 
 
 https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app
 
-![Sample Selector](https://raw.githubusercontent.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/master/sample-glimmer-dsl-web-rails7-app.png)
+A deployed version of the Sample Selector app can be accessed over here:
+
+https://sample-glimmer-dsl-web-rails7-app-black-sound-6793.fly.dev/
+
+[![Sample Selector](https://raw.githubusercontent.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/master/sample-glimmer-dsl-web-rails7-app.png)](https://sample-glimmer-dsl-web-rails7-app-black-sound-6793.fly.dev/)
 
 ### Hello Samples
 
