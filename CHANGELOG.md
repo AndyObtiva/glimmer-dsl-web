@@ -1,8 +1,14 @@
 # Change Log
 
+## 0.4.1
+
+- Enhance Hello, Style! sample to allow setting styled button background color
+- Fixed issue with `Glimmer::Web::Component::component_element_class` not working in components when programmatically changing the component markup root CSS class
+
 ## 0.4.0
 
 - Support `style {}` block in `Glimmer::Web::Component` that would automatically add style in one place for all component instances
+- Support `Glimmer::Web::Component::component_element_class` to return CSS class automatically generated for a component based on its name (e.g. `StyledButton` gets `styled-button` CSS class)
 - Hello, Style! Sample: `require 'glimmer-dsl-web/samples/hello/hello_style'`
 - Upgrade to Glimmer DSL for CSS 1.5.0
 - Remove support for including multiple `before_render` and `after_render` blocks in a component as it is not needed and can be confusing

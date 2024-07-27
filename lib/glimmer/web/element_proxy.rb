@@ -372,12 +372,7 @@ module Glimmer
       end
       
       def html_options
-        framework_css_classes = [name, element_id]
-        if component
-          framework_css_classes.prepend(component.class.component_element_class)
-          framework_css_classes.prepend(component.class.component_shortcut_element_class) if component.class.component_shortcut_element_class != component.class.component_element_class
-        end
-        body_class = (framework_css_classes + css_classes.to_a).join(' ')
+        body_class = (base_css_classes + css_classes.to_a).uniq.compact.join(' ')
         html_options = options.dup
         GLIMMER_ATTRIBUTES.each do |attribute|
           next unless html_options.include?(attribute)
@@ -416,8 +411,8 @@ module Glimmer
       
       def class_name=(value)
         if rendered?
-          value = value.is_a?(Array) ? value.join(' ') : value.to_s
-          new_class_name = "#{name} #{element_id} #{value}"
+          values = value.is_a?(Array) ? value : [value.to_s]
+          new_class_name = (base_css_classes + values).uniq.compact.join(' ')
           dom_element.prop('className', new_class_name)
         else
           enqueue_post_render_method_call('class_name=', value)
@@ -830,6 +825,15 @@ module Glimmer
       end
       
       private
+      
+      def base_css_classes
+        framework_css_classes = [name, element_id]
+        if component
+          framework_css_classes.prepend(component.class.component_element_class)
+          framework_css_classes.prepend(component.class.component_shortcut_element_class) if component.class.component_shortcut_element_class != component.class.component_element_class
+        end
+        framework_css_classes
+      end
       
       def valid_js_date_string?(string)
         [REGEX_FORMAT_DATETIME, REGEX_FORMAT_DATE, REGEX_FORMAT_TIME].any? do |format|
