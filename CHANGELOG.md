@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.2
+
+- Support SVG element keywords
+
 ## 0.4.1
 
 - Enhance Hello, Style! sample to allow setting styled button background color

@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.4.1 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.4.2 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
@@ -1345,6 +1345,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Todo MVC](#todo-mvc)
   - [Design Principles](#design-principles)
   - [Supporting Libraries](#supporting-libraries)
+  - [Influences and Inspiration](#influences-and-inspiration)
   - [Glimmer Process](#glimmer-process)
   - [Help](#help)
     - [Issues](#issues)
@@ -1391,7 +1392,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.4.1'
+gem 'glimmer-dsl-web', '~> 0.4.2'
 ```
 
 Run:
@@ -1620,7 +1621,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.4.1'
+gem 'glimmer-dsl-web', '~> 0.4.2'
 ```
 
 Run:
@@ -3447,6 +3448,15 @@ Here is a list of notable 3rd party gems used by Glimmer DSL for Web:
 - [glimmer-dsl-css](https://github.com/AndyObtiva/glimmer-dsl-css): Glimmer DSL for CSS (Cascading Style Sheets) in pure Ruby.
 - [opal-async](https://github.com/AndyObtiva/opal-async): Non-blocking tasks and enumerators for Web.
 - [to_collection](https://github.com/AndyObtiva/to_collection): Treat an array of objects and a singular object uniformly as a collection of objects.
+
+## Influences and Inspiration
+
+- https://github.com/inesita-rb/inesita
+- https://github.com/opal/paggio
+- https://github.com/ruby-hyperloop/hyperloop
+- https://docs.hyperstack.org/
+- https://github.com/AndyObtiva/glimmer-dsl-opal
+- https://github.com/AndyObtiva/glimmer
 
 ## Glimmer Process
 

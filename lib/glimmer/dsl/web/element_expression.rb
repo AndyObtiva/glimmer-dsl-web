@@ -10,7 +10,18 @@ module Glimmer
         include GeneralElementExpression
         
         def can_interpret?(parent, keyword, *args, &block)
-          Glimmer::Web::ElementProxy.keyword_supported?(keyword)
+          Glimmer::Web::ElementProxy.keyword_supported?(keyword) &&
+            (
+              args.empty? ||
+              args.size == 1 && args.first.is_a?(String) ||
+              args.size == 1 && args.first.is_a?(Hash) ||
+              args.size == 2 && args.first.is_a?(String) && args.last.is_a?(Hash)
+            ) &&
+            ( # ensure SVG keywords only live under SVG element (unless it's the SVG element itself)
+              !Glimmer::Web::ElementProxy.svg_keyword_supported?(keyword) ||
+              keyword == 'svg' ||
+              parent.find_ancestor(include_self: true) { |ancestor| ancestor.keyword == 'svg' }
+            )
         end
       end
     end

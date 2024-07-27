@@ -31,6 +31,14 @@ module Glimmer
           ELEMENT_KEYWORDS.include?(keyword.to_s)
         end
       
+        def html_keyword_supported?(keyword)
+          HTML_ELEMENT_KEYWORDS.include?(keyword.to_s)
+        end
+      
+        def svg_keyword_supported?(keyword)
+          SVG_ELEMENT_KEYWORDS.include?(keyword.to_s)
+        end
+      
         # NOTE: Avoid using this method until we start supporting ElementProxy subclasses
         # in which case, we must cache them to avoid the slow performance of element_type
         # Factory Method that translates a Glimmer DSL keyword into a ElementProxy object
@@ -94,7 +102,7 @@ module Glimmer
       
       Event = Struct.new(:widget, keyword_init: true)
       
-      ELEMENT_KEYWORDS = [
+      HTML_ELEMENT_KEYWORDS = [
         "a", "abbr", "acronym", "address", "applet", "area", "article", "aside", "audio",
         "base", "basefont", "bdi", "bdo", "bgsound", "big", "blink", "blockquote", "body",
         "button", "canvas", "caption", "center", "cite", "code", "col", "colgroup", "data",
@@ -110,6 +118,19 @@ module Glimmer
         "template", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "tt",
         "u", "ul", "var", "video", "wbr", "xmp",
       ]
+      
+      SVG_ELEMENT_KEYWORDS = [
+        "animate", "animateMotion", "animateTransform", "circle", "clipPath", "defs", "desc", "ellipse",
+        "feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix",
+        "feDiffuseLighting", "feDisplacementMap", "feDistantLight", "feDropShadow", "feFlood", "feFuncA",
+        "feFuncB", "feFuncG", "feFuncR", "feGaussianBlur", "feImage", "feMerge", "feMergeNode",
+        "feMorphology", "feOffset", "fePointLight", "feSpecularLighting", "feSpotLight", "feTile",
+        "feTurbulence", "filter", "foreignObject", "g", "image", "line", "linearGradient", "marker",
+        "mask", "metadata", "mpath", "path", "pattern", "polygon", "polyline", "radialGradient", "rect",
+        "set", "stop", "svg", "switch", "symbol", "text", "textPath", "tspan", "use", "view",
+      ]
+ 
+      ELEMENT_KEYWORDS = HTML_ELEMENT_KEYWORDS + SVG_ELEMENT_KEYWORDS
 
       GLIMMER_ATTRIBUTES = [:parent]
       PROPERTY_ALIASES = {
@@ -176,6 +197,14 @@ module Glimmer
         dom_element.attr('class').to_s.split if rendered?
       end
       
+      def html?
+        ElementProxy.html_keyword_supported?(keyword)
+      end
+      
+      def svg?
+        ElementProxy.svg_keyword_supported?(keyword)
+      end
+      
       def remove
         return if @removed
         on_remove_listeners = listeners_for('on_remove').dup
@@ -233,9 +262,16 @@ module Glimmer
         end
         parents_array
       end
+      alias ancestors parents
 
-      def dialog_ancestor
-        parents.detect {|p| p.is_a?(DialogProxy)}
+      def find_ancestor(include_self: false, &condition)
+        current_element_proxy = self
+        return current_element_proxy if include_self && condition.call(current_element_proxy)
+        until current_element_proxy.parent.nil?
+          current_element_proxy = current_element_proxy.parent
+          return current_element_proxy if condition.call(current_element_proxy)
+        end
+        nil
       end
       
       def print
