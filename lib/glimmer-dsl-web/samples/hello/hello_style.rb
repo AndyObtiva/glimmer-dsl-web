@@ -22,10 +22,7 @@
 require 'glimmer-dsl-web'
 
 class ButtonModel
-  BUTTON_STYLE_ATTRIBUTES = [
-    :width, :height, :font_size,
-    :background_color_red, :background_color_green, :background_color_blue
-  ]
+  BUTTON_STYLE_ATTRIBUTES = [:width, :height, :font_size, :background_color]
   WIDTH_MIN = 160
   WIDTH_MAX = 960
   HEIGHT_MIN = 100
@@ -40,9 +37,7 @@ class ButtonModel
     @width = WIDTH_MIN
     @height = HEIGHT_MIN
     @font_size = FONT_SIZE_MIN
-    @background_color_red = 173
-    @background_color_green = 216
-    @background_color_blue = 230
+    @background_color = '#add8e6'
   end
   
   def push
@@ -67,6 +62,16 @@ class ButtonModel
     @font_size = value
     self.width = @font_size*4 if @height < @font_size*4
     self.height = @font_size*2.5 if @height < @font_size*2.5
+  end
+  
+  def border_color
+    red = background_color[1..2].hex
+    green = background_color[3..4].hex
+    blue = background_color[5..6].hex
+    new_red = red - 10
+    new_green = green - 10
+    new_blue = blue - 10
+    "##{new_red.to_s(16)}#{new_green.to_s(16)}#{new_blue.to_s(16)}"
   end
 end
 
@@ -117,8 +122,8 @@ class StyledButton
       width: #{button_model.width}px;
       height: #{button_model.height}px;
       font-size: #{button_model.font_size}px;
-      background-color: rgb(#{button_model.background_color_red}, #{button_model.background_color_green}, #{button_model.background_color_blue});
-      border-color: rgb(#{button_model.background_color_red - 10}, #{button_model.background_color_green - 10}, #{button_model.background_color_blue - 10});
+      background-color: #{button_model.background_color};
+      border-color: #{button_model.border_color};
     "
   end
 end
@@ -138,18 +143,15 @@ class StyledButtonRangeInput
   }
 end
 
-class StyledButtonColorRangeInput
+class StyledButtonColorInput
   include Glimmer::Web::Component
-  
-  COLORS = [:red, :green, :blue]
   
   option :button_model
   option :property
-  option :color
   
   markup {
-    input(type: 'range', min: 0, max: 255) {
-      value <=> [button_model, "#{property}_#{color}"]
+    input(type: 'color') {
+      value <=> [button_model, property]
     }
   }
 end
@@ -174,12 +176,7 @@ class HelloStyle
         styled_button_range_input(button_model: @button_model, property: :font_size, property_min: ButtonModel::FONT_SIZE_MIN, property_max: ButtonModel::FONT_SIZE_MAX, id: 'styled-button-font-size-input')
         
         label('Styled Button Background Color:', for: 'styled-button-background-color-input')
-        
-        StyledButtonColorRangeInput::COLORS.each do |color|
-          input_id = "styled-button-background-color-#{color}-input"
-          label("#{color.to_s.capitalize}:", class: 'color-label', for: input_id)
-          styled_button_color_range_input(button_model: @button_model, property: :background_color, color: color, id: input_id)
-        end
+        styled_button_color_input(button_model: @button_model, property: :background_color, id: 'styled-button-background-color-input')
       }
       
       styled_button(button_model: @button_model)
@@ -196,14 +193,6 @@ class HelloStyle
     .styled-button-form label, input {
       display: block;
       margin: 5px 5px 5px 0;
-    }
-    
-    .styled-button-form label[for=styled-button-background-color-input] {
-      grid-column: 1 / 3;
-    }
-    
-    .styled-button-form .color-label {
-      margin-left: 5px;
     }
     
     .#{component_element_class} .styled-button {
