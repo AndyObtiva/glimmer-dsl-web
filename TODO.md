@@ -6,34 +6,28 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.4.x
 
-- Support setting `style` hash (like `{background_color: 'yellow', font_size: '12px'}`)
-- Fix issue with not being able to load Hello, Style! more than once or twice
 - Document automatic css class generated for components (maybe in samples too)
-
-- Support `style 'string'` block in `Glimmer::Web::Component`
-- Auto-generate CSS for embedded (internal) styles in `head` of document
-
+- Fix issue with not being able to load Hello, Style! more than once or twice
+- Support setting `style` hash (like `{background_color: 'yellow', font_size: '12px'}`)
 - Support setting `class_name` array of strings value (like `['pushed', 'round']` becoming "pushed round"), including option of array of symbols
-
-- Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
-- Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
-- Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
-- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
-- Alert user if they attempt to build a component that shadows an HTML element
-- Optimize performance of `ElementProxy` respond_to_missing? & method_missing by memoizing results
 
 ### 0.5.x
 
 - Support Glimmer Web Component Slots
 
-### 0.5.x
+### 0.6.x
 
-- Support always being able to pass id, class, and string content to glimmer web component as an extra argument
+- Provide a simpler way of defining custom listeners on Components than overriding handle_listener_request and can_handle listener request (consider relying on notify_observers from within component to fire listeners or alternatively using a method like that in ElementProxy)
 - Enable data-binding component attributes (by nesting within component in consumer code)
-- Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
-- Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 
 ### 1.0.0
+
+- Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
+- Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
+- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
+- Alert user if they attempt to build a component that shadows an HTML element
+
+### 1.1.0
 
 - Router support to enable friendly URLs when needed
 Example:
@@ -50,17 +44,19 @@ Example:
       }
     }
   end
-
-### 1.1.0
-
-- Generate backend Rails views with Glimmer DSL for XML syntax as a Ruby alternative to ERB
-- Support Content Data-Binding progress circle (and ability to update with any image)
-
+  
 ### 1.2.0
 
+- Generate backend Rails views with Glimmer DSL for XML syntax as a Ruby alternative to ERB
+
+### 1.3.0
+
 - Server-Side Rendering of Glimmer Web Components that were designed originally for the Frontend, with automatic hydration upon rendering (hooking event listeners and data-bindings) [enable isomorphism by either supporting a server-side code path checker (`server?` and `client?`), or by enabling the import of js libraries in a flexible way that would make the code still work if a js library is not available in the backend). Start by supporting component options that are primitive data types (e.g. `String`, `Boolean`, `Integer`, etc...)
-- Support Server-Side Rendering of Components with automatically serialized/unserialized objects using YAML or [YASL](https://rubygems.org/gems/yasl)
+
+### 1.4.0
+
 - Automatically generate Rails Model forms with an authenticity token correctly
+- Support Content Data-Binding progress circle (and ability to update with any image)
 - Smart form components that can automatically generate the name attributes for a Rails model just like the Rails form helpers
 
 ### 2.0.0
@@ -93,6 +89,7 @@ Example:
 - Optimize performance of a and span formatting html elements by processing them conditionally in their static expressions
 - Optimize performance of `observe(*args)` keyword through memoization or some other solution
 - Render styles produced by `Glimmer::Web::Component` `style {}` blocks in bulk
+- Optimize performance of `ElementProxy` respond_to_missing? & method_missing by memoizing results
 
 ## Maybe
 
@@ -140,6 +137,12 @@ Example:
 - Auto-generate CSS for inline styles in `head` of document by assigning them to CSS classes and adding the CSS classes to elements instead
 - Consider adding a way to simplify data-binding selection, like adding a 'selected' CSS class to an element based on whether something matches another value as selection
 - Consider adding a way to simplify data-binding enablement
+- Consider supporting this convenience syntax `class_name(:completed, :active, :editing) <= todo`, which expects `todo` to have methods matching the class names data-bound to it
+- Support `style 'string'` block in `Glimmer::Web::Component`
+- Auto-generate CSS for embedded (internal) styles in `head` of document via CSS classes (as a performance optimization similar to that of Styled Components). This might not be really needed. Performance is generally very fast without this.
+- Support always being able to pass id, class, and string content to glimmer web component as an extra argument
+- Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
+- Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 
 ## Issues
 

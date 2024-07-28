@@ -14,17 +14,19 @@ class TodoListItem
   end
   
   markup {
+    
+    
     li {
-      # Data-bind inclusion of `li` `class` `completed` unidirectionally to todo completed attribute,
-      # meaning inclusion of completed class is determined by todo completed boolean attribute.
+      # Data-bind inclusion of `completed` in `li` `class` attribute unidirectionally to `todo` `completed` attribute,
+      # meaning inclusion/exclusion of `completed` class happens automatically when `todo.completed` boolean value changes.
       class_name(:completed) <= [todo, :completed]
       
-      # Data-bind inclusion of `li` `class` `active` unidirectionally to todo completed attribute, negated,
-      # meaning inclusion of active class is determined by todo completed boolean attribute, negated.
+      # Data-bind inclusion of `active` in `li` `class` attribute unidirectionally to `todo` `completed` attribute, negated,
+      # meaning inclusion/exclusion of `active` class happens automatically when `todo.completed` negated boolean value changes.
       class_name(:active) <= [todo, :completed, on_read: :!]
       
-      # Data-bind inclusion of `li` `class` `editing` unidirectionally to todo editing attribute,
-      # meaning inclusion of editing class is determined by todo editing boolean attribute.
+      # Data-bind inclusion of `editing` in `li` `class` attribute unidirectionally to `todo` `editing` attribute,
+      # meaning inclusion/exclusion of `editing` class happens automatically when `todo.editing` boolean value changes.
       class_name(:editing) <= [todo, :editing]
       
       div(class: 'view') {
