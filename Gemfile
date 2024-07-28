@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'glimmer', '~> 2.8.0' #, path: '../glimmer'
 gem 'glimmer-dsl-xml', '~> 1.4.0'
-gem 'glimmer-dsl-css', '~> 1.5.0'
+gem 'glimmer-dsl-css', '~> 1.5.1'
 gem 'opal', '1.8.2'
 gem 'opal-rails', '2.0.3'
 gem 'opal-async', '~> 1.4.1'

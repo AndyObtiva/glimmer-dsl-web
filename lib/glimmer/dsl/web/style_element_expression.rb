@@ -4,7 +4,7 @@ require 'glimmer/dsl/web/general_element_expression'
 module Glimmer
   module DSL
     module Web
-      class StyleExpression < Expression
+      class StyleElementExpression < Expression
         include GeneralElementExpression
         include Glimmer
         

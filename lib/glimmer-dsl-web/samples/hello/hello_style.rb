@@ -22,7 +22,6 @@
 require 'glimmer-dsl-web'
 
 class ButtonModel
-  BUTTON_STYLE_ATTRIBUTES = [:width, :height, :font_size, :background_color]
   WIDTH_MIN = 160
   WIDTH_MAX = 960
   HEIGHT_MIN = 100
@@ -30,7 +29,7 @@ class ButtonModel
   FONT_SIZE_MIN = 40
   FONT_SIZE_MAX = 200
   
-  attr_accessor :text, :pushed, *BUTTON_STYLE_ATTRIBUTES
+  attr_accessor :text, :pushed, :background_color, :width, :height, :font_size
   
   def initialize
     @text = 'Push'
@@ -88,11 +87,11 @@ class StyledButton
                       on_read: ->(pushed) { pushed ? 'pushed' : 'pulled' }
                     ]
       
-      ButtonModel::BUTTON_STYLE_ATTRIBUTES.each do |attribute|
-        style <= [ button_model, attribute,
-                   on_read: method(:button_style_value) # convert value on read before storing in style
-                 ]
-      end
+      style(:width) <= [button_model, :width, on_read: :px]
+      style(:height) <= [button_model, :height, on_read: :px]
+      style(:font_size) <= [button_model, :font_size, on_read: :px]
+      style(:background_color) <= [button_model, :background_color]
+      style(:border_color) <= [button_model, :border_color, computed_by: :background_color]
       
       onclick do
         button_model.push
@@ -116,16 +115,6 @@ class StyledButton
       border-style: inset;
     }
   "}
-  
-  def button_style_value
-    "
-      width: #{button_model.width}px;
-      height: #{button_model.height}px;
-      font-size: #{button_model.font_size}px;
-      background-color: #{button_model.background_color};
-      border-color: #{button_model.border_color};
-    "
-  end
 end
 
 class StyledButtonRangeInput

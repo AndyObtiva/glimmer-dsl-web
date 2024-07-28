@@ -26,7 +26,8 @@ require 'glimmer/dsl/web/listener_expression'
 require 'glimmer/dsl/web/property_expression'
 require 'glimmer/dsl/web/a_expression'
 require 'glimmer/dsl/web/span_expression'
-require 'glimmer/dsl/web/style_expression'
+require 'glimmer/dsl/web/style_element_expression'
+require 'glimmer/dsl/web/inline_style_data_binding_expression'
 require 'glimmer/dsl/web/bind_expression'
 require 'glimmer/dsl/web/data_binding_expression'
 require 'glimmer/dsl/web/content_data_binding_expression'
@@ -41,8 +42,9 @@ module Glimmer
        Web,
        %w[
          listener
-         style
+         style_element
          content_data_binding
+         inline_style_data_binding
          component
          formatting_element
          data_binding

@@ -6,18 +6,15 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.4.x
 
+- Support setting `style` hash (like `{background_color: 'yellow', font_size: '12px'}`)
 - Fix issue with not being able to load Hello, Style! more than once or twice
 - Document automatic css class generated for components (maybe in samples too)
-- Is there an issue with setting CSS class with unique element name on elements
 
 - Support `style 'string'` block in `Glimmer::Web::Component`
-- Render styles produced by `style {}` block in `head` of document (make it removable if the element is removed)
 - Auto-generate CSS for embedded (internal) styles in `head` of document
 
 - Support setting `class_name` array of strings value (like `['pushed', 'round']` becoming "pushed round"), including option of array of symbols
-- Support setting `style` hash (like `{background_color: 'yellow', font_size: '12px'}`)
 - Support element class name inclusion data-binding (e.g. `class_name('pushed') <= [@button_model, :pushed]`)
-- Support element inline style data-binding (e.g. `style('border_style') <= [@button_model, :pushed, on_read: ->(val) {val ? 'inset' : 'outset'}]`)
 
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
@@ -96,6 +93,7 @@ Example:
 - Optimize performance of Glimmer CSS DSL with shortcut methods
 - Optimize performance of a and span formatting html elements by processing them conditionally in their static expressions
 - Optimize performance of `observe(*args)` keyword through memoization or some other solution
+- Render styles produced by `Glimmer::Web::Component` `style {}` blocks in bulk
 
 ## Maybe
 

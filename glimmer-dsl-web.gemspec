@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Andy Maleh".freeze]
-  s.date = "2024-07-27"
+  s.date = "2024-07-28"
   s.description = "Glimmer DSL for Web (Ruby in the Browser Web Frontend Framework) enables building Web Frontends using Ruby in the Browser, as per Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with DSLs and TIMTOWTDI) and the Rails way (Convention over Configuration) in building Isomorphic Ruby on Rails Applications. It provides a Ruby HTML DSL, which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) Data-Binding (using <=) and Bidirectional (Two-Way) Data-Binding (using <=>). Dynamic rendering (and re-rendering) of HTML content is also supported via Content Data-Binding. Modular design is supported with Glimmer Web Components. And, a Ruby CSS DSL is supported with the included Glimmer DSL for CSS. Many samples are demonstrated in the Rails sample app (there is a very minimal Standalone [No Rails] sample app too). You can finally live in pure Rubyland on the Web in both the frontend and backend with Glimmer DSL for Web! This gem relies on Opal Ruby.".freeze
   s.email = "andy.am@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -72,12 +72,13 @@ Gem::Specification.new do |s|
     "lib/glimmer/dsl/web/element_expression.rb",
     "lib/glimmer/dsl/web/formatting_element_expression.rb",
     "lib/glimmer/dsl/web/general_element_expression.rb",
+    "lib/glimmer/dsl/web/inline_style_data_binding_expression.rb",
     "lib/glimmer/dsl/web/listener_expression.rb",
     "lib/glimmer/dsl/web/observe_expression.rb",
     "lib/glimmer/dsl/web/property_expression.rb",
     "lib/glimmer/dsl/web/shine_data_binding_expression.rb",
     "lib/glimmer/dsl/web/span_expression.rb",
-    "lib/glimmer/dsl/web/style_expression.rb",
+    "lib/glimmer/dsl/web/style_element_expression.rb",
     "lib/glimmer/helpers/glimmer_helper.rb",
     "lib/glimmer/util/proc_tracker.rb",
     "lib/glimmer/web.rb",
@@ -97,7 +98,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency(%q<glimmer>.freeze, ["~> 2.8.0"])
   s.add_runtime_dependency(%q<glimmer-dsl-xml>.freeze, ["~> 1.4.0"])
-  s.add_runtime_dependency(%q<glimmer-dsl-css>.freeze, ["~> 1.5.0"])
+  s.add_runtime_dependency(%q<glimmer-dsl-css>.freeze, ["~> 1.5.1"])
   s.add_runtime_dependency(%q<opal>.freeze, ["= 1.8.2"])
   s.add_runtime_dependency(%q<opal-rails>.freeze, ["= 2.0.3"])
   s.add_runtime_dependency(%q<opal-async>.freeze, ["~> 1.4.1"])

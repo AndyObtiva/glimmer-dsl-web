@@ -143,6 +143,7 @@ module Glimmer
       REGEX_FORMAT_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
       REGEX_FORMAT_DATE = /^\d{4}-\d{2}-\d{2}$/
       REGEX_FORMAT_TIME = /^\d{2}:\d{2}$/
+      REGEX_STYLE_SUB_PROPERTY = /^(style)_(.*)$/
       
       attr_reader :keyword, :parent, :parent_component, :component, :args, :options, :children, :enabled, :foreground, :background, :removed, :rendered
       alias rendered? rendered
@@ -305,6 +306,21 @@ module Glimmer
           dom_element.css('background-color', background.to_css) unless background.nil?
         else
           enqueue_post_render_method_call('background=', value)
+        end
+      end
+      
+      def style_property(property, value = nil)
+        if rendered?
+          property = property.to_s.gsub('_', '-')
+          if value.nil?
+            dom_element.css(property)
+          else
+            dom_element.css(property, value)
+          end
+        else
+          enqueue_args = ['style_property', property]
+          enqueue_args << value unless value.nil?
+          enqueue_post_render_method_call(*enqueue_args)
         end
       end
       
@@ -586,13 +602,12 @@ module Glimmer
       
       def data_bind(property, model_binding)
         element_binding_read_translator = value_converters_for_input_type(type)&.[](:model_to_view)
-        element_binding_parameters = [self, property, element_binding_read_translator]
-        element_binding = DataBinding::ElementBinding.new(*element_binding_parameters)
+        element_binding = DataBinding::ElementBinding.new(self, property, translator: element_binding_read_translator)
         #TODO make this options observer dependent and all similar observers in element specific data binding handlers
         element_binding.observe(model_binding)
         element_binding.call(model_binding.evaluate_property)
         data_bindings[element_binding] = model_binding
-        unless model_binding.binding_options[:read_only]
+        if !model_binding.binding_options[:read_only]
           # TODO add guards against nil cases for hash below
           listener_keyword = data_binding_listener_for_element_and_property(keyword, property)
           if listener_keyword
@@ -641,14 +656,23 @@ module Glimmer
           dom_element.respond_to?(method_name, include_private) ||
           (!dom_element.prop(property_name).nil? && !dom_element.prop(property_name).is_a?(Proc)) ||
           (!dom_element.prop(unnormalized_property_name).nil? && !dom_element.prop(unnormalized_property_name).is_a?(Proc)) ||
-          method_name.to_s.start_with?('on_')
+          method_name.to_s.start_with?('on_') ||
+          method_name.to_s.start_with?('style_')
       end
       
       def method_missing(method_name, *args, &block)
         # TODO consider doing more correct checking of availability of properties/methods using native ticks
         property_name = property_name_for(method_name)
         unnormalized_property_name = unnormalized_property_name_for(method_name)
-        if method_name.to_s.start_with?('on_')
+        if method_name.to_s.start_with?('style_')
+          property, sub_property = method_name.to_s.match(REGEX_STYLE_SUB_PROPERTY).to_a.drop(1)
+          sub_property = sub_property.gsub('_', '-')
+          if args.empty?
+            style_property(sub_property)
+          else
+            style_property(sub_property, args.first) # TODO in the future, support more sophisticated forms of CSS sub-property values, like [1.px, :solid, :black] for border
+          end
+        elsif method_name.to_s.start_with?('on_')
           handle_observation_request(method_name, block)
         elsif dom_element.respond_to?(method_name)
           if rendered?

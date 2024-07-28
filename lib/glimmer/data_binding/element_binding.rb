@@ -6,30 +6,46 @@ module Glimmer
     class ElementBinding
       include Observable
       include Observer
-
-      attr_reader :element, :property
-      def initialize(element, property, translator = nil)
+      
+      attr_reader :element, :property, :translator, :sub_property
+      def initialize(element, property, translator: nil)
         @element = element
-        @property = property
+        if (property_parts = property.to_s.match(Glimmer::Web::ElementProxy::REGEX_STYLE_SUB_PROPERTY))
+          @property, @sub_property = property_parts.to_a.drop(1)
+          @sub_property = @sub_property.gsub('_', '-')
+        else
+          @property = property
+        end
         @translator = translator
 
-        # TODO implement automatic cleanup upon calling element.remove
-        # Alternatively, have this be built into ElementProxy and remove this code
-#         if @element.respond_to?(:dispose)
-#           @element.on_widget_disposed do |dispose_event|
-#             unregister_all_observables
-#           end
-#         end
+        if @element.respond_to?(:remove)
+          unregister_handler = lambda { |dispose_event| unregister_all_observables }
+          @element.handle_observation_request('on_remove', unregister_handler)
+        end
       end
       
       def call(value)
         evaluated_property_value = evaluate_property
         converted_value = @translator&.call(value, evaluated_property_value) || value
-        @element.send("#{@property}=", converted_value) unless converted_value == evaluated_property_value
+        unless converted_value == evaluated_property_value
+          if @sub_property
+            if @property.to_s == 'style'
+              @element.style_property(@sub_property, converted_value)
+            end
+          else
+            @element.send("#{@property}=", converted_value)
+          end
+        end
       end
       
       def evaluate_property
-        @element.send(@property)
+        if @sub_property
+          if @property.to_s == 'style'
+            @element.style_property(@sub_property)
+          end
+        else
+          @element.send(@property)
+        end
       end
     end
   end

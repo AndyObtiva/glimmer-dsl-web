@@ -2,6 +2,7 @@
 
 ## 0.4.2
 
+- Support element inline style data-binding (e.g. `style(:background_color) <= [@button_model, :background_color]`)
 - Support SVG element keywords
 
 ## 0.4.1
