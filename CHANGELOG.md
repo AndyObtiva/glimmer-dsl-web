@@ -3,6 +3,8 @@
 ## 0.4.3
 
 - Support element class name inclusion data-binding (e.g. `class_name('pushed') <= [@button_model, :pushed]`)
+- Refactor Todo MVC sample
+- Fix issue with component removal removing its style element even if other instances of the same component still exist (this was breaking TodoMVC when clearly Todo items)
 
 ## 0.4.2
 

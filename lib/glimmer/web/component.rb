@@ -208,7 +208,8 @@ module Glimmer
         end
         
         def remove_component_style(component)
-          if Glimmer::Web::Component.any_component_style?(component.class)
+          # We must not remove the head style element until all components are removed of a component class
+          if Glimmer::Web::Component.component_count(component.class) == 0 && Glimmer::Web::Component.any_component_style?(component.class)
             # TODO in the future, you would need to remove style using a jQuery call if you created head element in bulk
             Glimmer::Web::Component.component_styles[component.class].remove
             Glimmer::Web::Component.component_styles.delete(component.class)
@@ -224,7 +225,7 @@ module Glimmer
         end
         
         def component_count(component_class)
-          component_class_to_components_map[component_class].size
+          component_class_to_components_map[component_class]&.size || 0
         end
         
         def components
