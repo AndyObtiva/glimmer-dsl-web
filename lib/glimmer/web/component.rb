@@ -102,6 +102,11 @@ module Glimmer
           self.keyword.gsub('_', '-')
         end
         
+        def component_element_selector
+          ".#{component_element_class}"
+        end
+        alias component_markup_root_selector component_element_selector
+        
         def component_shortcut_element_class
           self.shortcut_keyword.gsub('_', '-')
         end

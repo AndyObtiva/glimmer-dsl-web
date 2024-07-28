@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.4.2 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.4.3 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
@@ -1394,7 +1394,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.4.2'
+gem 'glimmer-dsl-web', '~> 0.4.3'
 ```
 
 Run:
@@ -1623,7 +1623,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.4.2'
+gem 'glimmer-dsl-web', '~> 0.4.3'
 ```
 
 Run:
@@ -3218,9 +3218,8 @@ class StyledButton
     button {
       inner_text <= [button_model, :text, computed_by: :pushed]
       
-      class_name <= [button_model, :pushed,
-                      on_read: ->(pushed) { pushed ? 'pushed' : 'pulled' }
-                    ]
+      class_name(:pushed) <= [button_model, :pushed]
+      class_name(:pulled) <= [button_model, :pushed, on_read: :!]
       
       style(:width) <= [button_model, :width, on_read: :px]
       style(:height) <= [button_model, :height, on_read: :px]
@@ -3234,22 +3233,22 @@ class StyledButton
     }
   }
   
-  style {"
-    .#{component_element_class} {
-      font-family: Courrier New, Courrier;
-      border-radius: 5px;
-      border-width: 17px;
-      margin: 5px;
+  style {
+    r(component_element_selector) {
+      font_family 'Courrier New, Courrier'
+      border_radius 5
+      border_width 17
+      margin 5
     }
     
-    .#{component_element_class}.pulled {
-      border-style: outset;
+    r("#{component_element_selector}.pulled") {
+      border_style :outset
     }
     
-    .#{component_element_class}.pushed {
-      border-style: inset;
+    r("#{component_element_selector}.pushed") {
+      border_style :inset
     }
-  "}
+  }
 end
 
 class StyledButtonRangeInput
@@ -3307,22 +3306,22 @@ class HelloStyle
     }
   }
   
-  style {"
-    .styled-button-form {
-      padding: 20px;
-      display: inline-grid;
-      grid-template-columns: auto auto;
+  style {
+    r('.styled-button-form') {
+      padding 20
+      display 'inline-grid'
+      grid_template_columns 'auto auto'
     }
     
-    .styled-button-form label, input {
-      display: block;
-      margin: 5px 5px 5px 0;
+    r('.styled-button-form label, input') {
+      display :block
+      margin '5px 5px 5px 0'
     }
     
-    .#{component_element_class} .styled-button {
-      display: block;
+    r("#{component_element_selector} .styled-button") {
+      display :block
     }
-  "}
+  }
 end
 
 Document.ready? do

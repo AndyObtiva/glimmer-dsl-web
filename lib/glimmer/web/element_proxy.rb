@@ -144,6 +144,7 @@ module Glimmer
       REGEX_FORMAT_DATE = /^\d{4}-\d{2}-\d{2}$/
       REGEX_FORMAT_TIME = /^\d{2}:\d{2}$/
       REGEX_STYLE_SUB_PROPERTY = /^(style)_(.*)$/
+      REGEX_CLASS_NAME_SUB_PROPERTY = /^(class_name)_(.*)$/
       
       attr_reader :keyword, :parent, :parent_component, :component, :args, :options, :children, :enabled, :foreground, :background, :removed, :rendered
       alias rendered? rendered
@@ -306,6 +307,24 @@ module Glimmer
           dom_element.css('background-color', background.to_css) unless background.nil?
         else
           enqueue_post_render_method_call('background=', value)
+        end
+      end
+      
+      def class_name_included(one_class_name, value = nil)
+        if rendered?
+          if value.nil?
+            class_name.include?(one_class_name)
+          else
+            if value
+              add_css_class(one_class_name)
+            else
+              remove_css_class(one_class_name)
+            end
+          end
+        else
+          enqueue_args = ['class_name_included', one_class_name]
+          enqueue_args << value unless value.nil?
+          enqueue_post_render_method_call(*enqueue_args)
         end
       end
       
@@ -657,14 +676,22 @@ module Glimmer
           (!dom_element.prop(property_name).nil? && !dom_element.prop(property_name).is_a?(Proc)) ||
           (!dom_element.prop(unnormalized_property_name).nil? && !dom_element.prop(unnormalized_property_name).is_a?(Proc)) ||
           method_name.to_s.start_with?('on_') ||
-          method_name.to_s.start_with?('style_')
+          method_name.to_s.start_with?('style_') ||
+          method_name.to_s.start_with?('class_name_')
       end
       
       def method_missing(method_name, *args, &block)
         # TODO consider doing more correct checking of availability of properties/methods using native ticks
         property_name = property_name_for(method_name)
         unnormalized_property_name = unnormalized_property_name_for(method_name)
-        if method_name.to_s.start_with?('style_')
+        if method_name.to_s.start_with?('class_name_')
+          property, sub_property = method_name.to_s.match(REGEX_CLASS_NAME_SUB_PROPERTY).to_a.drop(1)
+          if args.empty?
+            class_name_included(sub_property)
+          else
+            class_name_included(sub_property, args.first)
+          end
+        elsif method_name.to_s.start_with?('style_')
           property, sub_property = method_name.to_s.match(REGEX_STYLE_SUB_PROPERTY).to_a.drop(1)
           sub_property = sub_property.gsub('_', '-')
           if args.empty?

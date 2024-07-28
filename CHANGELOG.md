@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.3
+
+- Support element class name inclusion data-binding (e.g. `class_name('pushed') <= [@button_model, :pushed]`)
+
 ## 0.4.2
 
 - Support element inline style data-binding (e.g. `style(:background_color) <= [@button_model, :background_color]`)
