@@ -6,6 +6,9 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.4.x
 
+- Support element class name inclusion data-binding (e.g. `class_name('pushed') <= [@button_model, :pushed]`)
+
+- Hello, SVG!
 - Support setting `style` hash (like `{background_color: 'yellow', font_size: '12px'}`)
 - Fix issue with not being able to load Hello, Style! more than once or twice
 - Document automatic css class generated for components (maybe in samples too)
@@ -14,7 +17,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Auto-generate CSS for embedded (internal) styles in `head` of document
 
 - Support setting `class_name` array of strings value (like `['pushed', 'round']` becoming "pushed round"), including option of array of symbols
-- Support element class name inclusion data-binding (e.g. `class_name('pushed') <= [@button_model, :pushed]`)
 
 - Provide a simpler way of defining custom listeners on Componenets than overriding handle_listener_request and can_handle listener request
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using

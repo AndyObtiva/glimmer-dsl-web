@@ -128,7 +128,7 @@ module Glimmer
         "feTurbulence", "filter", "foreignObject", "g", "image", "line", "linearGradient", "marker",
         "mask", "metadata", "mpath", "path", "pattern", "polygon", "polyline", "radialGradient", "rect",
         "set", "stop", "svg", "switch", "symbol", "text", "textPath", "tspan", "use", "view",
-      ]
+      ].map(&:downcase)
  
       ELEMENT_KEYWORDS = HTML_ELEMENT_KEYWORDS + SVG_ELEMENT_KEYWORDS
 

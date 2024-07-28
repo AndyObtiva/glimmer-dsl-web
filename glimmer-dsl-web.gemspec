@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
     "lib/glimmer-dsl-web/samples/hello/hello_observer_data_binding.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_paragraph.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_style.rb",
+    "lib/glimmer-dsl-web/samples/hello/hello_svg.rb",
     "lib/glimmer-dsl-web/samples/hello/hello_world.rb",
     "lib/glimmer-dsl-web/samples/regular/button_counter.rb",
     "lib/glimmer-dsl-web/samples/regular/todo_mvc.rb",

@@ -4,6 +4,7 @@
 
 - Support element inline style data-binding (e.g. `style(:background_color) <= [@button_model, :background_color]`)
 - Support SVG element keywords
+- Hello, SVG! Sample: `require 'glimmer-dsl-web/samples/hello/hello_svg'`
 
 ## 0.4.1
 
