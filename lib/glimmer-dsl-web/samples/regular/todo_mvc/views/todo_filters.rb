@@ -49,7 +49,7 @@ class TodoFilters
   }
   
   style {
-    rule('.todo-filters') {
+    r('.todo-filters') {
       border_top '1px solid #e6e6e6'
       font_size '15px'
       height '20px'
@@ -57,7 +57,7 @@ class TodoFilters
       text_align 'center'
     }
     
-    rule('.todo-filters:before') {
+    r('.todo-filters:before') {
       bottom '0'
       box_shadow '0 1px 1px rgba(0,0,0,.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0,0,0,.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0,0,0,.2)'
       content '""'
@@ -68,16 +68,16 @@ class TodoFilters
       right '0'
     }
     
-    rule('.todo-count') {
+    r('.todo-count') {
       float 'left'
       text_align 'left'
     }
     
-    rule('.todo-count .strong') {
+    r('.todo-count .strong') {
       font_weight '300'
     }
     
-    rule('.filters') {
+    r('.filters') {
       left '0'
       list_style 'none'
       margin '0'
@@ -86,11 +86,11 @@ class TodoFilters
       right '0'
     }
     
-    rule('.filters li') {
+    r('.filters li') {
       display 'inline'
     }
     
-    rule('.filters li a') {
+    r('.filters li a') {
       border '1px solid transparent'
       border_radius '3px'
       color 'inherit'
@@ -100,11 +100,11 @@ class TodoFilters
       cursor 'pointer'
     }
     
-    rule('.filters li a.selected') {
+    r('.filters li a.selected') {
       border_color '#ce4646'
     }
     
-    rule('.clear-completed, html .clear-completed:active') {
+    r('.clear-completed, html .clear-completed:active') {
       cursor 'pointer'
       float 'right'
       line_height '19px'
@@ -113,11 +113,11 @@ class TodoFilters
     }
     
     media('(max-width: 430px)') {
-      rule('.todo-filters') {
+      r('.todo-filters') {
         height '50px'
       }
       
-      rule('.filters') {
+      r('.filters') {
         bottom '10px'
       }
     }

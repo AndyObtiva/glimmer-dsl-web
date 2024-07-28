@@ -31,11 +31,11 @@ class EditTodoInput < TodoInput
   style { # evaluated against class as a smart default convention (common to all instances)
     todo_input_styles
     
-    rule("*:has(> .#{component_element_class})") {
+    r("*:has(> #{component_element_selector})") {
       position 'relative'
     }
     
-    rule(".#{component_element_class}") {
+    r(component_element_selector) {
       position 'absolute'
       display 'block'
       width 'calc(100% - 43px)'

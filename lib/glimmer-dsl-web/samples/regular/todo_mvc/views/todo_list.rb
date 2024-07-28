@@ -42,13 +42,13 @@ class TodoList
   }
   
   style {
-    rule('.main') {
+    r('.main') {
       border_top '1px solid #e6e6e6'
       position 'relative'
       z_index '2'
     }
     
-    rule('.toggle-all') {
+    r('.toggle-all') {
       border 'none'
       bottom '100%'
       height '1px'
@@ -58,7 +58,7 @@ class TodoList
       width '1px'
     }
           
-    rule('.toggle-all+label') {
+    r('.toggle-all+label') {
       align_items 'center'
       display 'flex'
       font_size '0'
@@ -70,7 +70,7 @@ class TodoList
       width '45px'
     }
     
-    rule('.toggle-all+label:before') {
+    r('.toggle-all+label:before') {
       color '#949494'
       content '"❯"'
       display 'inline-block'
@@ -80,22 +80,22 @@ class TodoList
       transform 'rotate(90deg)'
     }
     
-    rule('.toggle-all:focus+label, .toggle:focus+label') {
+    r('.toggle-all:focus+label, .toggle:focus+label') {
       box_shadow '0 0 2px 2px #cf7d7d'
       outline '0'
     }
     
-    rule('.todo-list') {
+    r('.todo-list') {
       list_style 'none'
       margin '0'
       padding '0'
     }
     
-    rule('.todo-list.active li.completed') {
+    r('.todo-list.active li.completed') {
       display 'none'
     }
     
-    rule('.todo-list.completed li.active') {
+    r('.todo-list.completed li.active') {
       display 'none'
     }
   }

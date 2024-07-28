@@ -16,7 +16,7 @@ class TodoMvcFooter
   }
   
   style {
-    rule('footer.info') {
+    r('footer.info') {
       margin '65px auto 0'
       color '#4d4d4d'
       font_size '11px'
@@ -24,17 +24,17 @@ class TodoMvcFooter
       text_align 'center'
     }
     
-    rule('footer.info p') {
+    r('footer.info p') {
       line_height '1'
     }
     
-    rule('footer.info a') {
+    r('footer.info a') {
       color 'inherit'
       text_decoration 'none'
       font_weight '400'
     }
     
-    rule('footer.info a:hover') {
+    r('footer.info a:hover') {
       text_decoration 'underline'
     }
   }

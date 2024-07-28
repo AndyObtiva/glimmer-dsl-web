@@ -37,12 +37,12 @@ class TodoMvc
   }
   
   style {
-    rule('body, button, html') {
+    r('body, button, html') {
       margin '0'
       padding '0'
     }
     
-    rule('button') {
+    r('button') {
       _webkit_font_smoothing 'antialiased'
       _webkit_appearance 'none'
       appearance 'none'
@@ -55,7 +55,7 @@ class TodoMvc
       vertical_align 'baseline'
     }
     
-    rule('.todoapp') {
+    r('.todoapp') {
       background '#fff'
       margin '130px 0 40px 0'
       position 'relative'
@@ -63,7 +63,7 @@ class TodoMvc
     }
   
     media('screen and (-webkit-min-device-pixel-ratio:0)') {
-      rule('body') {
+      r('body') {
         font "14px 'Helvetica Neue', Helvetica, Arial, sans-serif"
         line_height '1.4em'
         background '#f5f5f5'

@@ -4,7 +4,7 @@ class TodoInput
   
   class << self
     def todo_input_styles
-      rule(".#{component_element_class}") {
+      r(component_element_selector) {
         position 'relative'
         margin '0'
         width '100%'
@@ -20,11 +20,11 @@ class TodoInput
         _webkit_font_smoothing 'antialiased'
       }
       
-      rule(".#{component_element_class}::selection") {
+      r("#{component_element_selector}::selection") {
         background 'red'
       }
       
-      rule(".#{component_element_class}:focus") {
+      r("#{component_element_selector}:focus") {
         box_shadow '0 0 2px 2px #cf7d7d'
         outline '0'
       }

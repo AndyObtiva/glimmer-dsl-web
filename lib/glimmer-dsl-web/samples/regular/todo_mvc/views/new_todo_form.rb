@@ -14,7 +14,7 @@ class NewTodoForm
   }
   
   style {
-    rule('.header h1') {
+    r('.header h1') {
       color '#b83f45'
       font_size '80px'
       font_weight '200'
