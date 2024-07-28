@@ -15,19 +15,30 @@ class TodoListItem
   
   markup {
     li {
-      class_name <= [ todo, :completed,
-                      on_read: -> { li_class_name(todo) }
-                    ]
-      class_name <= [ todo, :editing,
-                      on_read: -> { li_class_name(todo) }
-                    ]
+      # Data-bind inclusion of `li` `class` `completed` unidirectionally to todo completed attribute,
+      # meaning inclusion of completed class is determined by todo completed boolean attribute.
+      class_name(:completed) <= [todo, :completed]
+      
+      # Data-bind inclusion of `li` `class` `active` unidirectionally to todo completed attribute, negated,
+      # meaning inclusion of active class is determined by todo completed boolean attribute, negated.
+      class_name(:active) <= [todo, :completed, on_read: :!]
+      
+      # Data-bind inclusion of `li` `class` `editing` unidirectionally to todo editing attribute,
+      # meaning inclusion of editing class is determined by todo editing boolean attribute.
+      class_name(:editing) <= [todo, :editing]
       
       div(class: 'view') {
         input(class: 'toggle', type: 'checkbox') {
+          # Data-bind `input` `checked` property bidirectionally to `todo` `completed` attribute
+          # meaning make any changes to the `todo` `completed` attribute value automatically update the `input` `checked` property
+          # and any changes to the `input` `checked` property by the user automatically update the `todo` `completed` attribute value.
+          # `after_write` hook is invoked after writing a new value to the model attribute (`todo` `completed` attribute)
           checked <=> [todo, :completed]
         }
         
         label {
+          # Data-bind `label` inner HTML unidirectionally to `todo.task` (`String` value),
+          # meaning make changes to `todo` `task` attribute automatically update `label` inner HTML.
           inner_html <= [todo, :task]
           
           ondblclick do |event|
@@ -49,14 +60,6 @@ class TodoListItem
       }
     }
   }
-  
-  def li_class_name(todo)
-    classes = []
-    classes << 'completed' if todo.completed?
-    classes << 'active' if !todo.completed?
-    classes << 'editing' if todo.editing?
-    classes.join(' ')
-  end
   
   style {
     r('.todo-list li.completed label') {

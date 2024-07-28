@@ -15,10 +15,6 @@ class TodoList
   
   markup {
     main(class: 'main') {
-      style <= [ presenter, :todos,
-                 on_read: ->(todos) { todos.empty? ? 'display: none;' : '' }
-               ]
-      
       div(class: 'toggle-all-container') {
         input(class: 'toggle-all', type: 'checkbox')
         
@@ -30,9 +26,9 @@ class TodoList
       }
       
       @todo_ul = ul {
-        class_name <= [presenter, :filter,
-                        on_read: ->(filter) { "todo-list #{filter}" }
-                      ]
+        # class name is data-bound unidirectionally to the presenter filter attribute,
+        # meaning it would automatically get set to its value whenever presenter.filter changes
+        class_name <= [presenter, :filter]
       
         presenter.todos.each do |todo|
           todo_list_item(presenter:, todo:)
@@ -85,17 +81,17 @@ class TodoList
       outline 0
     }
     
-    r('.todo-list') {
+    r('.todo-list ul') {
       list_style :none
       margin 0
       padding 0
     }
     
-    r('.todo-list.active li.completed') {
+    r('.todo-list ul.active li.completed') {
       display :none
     }
     
-    r('.todo-list.completed li.active') {
+    r('.todo-list ul.completed li.active') {
       display :none
     }
   }

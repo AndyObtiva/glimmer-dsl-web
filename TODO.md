@@ -138,6 +138,8 @@ Example:
 - Provide an example for integrating with React components using https://github.com/bitovi/react-to-web-component or https://lit.dev/docs/frameworks/react/
 - Consider cashing DOM element in every ElementProxy to avoid looking it up again with jQuery (in case that speeds up performance)
 - Auto-generate CSS for inline styles in `head` of document by assigning them to CSS classes and adding the CSS classes to elements instead
+- Consider adding a way to simplify data-binding selection, like adding a 'selected' CSS class to an element based on whether something matches another value as selection
+- Consider adding a way to simplify data-binding enablement
 
 ## Issues
 

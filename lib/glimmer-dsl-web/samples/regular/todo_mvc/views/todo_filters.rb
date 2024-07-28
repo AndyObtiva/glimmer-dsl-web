@@ -4,16 +4,21 @@ class TodoFilters
   option :presenter
   
   markup {
-    footer(class: 'todo-filters') {
-      style <= [ presenter, :todos,
-                 on_read: ->(todos) { todos.empty? ? 'display: none;' : '' }
-               ]
+    footer {
+      # Data-bind `footer` `style` `display` unidirectionally to presenter todos,
+      # and on read, convert todos based on whether they are empty to 'none' or 'block'
+      style(:display) <= [ presenter, :todos,
+                           on_read: ->(todos) { todos.empty? ? 'none' : 'block' }
+                         ]
       
       span(class: 'todo-count') {
         span('.strong') {
+          # Data-bind `span` `inner_text` unidirectionally to presenter active_todo_count
           inner_text <= [presenter, :active_todo_count]
         }
         span {
+          # Data-bind `span` `inner_text` unidirectionally to presenter active_todo_count,
+          # and on read, convert active_todo_count to string that follows count number
           inner_text <= [presenter, :active_todo_count,
                           on_read: -> (active_todo_count) { " item#{'s' if active_todo_count != 1} left" }
                         ]
@@ -24,9 +29,11 @@ class TodoFilters
         TodoPresenter::FILTERS.each do |filter|
           li {
             a(filter.to_s.capitalize, href: "#/#{filter unless filter == :all}") {
-              class_name <= [ presenter, :filter,
-                              on_read: -> (presenter_filter) { presenter_filter == filter ? 'selected' : '' }
-                            ]
+              # Data-bind inclusion of `a` `class` `selected` unidirectionally to presenter filter attribute,
+              # and on read of presenter filter, convert to boolean value of whether selected class is included
+              class_name(:selected) <= [ presenter, :filter,
+                                          on_read: -> (presenter_filter) { presenter_filter == filter }
+                                       ]
             
               onclick do |event|
                 presenter.filter = filter
@@ -37,9 +44,9 @@ class TodoFilters
       }
       
       button('Clear completed', class: 'clear-completed') {
-        style <= [ presenter, :can_clear_completed,
-                   on_read: -> (can_clear_completed) { can_clear_completed ? '' : 'display: none;' },
-                 ]
+        # Data-bind inclusion of `button` `class` `can-clear-completed` unidirectionally to presenter can_clear_completed attribute,
+        # meaning inclusion of can-clear-completed class is determined by presenter can_clear_completed boolean attribute.
+        class_name('can-clear-completed') <= [presenter, :can_clear_completed]
       
         onclick do |event|
           presenter.clear_completed
@@ -49,15 +56,16 @@ class TodoFilters
   }
   
   style {
-    r('.todo-filters') {
+    r(component_element_selector) {
       border_top '1px solid #e6e6e6'
       font_size 15
       height 20
       padding '10px 15px'
       text_align :center
+      display :none
     }
     
-    r('.todo-filters:before') {
+    r("#{component_element_selector}:before") {
       bottom 0
       box_shadow '0 1px 1px rgba(0,0,0,.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0,0,0,.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0,0,0,.2)'
       content '""'
@@ -110,10 +118,15 @@ class TodoFilters
       line_height 19
       position :relative
       text_decoration :none
+      display :none
+    }
+    
+    r('.clear-completed.can-clear-completed, html .clear-completed.can-clear-completed:active') {
+      display :block
     }
     
     media('(max-width: 430px)') {
-      r('.todo-filters') {
+      r(component_element_selector) {
         height 50
       }
       

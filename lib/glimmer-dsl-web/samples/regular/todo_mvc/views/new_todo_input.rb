@@ -5,6 +5,9 @@ class NewTodoInput < TodoInput
   
   markup { # evaluated against instance as a smart convention
     input(placeholder: "What needs to be done?", autofocus: "") {
+      # Data-bind `input` `value` property bidirectionally to `presenter.new_todo` `task` attribute
+      # meaning make any changes to the new todo task automatically update the input value
+      # and any changes to the input value by the user automatically update the new todo task value
       value <=> [presenter.new_todo, :task]
     
       onkeyup do |event|
