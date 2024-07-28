@@ -12,7 +12,7 @@
 
 You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. Also, with Frontend Ruby, companies can cut their hiring budget in half by having Backend Ruby Software Engineers do Frontend Development in Ruby! [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every smart highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage) (including full support for [SVG](#hello-svg)), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based drop-in replacement for your existing JavaScript Frontend library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make HTTP/Ajax requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_api.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb).
 
@@ -1340,6 +1340,8 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Component!](#hello-content-data-binding)
       - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
       - [Hello, Paragraph!](#hello-paragraph)
+      - [Hello, Style!](#hello-style)
+      - [Hello, SVG!](#hello-svg)
       - [Hello, Input (Date/Time)!](#hello-input-datetime)
       - [Button Counter](#button-counter)
       - [Todo MVC](#todo-mvc)
@@ -3140,6 +3142,240 @@ Screenshot:
 --
 
 ![Hello, Paragraph!](/images/glimmer-dsl-web-samples-hello-hello-paragraph.png)
+
+#### Hello, Style!
+
+Every Glimmer Web Component can have a `style {}` block that contains CSS styles common to all instances of that element. That block is evaluated against the component class as such.
+
+Also, within every element, you can add `style(:property) <= [model, attribute]` element inline style data-binding statements to dynamically alter a CSS style property based on some changes to a model attribute.
+
+[lib/glimmer-dsl-web/samples/hello/hello_style.rb](/lib/glimmer-dsl-web/samples/hello/hello_style.rb)
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class ButtonModel
+  WIDTH_MIN = 160
+  WIDTH_MAX = 960
+  HEIGHT_MIN = 100
+  HEIGHT_MAX = 600
+  FONT_SIZE_MIN = 40
+  FONT_SIZE_MAX = 200
+  
+  attr_accessor :text, :pushed, :background_color, :width, :height, :font_size
+  
+  def initialize
+    @text = 'Push'
+    @width = WIDTH_MIN
+    @height = HEIGHT_MIN
+    @font_size = FONT_SIZE_MIN
+    @background_color = '#add8e6'
+  end
+  
+  def push
+    self.pushed = !pushed
+  end
+  
+  def text
+    pushed ? 'Pull' : 'Push'
+  end
+  
+  def width=(value)
+    @width = value
+    self.font_size = @width/4 if @font_size > @width/4
+  end
+  
+  def height=(value)
+    @height = value
+    self.font_size = @height/2.5 if @font_size > @height/2.5
+  end
+  
+  def font_size=(value)
+    @font_size = value
+    self.width = @font_size*4 if @height < @font_size*4
+    self.height = @font_size*2.5 if @height < @font_size*2.5
+  end
+  
+  def border_color
+    red = background_color[1..2].hex
+    green = background_color[3..4].hex
+    blue = background_color[5..6].hex
+    new_red = red - 10
+    new_green = green - 10
+    new_blue = blue - 10
+    "##{new_red.to_s(16)}#{new_green.to_s(16)}#{new_blue.to_s(16)}"
+  end
+end
+
+class StyledButton
+  include Glimmer::Web::Component
+  
+  option :button_model
+  
+  markup {
+    button {
+      inner_text <= [button_model, :text, computed_by: :pushed]
+      
+      class_name <= [button_model, :pushed,
+                      on_read: ->(pushed) { pushed ? 'pushed' : 'pulled' }
+                    ]
+      
+      style(:width) <= [button_model, :width, on_read: :px]
+      style(:height) <= [button_model, :height, on_read: :px]
+      style(:font_size) <= [button_model, :font_size, on_read: :px]
+      style(:background_color) <= [button_model, :background_color]
+      style(:border_color) <= [button_model, :border_color, computed_by: :background_color]
+      
+      onclick do
+        button_model.push
+      end
+    }
+  }
+  
+  style {"
+    .#{component_element_class} {
+      font-family: Courrier New, Courrier;
+      border-radius: 5px;
+      border-width: 17px;
+      margin: 5px;
+    }
+    
+    .#{component_element_class}.pulled {
+      border-style: outset;
+    }
+    
+    .#{component_element_class}.pushed {
+      border-style: inset;
+    }
+  "}
+end
+
+class StyledButtonRangeInput
+  include Glimmer::Web::Component
+  
+  option :button_model
+  option :property
+  option :property_min
+  option :property_max
+  
+  markup {
+    input(type: 'range', min: property_min, max: property_max) {
+      value <=> [button_model, property]
+    }
+  }
+end
+
+class StyledButtonColorInput
+  include Glimmer::Web::Component
+  
+  option :button_model
+  option :property
+  
+  markup {
+    input(type: 'color') {
+      value <=> [button_model, property]
+    }
+  }
+end
+
+class HelloStyle
+  include Glimmer::Web::Component
+  
+  before_render do
+    @button_model = ButtonModel.new
+  end
+  
+  markup {
+    div {
+      div(class: 'styled-button-form') {
+        label('Styled Button Width:', class: 'property-label', for: 'styled-button-width-input')
+        styled_button_range_input(button_model: @button_model, property: :width, property_min: ButtonModel::WIDTH_MIN, property_max: ButtonModel::WIDTH_MAX, id: 'styled-button-width-input')
+        
+        label('Styled Button Height:', class: 'property-label', for: 'styled-button-height-input')
+        styled_button_range_input(button_model: @button_model, property: :height, property_min: ButtonModel::HEIGHT_MIN, property_max: ButtonModel::HEIGHT_MAX, id: 'styled-button-height-input')
+        
+        label('Styled Button Font Size:', class: 'property-label', for: 'styled-button-font-size-input')
+        styled_button_range_input(button_model: @button_model, property: :font_size, property_min: ButtonModel::FONT_SIZE_MIN, property_max: ButtonModel::FONT_SIZE_MAX, id: 'styled-button-font-size-input')
+        
+        label('Styled Button Background Color:', for: 'styled-button-background-color-input')
+        styled_button_color_input(button_model: @button_model, property: :background_color, id: 'styled-button-background-color-input')
+      }
+      
+      styled_button(button_model: @button_model)
+    }
+  }
+  
+  style {"
+    .styled-button-form {
+      padding: 20px;
+      display: inline-grid;
+      grid-template-columns: auto auto;
+    }
+    
+    .styled-button-form label, input {
+      display: block;
+      margin: 5px 5px 5px 0;
+    }
+    
+    .#{component_element_class} .styled-button {
+      display: block;
+    }
+  "}
+end
+
+Document.ready? do
+  HelloStyle.render
+end
+```
+
+Screenshot:
+
+--
+
+![Hello, Style!](/images/glimmer-dsl-web-samples-hello-hello-style.gif)
+
+#### Hello, SVG!
+
+[SVG](https://developer.mozilla.org/en-US/docs/Web/SVG) (Scalable Vector Graphics) is fully supported and can be utilized by simply embedding [SVG elements](https://developer.mozilla.org/en-US/docs/Web/SVG/Element) (all lower-case in Ruby) via the Glimmer HTML DSL syntax, just like any other HTML elements.
+
+[lib/glimmer-dsl-web/samples/hello/hello_svg.rb](/lib/glimmer-dsl-web/samples/hello/hello_svg.rb)
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+class HelloSvg
+  include Glimmer::Web::Component
+  
+  markup {
+    div {
+      svg(width: '100%', height: '100') {
+        circle(cx: '50', cy: '50', r: '50', style: 'fill:blue;') {
+          animate(attributename: 'cx', begin: '0s', dur: '8s', from: '50', to: '90%', repeatcount: 'indefinite')
+        }
+      }
+      svg(width: '200', height: '180') {
+        rect(x: '30', y: '30', height: '110', width: '110', style: 'stroke:green;fill:red') {
+          animatetransform(attributename: 'transform', begin: '0.1s', dur: '10s', type: 'rotate', from: '0 85 85', to: '360 85 85', repeatcount: 'indefinite')
+        }
+      }
+    }
+  }
+end
+
+Document.ready? do
+  HelloSvg.render
+end
+```
+
+Screenshot:
+
+--
+
+![Hello, SVG!](/images/glimmer-dsl-web-samples-hello-hello-svg.gif)
 
 --
 

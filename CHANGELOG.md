@@ -5,6 +5,7 @@
 - Support element inline style data-binding (e.g. `style(:background_color) <= [@button_model, :background_color]`)
 - Support SVG element keywords
 - Hello, SVG! Sample: `require 'glimmer-dsl-web/samples/hello/hello_svg'`
+- Upgrade to glimmer-dsl-css 1.5.1 to get support for `px`, `in`, `pt`, `cm`, `mm`, `em` methods on `Numeric` (e.g. `14.px` => `"14px"` / `2.em` => `"2em"`) and support for `%` method on `Integer`/`Float` to allow producing `%` CSS values (e.g. `90.%` => `"90%"`)
 
 ## 0.4.1
 
