@@ -66,30 +66,30 @@ class TodoListItem
     
     r('.todo-list li') {
       border_bottom '1px solid #ededed'
-      font_size '24px'
-      position 'relative'
+      font_size 24
+      position :relative
     }
     
     r('.todo-list li .toggle') {
-      _webkit_appearance 'none'
-      appearance 'none'
-      border 'none'
-      bottom '0'
-      height 'auto'
+      _webkit_appearance :none
+      appearance :none
+      border :none
+      bottom 0
+      height :auto
       margin 'auto 0'
-      opacity '0'
-      position 'absolute'
-      text_align 'center'
-      top '0'
-      width '40px'
+      opacity 0
+      position :absolute
+      text_align :center
+      top 0
+      width 40
     }
     
     r('.todo-list li label') {
       color '#484848'
-      display 'block'
+      display :block
       font_weight '400'
       line_height '1.2'
-      min_height '40px'
+      min_height 40
       padding '15px 15px 15px 60px'
       transition 'color .4s'
       word_break 'break-all'
@@ -97,7 +97,7 @@ class TodoListItem
     
     r('.todo-list li .toggle+label') {
       background_image 'url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23949494%22%20stroke-width%3D%223%22/%3E%3C/svg%3E)'
-      background_position '0'
+      background_position 0
       background_repeat 'no-repeat'
     }
     
@@ -111,30 +111,30 @@ class TodoListItem
     }
     
     r('.todo-list li.editing') {
-      border_bottom 'none'
-      padding '0'
+      border_bottom :none
+      padding 0
     }
     
     r('.todo-list li.editing input[type=checkbox], .todo-list li.editing label') {
-      opacity '0'
+      opacity 0
     }
     
     r('.todo-list li .destroy') {
-      bottom '0'
+      bottom 0
       color '#949494'
-      display 'none'
-      font_size '30px'
-      height '40px'
+      display :none
+      font_size 30
+      height 40
       margin 'auto 0'
-      position 'absolute'
-      right '10px'
-      top '0'
+      position :absolute
+      right 10
+      top 0
       transition 'color .2s ease-out'
-      width '40px'
+      width 40
     }
     
     r('.todo-list li:focus .destroy, .todo-list li:hover .destroy') {
-      display 'block'
+      display :block
     }
     
     r('.todo-list li .destroy:focus, .todo-list li .destroy:hover') {
@@ -143,18 +143,18 @@ class TodoListItem
     
     r('.todo-list li .destroy:after') {
       content '"×"'
-      display 'block'
+      display :block
       height '100%'
       line_height '1.1'
     }
     
     media ('screen and (-webkit-min-device-pixel-ratio: 0)') {
       r('.todo-list li .toggle, .toggle-all') {
-        background 'none'
+        background :none
       }
       
       r('.todo-list li .toggle') {
-        height '40px'
+        height 40
       }
     }
   }

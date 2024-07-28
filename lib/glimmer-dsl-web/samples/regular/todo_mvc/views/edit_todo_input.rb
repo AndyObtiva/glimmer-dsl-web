@@ -32,16 +32,16 @@ class EditTodoInput < TodoInput
     todo_input_styles
     
     r("*:has(> #{component_element_selector})") {
-      position 'relative'
+      position :relative
     }
     
     r(component_element_selector) {
-      position 'absolute'
-      display 'block'
+      position :absolute
+      display :block
       width 'calc(100% - 43px)'
       padding '12px 16px'
       margin '0 0 0 43px'
-      top '0'
+      top 0
     }
   }
 end

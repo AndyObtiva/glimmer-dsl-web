@@ -51,26 +51,26 @@ class TodoFilters
   style {
     r('.todo-filters') {
       border_top '1px solid #e6e6e6'
-      font_size '15px'
-      height '20px'
+      font_size 15
+      height 20
       padding '10px 15px'
-      text_align 'center'
+      text_align :center
     }
     
     r('.todo-filters:before') {
-      bottom '0'
+      bottom 0
       box_shadow '0 1px 1px rgba(0,0,0,.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0,0,0,.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0,0,0,.2)'
       content '""'
-      height '50px'
-      left '0'
-      overflow 'hidden'
-      position 'absolute'
-      right '0'
+      height 50
+      left 0
+      overflow :hidden
+      position :absolute
+      right 0
     }
     
     r('.todo-count') {
-      float 'left'
-      text_align 'left'
+      float :left
+      text_align :left
     }
     
     r('.todo-count .strong') {
@@ -78,26 +78,26 @@ class TodoFilters
     }
     
     r('.filters') {
-      left '0'
-      list_style 'none'
-      margin '0'
-      padding '0'
-      position 'absolute'
-      right '0'
+      left 0
+      list_style :none
+      margin 0
+      padding 0
+      position :absolute
+      right 0
     }
     
     r('.filters li') {
-      display 'inline'
+      display :inline
     }
     
     r('.filters li a') {
       border '1px solid transparent'
-      border_radius '3px'
-      color 'inherit'
-      margin '3px'
+      border_radius 3
+      color :inherit
+      margin 3
       padding '3px 7px'
-      text_decoration 'none'
-      cursor 'pointer'
+      text_decoration :none
+      cursor :pointer
     }
     
     r('.filters li a.selected') {
@@ -105,20 +105,20 @@ class TodoFilters
     }
     
     r('.clear-completed, html .clear-completed:active') {
-      cursor 'pointer'
-      float 'right'
-      line_height '19px'
-      position 'relative'
-      text_decoration 'none'
+      cursor :pointer
+      float :right
+      line_height 19
+      position :relative
+      text_decoration :none
     }
     
     media('(max-width: 430px)') {
       r('.todo-filters') {
-        height '50px'
+        height 50
       }
       
       r('.filters') {
-        bottom '10px'
+        bottom 10
       }
     }
   }

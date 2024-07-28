@@ -18,14 +18,14 @@ class NewTodoInput < TodoInput
     
     r(component_element_selector) { # NewTodoInput has component_element_class as 'new-todo-input'
       padding '16px 16px 16px 60px'
-      height '65px'
-      border 'none'
+      height 65
+      border :none
       background 'rgba(0, 0, 0, 0.003)'
       box_shadow 'inset 0 -2px 1px rgba(0,0,0,0.03)'
     }
     
     r("#{component_element_selector}::placeholder") {
-      font_style 'italic'
+      font_style :italic
       font_weight '400'
       color 'rgba(0, 0, 0, 0.4)'
     }

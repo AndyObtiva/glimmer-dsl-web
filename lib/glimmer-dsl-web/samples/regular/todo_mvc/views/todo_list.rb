@@ -44,37 +44,37 @@ class TodoList
   style {
     r('.main') {
       border_top '1px solid #e6e6e6'
-      position 'relative'
+      position :relative
       z_index '2'
     }
     
     r('.toggle-all') {
-      border 'none'
+      border :none
       bottom '100%'
-      height '1px'
-      opacity '0'
-      position 'absolute'
+      height 1
+      opacity 0
+      position :absolute
       right '100%'
-      width '1px'
+      width 1
     }
           
     r('.toggle-all+label') {
-      align_items 'center'
-      display 'flex'
-      font_size '0'
-      height '65px'
-      justify_content 'center'
-      left '0'
-      position 'absolute'
-      top '-65px'
-      width '45px'
+      align_items :center
+      display :flex
+      font_size 0
+      height 65
+      justify_content :center
+      left 0
+      position :absolute
+      top -65
+      width 45
     }
     
     r('.toggle-all+label:before') {
       color '#949494'
       content '"❯"'
       display 'inline-block'
-      font_size '22px'
+      font_size 22
       padding '10px 27px'
       _webkit_transform 'rotate(90deg)'
       transform 'rotate(90deg)'
@@ -82,21 +82,21 @@ class TodoList
     
     r('.toggle-all:focus+label, .toggle:focus+label') {
       box_shadow '0 0 2px 2px #cf7d7d'
-      outline '0'
+      outline 0
     }
     
     r('.todo-list') {
-      list_style 'none'
-      margin '0'
-      padding '0'
+      list_style :none
+      margin 0
+      padding 0
     }
     
     r('.todo-list.active li.completed') {
-      display 'none'
+      display :none
     }
     
     r('.todo-list.completed li.active') {
-      display 'none'
+      display :none
     }
   }
 end
