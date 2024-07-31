@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.4
+
+- Upgrade opal-jquery to version 0.5.2
+
 ## 0.4.3
 
 - Support element class name inclusion data-binding (e.g. `class_name('pushed') <= [@button_model, :pushed]`)

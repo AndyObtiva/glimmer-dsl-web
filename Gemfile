@@ -6,7 +6,7 @@ gem 'glimmer-dsl-css', '~> 1.5.1'
 gem 'opal', '1.8.2'
 gem 'opal-rails', '2.0.3'
 gem 'opal-async', '~> 1.4.1'
-gem 'opal-jquery', '~> 0.5.1'
+gem 'opal-jquery', '~> 0.5.2'
 gem 'to_collection', '>= 2.0.1', '< 3.0.0'
 
 group :development, :test do
