@@ -255,7 +255,7 @@ module Glimmer
       end
       # <- end of class methods
       
-      attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style
+      attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style, :slot_elements
       alias parent_proxy parent
 
       def initialize(parent, args, options, &content)
@@ -268,6 +268,7 @@ module Glimmer
           args = []
         end
         options ||= {}
+        @slot_elements = {}
         @args = args
         options ||= {}
         @options = self.class.options.merge(options)

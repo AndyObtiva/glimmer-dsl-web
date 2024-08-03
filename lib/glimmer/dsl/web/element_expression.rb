@@ -10,9 +10,17 @@ module Glimmer
         include GeneralElementExpression
         
         def can_interpret?(parent, keyword, *args, &block)
+          slot = keyword.to_s.to_sym
           Glimmer::Web::ElementProxy.keyword_supported?(keyword) &&
             (
-              args.empty? ||
+              (
+                args.empty? &&
+                (
+                  parent.nil? ||
+                  !parent.respond_to?(:slot_elements) ||
+                  !(parent.slot_elements.keys.include?(slot) || parent.slot_elements.keys.include?(slot.to_s))
+                )
+              ) ||
               args.size == 1 && args.first.is_a?(String) ||
               args.size == 1 && args.first.is_a?(Hash) ||
               args.size == 2 && args.first.is_a?(String) && args.last.is_a?(Hash)

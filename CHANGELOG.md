@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.5.0
+
+- Support Glimmer Web Component Slots (by adding `slot: :slot_name` to any parent element, like a `div`, inside a `Glimmer::Web::Component` `markup {...}` element)
+
 ## 0.4.4
 
 - Support setting element `style` property as String or Hash (like `background-color: yello; font-size: 12px;` or `{background_color: :yellow, font_size: 12}`)

@@ -4,14 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.4.x
-
-- Fix issue with not being able to load Hello, Style! more than once or twice
-
-### 0.5.x
-
-- Support Glimmer Web Component Slots
-
 ### 0.6.x
 
 - Provide a simpler way of defining custom listeners on Components than overriding handle_listener_request and can_handle listener request (consider relying on notify_observers from within component to fire listeners or alternatively using a method like that in ElementProxy)
@@ -23,6 +15,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Alert user if they attempt to build a component that shadows an HTML element
+- Support formatting paragraph elements as stand-alone elements (not inside p)
 
 ### 1.1.0
 

@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.4.4 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.5.0 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
@@ -12,7 +12,7 @@
 
 You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. Also, with Frontend Ruby, companies can cut their hiring budget in half by having Backend Ruby Software Engineers do Frontend Development in Ruby! [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every smart highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage) (including full support for [SVG](#hello-svg)), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage) (including full support for [SVG](#hello-svg)), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component) and [Slots](#hello-component-slots). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based drop-in replacement for your existing JavaScript Frontend library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make HTTP/Ajax requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_api.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb).
 
@@ -1342,7 +1342,8 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Observer (Data-Binding)!](#hello-observer)
       - [Hello, Data-Binding!](#hello-data-binding)
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
-      - [Hello, Component!](#hello-content-data-binding)
+      - [Hello, Component!](#hello-compoent)
+      - [Hello, Component Slots!](#hello-component-slots)
       - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
       - [Hello, Paragraph!](#hello-paragraph)
       - [Hello, Style!](#hello-style)
@@ -1399,7 +1400,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.4.4'
+gem 'glimmer-dsl-web', '~> 0.5.0'
 ```
 
 Run:
@@ -1628,7 +1629,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.4.4'
+gem 'glimmer-dsl-web', '~> 0.5.0'
 ```
 
 Run:
@@ -2858,6 +2859,233 @@ end
 Screenshot:
 
 ![Hello, Component!](/images/glimmer-dsl-web-samples-hello-hello-component.png)
+
+#### Hello, Component Slots!
+
+Component slots enables consumers of components to contribute content in designated areas inside them called slots.
+
+Inside a Glimmer web component, you can designate an element (e.g. `div`) as a component slot by passing the `slot: :slotname` option,
+which enables consumers to contribute elements inside the component slot by opening a `slotname {...}` inside the component content block.
+
+For example, below is a sample that demonstrates how to contribute slot content to `address_header` and `address_footer` in an `address_form` component.
+
+[lib/glimmer-dsl-web/samples/hello/hello_component_slots.rb](/lib/glimmer-dsl-web/samples/hello/hello_component_slots.rb)
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
+  
+  def state_code
+    STATES.invert[state]
+  end
+  
+  def state_code=(value)
+    self.state = STATES[value]
+  end
+
+  def summary
+    to_h.values.map(&:to_s).reject(&:empty?).join(', ')
+  end
+end
+
+# AddressForm Glimmer Web Component (View component)
+#
+# Including Glimmer::Web::Component makes this class a View component and automatically
+# generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
+# of the name of the class. AddressForm generates address_form keyword, which can be used
+# elsewhere in Glimmer HTML DSL code as done inside HelloComponentSlots below.
+class AddressForm
+  include Glimmer::Web::Component
+  
+  option :address
+  
+  # markup block provides the content of the
+  markup {
+    div {
+      # designate this div as a slot with the slot name :address_header to enable
+      # consumers to contribute elements to `address_header {...}` slot
+      div(slot: :address_header, class: 'address-form-header')
+      
+      div(class: 'address-field-container', style: {display: :grid, grid_auto_columns: '80px 260px'}) {
+        label('Full Name: ', for: 'full-name-field')
+        input(id: 'full-name-field') {
+          value <=> [address, :full_name]
+        }
+        
+        @somelabel = label('Street: ', for: 'street-field')
+        input(id: 'street-field') {
+          value <=> [address, :street]
+        }
+        
+        label('Street 2: ', for: 'street2-field')
+        textarea(id: 'street2-field') {
+          value <=> [address, :street2]
+        }
+        
+        label('City: ', for: 'city-field')
+        input(id: 'city-field') {
+          value <=> [address, :city]
+        }
+        
+        label('State: ', for: 'state-field')
+        select(id: 'state-field') {
+          Address::STATES.each do |state_code, state|
+            option(value: state_code) { state }
+          end
+
+          value <=> [address, :state_code]
+        }
+        
+        label('Zip Code: ', for: 'zip-code-field')
+        input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+          value <=> [address, :zip_code,
+                      on_write: :to_s,
+                    ]
+        }
+      }
+      
+      div(style: 'margin: 5px') {
+        inner_text <= [address, :summary,
+                        computed_by: address.members + ['state_code'],
+                      ]
+      }
+      
+      # designate this div as a slot with the slot name :address_footer to enable
+      # consumers to contribute elements to `address_footer {...}` slot
+      div(slot: :address_footer, class: 'address-form-footer')
+    }
+  }
+  
+  style {
+    r('.address-field-container *') {
+      margin 5
+    }
+    r('.address-field-container input, .address-field-container select') {
+      grid_column '2'
+    }
+  }
+end
+
+# HelloComponentSlots Glimmer Web Component (View component)
+#
+# This View component represents the main page being rendered,
+# as done by its `render` class method below
+class HelloComponentSlots
+  include Glimmer::Web::Component
+  
+  before_render do
+    @shipping_address = Address.new(
+      full_name: 'Johnny Doe',
+      street: '3922 Park Ave',
+      street2: 'PO BOX 8382',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91913',
+    )
+    @billing_address = Address.new(
+      full_name: 'John C Doe',
+      street: '123 Main St',
+      street2: 'Apartment 3C',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91911',
+    )
+  end
+  
+  markup {
+    div {
+      address_form(address: @shipping_address) {
+        address_header { # contribute elements to the address_header component slot
+          h1('Shipping Address')
+          legend('This is the address that is used for shipping your purchase.', style: {margin_bottom: 10})
+        }
+        address_footer { # contribute elements to the address_header component slot
+          p(sub("#{strong('Note:')} #{em('Purchase will be returned if the Shipping Address does not accept it in one week.')}"))
+        }
+      }
+      
+      address_form(address: @billing_address) {
+        address_header { # contribute elements to the address_header component slot
+          h1('Billing Address')
+          legend('This is the address that is used for your billing method (e.g. credit card).', style: {margin_bottom: 10})
+        }
+        address_footer { # contribute elements to the address_header component slot
+          p(sub("#{strong('Note:')} #{em('Payment will fail if payment method does not match the Billing Address.')}"))
+        }
+      }
+    }
+  }
+end
+
+Document.ready? do
+  # renders a top-level (root) HelloComponentSlots component
+  HelloComponentSlots.render
+end
+```
+
+Screenshot:
+
+![Hello, Component Slots!](/images/glimmer-dsl-web-samples-hello-hello-component-slots.png)
 
 #### Hello, glimmer_component Rails Helper!
 

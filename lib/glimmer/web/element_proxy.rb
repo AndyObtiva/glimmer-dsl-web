@@ -146,17 +146,22 @@ module Glimmer
       REGEX_STYLE_SUB_PROPERTY = /^(style)_(.*)$/
       REGEX_CLASS_NAME_SUB_PROPERTY = /^(class_name)_(.*)$/
       
-      attr_reader :keyword, :parent, :parent_component, :component, :args, :options, :children, :enabled, :foreground, :background, :removed, :rendered
+      attr_reader :keyword, :parent, :parent_component, :ancestor_component, :component, :args, :options, :slot, :children, :enabled, :foreground, :background, :removed, :rendered
       alias rendered? rendered
       alias removed? removed
       
       def initialize(keyword, parent, args, block)
         @keyword = keyword
         @parent = parent.is_a?(Glimmer::Web::Component) ? parent.markup_root : parent
+        # @parent_component is the component that is the parent of an external element (not in markup {...} block) that is nested underneath (e.g. address_form { this_element })
         @parent_component = parent if parent.is_a?(Glimmer::Web::Component)
         if Component.interpretation_stack.last&.markup_root.nil?
+          # @component is the one tied to this component-internal element as the markup root
           @component = Component.interpretation_stack.last
           @component&.instance_variable_set("@markup_root", self)
+        else
+          # @ancestor_component is the one tied to this component-internal element as an ancestor
+          @ancestor_component = Component.interpretation_stack.last
         end
         @options = args.last.is_a?(Hash) ? args.last.symbolize_keys : {}
         if parent.nil?
@@ -164,11 +169,18 @@ module Glimmer
           options[:render] ||= Component.interpretation_stack.last&.options&.[](:render)
           options[:bulk_render] ||= Component.interpretation_stack.last&.options&.[](:bulk_render)
         end
+        @slot = options['slot'] || options[:slot]
+        @slot = @slot.to_sym if @slot
+        ancestor_component.slot_elements[@slot] = self if @slot && ancestor_component
         @args = args
         @block = block
         @children = []
         @parent&.post_initialize_child(self)
         render if !bulk_render? && !@rendered && render_after_create?
+      end
+      
+      def ancestor_component
+        @ancestor_component || @component
       end
       
       def bulk_render?

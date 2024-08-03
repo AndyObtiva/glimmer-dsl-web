@@ -34,6 +34,7 @@ require 'glimmer/dsl/web/data_binding_expression'
 require 'glimmer/dsl/web/content_data_binding_expression'
 require 'glimmer/dsl/web/shine_data_binding_expression'
 require 'glimmer/dsl/web/component_expression'
+require 'glimmer/dsl/web/component_slot_content_expression'
 require 'glimmer/dsl/web/observe_expression'
 
 module Glimmer
@@ -47,6 +48,7 @@ module Glimmer
          content_data_binding
          inline_style_data_binding
          class_name_inclusion_data_binding
+         component_slot_content
          component
          formatting_element
          data_binding
