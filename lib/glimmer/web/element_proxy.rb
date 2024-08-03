@@ -328,6 +328,22 @@ module Glimmer
         end
       end
       
+      def style(value = null)
+        if rendered?
+          if value.nil?
+            dom_element.attr('style')
+          else
+            value = normalize_style(value)
+            dom_element.attr('style', value)
+          end
+        else
+          enqueue_args = ['style']
+          enqueue_args << value unless value.nil?
+          enqueue_post_render_method_call(*enqueue_args)
+        end
+      end
+      alias style= style
+      
       def style_property(property, value = nil)
         if rendered?
           property = property.to_s.gsub('_', '-')
@@ -451,7 +467,8 @@ module Glimmer
           html_options["data-#{data_normalized_attribute}"] = html_options.delete(attribute)
         end
         html_options[:class] ||= ''
-        html_options[:class] = "#{html_options[:class]} #{body_class}".strip
+        html_options[:class] = "#{normalize_class_name(html_options.delete('class') || html_options.delete(:class))} #{body_class}".strip
+        html_options[:style] = normalize_style(html_options.delete('style') || html_options.delete(:style))
         html_options['data-turbo'] = 'false' if parent.nil?
         html_options
       end
@@ -480,15 +497,16 @@ module Glimmer
         @element_id ||= "element-#{ElementProxy.next_id_number_for(name)}"
       end
       
-      def class_name=(value)
+      def class_name=(*values)
         if rendered?
-          values = value.is_a?(Array) ? value : [value.to_s]
+          values = normalize_class_name(values).split(' ')
           new_class_name = (base_css_classes + values).uniq.compact.join(' ')
           dom_element.prop('className', new_class_name)
         else
-          enqueue_post_render_method_call('class_name=', value)
+          enqueue_post_render_method_call('class_name=', *values)
         end
       end
+      alias classes= class_name=
       
       def add_css_class(css_class)
         if rendered?
@@ -930,6 +948,26 @@ module Glimmer
       
       def css_cursor
         SWT_CURSOR_TO_CSS_CURSOR_MAP[@cursor]
+      end
+      
+      def normalize_class_name(class_name_value)
+        if class_name_value.is_a?(Array)
+          class_name_value.map(&:to_s).join(' ')
+        else
+          class_name_value.to_s
+        end
+      end
+      
+      def normalize_style(style_value)
+        if style_value.is_a?(Hash)
+          style_value.reduce('') do |output, (key, value)|
+            key = key.to_s.gsub('_', '-')
+            value = value.px if value.is_a?(Numeric)
+            output += "#{key}: #{value}; "
+          end
+        else
+          style_value.to_s
+        end
       end
       
     end

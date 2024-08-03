@@ -2,6 +2,8 @@
 
 ## 0.4.4
 
+- Support setting element `style` property as String or Hash (like `background-color: yello; font-size: 12px;` or `{background_color: :yellow, font_size: 12}`)
+- Support setting element `classes` property as String or Array of Strings/Symbols (like `"pushed round"`, `['pushed', 'round']` or `[:pushed, :round]`)
 - Upgrade opal-jquery to version 0.5.2
 
 ## 0.4.3

@@ -6,10 +6,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.4.x
 
-- Document automatic css class generated for components (maybe in samples too)
 - Fix issue with not being able to load Hello, Style! more than once or twice
-- Support setting `style` hash (like `{background_color: 'yellow', font_size: '12px'}`)
-- Support setting `class_name` array of strings value (like `['pushed', 'round']` becoming "pushed round"), including option of array of symbols
+- Document automatic css class generated for components (maybe in samples too)
 
 ### 0.5.x
 
