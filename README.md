@@ -578,6 +578,15 @@ Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-g
 Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
 
+You can specify CSS styles that apply to all instances of a component by opening a `style {...}` block, which is
+evaluated against the component class given that it applies to all instances.
+That would automatically generate one `<style>` element for a component inside `<head>` if at least one instance
+of it exists. Every Glimmer web component's markup root element will automatically get a CSS class matching its Ruby
+class name underscored, which can be used to scope styles for all component instances inside its `style {...}` block.
+For example, `AddressForm` gets the CSS class `address-form` on its top-level `div`. You can find out the default CSS class
+that is attached to every component by calling `ComponentClass.component_element_class`. You can get a CSS selector version of
+it by calling `ComponentClass.component_element_selector`.
+
 [lib/glimmer-dsl-web/samples/hello/hello_component.rb](/lib/glimmer-dsl-web/samples/hello/hello_component.rb)
 
 Glimmer HTML DSL Ruby code in the frontend:
@@ -2629,6 +2638,15 @@ You may insert a Glimmer component anywhere into a Rails View using `glimmer_com
 Rails helper (more about it in [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)).
 Below, we define an `AddressForm` component that generates an `address_form` keyword, and then we
 reuse it twice inside an `AddressPage` component displaying a Shipping Address and a Billing Address.
+
+You can specify CSS styles that apply to all instances of a component by opening a `style {...}` block, which is
+evaluated against the component class given that it applies to all instances.
+That would automatically generate one `<style>` element for a component inside `<head>` if at least one instance
+of it exists. Every Glimmer web component's markup root element will automatically get a CSS class matching its Ruby
+class name underscored, which can be used to scope styles for all component instances inside its `style {...}` block.
+For example, `AddressForm` gets the CSS class `address-form` on its top-level `div`. You can find out the default CSS class
+that is attached to every component by calling `ComponentClass.component_element_class`. You can get a CSS selector version of
+it by calling `ComponentClass.component_element_selector`.
 
 [lib/glimmer-dsl-web/samples/hello/hello_component.rb](/lib/glimmer-dsl-web/samples/hello/hello_component.rb)
 

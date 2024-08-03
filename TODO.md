@@ -7,7 +7,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ### 0.4.x
 
 - Fix issue with not being able to load Hello, Style! more than once or twice
-- Document automatic css class generated for components (maybe in samples too)
 
 ### 0.5.x
 
