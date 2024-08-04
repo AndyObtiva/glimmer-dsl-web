@@ -6,16 +6,26 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.6.x
 
-- Provide a simpler way of defining custom listeners on Components than overriding handle_listener_request and can_handle listener request (consider relying on notify_observers from within component to fire listeners or alternatively using a method like that in ElementProxy)
+- Upgrade to opal-sprockets 1.0.4 to fix an issue with Opal compilation breaking after upgrading Opal gems in a Rails project and trying to render a webpage locally.
+- Provide a simpler way of defining custom listeners on Components than overriding handle_listener_request and can_handle listener request (consider relying on notify_observers from within component to fire listeners or alternatively using a method like that in ElementProxy.. perhaps without pre-defining what listeners are).
 - Enable data-binding component attributes (by nesting within component in consumer code)
+
+### 0.7.x
+
+- Support formatting paragraph elements as stand-alone elements (not inside p)
+
+### 0.8.x
+
+- Automate Rails 7 setup instructions
+- Automate Rails 6 setup instructions
 
 ### 1.0.0
 
 - Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
-- Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`
+- Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`. Or maybe replace with `glimmer-element` where element comes from ElementProxy (it would be `glimmer-formatting-element` if it's FormattingProxy)
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
-- Alert user if they attempt to build a component that shadows an HTML element
-- Support formatting paragraph elements as stand-alone elements (not inside p)
+- Alert user if they attempt to build a component or component slot that shadows an HTML element
+- Prepend/append/insert element operations
 
 ### 1.1.0
 

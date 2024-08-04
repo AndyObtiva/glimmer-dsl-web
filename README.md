@@ -3059,7 +3059,7 @@ class HelloComponentSlots
           h1('Shipping Address')
           legend('This is the address that is used for shipping your purchase.', style: {margin_bottom: 10})
         }
-        address_footer { # contribute elements to the address_header component slot
+        address_footer { # contribute elements to the address_footer component slot
           p(sub("#{strong('Note:')} #{em('Purchase will be returned if the Shipping Address does not accept it in one week.')}"))
         }
       }
@@ -3069,7 +3069,7 @@ class HelloComponentSlots
           h1('Billing Address')
           legend('This is the address that is used for your billing method (e.g. credit card).', style: {margin_bottom: 10})
         }
-        address_footer { # contribute elements to the address_header component slot
+        address_footer { # contribute elements to the address_footer component slot
           p(sub("#{strong('Note:')} #{em('Payment will fail if payment method does not match the Billing Address.')}"))
         }
       }
@@ -3389,7 +3389,9 @@ Screenshot:
 
 Every Glimmer Web Component can have a `style {}` block that contains CSS styles common to all instances of that element. That block is evaluated against the component class as such.
 
-Also, within every element, you can add `style(:property) <= [model, attribute]` element inline style data-binding statements to dynamically alter a CSS style property based on some changes to a model attribute.
+Also, within every element, you can add `style(:some_property) <= [model, attribute]` element inline-style data-binding statements to dynamically alter a CSS style property based on some changes to a model attribute.
+
+And, within every element, you can add `class_name(:some_css_class) <= [model, attribute]` element class-inclusion data-binding statements to dynamically alter the inclusion of a CSS class based on some changes to a model attribute.
 
 [lib/glimmer-dsl-web/samples/hello/hello_style.rb](/lib/glimmer-dsl-web/samples/hello/hello_style.rb)
 
