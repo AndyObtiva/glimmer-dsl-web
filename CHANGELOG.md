@@ -2,7 +2,8 @@
 
 ## 0.5.0
 
-- Support Glimmer Web Component Slots (by adding `slot: :slot_name` to any parent element, like a `div`, inside a `Glimmer::Web::Component` `markup {...}` element)
+- Support Glimmer Web Component Slots (by adding `slot: :slot_name` to any parent element, like a `div`, inside a `Glimmer::Web::Component` `markup {...}` element, and later having a consumer open a `slot_name {...}` block inside the content block of a consumed component)
+- Hello, Component Slots! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_slots'`
 
 ## 0.4.4
 

@@ -204,7 +204,7 @@ class HelloComponentSlots
           h1('Shipping Address')
           legend('This is the address that is used for shipping your purchase.', style: {margin_bottom: 10})
         }
-        address_footer { # contribute elements to the address_header component slot
+        address_footer { # contribute elements to the address_footer component slot
           p(sub("#{strong('Note:')} #{em('Purchase will be returned if the Shipping Address does not accept it in one week.')}"))
         }
       }
@@ -214,7 +214,7 @@ class HelloComponentSlots
           h1('Billing Address')
           legend('This is the address that is used for your billing method (e.g. credit card).', style: {margin_bottom: 10})
         }
-        address_footer { # contribute elements to the address_header component slot
+        address_footer { # contribute elements to the address_footer component slot
           p(sub("#{strong('Note:')} #{em('Payment will fail if payment method does not match the Billing Address.')}"))
         }
       }
