@@ -89,6 +89,20 @@ module Glimmer
           @after_render = block
         end
         
+        def event(event)
+          @events ||= []
+          event = event.to_sym
+          @events << event unless @events.include?(event)
+        end
+        
+        def events(*events)
+          if events.empty?
+            @events
+          else
+            events.each { |event| event(event) }
+          end
+        end
+        
         def keyword
           self.name.underscore.gsub('::', '__')
         end
@@ -255,7 +269,7 @@ module Glimmer
       end
       # <- end of class methods
       
-      attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style, :slot_elements
+      attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style, :slot_elements, :events
       alias parent_proxy parent
 
       def initialize(parent, args, options, &content)
@@ -272,6 +286,7 @@ module Glimmer
         @args = args
         options ||= {}
         @options = self.class.options.merge(options)
+        @events = self.class.instance_variable_get("@events")
         @content = Util::ProcTracker.new(content) if content
 #         @style_blocks = {} # TODO enable when doing bulk head rendering in the future
         execute_hooks('before_render')
@@ -317,32 +332,84 @@ module Glimmer
       def can_handle_observation_request?(observation_request)
         observation_request = observation_request.to_s
         result = false
-        if observation_request.start_with?('on_updated_')
-          property = observation_request.sub(/^on_updated_/, '')
+        if observation_request.start_with?('on_update_') # TODO change to on_someprop_update & document this feature
+          property = observation_request.sub(/^on_update_/, '')
           result = can_add_observer?(property)
+        elsif observation_request.start_with?('on_')
+          event = observation_request.sub(/^on_/, '')
+          result = can_add_observer?(event)
         end
-        result || markup_root&.can_handle_observation_request?(observation_request)
+        result || @markup_root&.can_handle_observation_request?(observation_request)
       end
 
       def handle_observation_request(observation_request, block)
         observation_request = observation_request.to_s
-        if observation_request.start_with?('on_updated_')
-          property = observation_request.sub(/^on_updated_/, '') # TODO look into eliminating duplication from above
+        if observation_request.start_with?('on_update_')
+          property = observation_request.sub(/^on_update_/, '') # TODO look into eliminating duplication from above
           add_observer(DataBinding::Observer.proc(&block), property) if can_add_observer?(property)
+        elsif observation_request.start_with?('on_')
+          event = observation_request.sub(/^on_/, '') # TODO look into eliminating duplication from above
+          add_observer(DataBinding::Observer.proc(&block), event) if can_add_observer?(event)
         else
-          markup_root.handle_observation_request(observation_request, block)
+          @markup_root.handle_observation_request(observation_request, block)
         end
       end
 
-      def can_add_observer?(attribute_name)
-        has_instance_method?(attribute_name) || has_instance_method?("#{attribute_name}?") || @markup_root.can_add_observer?(attribute_name)
+      def can_add_observer?(attribute_or_event)
+        can_add_attribute_observer?(attribute_or_event) ||
+          can_add_custom_event_listener?(attribute_or_event)
       end
 
-      def add_observer(observer, attribute_name)
-        if has_instance_method?(attribute_name)
-          super(observer, attribute_name)
+      def can_add_attribute_observer?(attribute_name)
+        has_instance_method?(attribute_name) || has_instance_method?("#{attribute_name}?")
+      end
+
+      def can_add_custom_event_listener?(event)
+        events.include?(event.to_sym)
+      end
+
+      def add_observer(observer, attribute_or_event)
+        if can_add_attribute_observer?(attribute_or_event)
+          super(observer, attribute_or_event)
+        elsif can_add_custom_event_listener?(attribute_or_event)
+          add_custom_event_listener(observer, attribute_or_event)
+        end
+      end
+      
+      def custom_event_listeners_for(event)
+        event = event.to_sym
+        @custom_event_listeners ||= {}
+        @custom_event_listeners[event] ||= []
+      end
+      
+      def add_custom_event_listener(observer, event)
+        custom_event_listeners_for(event) << observer
+      end
+      
+      def remove_observer(observer, attribute_or_event, options = {})
+        if can_add_attribute_observer?(attribute_or_event)
+          super(observer, attribute_or_event)
+        elsif can_add_custom_event_listener?(attribute_or_event)
+          remove_custom_event_listener(observer, attribute_or_event)
+        end
+      end
+      
+      def remove_custom_event_listener(observer, event)
+        event = event.to_sym
+        custom_event_listeners_for(event).delete(observer) if custom_event_listeners_for(event).include?(observer)
+      end
+      
+      def notify_listeners(event, *args)
+        if can_add_custom_event_listener?(event)
+          notify_custom_event_listeners(event, *args)
         else
-          @markup_root.add_observer(observer, attribute_name)
+          @markup_root&.notify_listeners(event)
+        end
+      end
+      
+      def notify_custom_event_listeners(event, *args)
+        custom_event_listeners_for(event).each do |listener|
+          listener.call(*args)
         end
       end
 

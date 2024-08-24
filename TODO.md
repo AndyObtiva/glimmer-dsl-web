@@ -6,9 +6,9 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.6.x
 
-- Upgrade to opal-sprockets 1.0.4 to fix an issue with Opal compilation breaking after upgrading Opal gems in a Rails project and trying to render a webpage locally.
-- Provide a simpler way of defining custom listeners on Components than overriding handle_listener_request and can_handle listener request (consider relying on notify_observers from within component to fire listeners or alternatively using a method like that in ElementProxy.. perhaps without pre-defining what listeners are).
-- Enable data-binding component attributes (by nesting within component in consumer code)
+- Hello, Component Listeners! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_listeners'`
+- Support Component Attribute Update Listeners (nest a `on_someattribute_update` listener inside the content block of a consumed Glimmer Web Component for any attribute/option on the Component)
+- Support Glimmer Web Component Attribute Data-Binding (by nesting data-binding declarations within consumed components)
 
 ### 0.7.x
 

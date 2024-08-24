@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.6.0
+
+- Support Component Custom Event Listeners (declare inside Component with `event :eventname` or `events :event1, :event2, ...` and then listen inside consumer code by adding `on_customeventname do; ...; end` listener inside content block of a consumed Glimmer Web Component)
+- Using latest opal-sprockets 1.0.4 will fix an issue with Opal compilation breaking whenever upgrading Opal gems in a Rails project and trying to restart server and render a webpage locally.
+
 ## 0.5.0
 
 - Support Glimmer Web Component Slots (by adding `slot: :slot_name` to any parent element, like a `div`, inside a `Glimmer::Web::Component` `markup {...}` element, and later having a consumer open a `slot_name {...}` block inside the content block of a consumed component)

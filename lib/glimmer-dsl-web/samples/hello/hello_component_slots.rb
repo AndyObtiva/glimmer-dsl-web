@@ -97,9 +97,9 @@ end
 #
 # Including Glimmer::Web::Component makes this class a View component and automatically
 # generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
-# of the name of the class. AddressForm generates address_form keyword, which can be used
+# of the name of the class. AddressForm generates address_form_with_slots keyword, which can be used
 # elsewhere in Glimmer HTML DSL code as done inside HelloComponentSlots below.
-class AddressForm
+class AddressFormWithSlots
   include Glimmer::Web::Component
   
   option :address
@@ -149,7 +149,7 @@ class AddressForm
         }
       }
       
-      div(style: 'margin: 5px') {
+      div(style: {margin: 5}) {
         inner_text <= [address, :summary,
                         computed_by: address.members + ['state_code'],
                       ]
@@ -199,7 +199,7 @@ class HelloComponentSlots
   
   markup {
     div {
-      address_form(address: @shipping_address) {
+      address_form_with_slots(address: @shipping_address) {
         address_header { # contribute elements to the address_header component slot
           h1('Shipping Address')
           legend('This is the address that is used for shipping your purchase.', style: {margin_bottom: 10})
@@ -209,7 +209,7 @@ class HelloComponentSlots
         }
       }
       
-      address_form(address: @billing_address) {
+      address_form_with_slots(address: @billing_address) {
         address_header { # contribute elements to the address_header component slot
           h1('Billing Address')
           legend('This is the address that is used for your billing method (e.g. credit card).', style: {margin_bottom: 10})

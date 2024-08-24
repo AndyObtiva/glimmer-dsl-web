@@ -126,7 +126,7 @@ class AddressForm
           value <=> [address, :full_name]
         }
         
-        @somelabel = label('Street: ', for: 'street-field')
+        label('Street: ', for: 'street-field')
         input(id: 'street-field') {
           value <=> [address, :street]
         }
