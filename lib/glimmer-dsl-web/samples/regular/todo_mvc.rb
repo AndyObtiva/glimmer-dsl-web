@@ -19,7 +19,7 @@ class TodoMvc
   end
   
   markup {
-    div(class: 'todomvc') {
+    div {
       section(class: 'todoapp') {
         new_todo_form(presenter: @presenter)
         
@@ -50,7 +50,7 @@ class TodoMvc
       border 0
       color :inherit
       font_family :inherit
-      font_size '100%'
+      font_size 100.%
       font_weight :inherit
       vertical_align :baseline
     }

@@ -86,9 +86,9 @@ class StyledButton
       class_name(:pushed) <= [button_model, :pushed]
       class_name(:pulled) <= [button_model, :pushed, on_read: :!]
       
-      style(:width) <= [button_model, :width, on_read: :px]
-      style(:height) <= [button_model, :height, on_read: :px]
-      style(:font_size) <= [button_model, :font_size, on_read: :px]
+      style(:width) <= [button_model, :width]
+      style(:height) <= [button_model, :height]
+      style(:font_size) <= [button_model, :font_size]
       style(:background_color) <= [button_model, :background_color]
       style(:border_color) <= [button_model, :border_color, computed_by: :background_color]
       

@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.6.x
 
-- Hello, Component Listeners! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_listeners'`
 - Support Component Attribute Update Listeners (nest a `on_someattribute_update` listener inside the content block of a consumed Glimmer Web Component for any attribute/option on the Component)
 - Support Glimmer Web Component Attribute Data-Binding (by nesting data-binding declarations within consumed components)
 

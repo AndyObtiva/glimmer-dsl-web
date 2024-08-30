@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.0 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.1 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
@@ -1400,7 +1400,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.6.0'
+gem 'glimmer-dsl-web', '~> 0.6.1'
 ```
 
 Run:
@@ -1629,7 +1629,7 @@ Disable the `webpacker` gem line in `Gemfile`:
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.6.0'
+gem 'glimmer-dsl-web', '~> 0.6.1'
 ```
 
 Run:
@@ -3465,9 +3465,9 @@ class StyledButton
       class_name(:pushed) <= [button_model, :pushed]
       class_name(:pulled) <= [button_model, :pushed, on_read: :!]
       
-      style(:width) <= [button_model, :width, on_read: :px]
-      style(:height) <= [button_model, :height, on_read: :px]
-      style(:font_size) <= [button_model, :font_size, on_read: :px]
+      style(:width) <= [button_model, :width]
+      style(:height) <= [button_model, :height]
+      style(:font_size) <= [button_model, :font_size]
       style(:background_color) <= [button_model, :background_color]
       style(:border_color) <= [button_model, :border_color, computed_by: :background_color]
       

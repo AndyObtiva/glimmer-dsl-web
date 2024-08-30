@@ -14,8 +14,6 @@ class TodoListItem
   end
   
   markup {
-    
-    
     li {
       # Data-bind inclusion of `completed` in `li` `class` attribute unidirectionally to `todo` `completed` attribute,
       # meaning inclusion/exclusion of `completed` class happens automatically when `todo.completed` boolean value changes.
@@ -149,7 +147,7 @@ class TodoListItem
     r('.todo-list li .destroy:after') {
       content '"×"'
       display :block
-      height '100%'
+      height 100.%
       line_height '1.1'
     }
     

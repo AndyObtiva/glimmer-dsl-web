@@ -7,7 +7,7 @@ class TodoInput
       r(component_element_selector) {
         position :relative
         margin 0
-        width '100%'
+        width 100.%
         font_size 24
         font_family :inherit
         font_weight :inherit

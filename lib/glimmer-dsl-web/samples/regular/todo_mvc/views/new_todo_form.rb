@@ -24,7 +24,7 @@ class NewTodoForm
       _moz_text_rendering :optimizeLegibility
       text_rendering :optimizeLegibility
       top -140
-      width '100%'
+      width 100.%
     }
   }
 end

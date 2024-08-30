@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.6.1
+
+- Hello, Component Listeners! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_listeners'`
+- Upgrade to glimmer-dsl-css 1.5.2 to fix issue with `%` Number operator and support `rem`, `Q`, `pt`, `pc`, `ch`, `ex`, `vh`, `vw`, `vmin`, `vmax` Number methods
+
 ## 0.6.0
 
 - Support Component Custom Event Listeners (declare inside Component with `event :eventname` or `events :event1, :event2, ...` and then listen inside consumer code by adding `on_customeventname do; ...; end` listener inside content block of a consumed Glimmer Web Component)
