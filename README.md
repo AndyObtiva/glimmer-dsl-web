@@ -12,7 +12,7 @@
 
 You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. Also, with Frontend Ruby, companies can cut their hiring budget in half by having Backend Ruby Software Engineers do Frontend Development in Ruby! [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every smart highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
 
-[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage) (including full support for [SVG](#hello-svg)), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component), [Component Slots](#hello-component-slots), and Component Custom Event Listeners. And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
+[Glimmer](https://github.com/AndyObtiva/glimmer) DSL for Web enables building Web Frontends using [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), as per [Matz's recommendation in his RubyConf 2022 keynote speech to replace JavaScript with Ruby](https://youtu.be/knutsgHTrfQ?t=789). It supports Rails' principle of the One Person Framework by not requiring any extra developers with JavaScript expertise, yet enabling Ruby (Backend) Software Engineers to develop the Frontend with Ruby code that is better than any JavaScript code produced by JS developers. It aims at providing the simplest, most intuitive, most straight-forward, and most productive frontend framework in existence. The framework follows the Ruby way (with [DSLs](https://martinfowler.com/books/dsl.html) and [TIMTOWTDI](https://en.wiktionary.org/wiki/TMTOWTDI#English)) and the Rails way ([Convention over Configuration](https://rubyonrails.org/doctrine)) in building Isomorphic Ruby on Rails Applications. It provides a Ruby [HTML DSL](#usage) (including full support for [SVG](#hello-svg)), which uniquely enables writing both structure code and logic code in one language. It supports both Unidirectional (One-Way) [Data-Binding](#hello-data-binding) (using `<=`) and Bidirectional (Two-Way) [Data-Binding](#hello-data-binding) (using `<=>`). Dynamic rendering (and re-rendering) of HTML content is also supported via [Content Data-Binding](#hello-content-data-binding). Modular design is supported with [Glimmer Web Components](#hello-component), [Component Slots](#hello-component-slots), and [Component Custom Event Listeners](#hello-component-listeners). And, a Ruby CSS DSL is supported with the included [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css). To automatically convert legacy HTML & CSS code to Glimmer DSL Ruby code, Software Engineers could use the included [`html_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-xml#html-to-glimmer-converter) and [`css_to_glimmer`](https://github.com/AndyObtiva/glimmer-dsl-css#css-to-glimmer-converter) commands. Many [samples](#samples) are demonstrated in the [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) (there is a very minimal [Standalone [No Rails] static site sample app](https://github.com/Largo/glimmer-dsl-web-standalone-demo) too). You can finally live in pure Rubyland on the Web in both the frontend and backend with [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web)!
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based drop-in replacement for your existing JavaScript Frontend library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make HTTP/Ajax requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_api.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb).
 
@@ -1344,6 +1344,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
       - [Hello, Component!](#hello-compoent)
       - [Hello, Component Slots!](#hello-component-slots)
+      - [Hello, Component Listeners!](#hello-compoent-listeners)
       - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
       - [Hello, Paragraph!](#hello-paragraph)
       - [Hello, Style!](#hello-style)
@@ -3086,6 +3087,393 @@ end
 Screenshot:
 
 ![Hello, Component Slots!](/images/glimmer-dsl-web-samples-hello-hello-component-slots.png)
+
+#### Hello, Component Listeners!
+
+Component listeners enable consumers of components to listen to any custom events generated by components. Component supported events are declared with class method invocations `events :eventname1, :eventname2, ...` or `event :eventname`. Consumers can listen to those events by simply nesting `on_eventname do; ... end` matching the name of the declared event inside the component.
+
+For example, an `AccordionSection` component might generate events `:expanded` and `:collapsed` when a user clicks on the section title to expand it or collapse it. Consumers can then use `on_expanded` and `on_collapsed` to listen to those events.
+
+[lib/glimmer-dsl-web/samples/hello/hello_component_listeners.rb](/lib/glimmer-dsl-web/samples/hello/hello_component_listeners.rb)
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+unless Object.const_defined?(:Address)
+  Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
+    STATES = {
+      "AK"=>"Alaska",
+      "AL"=>"Alabama",
+      "AR"=>"Arkansas",
+      "AS"=>"American Samoa",
+      "AZ"=>"Arizona",
+      "CA"=>"California",
+      "CO"=>"Colorado",
+      "CT"=>"Connecticut",
+      "DC"=>"District of Columbia",
+      "DE"=>"Delaware",
+      "FL"=>"Florida",
+      "GA"=>"Georgia",
+      "GU"=>"Guam",
+      "HI"=>"Hawaii",
+      "IA"=>"Iowa",
+      "ID"=>"Idaho",
+      "IL"=>"Illinois",
+      "IN"=>"Indiana",
+      "KS"=>"Kansas",
+      "KY"=>"Kentucky",
+      "LA"=>"Louisiana",
+      "MA"=>"Massachusetts",
+      "MD"=>"Maryland",
+      "ME"=>"Maine",
+      "MI"=>"Michigan",
+      "MN"=>"Minnesota",
+      "MO"=>"Missouri",
+      "MS"=>"Mississippi",
+      "MT"=>"Montana",
+      "NC"=>"North Carolina",
+      "ND"=>"North Dakota",
+      "NE"=>"Nebraska",
+      "NH"=>"New Hampshire",
+      "NJ"=>"New Jersey",
+      "NM"=>"New Mexico",
+      "NV"=>"Nevada",
+      "NY"=>"New York",
+      "OH"=>"Ohio",
+      "OK"=>"Oklahoma",
+      "OR"=>"Oregon",
+      "PA"=>"Pennsylvania",
+      "PR"=>"Puerto Rico",
+      "RI"=>"Rhode Island",
+      "SC"=>"South Carolina",
+      "SD"=>"South Dakota",
+      "TN"=>"Tennessee",
+      "TX"=>"Texas",
+      "UT"=>"Utah",
+      "VA"=>"Virginia",
+      "VI"=>"Virgin Islands",
+      "VT"=>"Vermont",
+      "WA"=>"Washington",
+      "WI"=>"Wisconsin",
+      "WV"=>"West Virginia",
+      "WY"=>"Wyoming"
+    }
+    
+    def state_code
+      STATES.invert[state]
+    end
+    
+    def state_code=(value)
+      self.state = STATES[value]
+    end
+  
+    def summary
+      to_h.values.map(&:to_s).reject(&:empty?).join(', ')
+    end
+  end
+end
+
+unless Object.const_defined?(:AddressForm)
+  # AddressForm Glimmer Web Component (View component)
+  #
+  # Including Glimmer::Web::Component makes this class a View component and automatically
+  # generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
+  # of the name of the class. AddressForm generates address_form keyword, which can be used
+  # elsewhere in Glimmer HTML DSL code as done inside HelloComponentListeners below.
+  class AddressForm
+    include Glimmer::Web::Component
+    
+    option :address
+    
+    markup {
+      div {
+        div(style: {display: :grid, grid_auto_columns: '80px 260px'}) { |address_div|
+          label('Full Name: ', for: 'full-name-field')
+          input(id: 'full-name-field') {
+            value <=> [address, :full_name]
+          }
+          
+          label('Street: ', for: 'street-field')
+          input(id: 'street-field') {
+            value <=> [address, :street]
+          }
+          
+          label('Street 2: ', for: 'street2-field')
+          textarea(id: 'street2-field') {
+            value <=> [address, :street2]
+          }
+          
+          label('City: ', for: 'city-field')
+          input(id: 'city-field') {
+            value <=> [address, :city]
+          }
+          
+          label('State: ', for: 'state-field')
+          select(id: 'state-field') {
+            Address::STATES.each do |state_code, state|
+              option(value: state_code) { state }
+            end
+  
+            value <=> [address, :state_code]
+          }
+          
+          label('Zip Code: ', for: 'zip-code-field')
+          input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+            value <=> [address, :zip_code,
+                        on_write: :to_s,
+                      ]
+          }
+          
+          style {
+            r("#{address_div.selector} *") {
+              margin '5px'
+            }
+            r("#{address_div.selector} input, #{address_div.selector} select") {
+              grid_column '2'
+            }
+          }
+        }
+        
+        div(style: {margin: 5}) {
+          inner_text <= [address, :summary,
+                          computed_by: address.members + ['state_code'],
+                        ]
+        }
+      }
+    }
+  end
+end
+
+unless Object.const_defined?(:AccordionSection)
+  class AccordionSection
+    class Presenter
+      attr_accessor :collapsed, :instant_transition
+      
+      def toggle_collapsed(instant: false)
+        self.instant_transition = instant
+        self.collapsed = !collapsed
+      end
+      
+      def expand(instant: false)
+        self.instant_transition = instant
+        self.collapsed = false
+      end
+      
+      def collapse(instant: false)
+        self.instant_transition = instant
+        self.collapsed = true
+      end
+    end
+    
+    include Glimmer::Web::Component
+    
+    events :expanded, :collapsed
+    
+    option :title
+    
+    attr_reader :presenter
+    
+    before_render do
+      @presenter = Presenter.new
+    end
+    
+    markup {
+      section {
+        # Unidirectionally data-bind the class inclusion of 'collapsed' to the @presenter.collapsed boolean attribute,
+        # meaning if @presenter.collapsed changes to true, the CSS class 'collapsed' is included on the element,
+        # and if it changes to false, the CSS class 'collapsed' is removed from the element.
+        class_name(:collapsed) <= [@presenter, :collapsed]
+        class_name(:instant_transition) <= [@presenter, :instant_transition]
+      
+        header(title, class: 'accordion-section-title') {
+          onclick do |event|
+            @presenter.toggle_collapsed
+            if @presenter.collapsed
+              notify_listeners(:collapsed)
+            else
+              notify_listeners(:expanded)
+            end
+          end
+        }
+        
+        div(slot: :section_content, class: 'accordion-section-content')
+      }
+    }
+    
+    style {
+      r('.accordion-section-title') {
+        font_size 2.em
+        font_weight :bold
+        cursor :pointer
+        padding_left 20
+        position :relative
+        margin_block_start 0.33.em
+        margin_block_end 0.33.em
+      }
+      
+      r('.accordion-section-title::before') {
+        content '"▼"'
+        position :absolute
+        font_size 0.5.em
+        top 10
+        left 0
+      }
+      
+      r('.accordion-section-content') {
+        height 246
+        overflow :hidden
+        transition 'height 0.5s linear'
+      }
+      
+      r("#{component_element_selector}.instant_transition .accordion-section-content") {
+        transition 'initial'
+      }
+      
+      r("#{component_element_selector}.collapsed .accordion-section-title::before") {
+        content '"►"'
+      }
+      
+      r("#{component_element_selector}.collapsed .accordion-section-content") {
+        height 0
+      }
+    }
+  end
+end
+
+unless Object.const_defined?(:Accordion)
+  class Accordion
+    include Glimmer::Web::Component
+    
+    events :accordion_section_expanded, :accordion_section_collapsed
+    
+    markup {
+      # given that no slots are specified, nesting content under the accordion component
+      # in consumer code adds content directly inside the markup root div.
+      div { |accordion|
+        # on render, all accordion sections would have been added by consumers already, so we can
+        # attach listeners to all of them by re-opening their content with `.content { ... }` block
+        on_render do
+          accordion_section_elements = accordion.children
+          accordion_sections = accordion_section_elements.map(&:component)
+          accordion_sections.each_with_index do |accordion_section, index|
+            accordion_section_number = index + 1
+  
+            # ensure only the first section is expanded
+            accordion_section.presenter.collapse(instant: true) if accordion_section_number != 1
+  
+            accordion_section.content {
+              on_expanded do
+                other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
+                other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
+                notify_listeners(:accordion_section_expanded, accordion_section_number)
+              end
+  
+              on_collapsed do
+                notify_listeners(:accordion_section_collapsed, accordion_section_number)
+              end
+            }
+          end
+        end
+      }
+    }
+  end
+end
+
+unless Object.const_defined?(:HelloComponentListeners)
+  # HelloComponentListeners Glimmer Web Component (View component)
+  #
+  # This View component represents the main page being rendered,
+  # as done by its `render` class method below
+  class HelloComponentListeners
+    class Presenter
+      attr_accessor :status_message
+      
+      def initialize
+        @status_message = "Accordion section 1 is expanded!"
+      end
+    end
+    
+    include Glimmer::Web::Component
+    
+    before_render do
+      @presenter = Presenter.new
+      @shipping_address = Address.new(
+        full_name: 'Johnny Doe',
+        street: '3922 Park Ave',
+        street2: 'PO BOX 8382',
+        city: 'San Diego',
+        state: 'California',
+        zip_code: '91913',
+      )
+      @billing_address = Address.new(
+        full_name: 'John C Doe',
+        street: '123 Main St',
+        street2: 'Apartment 3C',
+        city: 'San Diego',
+        state: 'California',
+        zip_code: '91911',
+      )
+      @emergency_address = Address.new(
+        full_name: 'Mary Doe',
+        street: '2038 Ipswitch St',
+        street2: 'Suite 300',
+        city: 'San Diego',
+        state: 'California',
+        zip_code: '91912',
+      )
+    end
+    
+    markup {
+      div {
+        h1(style: {font_style: :italic}) {
+          inner_html <= [@presenter, :status_message]
+        }
+          
+        accordion { # any content nested under component directly is added under its markup root div element
+          accordion_section(title: 'Shipping Address') {
+            section_content { # contribute elements to section_content slot declared in AccordionSection component
+              address_form(address: @shipping_address)
+            }
+          }
+          
+          accordion_section(title: 'Billing Address') {
+            section_content {
+              address_form(address: @billing_address)
+            }
+          }
+          
+          accordion_section(title: 'Emergency Address') {
+            section_content {
+              address_form(address: @emergency_address)
+            }
+          }
+          
+          # on_accordion_section_expanded listener matches event :accordion_section_expanded declared in Accordion component
+          on_accordion_section_expanded { |accordion_section_number|
+            @presenter.status_message = "Accordion section #{accordion_section_number} is expanded!"
+          }
+          
+          on_accordion_section_collapsed { |accordion_section_number|
+            @presenter.status_message = "Accordion section #{accordion_section_number} is collapsed!"
+          }
+        }
+      }
+    }
+  end
+end
+
+Document.ready? do
+  # renders a top-level (root) HelloComponentListeners component
+  HelloComponentListeners.render
+end
+```
+
+Screenshot:
+
+![Hello, Component Listeners!](/images/glimmer-dsl-web-samples-hello-hello-component-listeners.gif)
+
 
 #### Hello, glimmer_component Rails Helper!
 
