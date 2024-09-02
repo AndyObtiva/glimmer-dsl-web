@@ -4,6 +4,8 @@
 
 - Hello, Component Listeners! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_listeners'`
 - Upgrade to glimmer-dsl-css 1.5.2 to fix issue with `%` Number operator and support `rem`, `Q`, `pt`, `pc`, `ch`, `ex`, `vh`, `vw`, `vmin`, `vmax` Number methods
+- Refactor Todo MVC sample
+- Fix issue with components that have no events declared when nesting slot content within them
 
 ## 0.6.0
 

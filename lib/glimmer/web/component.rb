@@ -89,17 +89,18 @@ module Glimmer
           @after_render = block
         end
         
-        def event(event)
+        def event(event_name)
           @events ||= []
-          event = event.to_sym
-          @events << event unless @events.include?(event)
+          event_name = event_name.to_sym
+          @events << event_name unless @events.include?(event_name)
         end
         
-        def events(*events)
-          if events.empty?
+        def events(*event_names)
+          @events ||= []
+          if event_names.empty?
             @events
           else
-            events.each { |event| event(event) }
+            event_names.each { |event| event(event) }
           end
         end
         
@@ -286,7 +287,7 @@ module Glimmer
         @args = args
         options ||= {}
         @options = self.class.options.merge(options)
-        @events = self.class.instance_variable_get("@events")
+        @events = self.class.instance_variable_get("@events") || []
         @content = Util::ProcTracker.new(content) if content
 #         @style_blocks = {} # TODO enable when doing bulk head rendering in the future
         execute_hooks('before_render')

@@ -142,6 +142,7 @@ Example:
 - Support always being able to pass id, class, and string content to glimmer web component as an extra argument
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
+- Consider printing exception.message before re-raising exception if exceptions are encountered in rendering with Glimmer DSL. This makes it easier to troubleshoot than reading exception in browser, which sometimes hides it when displaying stack trace.
 
 ## Issues
 
