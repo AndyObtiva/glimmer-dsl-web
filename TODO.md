@@ -8,6 +8,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 - Support Component Attribute Update Listeners (nest a `on_someattribute_update` listener inside the content block of a consumed Glimmer Web Component for any attribute/option on the Component)
 - Support Glimmer Web Component Attribute Data-Binding (by nesting data-binding declarations within consumed components)
+- Consider providing the feature of adding content that is nested under a component in consumer code to a specific slot by default (e.g. `default_slot :some_slot` or `children_slot :some_slot`)
+- Consider given markup_root a default slot name that is always available (e.g. `:markup_root` slot) in case another slot is specified as the default for adding children.
 
 ### 0.7.x
 
@@ -143,6 +145,7 @@ Example:
 - Implement `methods` for `EventProxy` given that it pulls most of its method names dynamically through method_missing
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 - Consider printing exception.message before re-raising exception if exceptions are encountered in rendering with Glimmer DSL. This makes it easier to troubleshoot than reading exception in browser, which sometimes hides it when displaying stack trace.
+- Consider adding element.children_components to avoid having to go through element.children.map(&:component) manually
 
 ## Issues
 
