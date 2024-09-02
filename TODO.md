@@ -6,10 +6,11 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.6.x
 
+- Support adding content that is nested under a component in consumer code to a specific slot by default (e.g. `default_slot :some_slot` or `children_slot :some_slot`)
+- Support markup_root as a default slot that is always available (e.g. `:markup_root` slot) in case another slot is specified as the default for adding children.
+
 - Support Component Attribute Update Listeners (nest a `on_someattribute_update` listener inside the content block of a consumed Glimmer Web Component for any attribute/option on the Component)
 - Support Glimmer Web Component Attribute Data-Binding (by nesting data-binding declarations within consumed components)
-- Consider providing the feature of adding content that is nested under a component in consumer code to a specific slot by default (e.g. `default_slot :some_slot` or `children_slot :some_slot`)
-- Consider given markup_root a default slot name that is always available (e.g. `:markup_root` slot) in case another slot is specified as the default for adding children.
 
 ### 0.7.x
 
@@ -69,8 +70,6 @@ Example:
 ## Future
 
 - JavaScript Canvas API
-- Build a HTML to Glimmer GUI DSL converter to enable Software Engineers to reuse older HTML in a Glimmer DSL for Web app
-- Build a CSS to Glimmer GUI DSL converter to enable Software Engineers to reuse older CSS in a Glimmer DSL for Web app
 - Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
 - Model Proxies (Use Backend Models in the Frontend through Automatically Generated REST Controllers for ActiveRecord models with secure whitelisting of the attributes/instance-methods/class-methods that need to be exposed only. For example, calling Purchases.limit(5) in the Frontend would call a Backend Purchase model indirectly via a PurchaseProxy that securely whitelists all available attributes/methods on Purchase)
 - Model Proxy Observers (Observe Backend Model events like creation, update, destruction, etc... via automatically generated Websocket-based channels for observing Backend Models view Proxy Observers)
@@ -146,10 +145,11 @@ Example:
 - Implement `methods` for `ElementProxy` given that it pulls most of its method names dynamically through method_missing
 - Consider printing exception.message before re-raising exception if exceptions are encountered in rendering with Glimmer DSL. This makes it easier to troubleshoot than reading exception in browser, which sometimes hides it when displaying stack trace.
 - Consider adding element.children_components to avoid having to go through element.children.map(&:component) manually
+- Consider automatically escaping the element inner_html and String content while providing a `raw` method to allow setting unescaped HTML in a similar way to Rails. 
 
 ## Issues
 
-N/A
+- It seems `after_render` inside components does not run after component elements are rendered. Look into it
 
 ## Samples
 
