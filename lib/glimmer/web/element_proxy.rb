@@ -171,6 +171,7 @@ module Glimmer
         end
         @slot = options['slot'] || options[:slot]
         @slot = @slot.to_sym if @slot
+        puts @slot if @slot
         ancestor_component.slot_elements[@slot] = self if @slot && ancestor_component
         @args = args
         @block = block

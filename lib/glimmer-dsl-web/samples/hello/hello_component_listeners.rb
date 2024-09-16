@@ -191,6 +191,8 @@ unless Object.const_defined?(:AccordionSection)
     
     events :expanded, :collapsed
     
+    default_slot :section_content
+    
     option :title
     
     attr_reader :presenter
@@ -200,7 +202,7 @@ unless Object.const_defined?(:AccordionSection)
     end
     
     markup {
-      section {
+      section(slot: :markup_root_slot) { # TODO we need to designate section as slot: :markup_root_slot automatically
         # Unidirectionally data-bind the class inclusion of 'collapsed' to the @presenter.collapsed boolean attribute,
         # meaning if @presenter.collapsed changes to true, the CSS class 'collapsed' is included on the element,
         # and if it changes to false, the CSS class 'collapsed' is removed from the element.
@@ -284,15 +286,22 @@ unless Object.const_defined?(:Accordion)
             accordion_section.presenter.collapse(instant: true) if accordion_section_number != 1
   
             accordion_section.content {
-              on_expanded do
-                other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
-                other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
-                notify_listeners(:accordion_section_expanded, accordion_section_number)
-              end
-  
-              on_collapsed do
-                notify_listeners(:accordion_section_collapsed, accordion_section_number)
-              end
+              # TODO CONTINUE HERE this is evaluating markup_root_slot inside the default accordion_section slot
+              # and somehow it is not working anymore in putting the content under the right slot
+              # it seems once there is a default slot, we cannot insert any other slots, so the slot_content_expression
+              # must need adjustment
+              markup_root_slot { # TODO consider renaming to something better
+                # TODO this is adding the listeners under the default slot instead of the component itself
+                on_expanded do
+                  other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
+                  other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
+                  notify_listeners(:accordion_section_expanded, accordion_section_number)
+                end
+    
+                on_collapsed do
+                  notify_listeners(:accordion_section_collapsed, accordion_section_number)
+                end
+              }
             }
           end
         end
@@ -353,21 +362,21 @@ unless Object.const_defined?(:HelloComponentListeners)
           
         accordion { # any content nested under component directly is added under its markup root div element
           accordion_section(title: 'Shipping Address') {
-            section_content { # contribute elements to section_content slot declared in AccordionSection component
+#             section_content { # contribute elements to section_content slot declared in AccordionSection component
               address_form(address: @shipping_address)
-            }
+#             }
           }
           
           accordion_section(title: 'Billing Address') {
-            section_content {
+#             section_content {
               address_form(address: @billing_address)
-            }
+#             }
           }
           
           accordion_section(title: 'Emergency Address') {
-            section_content {
+#             section_content {
               address_form(address: @emergency_address)
-            }
+#             }
           }
           
           # on_accordion_section_expanded listener matches event :accordion_section_expanded declared in Accordion component

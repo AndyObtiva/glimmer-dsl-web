@@ -12,8 +12,8 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-          custom_widget_class = Glimmer::Web::Component.for(keyword)
-          custom_widget_class.new(parent, args, {}, &block)
+          component_class = Glimmer::Web::Component.for(keyword)
+          component_class.new(parent, args, {}, &block)
         end
   
         def add_content(parent, keyword, *args, &block)
@@ -21,7 +21,13 @@ module Glimmer
           if block.source_location && (block.source_location == parent.content&.__getobj__&.source_location)
             parent.content.call(parent) unless parent.content.called?
           else
-            super(parent, keyword, *args, &block)
+            if parent.default_slot
+              slot = parent.default_slot
+              slot_element = parent.slot_elements[slot]
+              slot_element&.content(&block)
+            else
+              super(parent, keyword, *args, &block)
+            end
           end
           parent.post_add_content
         end

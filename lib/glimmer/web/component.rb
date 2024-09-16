@@ -104,6 +104,14 @@ module Glimmer
           end
         end
         
+        def default_slot(slot_name = nil)
+          if slot_name.nil?
+            @default_slot
+          else
+            @default_slot = slot_name.to_s.to_sym
+          end
+        end
+        
         def keyword
           self.name.underscore.gsub('::', '__')
         end
@@ -270,7 +278,7 @@ module Glimmer
       end
       # <- end of class methods
       
-      attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style, :slot_elements, :events
+      attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style, :slot_elements, :events, :default_slot
       alias parent_proxy parent
 
       def initialize(parent, args, options, &content)
@@ -288,6 +296,7 @@ module Glimmer
         options ||= {}
         @options = self.class.options.merge(options)
         @events = self.class.instance_variable_get("@events") || []
+        @default_slot = self.class.instance_variable_get("@default_slot")
         @content = Util::ProcTracker.new(content) if content
 #         @style_blocks = {} # TODO enable when doing bulk head rendering in the future
         execute_hooks('before_render')
