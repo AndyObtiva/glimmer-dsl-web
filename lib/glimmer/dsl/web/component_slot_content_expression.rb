@@ -28,19 +28,40 @@ module Glimmer
     module Web
       class ComponentSlotContentExpression < Expression
         def can_interpret?(parent, keyword, *args, &block)
+          component = parent.is_a?(Glimmer::Web::Component) ? parent : parent&.ancestor_component
+#           if keyword.to_s == 'markup_root_slot'
+#             puts 'keyword'
+#             puts keyword
+#             puts 'parent'
+#             puts parent
+#             puts 'component'
+#             puts component
+#           end
           slot = keyword.to_s
           block_given? &&
-            parent.respond_to?(:slot_elements) &&
+            !component.nil? &&
             (
-              parent.slot_elements.keys.include?(slot) ||
-              parent.slot_elements.keys.include?(slot.to_sym)
+              component.slot_elements.keys.include?(slot) ||
+              component.slot_elements.keys.include?(slot.to_sym)
             )
         end
   
         def interpret(parent, keyword, *args, &block)
+#           puts 'ComponentSlotContentExpression#interpret'
           slot = keyword.to_s
-          slot_element = parent.slot_elements[slot] || parent.slot_elements[slot.to_sym]
-          slot_element&.content(&block)
+#           puts 'slot'
+#           puts slot
+          component = parent.is_a?(Glimmer::Web::Component) ? parent : parent.ancestor_component
+#           puts 'component'
+#           puts component
+#           puts "slot == 'markup_root_slot'"
+#           puts slot == 'markup_root_slot'
+          if slot == 'markup_root_slot'
+            component.content(slot: slot.to_sym, &block)
+          else
+            slot_element = component.slot_elements[slot] || component.slot_elements[slot.to_sym]
+            slot_element.content(&block)
+          end
         end
       end
     end

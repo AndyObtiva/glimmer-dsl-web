@@ -171,7 +171,7 @@ module Glimmer
         end
         @slot = options['slot'] || options[:slot]
         @slot = @slot.to_sym if @slot
-        puts @slot if @slot
+#         puts @slot if @slot
         ancestor_component.slot_elements[@slot] = self if @slot && ancestor_component
         @args = args
         @block = block
@@ -606,16 +606,24 @@ module Glimmer
       
       def handle_observation_request(keyword, original_event_listener)
         if rendered?
-          listener = ListenerProxy.new(
-            element: self,
-            selector: selector,
-            dom_element: dom_element,
-            event_attribute: keyword,
-            original_event_listener: original_event_listener,
-          )
-          listener.register
-          listeners_for(keyword) << listener
-          listener
+          puts 'keyword'
+          puts keyword
+          puts "keyword.start_with?('on_') && keyword.to_s != 'on_remove'"
+          puts keyword.start_with?('on_') && keyword.to_s != 'on_remove'
+#           if keyword.start_with?('on_') && keyword.to_s != 'on_remove'
+#             (ancestor_component || component).handle_observation_request(keyword, original_event_listener)
+#           else
+            listener = ListenerProxy.new(
+              element: self,
+              selector: selector,
+              dom_element: dom_element,
+              event_attribute: keyword,
+              original_event_listener: original_event_listener,
+            )
+            listener.register
+            listeners_for(keyword) << listener
+            listener
+#           end
         else
           enqueue_post_render_method_call('handle_observation_request', keyword, original_event_listener)
         end

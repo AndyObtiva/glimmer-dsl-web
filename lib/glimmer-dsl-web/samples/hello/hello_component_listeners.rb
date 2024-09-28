@@ -286,12 +286,15 @@ unless Object.const_defined?(:Accordion)
             accordion_section.presenter.collapse(instant: true) if accordion_section_number != 1
   
             puts 'accordion_section.content(slot: :markup_root)'
-            accordion_section.content(slot: :markup_root) {
+#             accordion_section.content(slot: :markup_root_slot) {
+            accordion_section.content {
+              # TODO question: should we support component listeners under any default slot?
+              # TODO question: should we support slot content blocks under any default slot?
               # TODO CONTINUE HERE this is evaluating markup_root_slot inside the default accordion_section slot
               # and somehow it is not working anymore in putting the content under the right slot
               # it seems once there is a default slot, we cannot insert any other slots, so the slot_content_expression
               # must need adjustment
-#               markup_root_slot { # TODO consider renaming to something better
+              markup_root_slot { # TODO consider renaming to something better
                 # TODO this is adding the listeners under the default slot instead of the component itself
                 on_expanded do
                   other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
@@ -302,7 +305,7 @@ unless Object.const_defined?(:Accordion)
                 on_collapsed do
                   notify_listeners(:accordion_section_collapsed, accordion_section_number)
                 end
-#               }
+              }
             }
           end
         end
