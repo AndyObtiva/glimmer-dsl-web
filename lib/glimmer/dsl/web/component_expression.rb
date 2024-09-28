@@ -24,27 +24,19 @@ module Glimmer
           if block.source_location && (block.source_location == parent.content&.__getobj__&.source_location)
             parent.content.call(parent) unless parent.content.called?
           else
-#             puts 'slot'
-#             puts slot
             if slot
               if slot == 'markup_root_slot'
-#                 puts 'ComponentExpression#add_content super'
                 super(parent, keyword, *args, &block)
               else
                 slot_element = parent.slot_elements[slot]
-#                 puts 'slot_element'
-#                 puts slot_element
                 slot_element&.content(&block)
               end
             else
-#               puts 'parent.default_slot'
-#               puts parent.default_slot
               if parent.default_slot
                 slot = parent.default_slot
                 slot_element = parent.slot_elements[slot]
                 slot_element&.content(&block)
               else
-#                 puts 'ComponentExpression#add_content super'
                 super(parent, keyword, *args, &block)
               end
             end

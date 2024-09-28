@@ -191,7 +191,7 @@ unless Object.const_defined?(:AccordionSection)
     
     events :expanded, :collapsed
     
-    default_slot :section_content
+    default_slot :section_content # automatically insert content in this element slot inside markup
     
     option :title
     
@@ -202,7 +202,7 @@ unless Object.const_defined?(:AccordionSection)
     end
     
     markup {
-      section(slot: :markup_root_slot) { # TODO we need to designate section as slot: :markup_root_slot automatically
+      section { # represents the :markup_root_slot to allow inserting content here instead of in default_slot
         # Unidirectionally data-bind the class inclusion of 'collapsed' to the @presenter.collapsed boolean attribute,
         # meaning if @presenter.collapsed changes to true, the CSS class 'collapsed' is included on the element,
         # and if it changes to false, the CSS class 'collapsed' is removed from the element.
@@ -273,7 +273,7 @@ unless Object.const_defined?(:Accordion)
     markup {
       # given that no slots are specified, nesting content under the accordion component
       # in consumer code adds content directly inside the markup root div.
-      div { |accordion|
+      div { |accordion| # represents the :markup_root_slot (top-level element)
         # on render, all accordion sections would have been added by consumers already, so we can
         # attach listeners to all of them by re-opening their content with `.content { ... }` block
         on_render do
@@ -285,27 +285,16 @@ unless Object.const_defined?(:Accordion)
             # ensure only the first section is expanded
             accordion_section.presenter.collapse(instant: true) if accordion_section_number != 1
   
-            puts 'accordion_section.content(slot: :markup_root)'
-#             accordion_section.content(slot: :markup_root_slot) {
-            accordion_section.content {
-              # TODO question: should we support component listeners under any default slot?
-              # TODO question: should we support slot content blocks under any default slot?
-              # TODO CONTINUE HERE this is evaluating markup_root_slot inside the default accordion_section slot
-              # and somehow it is not working anymore in putting the content under the right slot
-              # it seems once there is a default slot, we cannot insert any other slots, so the slot_content_expression
-              # must need adjustment
-              markup_root_slot { # TODO consider renaming to something better
-                # TODO this is adding the listeners under the default slot instead of the component itself
-                on_expanded do
-                  other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
-                  other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
-                  notify_listeners(:accordion_section_expanded, accordion_section_number)
-                end
-    
-                on_collapsed do
-                  notify_listeners(:accordion_section_collapsed, accordion_section_number)
-                end
-              }
+            accordion_section.content { # re-open content and add component custom event listeners
+              on_expanded do
+                other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
+                other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
+                notify_listeners(:accordion_section_expanded, accordion_section_number)
+              end
+  
+              on_collapsed do
+                notify_listeners(:accordion_section_collapsed, accordion_section_number)
+              end
             }
           end
         end
@@ -364,23 +353,18 @@ unless Object.const_defined?(:HelloComponentListeners)
           inner_html <= [@presenter, :status_message]
         }
           
-        accordion { # any content nested under component directly is added under its markup root div element
+        accordion {
+          # any content nested under component directly is added to its markup_root_slot element if no default_slot is specified
           accordion_section(title: 'Shipping Address') {
-#             section_content { # contribute elements to section_content slot declared in AccordionSection component
-              address_form(address: @shipping_address)
-#             }
+            address_form(address: @shipping_address) # automatically inserts content in default_slot :section_content
           }
           
           accordion_section(title: 'Billing Address') {
-#             section_content {
-              address_form(address: @billing_address)
-#             }
+            address_form(address: @billing_address) # automatically inserts content in default_slot :section_content
           }
           
           accordion_section(title: 'Emergency Address') {
-#             section_content {
-              address_form(address: @emergency_address)
-#             }
+            address_form(address: @emergency_address) # automatically inserts content in default_slot :section_content
           }
           
           # on_accordion_section_expanded listener matches event :accordion_section_expanded declared in Accordion component

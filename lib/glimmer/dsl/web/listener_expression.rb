@@ -5,9 +5,6 @@ module Glimmer
     module Web
       class ListenerExpression < Expression
         def can_interpret?(parent, keyword, *args, &block)
-          puts 'ListenerExpression#can_interpret?'
-          puts 'keyword'
-          puts keyword
           parent and
             parent.respond_to?(:can_handle_observation_request?) and
             parent.can_handle_observation_request?(keyword)

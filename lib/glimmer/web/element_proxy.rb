@@ -171,7 +171,6 @@ module Glimmer
         end
         @slot = options['slot'] || options[:slot]
         @slot = @slot.to_sym if @slot
-#         puts @slot if @slot
         ancestor_component.slot_elements[@slot] = self if @slot && ancestor_component
         @args = args
         @block = block
@@ -487,7 +486,6 @@ module Glimmer
       end
       
       def content(bulk_render: false, &block)
-        puts 'ElementProxy#content'
         original_bulk_render = options[:bulk_render]
         options[:bulk_render] = bulk_render if rendered?
         return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, &block)
@@ -606,13 +604,9 @@ module Glimmer
       
       def handle_observation_request(keyword, original_event_listener)
         if rendered?
-          puts 'keyword'
-          puts keyword
-          puts "keyword.start_with?('on_') && keyword.to_s != 'on_remove'"
-          puts keyword.start_with?('on_') && keyword.to_s != 'on_remove'
-#           if keyword.start_with?('on_') && keyword.to_s != 'on_remove'
-#             (ancestor_component || component).handle_observation_request(keyword, original_event_listener)
-#           else
+          if keyword.start_with?('on_') && !['on_render', 'on_remove'].include?(keyword.to_s)
+            (ancestor_component || component)&.handle_observation_request(keyword, original_event_listener)
+          else
             listener = ListenerProxy.new(
               element: self,
               selector: selector,
@@ -623,7 +617,7 @@ module Glimmer
             listener.register
             listeners_for(keyword) << listener
             listener
-#           end
+          end
         else
           enqueue_post_render_method_call('handle_observation_request', keyword, original_event_listener)
         end

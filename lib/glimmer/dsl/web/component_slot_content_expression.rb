@@ -29,14 +29,6 @@ module Glimmer
       class ComponentSlotContentExpression < Expression
         def can_interpret?(parent, keyword, *args, &block)
           component = parent.is_a?(Glimmer::Web::Component) ? parent : parent&.ancestor_component
-#           if keyword.to_s == 'markup_root_slot'
-#             puts 'keyword'
-#             puts keyword
-#             puts 'parent'
-#             puts parent
-#             puts 'component'
-#             puts component
-#           end
           slot = keyword.to_s
           block_given? &&
             !component.nil? &&
@@ -47,15 +39,8 @@ module Glimmer
         end
   
         def interpret(parent, keyword, *args, &block)
-#           puts 'ComponentSlotContentExpression#interpret'
           slot = keyword.to_s
-#           puts 'slot'
-#           puts slot
           component = parent.is_a?(Glimmer::Web::Component) ? parent : parent.ancestor_component
-#           puts 'component'
-#           puts component
-#           puts "slot == 'markup_root_slot'"
-#           puts slot == 'markup_root_slot'
           if slot == 'markup_root_slot'
             component.content(slot: slot.to_sym, &block)
           else
