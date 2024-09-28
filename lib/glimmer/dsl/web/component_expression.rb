@@ -17,16 +17,36 @@ module Glimmer
         end
   
         def add_content(parent, keyword, *args, &block)
+          options = args.last.is_a?(Hash) ? args.last : {}
+          slot = options[:slot] || options['slot']
+          slot = slot.to_sym unless slot.nil?
           # TODO consider avoiding source_location since it does not work in Opal
           if block.source_location && (block.source_location == parent.content&.__getobj__&.source_location)
             parent.content.call(parent) unless parent.content.called?
           else
-            if parent.default_slot
-              slot = parent.default_slot
-              slot_element = parent.slot_elements[slot]
-              slot_element&.content(&block)
+            puts 'slot'
+            puts slot
+            if slot
+              if slot == :markup_root
+                puts 'ComponentExpression#add_content super'
+                super(parent, keyword, *args, &block)
+              else
+                slot_element = parent.slot_elements[slot]
+                puts 'slot_element'
+                puts slot_element
+                slot_element&.content(&block)
+              end
             else
-              super(parent, keyword, *args, &block)
+              puts 'parent.default_slot'
+              puts parent.default_slot
+              if parent.default_slot
+                slot = parent.default_slot
+                slot_element = parent.slot_elements[slot]
+                slot_element&.content(&block)
+              else
+                puts 'ComponentExpression#add_content super'
+                super(parent, keyword, *args, &block)
+              end
             end
           end
           parent.post_add_content

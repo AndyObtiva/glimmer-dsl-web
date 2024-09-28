@@ -487,6 +487,7 @@ module Glimmer
       end
       
       def content(bulk_render: false, &block)
+        puts 'ElementProxy#content'
         original_bulk_render = options[:bulk_render]
         options[:bulk_render] = bulk_render if rendered?
         return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, &block)
