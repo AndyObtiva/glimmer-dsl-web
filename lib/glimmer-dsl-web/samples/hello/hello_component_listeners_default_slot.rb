@@ -101,7 +101,7 @@ unless Object.const_defined?(:AddressForm)
   # Including Glimmer::Web::Component makes this class a View component and automatically
   # generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
   # of the name of the class. AddressForm generates address_form keyword, which can be used
-  # elsewhere in Glimmer HTML DSL code as done inside HelloComponentListeners below.
+  # elsewhere in Glimmer HTML DSL code as done inside HelloComponentListenersDefaultSlot below.
   class AddressForm
     include Glimmer::Web::Component
     
@@ -166,8 +166,9 @@ unless Object.const_defined?(:AddressForm)
   end
 end
 
-unless Object.const_defined?(:AccordionSection)
-  class AccordionSection
+unless Object.const_defined?(:AccordionSection2)
+  # Note: this is similar to AccordionSection in HelloComponentSlots but specifies default_slot for simpler consumption
+  class AccordionSection2
     class Presenter
       attr_accessor :collapsed, :instant_transition
       
@@ -191,6 +192,8 @@ unless Object.const_defined?(:AccordionSection)
     
     events :expanded, :collapsed
     
+    default_slot :section_content # automatically insert content in this element slot inside markup
+    
     option :title
     
     attr_reader :presenter
@@ -200,7 +203,7 @@ unless Object.const_defined?(:AccordionSection)
     end
     
     markup {
-      section {
+      section { # represents the :markup_root_slot to allow inserting content here instead of in default_slot
         # Unidirectionally data-bind the class inclusion of 'collapsed' to the @presenter.collapsed boolean attribute,
         # meaning if @presenter.collapsed changes to true, the CSS class 'collapsed' is included on the element,
         # and if it changes to false, the CSS class 'collapsed' is removed from the element.
@@ -271,7 +274,7 @@ unless Object.const_defined?(:Accordion)
     markup {
       # given that no slots are specified, nesting content under the accordion component
       # in consumer code adds content directly inside the markup root div.
-      div { |accordion|
+      div { |accordion| # represents the :markup_root_slot (top-level element)
         # on render, all accordion sections would have been added by consumers already, so we can
         # attach listeners to all of them by re-opening their content with `.content { ... }` block
         on_render do
@@ -283,7 +286,7 @@ unless Object.const_defined?(:Accordion)
             # ensure only the first section is expanded
             accordion_section.presenter.collapse(instant: true) if accordion_section_number != 1
   
-            accordion_section.content {
+            accordion_section.content { # re-open content and add component custom event listeners
               on_expanded do
                 other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
                 other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
@@ -301,14 +304,14 @@ unless Object.const_defined?(:Accordion)
   end
 end
 
-unless Object.const_defined?(:HelloComponentListeners)
-  # HelloComponentListeners Glimmer Web Component (View component)
+unless Object.const_defined?(:HelloComponentListenersDefaultSlot)
+  # HelloComponentListenersDefaultSlot Glimmer Web Component (View component)
   #
   # This View component represents the main page being rendered,
   # as done by its `render` class method below
   #
-  # Note: check out HelloComponentListenersDefaultSlot for a simpler version that leverages the default slot feature
-  class HelloComponentListeners
+  # Note: this is a simpler version of HelloComponentSlots as it leverages the default slot feature
+  class HelloComponentListenersDefaultSlot
     class Presenter
       attr_accessor :status_message
       
@@ -353,23 +356,18 @@ unless Object.const_defined?(:HelloComponentListeners)
           inner_html <= [@presenter, :status_message]
         }
           
-        accordion { # any content nested under component directly is added under its markup root div element
-          accordion_section(title: 'Shipping Address') {
-            section_content { # contribute elements to section_content slot declared in AccordionSection component
-              address_form(address: @shipping_address)
-            }
+        accordion {
+          # any content nested under component directly is added to its markup_root_slot element if no default_slot is specified
+          accordion_section2(title: 'Shipping Address') {
+            address_form(address: @shipping_address) # automatically inserts content in default_slot :section_content
           }
           
-          accordion_section(title: 'Billing Address') {
-            section_content {
-              address_form(address: @billing_address)
-            }
+          accordion_section2(title: 'Billing Address') {
+            address_form(address: @billing_address) # automatically inserts content in default_slot :section_content
           }
           
-          accordion_section(title: 'Emergency Address') {
-            section_content {
-              address_form(address: @emergency_address)
-            }
+          accordion_section2(title: 'Emergency Address') {
+            address_form(address: @emergency_address) # automatically inserts content in default_slot :section_content
           }
           
           # on_accordion_section_expanded listener matches event :accordion_section_expanded declared in Accordion component
@@ -387,7 +385,7 @@ unless Object.const_defined?(:HelloComponentListeners)
 end
 
 Document.ready? do
-  # renders a top-level (root) HelloComponentListeners component
-  # Note: check out hello_component_listeners_default_slot.rb for a simpler version that leverages the default slot feature
-  HelloComponentListeners.render
+  # renders a top-level (root) HelloComponentListenersDefaultSlot component
+  # Note: this is a simpler version of hello_component_slots.rb as it leverages the default slot feature
+  HelloComponentListenersDefaultSlot.render
 end
