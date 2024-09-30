@@ -48,7 +48,7 @@ class TodoList
       border :none
       bottom 100.%
       height 1
-      opacity 0
+      opacity '0'
       position :absolute
       right 100.%
       width 1

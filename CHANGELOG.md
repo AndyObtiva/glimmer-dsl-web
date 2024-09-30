@@ -5,6 +5,7 @@
 - Support specifying default slot in a Component with slots (e.g. `default_slot :some_slot`) to allow consumers to insert content into default slot by adding content directly under consumed component instead of opening a block with slot name explicitly
 - Support `:markup_root_slot` as a default slot that is always available to insert content into the component markup root element in case another element is specified as the default slot.
 - Hello, Component Listeners (Default Slot)! Sample (has simpler code than Hello, Component Listeners! due to specifying a default slot): `require 'glimmer-dsl-web/samples/hello/hello_component_listeners_default_slot'`
+- Fix opacity value for the Todo MVC sample's toggle all checkbox (make it `0` instead of `0px`)
 
 ## 0.6.1
 

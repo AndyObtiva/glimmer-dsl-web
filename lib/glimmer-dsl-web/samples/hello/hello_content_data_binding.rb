@@ -21,7 +21,8 @@
 
 require 'glimmer-dsl-web'
 
-class Address
+# Note: named Address2 to avoid conflicting with other samples if loaded together
+class Address2
   attr_accessor :text
   attr_reader :name, :street, :city, :state, :zip
   
@@ -78,7 +79,7 @@ class User
   def update_addresses
     address_count_change = address_count - addresses.size
     if address_count_change > 0
-      address_count_change.times { addresses << Address.new }
+      address_count_change.times { addresses << Address2.new }
     else
       address_count_change.abs.times { addresses.pop }
     end
