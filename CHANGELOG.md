@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.6.3
+
+- Fix issue with not finding `inner_html=` on self in `ElementProxy` after Content Data-Binding and removal, due to forgetting to unregister all Content Data-Binding observers on remove of an element
+
 ## 0.6.2
 
 - Support specifying default slot in a Component with slots (e.g. `default_slot :some_slot`) to allow consumers to insert content into default slot by adding content directly under consumed component instead of opening a block with slot name explicitly

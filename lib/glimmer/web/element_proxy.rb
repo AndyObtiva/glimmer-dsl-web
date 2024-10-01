@@ -249,6 +249,10 @@ module Glimmer
           element_binding.unregister_all_observables
         end
         data_bindings.clear
+        content_binding_observer_registrations.each do |observer_registration|
+          observer_registration.unregister
+        end
+        content_binding_observer_registrations.clear
       end
       
       # Subclasses can override with their own selector
@@ -695,8 +699,12 @@ module Glimmer
         end
         model_binding_observer = Glimmer::DataBinding::ModelBinding.new(*binding_args)
         content_binding_observer = Glimmer::DataBinding::Observer.proc(&content_binding_work)
-        content_binding_observer.observe(model_binding_observer)
+        content_binding_observer_registrations << content_binding_observer.observe(model_binding_observer)
         content_binding_work.call # TODO inspect if we need to pass args here (from observed attributes) [but it's simpler not to pass anything at first]
+      end
+      
+      def content_binding_observer_registrations
+        @content_binding_observer_registrations ||= []
       end
       
       def respond_to_missing?(method_name, include_private = false)
