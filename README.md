@@ -19,7 +19,7 @@ You can finally have Ruby developer happiness and productivity in the Frontend! 
 
 After looking through the [samples](#samples) below, read the [FAQ (Frequently Asked Questions)](#faq) to learn more about how Glimmer DSL for Web compares to other approaches/libraries like Hotwire (Turbo), Phlex, ViewComponent, Angular, Vue, React, Svelte, and other JS frameworks.
 
-Anyone not considering this kind of technology in 2024 is like someone stuck in the dark ages riding horse carriage (e.g. JavaScript developers using frameworks like React) despite flying cars having been invented already and providing exponential jumps in productivity (way more than small linear jumps provided by some JavaScript libraries). Obviously, those who do make this jump will end up winning their work over from customers and beating the competition while delivering the best Frontend value possible to customers.
+Anyone not considering this kind of technology in 2024 is like someone stuck in the dark ages riding horse carriage (e.g. JavaScript developers using frameworks like React) despite cars having been invented already and providing exponential jumps in productivity (way more than small linear jumps provided by some JavaScript libraries, which are akin of modifying horse carriage). Obviously, those who do make this jump will end up winning their work over from customers and beating the competition while delivering the best Frontend value possible to customers. 
 
 (Attention Software Engineers, Bloggers, and Contributors: Please use Glimmer DSL for Web in web projects, blog about it, and submit a PR with your article, project, and/or open-source-repo added to the README. Also, I give everyone permission to present this project at their local Ruby user group, local Software Engineering meetup, or Software Conferences outside of North America (e.g. Europe). I am willing to present at Software Conferences in North America and Japan (the birthplace of Ruby) only. If you want to have this project presented elsewhere, like in Europe or South America, feel free to prepare and give your own presentations of the project, and if needed, hit me up for help on the [Glimmer Gitter chat](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge))
 
@@ -4698,7 +4698,7 @@ end
 - Computers serve Software Engineers (not Software Engineers serve Computers)
 - Think only about real world concepts directly relevant to web page interaction and application domain model
 - Modular Software Design (e.g. support for Components)
-- No premature optimizations
+- No premature optimization
 
 ## Supporting Libraries
 
@@ -4743,7 +4743,7 @@ Glimmer DSL for Web is a Frontend library, meaning it replaces the JavaScript la
 
 **How does Glimmer DSL for Web compare to Angular, React, Vue, Svelte, or other JS frameworks?**
 
-Without delving into details, Glimmer DSL for Web is meant to be a Ruby-based drop-in replacement for Angular, React, Vue, Svelte, and other JS frameworks. Additionally, it enables writing both structure code and logic code in the same language (Ruby), greatly simplifying maintainability and improving productivity by eliminating multi-language dissonance and friction that drags down productivity as there is no need anymore to think in multiple languages unnecessarily, use XML based solutions (e.g. JSX), or use templating solutions (e.g. Mustache). Lastly, Glimmer DSL for Web supports familiar Software Engineering architectural patterns like Model-View-Controller and Model-View-Presenter, enabling Software Engineers to write the lightest and simplest code possible for building Web frontends in Ruby, with the best separation of concerns. Software Engineers can finally become happy Ruby developers by writing Ruby code in the Frontend too now in addition to the Backend.
+Without delving into details, Glimmer DSL for Web is meant to be a Ruby-based drop-in replacement for Angular, React, Vue, Svelte, and other JS frameworks. Glimmer Ruby code is transpiled to JavaScript, so it has JavaScript performance in general, which is not that far from that of Angular, React, or Vue. Glimmer DSL for Web has outperformed React by a factor of 66.66% in rendering 3000+ elements in a realistic app scenario that was benchmarked recently (in Oct 2024). Additionally, it enables writing both structure code and logic code in the same language (Ruby), greatly simplifying maintainability and improving productivity by eliminating multi-language dissonance and friction that drags down productivity as there is no need anymore to think in multiple languages unnecessarily, use XML based solutions (e.g. JSX), or use templating solutions (e.g. Mustache). Lastly, Glimmer DSL for Web supports familiar Software Engineering architectural patterns like Model-View-Controller and Model-View-Presenter, enabling Software Engineers to write the lightest and simplest code possible for building Web frontends in Ruby, with the best separation of concerns. Software Engineers can finally become happy Ruby developers by writing Ruby code in the Frontend too now in addition to the Backend.
 
 **How do I have a Glimmer Web Component re-render in a similar way to how React components re-render?**
 
