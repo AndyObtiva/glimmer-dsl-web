@@ -1330,7 +1330,6 @@ Learn more about the differences between various [Glimmer](https://github.com/An
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
     - [Rails 7](#rails-7)
-    - [Rails 6](#rails-6)
     - [Standalone (No Rails)](#standalone-no-rails)
   - [Usage](#usage)
   - [Supported Glimmer DSL Keywords](#supported-glimmer-dsl-keywords)
