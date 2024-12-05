@@ -1373,8 +1373,8 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) will begin by supporting [Opal Ruby](https://opalrb.com/) on [Rails](https://rubyonrails.org/). [Opal](https://opalrb.com/) ([Fukuoka Ruby 2023 Award Winner](https://www.digitalfukuoka.jp/topics/228?locale=ja)) is a lightweight Ruby to JavaScript transpiler that results in small downloadables compared to WASM. In the future, the project might grow to support [Ruby WASM](https://github.com/ruby/ruby.wasm) as an alternative to [Opal Ruby](https://opalrb.com/) that could be switched to with a simple configuration change.
 
-- Ruby 3.0+
-- Rails 7: [https://github.com/rails/rails](https://github.com/rails/rails)
+- Ruby 3.1+
+- Rails 7.0 (recommended: 7.0.8.6): [https://github.com/rails/rails](https://github.com/rails/rails)
 
 ## Setup
 
@@ -1393,7 +1393,7 @@ Please follow these steps to setup.
 Install a Rails 7 gem:
 
 ```
-gem install rails -v7.0.1
+gem install rails -v7.0.8.6
 ```
 
 Start a new Rails 7 app:
@@ -1581,6 +1581,8 @@ That produces:
 ...
 ```
 
+You may delete `opal_application.rb` after confirming that the setup works because `glimmer_component` is the recommended way for serious use of Glimmer DSL for Web in Rails web apps. 
+
 You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
 
 To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
@@ -1602,194 +1604,6 @@ By default, elements are rendered in bulk for faster performance, meaning you ca
 Note that Turbo is disabled on Glimmer elements/components. You can still use Turbo/Hotwire side by side with Glimmer DSL for Web by using one of the two technologies in every page. But, mixing them in the same pages is not recommended at the moment, so any pages loaded with Glimmer DSL for Web must be loaded without Turbo (e.g. by putting "data-turbo"="false" on anchor "a" tag links to Glimmer pages).
 
 If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake).
-
-Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
-
-Next, read [Usage](#usage) instructions, and check out [Samples](#samples).
-
-### Rails 6
-
-(NOTE: In the future, we plan to automate the setup steps below. If you would like to help contribute that to the project, please do so and open a Pull Request.)
-
-Please follow these steps to setup.
-
-Install a Rails 6 gem:
-
-```
-gem install rails -v6.1.4.6
-```
-
-Start a new Rails 6 app (skipping webpack):
-
-```
-rails new glimmer_app_server --skip-webpack-install
-```
-
-Disable the `webpacker` gem line in `Gemfile`:
-
-```ruby
-# gem 'webpacker', '~> 5.0'
-```
-
-Add the following to `Gemfile`:
-
-```ruby
-gem 'glimmer-dsl-web', '~> 0.6.3'
-```
-
-Run:
-
-```
-bundle
-```
-
-(run `rm -rf tmp/cache` from inside your Rails app if you upgrade your `glimmer-dsl-web` gem version from an older one to clear Opal-Rails's cache)
-
-Follow [opal-rails](https://github.com/opal/opal-rails) instructions, basically running:
-
-```
-bin/rails g opal:install
-```
-
-To enable the `glimmer-dsl-web` gem in the frontend, edit `config/initializers/assets.rb` and add the following at the bottom:
-
-```ruby
-Opal.use_gem 'glimmer-dsl-web'
-Opal.append_path Rails.root.join('app', 'assets', 'opal')
-```
-
-To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
-
-```ruby
-  config.assets.debug = true if Rails.env.development?
-```
-
-Assuming this is a brand new Rails application and you do not have any Rails resources, you can scaffold the welcome resource just for testing purposes.
-
-Run:
-
-```
-rails g scaffold welcome
-```
-
-Run:
-
-```
-rails db:migrate
-```
-
-Add the following to `config/routes.rb` inside the `Rails.application.routes.draw` block:
-
-```ruby
-root to: 'welcomes#index'
-```
-
-Also, delete the following line:
-
-```erb
-<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-```
-
-Clear the file `app/views/welcomes/index.html.erb` completely from all content.
-
-Rename `app/assets/javascript/application.js.rb` file to `app/assets/javascript/opal_application.rb`.
-
-Rename `app/assets/javascript` directory to `app/assets/opal`.
-
-Edit `app/assets/config/manifest.js` and update `//= link_directory ../javascript .js` to `//= link_directory ../opal .js`:
-
-```js
-//= link_directory ../opal .js
-```
-
-Edit `app/views/layouts/application.html.erb` and update `<%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>` to `<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>`:
-
-```erb
-<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>
-```
-
-Edit and replace `app/assets/opal/opal_application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
-
-```ruby
-require 'glimmer-dsl-web' # brings opal and other dependencies automatically
-
-# Add more require-statements or Glimmer HTML DSL code
-```
-
-Example to confirm setup is working:
-
-Initial HTML Markup:
-
-```html
-...
-<div id="app-container">
-</div>
-...
-```
-
-Glimmer HTML DSL Ruby code in the frontend:
-
-```ruby
-require 'glimmer-dsl-web'
-
-include Glimmer
-
-Document.ready? do
-  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-  div(parent: '#app-container') {
-    label(class: 'greeting') {
-      'Hello, World!'
-    }
-  }
-end
-```
-
-That produces:
-
-```html
-...
-<div id="app-container">
-  <div data-parent="#app-container" class="element element-1">
-    <label class="greeting element element-2">
-      Hello, World!
-    </label>
-  </div>
-</div>
-...
-```
-
-Start the Rails server:
-```
-rails s
-```
-
-Visit `http://localhost:3000`
-
-You should see:
-
-![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
-
-You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
-
-To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
-
-`app/helpers/application_helper.rb` should look like this after the change:
-
-```ruby
-require 'glimmer/helpers/glimmer_helper'
-
-module ApplicationHelper
-  # ...
-  include GlimmerHelper
-  # ...
-end
-```
-
-Note that Turbo is disabled on Glimmer elements/components. You can still use Turbo/Hotwire side by side with Glimmer DSL for Web by using one of the two technologies in every page. But, mixing them in the same pages is not recommended at the moment, so any pages loaded with Glimmer DSL for Web must be loaded without Turbo (e.g. by putting "data-turbo"="false" on anchor "a" tag links to Glimmer pages).
-
-**NOT RELEASED OR SUPPORTED YET**
-
-If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 6 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails6-app) project (in case I forgot to include some setup steps by mistake).
 
 Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
 
