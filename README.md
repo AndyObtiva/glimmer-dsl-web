@@ -7,7 +7,7 @@
 
 **(Based on Original [Glimmer](https://github.com/AndyObtiva/glimmer) Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
-**(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) & [Frontend Ruby with Glimmer DSL for Web](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE))**
+**(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) / [Frontend Ruby with Glimmer DSL for Web \[Montreal.rb\]](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE) / [Frontend Ruby with Glimmer DSL for Web \[/dev/mtl 2024\]](https://www.youtube.com/watch?v=J2VIY9DMJo4))**
 
 **(Ruby Rogues Podcast: [Building Better Ruby Apps: Glimmer Component Slots and More](https://topenddevs.com/podcasts/ruby-rogues/episodes/building-better-ruby-apps-glimmer-s-component-slots-and-more-ruby-653))**
 
