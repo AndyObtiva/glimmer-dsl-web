@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.6.4
+
+- Support Rails 7.1 & 7.2 by upgrading to opal-rails 2.0.4
+
 ## 0.6.3
 
 - Fix issue with not finding `inner_html=` on self in `ElementProxy` after Content Data-Binding and removal, due to forgetting to unregister all Content Data-Binding observers on remove of an element
