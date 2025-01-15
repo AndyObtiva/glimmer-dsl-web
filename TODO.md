@@ -25,6 +25,8 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Alert user if they attempt to build a component or component slot that shadows an HTML element
 - Prepend/append/insert element operations
+- Support console.log && console.error just because some people naturally expect them on the Frontend
+- Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
 
 ### 1.1.0
 
@@ -43,6 +45,7 @@ Example:
       }
     }
   end
+- Add style tags generated for component instances to HEAD as well, removing when the component instance is removed. That way, some styles are specialized for specific instances with options.
   
 ### 1.2.0
 
@@ -87,6 +90,7 @@ Example:
 - Optimize performance of `observe(*args)` keyword through memoization or some other solution
 - Render styles produced by `Glimmer::Web::Component` `style {}` blocks in bulk
 - Optimize performance of `ElementProxy` respond_to_missing? & method_missing by memoizing results
+- Consider idea of hooking data-binding after reading initial data, setting it on element text, and displaying elements, to avoid making the user wait for data-binding to be done when using it on a lot of elements (this is not really necessary if few data-bound elements are rendered, which is the general normal average case).
 
 ## Maybe
 
