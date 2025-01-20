@@ -137,12 +137,14 @@ module Glimmer
         'inner_html' => 'innerHTML',
         'outer_html' => 'outerHTML',
       }
-      FORMAT_DATETIME = '%Y-%m-%dT%H:%M'
-      FORMAT_DATE = '%Y-%m-%d'
-      FORMAT_TIME = '%H:%M'
+      FORMAT_DATETIME = '%Y-%m-%dT%H:%M' # TODO ensure using when setting value on date/time fields without data-binding
+      FORMAT_DATE = '%Y-%m-%d' # TODO ensure using when setting value on date/time fields without data-binding
+      FORMAT_TIME = '%H:%M' # TODO ensure using when setting value on date/time fields without data-binding
+      FORMAT_MONTH = '%Y-%m' # TODO ensure using when setting value on date/time fields without data-binding
       REGEX_FORMAT_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
       REGEX_FORMAT_DATE = /^\d{4}-\d{2}-\d{2}$/
       REGEX_FORMAT_TIME = /^\d{2}:\d{2}$/
+      REGEX_FORMAT_MONTH = /^\d{4}-\d{2}$/
       REGEX_STYLE_SUB_PROPERTY = /^(style)_(.*)$/
       REGEX_CLASS_NAME_SUB_PROPERTY = /^(class_name)_(.*)$/
       
@@ -671,7 +673,11 @@ module Glimmer
             data_binding_read_listener = lambda do |event|
               view_property_value = send(property)
               element_binding_write_translator = value_converters_for_input_type(type)&.[](:view_to_model)
-              converted_view_property_value = element_binding_write_translator&.call(view_property_value, model_binding.evaluate_property) || view_property_value
+              is_date_time = ['date', 'time', 'datetime-local', 'month'].include?(options['type'])
+              converted_view_property_value = element_binding_write_translator&.call(view_property_value, model_binding.evaluate_property)
+              if !is_date_time
+                converted_view_property_value ||= view_property_value
+              end
               model_binding.call(converted_view_property_value)
             end
             handle_observation_request(listener_keyword, data_binding_read_listener)
@@ -885,8 +891,10 @@ module Glimmer
                 value.strftime(FORMAT_DATETIME)
               elsif value.is_a?(String) && valid_js_date_string?(value)
                 value
-              else
-                old_value
+              elsif value.to_s.empty?
+                ''
+              else # keep old value if a bad model attribute value was set
+                old_value&.strftime(FORMAT_DATETIME)
               end
             },
             view_to_model: -> (value, old_value) {
@@ -909,8 +917,10 @@ module Glimmer
                 value.strftime(FORMAT_DATE)
               elsif value.is_a?(String) && valid_js_date_string?(value)
                 value
-              else
-                old_value
+              elsif value.to_s.empty?
+                ''
+              else # keep old value if a bad model attribute value was set
+                old_value&.strftime(FORMAT_DATE)
               end
             },
             view_to_model: -> (value, old_value) {
@@ -918,7 +928,7 @@ module Glimmer
                 nil
               else
                 year, month, day = value.split('-')
-                if old_value
+                if !old_value.to_s.empty?
                   Time.new(year, month, day, old_value.hour, old_value.min)
                 else
                   Time.new(year, month, day)
@@ -932,8 +942,10 @@ module Glimmer
                 value.strftime(FORMAT_TIME)
               elsif value.is_a?(String) && valid_js_date_string?(value)
                 value
-              else
-                old_value
+              elsif value.to_s.empty?
+                ''
+              else # keep old value if a bad model attribute value was set
+                old_value&.strftime(FORMAT_TIME)
               end
             },
             view_to_model: -> (value, old_value) {
@@ -941,11 +953,36 @@ module Glimmer
                 nil
               else
                 hour, minute = value.split(':')
-                if old_value
+                if !old_value.to_s.empty?
                   Time.new(old_value.year, old_value.month, old_value.day, hour, minute)
                 else
                   now = Time.now
                   Time.new(now.year, now.month, now.day, hour, minute)
+                end
+              end
+            },
+          },
+          'month' => {
+            model_to_view: -> (value, old_value) {
+              if value.respond_to?(:strftime)
+                value.strftime(FORMAT_MONTH)
+              elsif value.is_a?(String) && valid_js_date_string?(value)
+                value
+              elsif value.to_s.empty?
+                ''
+              else # keep old value if a bad model attribute value was set
+                old_value&.strftime(FORMAT_MONTH)
+              end
+            },
+            view_to_model: -> (value, old_value) {
+              if value.to_s.empty?
+                nil
+              else
+                year, month = value.split('-')
+                if !old_value.to_s.empty?
+                  Time.new(year, month, old_value.day, old_value.hour, old_value.min)
+                else
+                  Time.new(year, month)
                 end
               end
             },
@@ -965,7 +1002,7 @@ module Glimmer
       end
       
       def valid_js_date_string?(string)
-        [REGEX_FORMAT_DATETIME, REGEX_FORMAT_DATE, REGEX_FORMAT_TIME].any? do |format|
+        [REGEX_FORMAT_DATETIME, REGEX_FORMAT_DATE, REGEX_FORMAT_TIME, REGEX_FORMAT_MONTH].any? do |format|
           string.match(format)
         end
       end
@@ -993,7 +1030,6 @@ module Glimmer
           style_value.to_s
         end
       end
-      
     end
   end
 end

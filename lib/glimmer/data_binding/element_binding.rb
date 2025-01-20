@@ -28,7 +28,13 @@ module Glimmer
       
       def call(value)
         evaluated_property_value = evaluate_property
-        converted_value = @translator&.call(value, evaluated_property_value) || value
+        converted_value = @translator&.call(value, @old_value)
+        is_date_time = ['date', 'time', 'datetime-local', 'month'].include?(element.options['type'])
+        if !is_date_time
+          converted_value ||= value
+        end
+        
+        @old_value = value
         if converted_value != evaluated_property_value
           if @sub_property
             if @property.to_s == 'class_name'

@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.6.5
+
+- Ensure clearing input datetime/date/time/month values sends `nil` to the data-bound model attribute (not `''`, which caused issues)
+- Support data-binding input month vaue to a model attribute that has a datetime value
+- Fix issue with clearing date/time from Hello, Input Date/Time! causing errors in the web browser console
+
 ## 0.6.4
 
 - Support Rails 7.1 & 7.2 by upgrading to opal-rails 2.0.4

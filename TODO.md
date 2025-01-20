@@ -27,6 +27,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Prepend/append/insert element operations
 - Support console.log && console.error just because some people naturally expect them on the Frontend
 - Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
+- Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
 ### 1.1.0
 
@@ -147,6 +148,7 @@ Example:
 - Consider printing exception.message before re-raising exception if exceptions are encountered in rendering with Glimmer DSL. This makes it easier to troubleshoot than reading exception in browser, which sometimes hides it when displaying stack trace.
 - Consider adding element.children_components to avoid having to go through element.children.map(&:component) manually
 - Consider automatically escaping the element inner_html and String content while providing a `raw` method to allow setting unescaped HTML in a similar way to Rails.
+- Support data-binding of week input to datetime object
 
 ## Issues
 
