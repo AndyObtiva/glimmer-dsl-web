@@ -1,6 +1,6 @@
 # [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.5 (Beta)
-## Ruby-in-the-Browser Web Frontend Framework (Fukuoka Award Winning)
-### The "Rails" of Frontend Frameworks!!!
+## Ruby-in-the-Browser Web Frontend Framework
+### The "Rails" of Frontend Frameworks!!! (Fukuoka Award Winning)
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
