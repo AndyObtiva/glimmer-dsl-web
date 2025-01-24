@@ -1,11 +1,13 @@
 # [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.5 (Beta)
-## Ruby-in-the-Browser Web Frontend Framework
+## Ruby-in-the-Browser Web Frontend Framework (Fukuoka Award Winning)
 ### The "Rails" of Frontend Frameworks!!!
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 **(Based on Original [Glimmer](https://github.com/AndyObtiva/glimmer) Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
+
+**([Fukuoka Prefecture Future IT Initiative 2025 Money Forward Award Winner](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))**
 
 **(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) / [Frontend Ruby with Glimmer DSL for Web \[Montreal.rb\]](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE) / [Frontend Ruby with Glimmer DSL for Web \[/dev/mtl 2024\]](https://www.youtube.com/watch?v=J2VIY9DMJo4))**
 
