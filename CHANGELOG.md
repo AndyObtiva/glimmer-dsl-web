@@ -2,6 +2,7 @@
 
 ## 0.6.6
 
+- `Rails::ResourceService` supports index/show/create/update/destory REST API calls for any Rails resources
 - Support being able to set or data-bind `title` property on HTML elements
 - Restrict use of `title` tag to within a `head` element only
 

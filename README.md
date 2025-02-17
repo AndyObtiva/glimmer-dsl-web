@@ -21,7 +21,7 @@ You can finally live in pure Rubyland on the Web in both the frontend and backen
 
 You can finally have Ruby developer happiness and productivity in the Frontend! No more wasting time splitting your resources across multiple languages, using badly engineered, over-engineered, or premature-optimization-obsessed JavaScript libraries, fighting JavaScript build issues (e.g. webpack), or rewriting Ruby Backend code in Frontend JavaScript. With [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c), you can have an exponential jump in development productivity (2x or higher), time-to-release (1/2 or less time), cost (1/2 or cheaper), and maintainability (~50% the code that is simpler and more readable) over JavaScript libraries like React, Angular, Ember, Vue, and Svelte, while being able to reuse Backend Ruby code as is in the Frontend for faster interactions when needed. Also, with Frontend Ruby SPA (Single Page Applications), companies can cut their hiring budget in half by having Backend Ruby Software Engineers do Frontend Development in Ruby! [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c) finally fulfills every smart highly-productive Rubyist's dream by bringing Ruby productivity fun to Frontend Development, the same productivity fun you had for years and decades in Backend Development.
 
-[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based SPA drop-in replacement for your existing JavaScript Frontend SPA library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make HTTP/Ajax requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_api.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb). [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) currently runs on [Opal](https://opalrb.com/) ([Fukuoka Ruby 2023 Award Winner](https://www.digitalfukuoka.jp/topics/228?locale=ja)), a Ruby-to-JavaScript transpiler. In the future, it might support other Frontend Ruby environments, such as [ruby.wasm](https://github.com/ruby/ruby.wasm).
+[Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) aims to be a very simple Ruby-based SPA drop-in replacement for your existing JavaScript Frontend SPA library (e.g. React, Angular, Vue, Ember, Svelte) or your JavaScript Frontend layer in general. It does not change how your Frontend interacts with the Backend, meaning you can continue to write Rails Backend API endpoints as needed and make HTTP/Ajax requests or read data embedded in elements, but from [Ruby in the Browser](https://www.youtube.com/watch?v=4AdcfbI6A4c). Whatever is possible in JavaScript is possible when using Glimmer DSL for Web as it integrates with any existing JavaScript library. The [Rails sample app](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) demonstrates how to [make HTTP calls](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector/models/sample_api.rb) or [Rails REST API index/show/create/update/destroy web requests for Resources](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/presenters/contact_presenter.rb) via [Rails::ResourceService](/lib/rails/resource_service.rb) and how to [integrate with a JavaScript library](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/views/layouts/application.html.erb) (highlightjs) that performs [code syntax highlighting](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/sample_selector.rb). [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) currently runs on [Opal](https://opalrb.com/) ([Fukuoka Ruby 2023 Award Winner](https://www.digitalfukuoka.jp/topics/228?locale=ja)), a Ruby-to-JavaScript transpiler. In the future, it might support other Frontend Ruby environments, such as [ruby.wasm](https://github.com/ruby/ruby.wasm).
 
 After looking through the [samples](#samples) below, read the [FAQ (Frequently Asked Questions)](#faq) to learn more about how Glimmer DSL for Web compares to other approaches/libraries like Hotwire (Turbo), Phlex, ViewComponent, Angular, Vue, React, Svelte, and other JS frameworks.
 
@@ -1620,6 +1620,8 @@ Andreas Idogawa-Wildi ([@Largo](https://github.com/Largo)) created a project tha
 
 ## Usage
 
+### Glimmer HTML DSL
+
 Glimmer DSL for Web offers a HTML DSL ([Graphical User Interface](https://en.wikipedia.org/wiki/Graphical_user_interface) [Domain Specific Language](https://en.wikipedia.org/wiki/Domain-specific_language)) for building HTML Web User Interfaces declaratively in Ruby.
 
 1- **Keywords (HTML Elements)**
@@ -1693,6 +1695,40 @@ You can get/set any element property or invoke any element function by simply ca
 Next, check out [Samples](#samples).
 
 Note that for serious app usage, it is recommended to build [components](#hello-component) and use the [`glimmer_component` Rails Helper](#hello-glimmer_component-rails-helper) to embed the top-level Web Frontend component in a Rails View.
+
+### Rails::ResourceService
+
+To make REST API calls (web requests) to the Backend of a Rails application in order to index/show/create/update/delete resources,
+you can use [Rails::ResourceService](/lib/rails/resource_service.rb) (`require 'rails/resource_service'` to use). Consult
+the `Rails::ResourceService` class source code to find out what its API is. It can work with a basic Rails Scaffold of a Resource
+if Developers would rather not write the Backend by hand.
+
+Example from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/presenters/contact_presenter.rb) in the [Contact Manager](#contact-manager) sample:
+
+`form_contact` is an instance of the [Contact](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/models/contact.rb) class.
+
+```ruby
+    Rails::ResourceService.update(resource: form_contact) do |response|
+      if response.ok?
+        updated_contact_response_body = Native(response.body)
+        updated_contact = form_contact.clone
+        updated_contact.updated_at = updated_contact_response_body.updated_at
+        contacts[edit_index].load_with(updated_contact)
+        self.edit_index = nil
+        form_contact.reset
+        form_contact.errors = nil
+      else
+        form_contact.errors = JSON.parse(response.body)
+      end
+    end
+```
+
+Note that there are alternative ways of invoking the `Rails::ResourceService.update` call:
+- `Rails::ResourceService.update(resource: form_contact)`
+- `Rails::ResourceService.update(resource_class: Contact, resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...})`
+- `Rails::ResourceService.update(singular_resource_name: 'contact', resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...})`
+- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", resource_attributes: {first_name: form_contact.first_name, ...})`
+- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", params: {contact: {first_name: form_contact.first_name, ...}})`
 
 ## Supported Glimmer DSL Keywords
 
@@ -4506,6 +4542,18 @@ end
 ```
 
 ![Todo MVC](/images/glimmer-dsl-web-samples-regular-todo-mvc.gif)
+
+#### Contact Manager
+
+The Contact Manager sample demonstrates talking to the Rails Backend by making create/update/destory REST API calls
+to RESTful Resources via the `Rails::ResourceService` class that is included in Glimmer DSL for Web
+(`require 'rails/resource_service'` to use).
+
+[https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager.rb](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager.rb)
+
+[https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager)
+
+![contact manager](/images/glimmer-dsl-web-samples-regular-contact-manager.gif)
 
 ## Design Principles
 

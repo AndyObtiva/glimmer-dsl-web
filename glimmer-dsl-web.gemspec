@@ -93,7 +93,8 @@ Gem::Specification.new do |s|
     "lib/glimmer/web/element_proxy.rb",
     "lib/glimmer/web/event_proxy.rb",
     "lib/glimmer/web/formatting_element_proxy.rb",
-    "lib/glimmer/web/listener_proxy.rb"
+    "lib/glimmer/web/listener_proxy.rb",
+    "lib/rails/resource_service.rb"
   ]
   s.homepage = "http://github.com/AndyObtiva/glimmer-dsl-web".freeze
   s.licenses = ["MIT".freeze]
