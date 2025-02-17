@@ -25,6 +25,11 @@ module Glimmer
               args.size == 1 && args.first.is_a?(Hash) ||
               args.size == 2 && args.first.is_a?(String) && args.last.is_a?(Hash)
             ) &&
+            (
+              keyword != 'title' ||
+              parent.nil? ||
+              parent.keyword == 'head'
+            ) &&
             ( # ensure SVG keywords only live under SVG element (unless it's the SVG element itself)
               !Glimmer::Web::ElementProxy.svg_keyword_supported?(keyword) ||
               keyword == 'svg' ||

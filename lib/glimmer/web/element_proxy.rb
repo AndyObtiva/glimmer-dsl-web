@@ -131,6 +131,9 @@ module Glimmer
       ].map(&:downcase)
  
       ELEMENT_KEYWORDS = HTML_ELEMENT_KEYWORDS + SVG_ELEMENT_KEYWORDS
+      
+      # title is a special attribute because it matches an element tag name (needs special treatment)
+      HTML_ELEMENT_SPECIAL_ATTRIBUTES = ['title']
 
       GLIMMER_ATTRIBUTES = [:parent]
       PROPERTY_ALIASES = {
@@ -732,7 +735,13 @@ module Glimmer
         # TODO consider doing more correct checking of availability of properties/methods using native ticks
         property_name = property_name_for(method_name)
         unnormalized_property_name = unnormalized_property_name_for(method_name)
-        if method_name.to_s.start_with?('class_name_')
+        if method_name.end_with?('=') && HTML_ELEMENT_SPECIAL_ATTRIBUTES.include?(property_name)
+          if rendered?
+            dom_element.attr(property_name, *args)
+          else
+            enqueue_post_render_method_call(method_name, *args, &block)
+          end
+        elsif method_name.to_s.start_with?('class_name_')
           property, sub_property = method_name.to_s.match(REGEX_CLASS_NAME_SUB_PROPERTY).to_a.drop(1)
           if args.empty?
             class_name_included(sub_property)

@@ -1,10 +1,15 @@
 # Change Log
 
+## 0.6.6
+
+- Support being able to set or data-bind `title` property on HTML elements
+- Restrict use of `title` tag to within a `head` element only
+
 ## 0.6.5
 
 - Ensure clearing input datetime/date/time/month values sends `nil` to the data-bound model attribute (not `''`, which caused issues)
 - Support data-binding input month value to a model attribute that has a datetime value
-- Fix issue with clearing date/time from Hello, Input Date/Time! causing errors in the web browser console
+- Fix issue with clearing date/time in Hello, Input Date/Time! causing errors in the web browser console
 
 ## 0.6.4
 
