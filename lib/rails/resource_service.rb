@@ -1,5 +1,5 @@
 module Rails
-  # ResourceService supports index/show/create/update/destory REST API calls for any Rails resources
+  # ResourceService supports index/show/create/update/destroy REST API calls for any Rails resources
   # Automatically loads the authenticity token from meta[name=csrf-token] content attribute
   # Assumes a resource or resource class that matches the name of a Backend ActiveRecord Model (e.g. Contact class or instance)
   class ResourceService

@@ -2,9 +2,10 @@
 
 ## 0.6.6
 
-- `Rails::ResourceService` supports index/show/create/update/destory REST API calls for any Rails resources
+- `Rails::ResourceService` supports index/show/create/update/destroy REST API calls for any Rails resources
 - Support being able to set or data-bind `title` property on HTML elements
 - Restrict use of `title` tag to within a `head` element only
+- Contact Manager Sample: https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager.rb
 
 ## 0.6.5
 
