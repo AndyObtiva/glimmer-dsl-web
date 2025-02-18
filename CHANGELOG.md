@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.6.7
+
+- `Rails::ResourceService` builds resource models using `resource_class` and provides `resources`/`resource` as 2nd argument of `response_handler` blocks in index/show/create/update calls.
+- Refactor/simplify code of Contact Manager sample with `Rails::ResourceService` enhancements to provide resource models in `response_handler` 2nd argument
+
 ## 0.6.6
 
 - `Rails::ResourceService` supports index/show/create/update/destroy REST API calls for any Rails resources

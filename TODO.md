@@ -61,6 +61,7 @@ Example:
 - Automatically generate Rails Model forms with an authenticity token correctly
 - Support Content Data-Binding progress circle (and ability to update with any image)
 - Smart form components that can automatically generate the name attributes for a Rails model just like the Rails form helpers
+- Consider idea of providing a ResourceScaffold component (maybe with a better name) that automatically generates a screen like `ContactManager`
 
 ### 2.0.0
 

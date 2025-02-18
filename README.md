@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.6 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.7 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1408,7 +1408,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.6.6'
+gem 'glimmer-dsl-web', '~> 0.6.7'
 ```
 
 Run:
@@ -1708,11 +1708,8 @@ Example from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl
 `form_contact` is an instance of the [Contact](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/models/contact.rb) class.
 
 ```ruby
-    Rails::ResourceService.update(resource: form_contact) do |response|
+    Rails::ResourceService.update(resource: form_contact) do |response, updated_contact|
       if response.ok?
-        updated_contact_response_body = Native(response.body)
-        updated_contact = form_contact.clone
-        updated_contact.updated_at = updated_contact_response_body.updated_at
         contacts[edit_index].load_with(updated_contact)
         self.edit_index = nil
         form_contact.reset
@@ -1724,11 +1721,11 @@ Example from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl
 ```
 
 Note that there are alternative ways of invoking the `Rails::ResourceService.update` call:
-- `Rails::ResourceService.update(resource: form_contact)`
-- `Rails::ResourceService.update(resource_class: Contact, resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...})`
-- `Rails::ResourceService.update(singular_resource_name: 'contact', resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...})`
-- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", resource_attributes: {first_name: form_contact.first_name, ...})`
-- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", params: {contact: {first_name: form_contact.first_name, ...}})`
+- `Rails::ResourceService.update(resource: form_contact) { |response| ... }`
+- `Rails::ResourceService.update(resource_class: Contact, resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...}) { |response| ... }`
+- `Rails::ResourceService.update(singular_resource_name: 'contact', resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...}) { |response| ... }`
+- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", resource_attributes: {first_name: form_contact.first_name, ...}) { |response| ... }`
+- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", params: {contact: {first_name: form_contact.first_name, ...}}) { |response| ... }`
 
 ## Supported Glimmer DSL Keywords
 
