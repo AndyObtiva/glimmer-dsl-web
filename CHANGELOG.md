@@ -1,8 +1,13 @@
 # Change Log
 
+## 0.6.8
+
+- `Rails::ResourceService` provides `errors` as 3rd argument of `response_handler` block in erroneous web requests.
+- Refactor/simplify code of Contact Manager sample with `Rails::ResourceService` enhancements to provide `errors` as `response_handler` 3rd argument
+
 ## 0.6.7
 
-- `Rails::ResourceService` builds resource models using `resource_class` and provides `resources`/`resource` as 2nd argument of `response_handler` blocks in index/show/create/update calls.
+- `Rails::ResourceService` builds resource models using `resource_class` and provides `resources`/`resource` as 2nd argument of `response_handler` block in index/show/create/update calls.
 - Refactor/simplify code of Contact Manager sample with `Rails::ResourceService` enhancements to provide resource models in `response_handler` 2nd argument
 
 ## 0.6.6

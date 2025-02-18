@@ -41,11 +41,15 @@ module Rails
         plural_resource_name ||= "#{singular_resource_name}s"
         create_resource_url ||= "/#{plural_resource_name}.json"
         HTTP.post(create_resource_url, payload: create_update_resource_params(resource:, resource_class:, resource_attributes:, singular_resource_name:, params: params.to_h)) do |response|
-          if response.ok? && !resource_class.nil?
-            resource_response_object = Native(response.body)
-            resource = build_resource_from_response_object(resource_class:, resource_response_object:)
+          if response.ok?
+            if !resource_class.nil?
+              resource_response_object = Native(response.body)
+              resource = build_resource_from_response_object(resource_class:, resource_response_object:)
+            end
+          else
+            errors = JSON.parse(response.body)
           end
-          response_handler.call(response, resource)
+          response_handler.call(response, resource, errors)
         end
       end
       
@@ -56,11 +60,15 @@ module Rails
         plural_resource_name ||= "#{singular_resource_name}s"
         update_resource_url ||= "/#{plural_resource_name}/#{resource_id}.json"
         HTTP.patch(update_resource_url, payload: create_update_resource_params(resource:, resource_class:, resource_attributes:, singular_resource_name:, params: params.to_h)) do |response|
-          if response.ok? && !resource_class.nil?
-            resource_response_object = Native(response.body)
-            resource = build_resource_from_response_object(resource_class:, resource_response_object:)
+          if response.ok?
+            if !resource_class.nil?
+              resource_response_object = Native(response.body)
+              resource = build_resource_from_response_object(resource_class:, resource_response_object:)
+            end
+          else
+            errors = JSON.parse(response.body)
           end
-          response_handler.call(response, resource)
+          response_handler.call(response, resource, errors)
         end
       end
       

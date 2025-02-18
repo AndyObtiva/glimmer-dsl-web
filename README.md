@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.7 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.8 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1408,7 +1408,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.6.7'
+gem 'glimmer-dsl-web', '~> 0.6.8'
 ```
 
 Run:
@@ -1703,29 +1703,38 @@ you can use [Rails::ResourceService](/lib/rails/resource_service.rb) (`require '
 the `Rails::ResourceService` class source code to find out what its API is. It can work with a basic Rails Scaffold of a Resource
 if Developers would rather not write the Backend by hand.
 
+`Rails::ResourceService` API:
+- `index(resource: nil, resource_class: nil, singular_resource_name: nil, plural_resource_name: nil, index_resource_url: nil, params: nil) { |response| ... }`
+- `show(resource: nil, resource_class: nil, resource_id: nil, singular_resource_name: nil, plural_resource_name: nil, show_resource_url: nil, params: nil) { |response| ... }`
+- `create(resource: nil, resource_class: nil, resource_attributes: nil, singular_resource_name: nil, plural_resource_name: nil, create_resource_url: nil, params: nil) { |response, created_resource, errors| ... }`
+- `update(resource: nil, resource_class: nil, resource_id: nil, resource_attributes: nil, singular_resource_name: nil, plural_resource_name: nil, update_resource_url: nil, params: nil) { |response, updated_resource, errors| ... }`
+- `destroy(resource: nil, resource_class: nil, resource_id: nil, singular_resource_name: nil, plural_resource_name: nil, destroy_resource_url: nil, params: nil) { |response| ... }`
+
+`Rails::ResourceService` follows the 'Convention over Configuration' Rails principle as it auto-derives the URL to call based on the `resource` class and data.
+
 Example from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/presenters/contact_presenter.rb) in the [Contact Manager](#contact-manager) sample:
 
 `form_contact` is an instance of the [Contact](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/models/contact.rb) class.
 
 ```ruby
-    Rails::ResourceService.update(resource: form_contact) do |response, updated_contact|
+    Rails::ResourceService.update(resource: form_contact) do |response, updated_contact, errors|
       if response.ok?
         contacts[edit_index].load_with(updated_contact)
         self.edit_index = nil
         form_contact.reset
         form_contact.errors = nil
       else
-        form_contact.errors = JSON.parse(response.body)
+        form_contact.errors = errors
       end
     end
 ```
 
 Note that there are alternative ways of invoking the `Rails::ResourceService.update` call:
-- `Rails::ResourceService.update(resource: form_contact) { |response| ... }`
-- `Rails::ResourceService.update(resource_class: Contact, resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...}) { |response| ... }`
-- `Rails::ResourceService.update(singular_resource_name: 'contact', resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...}) { |response| ... }`
-- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", resource_attributes: {first_name: form_contact.first_name, ...}) { |response| ... }`
-- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", params: {contact: {first_name: form_contact.first_name, ...}}) { |response| ... }`
+- `Rails::ResourceService.update(resource: form_contact) { |response, resource, errors| ... }`
+- `Rails::ResourceService.update(resource_class: Contact, resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...}) { |response, resource, errors| ... }`
+- `Rails::ResourceService.update(singular_resource_name: 'contact', resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...}) { |response, resource, errors| ... }`
+- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", resource_attributes: {first_name: form_contact.first_name, ...}) { |response, resource, errors| ... }`
+- `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", params: {contact: {first_name: form_contact.first_name, ...}}) { |response, resource, errors| ... }`
 
 ## Supported Glimmer DSL Keywords
 
