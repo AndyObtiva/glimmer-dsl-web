@@ -373,6 +373,7 @@ module Glimmer
 
       def can_add_attribute_observer?(attribute_name)
         has_option?(attribute_name) ||
+          has_read_write_attribute?(attribute_name) ||
           has_instance_method?(attribute_name) ||
           has_instance_method?("#{attribute_name}?")
       end
@@ -442,6 +443,10 @@ module Glimmer
         else
           @markup_root.set_attribute(attribute_name, *args)
         end
+      end
+      
+      def has_read_write_attribute?(attribute)
+        respond_to?(attribute) && respond_to?("#{attribute}=")
       end
 
       # This method ensures it has an instance method not coming from Glimmer DSL
