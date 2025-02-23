@@ -278,6 +278,8 @@ module Glimmer
       end
       # <- end of class methods
       
+      REGEX_LISTENER_OPTION_UPDATE = /^on_(.)+_update$/
+      
       attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style, :slot_elements, :events, :default_slot
       alias parent_proxy parent
 
@@ -290,7 +292,6 @@ module Glimmer
           options = args
           args = []
         end
-        options ||= {}
         @slot_elements = {}
         @args = args
         options ||= {}
@@ -342,8 +343,8 @@ module Glimmer
       def can_handle_observation_request?(observation_request)
         observation_request = observation_request.to_s
         result = false
-        if observation_request.start_with?('on_update_') # TODO change to on_someprop_update & document this feature
-          property = observation_request.sub(/^on_update_/, '')
+        if observation_request.match(REGEX_LISTENER_OPTION_UPDATE)
+          property = observation_request.sub(/^on_/, '').sub(/_update$/, '')
           result = can_add_observer?(property)
         elsif observation_request.start_with?('on_')
           event = observation_request.sub(/^on_/, '')
@@ -354,8 +355,8 @@ module Glimmer
 
       def handle_observation_request(observation_request, block)
         observation_request = observation_request.to_s
-        if observation_request.start_with?('on_update_')
-          property = observation_request.sub(/^on_update_/, '') # TODO look into eliminating duplication from above
+        if observation_request.match(REGEX_LISTENER_OPTION_UPDATE)
+          property = observation_request.sub(/^on_/, '').sub(/_update$/, '')
           add_observer(DataBinding::Observer.proc(&block), property) if can_add_observer?(property)
         elsif observation_request.start_with?('on_')
           event = observation_request.sub(/^on_/, '') # TODO look into eliminating duplication from above
@@ -371,7 +372,14 @@ module Glimmer
       end
 
       def can_add_attribute_observer?(attribute_name)
-        has_instance_method?(attribute_name) || has_instance_method?("#{attribute_name}?")
+        has_option?(attribute_name) ||
+          has_instance_method?(attribute_name) ||
+          has_instance_method?("#{attribute_name}?")
+      end
+      
+      def has_option?(option_name)
+        normalized_option_name = option_name.to_s.to_sym
+        options.keys.include?(normalized_option_name)
       end
 
       def can_add_custom_event_listener?(event)
@@ -438,9 +446,10 @@ module Glimmer
 
       # This method ensures it has an instance method not coming from Glimmer DSL
       def has_instance_method?(method_name)
-        respond_to?(method_name) and
-          !markup_root&.respond_to?(method_name) and
-          !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') and
+        # TODO this carryover code from other Glimmer DSLs doesn't seem to be needed in this DSL (and probably doesn't work in Opal anyways)
+        respond_to?(method_name) &&
+          !markup_root&.respond_to?(method_name) &&
+          !method(method_name)&.source_location&.first&.include?('glimmer/dsl/engine.rb') &&
           !method(method_name)&.source_location&.first&.include?('glimmer/web/element_proxy.rb')
       end
 

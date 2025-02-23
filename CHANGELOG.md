@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.6.9
+
+- Support Component Option Listeners (nest a `on_some_attribute_update { ... }` listener inside the content block of a consumed Glimmer Web Component for any attribute/option on the Component, like `on_full_name_update` listener for `full_name` attribute update)
+
 ## 0.6.8
 
 - `Rails::ResourceService` provides `errors` as 3rd argument of `response_handler` block in erroneous web requests.

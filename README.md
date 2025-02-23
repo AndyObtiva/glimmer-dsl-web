@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.8 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.6.9 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1408,7 +1408,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.6.8'
+gem 'glimmer-dsl-web', '~> 0.6.9'
 ```
 
 Run:
@@ -1711,12 +1711,27 @@ if Developers would rather not write the Backend by hand.
 - `destroy(resource: nil, resource_class: nil, resource_id: nil, singular_resource_name: nil, plural_resource_name: nil, destroy_resource_url: nil, params: nil) { |response| ... }`
 
 `Rails::ResourceService` follows the 'Convention over Configuration' Rails principle as it auto-derives the URL to call based on the `resource` class and data.
+`resource` can be a Ruby class with attribute method declarations or `attr_accessor` declarations, or a Ruby `Struct` class.
+`Rails::ResourceService` is flexible enough to work with all options.
 
-Example from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/presenters/contact_presenter.rb) in the [Contact Manager](#contact-manager) sample:
+Examples from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/presenters/contact_presenter.rb) in the [Contact Manager](#contact-manager) sample:
 
-`form_contact` is an instance of the [Contact](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/models/contact.rb) class.
+(note: `form_contact` is an instance of the [Contact](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/models/contact.rb) class)
 
 ```ruby
+  def add_contact
+    Rails::ResourceService.create(resource: form_contact) do |response, created_contact, errors|
+      if response.ok?
+        contacts << created_contact
+        form_contact.reset
+        form_contact.errors = nil
+      else
+        form_contact.errors = errors
+      end
+    end
+  end
+  
+  def update_contact
     Rails::ResourceService.update(resource: form_contact) do |response, updated_contact, errors|
       if response.ok?
         contacts[edit_index].load_with(updated_contact)
@@ -1727,6 +1742,7 @@ Example from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl
         form_contact.errors = errors
       end
     end
+  end
 ```
 
 Note that there are alternative ways of invoking the `Rails::ResourceService.update` call:
