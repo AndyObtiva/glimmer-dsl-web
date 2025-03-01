@@ -482,7 +482,7 @@ module Glimmer
       end
 
       def data_bind(property, model_binding)
-        if has_option?(property) || has_read_write_attribute?(property)
+        if has_option?(property) || (has_read_write_attribute?(property) && !@markup_root.respond_to?(property) && !@markup_root.respond_to?("#{property}="))
           option_binding = Glimmer::DataBinding::ModelBinding.new(self, property)
           #TODO make this options observer dependent and all similar observers in element specific data binding handlers
           option_binding.observe(model_binding)
