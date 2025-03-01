@@ -140,6 +140,7 @@ module Glimmer
         'inner_html' => 'innerHTML',
         'outer_html' => 'outerHTML',
       }
+      CSS_CLASS_GLIMMER = 'glimmer'
       FORMAT_DATETIME = '%Y-%m-%dT%H:%M' # TODO ensure using when setting value on date/time fields without data-binding
       FORMAT_DATE = '%Y-%m-%d' # TODO ensure using when setting value on date/time fields without data-binding
       FORMAT_TIME = '%H:%M' # TODO ensure using when setting value on date/time fields without data-binding
@@ -515,7 +516,7 @@ module Glimmer
       # It is intentionally not set as the actual HTML element ID to let software engineers
       # specify their own IDs if they wanted
       def element_id
-        @element_id ||= "element-#{ElementProxy.next_id_number_for(name)}"
+        @element_id ||= "#{CSS_CLASS_GLIMMER}-#{name}-#{ElementProxy.next_id_number_for(self.class.to_s)}"
       end
       
       def class_name=(*values)
@@ -1002,7 +1003,8 @@ module Glimmer
       private
       
       def base_css_classes
-        framework_css_classes = [name, element_id]
+        framework_css_classes = @parent.nil? ? ["#{CSS_CLASS_GLIMMER}-root"] : []
+        framework_css_classes += [element_id]
         if component
           framework_css_classes.prepend(component.class.component_element_class)
           framework_css_classes.prepend(component.class.component_shortcut_element_class) if component.class.component_shortcut_element_class != component.class.component_element_class

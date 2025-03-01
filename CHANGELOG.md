@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.7.0
+
+- Rename `element-ID` element CSS classes to `glimmer-element-ID` for a more unique class name that nobody else would be using
+- Rename `element` element CSS class to `glimmer-root` while only setting on the root element in a Glimmer element hierarchy.
+
 ## 0.6.12
 
 - Fix issue with Glimmer Web Component Attribute Data-Binding crashing the Contact Manager sample

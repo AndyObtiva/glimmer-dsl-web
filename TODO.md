@@ -6,23 +6,21 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.7.x
 
-- Support formatting paragraph elements as stand-alone elements (not inside p)
+- Support formatting-paragraph-elements as stand-alone elements (not inside p) (and rename to FormatParagraphElement or some better name)
+- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
+- Support console.log && console.error just because some people naturally expect them on the Frontend
+- Alert user if they attempt to build a component or component slot that shadows an HTML element
+- Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
+- Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
 ### 0.8.x
 
-- Automate Rails 7 setup instructions
-- Automate Rails 6 setup instructions
+- Prepend/append/insert element operations
 
 ### 1.0.0
 
-- Consider renaming `element-ID` css classes to `glimmer_element_ID` for a more unique class name that nobody else would be using
-- Consider removing `element` css class from elements except the root, and maybe rename the css class to `glimmer_element_root`. Or maybe replace with `glimmer-element` where element comes from ElementProxy (it would be `glimmer-formatting-element` if it's FormattingProxy)
-- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
-- Alert user if they attempt to build a component or component slot that shadows an HTML element
-- Prepend/append/insert element operations
-- Support console.log && console.error just because some people naturally expect them on the Frontend
-- Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
-- Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
+- Optimize Glimmer DSL for Web by not including Opal-Parser (Pull Request provided by hmdne)
+- Automate Rails 7 setup instructions
 
 ### 1.1.0
 
