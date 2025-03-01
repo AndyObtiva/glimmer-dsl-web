@@ -406,6 +406,7 @@ module Glimmer
       end
       
       def remove_observer(observer, attribute_or_event, options = {})
+        # TODO should we removing attribute observers? when removing component?
         if can_add_attribute_observer?(attribute_or_event)
           super(observer, attribute_or_event)
         elsif can_add_custom_event_listener?(attribute_or_event)
@@ -476,11 +477,24 @@ module Glimmer
       end
       
       def remove
+        remove_all_listeners
         @markup_root&.remove
       end
 
       def data_bind(property, model_binding)
-        @markup_root&.data_bind(property, model_binding)
+        if has_option?(property) || has_read_write_attribute?(property)
+          option_binding = Glimmer::DataBinding::ModelBinding.new(self, property)
+          #TODO make this options observer dependent and all similar observers in element specific data binding handlers
+          option_binding.observe(model_binding)
+          option_binding.call(model_binding.evaluate_property)
+          data_bindings[option_binding] = model_binding
+          if !model_binding.binding_options[:read_only]
+            model_binding.observe(option_binding)
+            model_binding.call(option_binding.evaluate_property)
+          end
+        else
+          @markup_root&.data_bind(property, model_binding)
+        end
       end
       
       def bind_content(*binding_args, &content_block)
@@ -506,6 +520,12 @@ module Glimmer
             # delegate to GUI DSL ContentExpression
             super
           end
+        end
+      end
+      
+      def remove_all_listeners
+        data_bindings.each do |option_binding, model_binding|
+          option_binding.unregister_all_observables
         end
       end
 
@@ -555,6 +575,10 @@ module Glimmer
       
       def remove_style_block
         Glimmer::Web::Component.remove_component_style(self)
+      end
+      
+      def data_bindings
+        @data_bindings ||= {}
       end
     end
   end

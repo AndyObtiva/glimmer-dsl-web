@@ -3,6 +3,7 @@
 ## 0.6.11
 
 - Set component attribute as a property in the Glimmer DSL by nesting 'propname value' inside component in consuming code
+- Support Glimmer Web Component Attribute Data-Binding (by nesting data-binding declarations within consumed components)
 
 ## 0.6.10
 

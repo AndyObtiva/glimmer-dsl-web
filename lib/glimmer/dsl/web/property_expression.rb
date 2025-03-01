@@ -10,6 +10,7 @@ module Glimmer
           # TODO add this condition once formatting elements become normal elements
           # or delete this line if no longer needed:
           # parent.is_a?(Glimmer::Web::FormattingElementProxy) ||
+          # Also, consider removing type check altogether (to generalize if good idea)
           (
             parent.is_a?(Glimmer::Web::ElementProxy) ||
             parent.is_a?(Glimmer::Web::Component)

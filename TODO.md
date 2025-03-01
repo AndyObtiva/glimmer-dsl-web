@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.6.x
-
-- Support Glimmer Web Component Attribute Data-Binding (by nesting data-binding declarations within consumed components)
-
 ### 0.7.x
 
 - Support formatting paragraph elements as stand-alone elements (not inside p)
