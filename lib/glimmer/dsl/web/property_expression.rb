@@ -7,7 +7,13 @@ module Glimmer
     module Web
       class PropertyExpression < Expression
         def can_interpret?(parent, keyword, *args, &block)
-          parent.is_a?(Glimmer::Web::ElementProxy) and
+          # TODO add this condition once formatting elements become normal elements
+          # or delete this line if no longer needed:
+          # parent.is_a?(Glimmer::Web::FormattingElementProxy) ||
+          (
+            parent.is_a?(Glimmer::Web::ElementProxy) ||
+            parent.is_a?(Glimmer::Web::Component)
+          ) and
             (!args.empty?) and
             parent.respond_to?("#{keyword}=") and
             block.nil?
