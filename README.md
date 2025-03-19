@@ -31,7 +31,7 @@ Anyone not considering this kind of technology in 2024 is like someone stuck in 
 
 **Hello, World! Sample**
 
-(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
+(Note: in real app development, we build [Glimmer Web Components](#hello-component) and we rely on the [glimmer_component Rails Helper](#hello-glimmer_component-rails-helper) to embed components in ERB Views without needing `Document.ready?`, but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 [lib/glimmer-dsl-web/samples/hello/hello_world.rb](/lib/glimmer-dsl-web/samples/hello/hello_world.rb)
 
@@ -63,7 +63,7 @@ You can also mount the `div` elsewhere by passing the `parent: parent_css_select
 
 **Hello, Button!**
 
-(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
+(Note: in real app development, we build [Glimmer Web Components](#hello-component) and we rely on the [glimmer_component Rails Helper](#hello-glimmer_component-rails-helper) to embed components in ERB Views without needing `Document.ready?`, but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 Event listeners can be setup on any element using the same event names used in HTML (e.g. `onclick`) while passing in a standard Ruby block to handle behavior. `$$` gives access to JS global scope from Ruby to invoke functions like `alert`.
 
@@ -101,7 +101,7 @@ Screenshot:
 
 **Hello, Form!**
 
-(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
+(Note: in real app development, we build [Glimmer Web Components](#hello-component) and we rely on the [glimmer_component Rails Helper](#hello-glimmer_component-rails-helper) to embed components in ERB Views without needing `Document.ready?`, but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) gives access to all Web Browser built-in features like HTML form validations, input focus, events, and element functions from a very terse and productive Ruby HTML DSL. Also, you can apply CSS styles by including directly in Ruby code as a string, using [Glimmer DSL for CSS](https://github.com/AndyObtiva/glimmer-dsl-css), or managing CSS completely separately using something like [SCSS](https://sass-lang.com/). The CSS techniques could be combined as well, like by managing common reusable CSS styles separately in SCSS, but adding component specific CSS styles in Ruby when it is more convenient.
 
@@ -261,7 +261,7 @@ Screenshot:
 
 **Hello, Data-Binding!**
 
-(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
+(Note: in real app development, we build [Glimmer Web Components](#hello-component) and we rely on the [glimmer_component Rails Helper](#hello-glimmer_component-rails-helper) to embed components in ERB Views without needing `Document.ready?`, but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 [Glimmer DSL for Web](https://rubygems.org/gems/glimmer-dsl-web) intuitively supports both Unidirectional (One-Way) Data-Binding via the `<=` operator and Bidirectional (Two-Way) Data-Binding via the `<=>` operator, incredibly simplifying how to sync View properties with Model attributes with the simplest code to reason about.
 
@@ -438,7 +438,7 @@ Screenshot:
 
 **Hello, Content Data-Binding!**
 
-(Note: in real app development, we build [Glimmer Web Components](#hello-component), but this sample is just introducing basic building blocks towards building [components](#hello-component))
+(Note: in real app development, we build [Glimmer Web Components](#hello-component) and we rely on the [glimmer_component Rails Helper](#hello-glimmer_component-rails-helper) to embed components in ERB Views without needing `Document.ready?`, but this sample is just introducing basic building blocks towards building [components](#hello-component))
 
 If you need to regenerate HTML element content dynamically, you can use Content Data-Binding to effortlessly
 rebuild HTML elements based on changes in a Model attribute that provides the source data.
