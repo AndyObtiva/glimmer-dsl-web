@@ -144,6 +144,7 @@ Example:
 - Consider adding element.children_components to avoid having to go through element.children.map(&:component) manually
 - Consider automatically escaping the element inner_html and String content while providing a `raw` method to allow setting unescaped HTML in a similar way to Rails.
 - Support data-binding of week input to datetime object
+- Support wrapping an existing element as an ElementProxy just like in Glimmer DSL for SWT, to enable integrating with existing pre-rendered elements when needed while being able to dynamically add more content or adjustments to them.
 
 ## Issues
 
