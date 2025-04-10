@@ -1387,6 +1387,14 @@ Once done, read [Usage](#usage) instructions. Note that for serious app usage, i
 
 (NOTE: Keep in mind this is a Beta. If you run into issues, read the [FAQ](#faq) in case they are addressed there (e.g. [I sometimes get an Opal error that makes no sense in relation to my code. How do I fix it?](https://github.com/AndyObtiva/glimmer-dsl-web/blob/master/README.md#i-sometimes-get-an-opal-error-that-makes-no-sense-in-relation-to-my-code-how-do-i-fix-it)) and try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
 
+### Rails 8
+
+Rails 8 instructions are not ready yet though they would rely on the `opal --watch` command in the Development environment to generate JavaScript files in the directory that propshaft is setup with, and Rails 8 would rely on the `opal` command to generate JavaScript files for the Production environment. 
+
+Instructions will be added in the future.
+
+If you want to help contribute Rails 8 instructions, please look at the Rails 7 instructions and see what needs to be adjusted in light of the first statement above about using `opal --watch` in Development and `opal` in Production.
+
 ### Rails 7
 
 (NOTE: In the future, we plan to automate the setup steps below. If you would like to help contribute that to the project, please do so and open a Pull Request.)
