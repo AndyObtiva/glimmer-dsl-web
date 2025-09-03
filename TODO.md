@@ -6,7 +6,10 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.7.x
 
-- Support formatting-paragraph-elements as stand-alone elements (not inside p) (and rename to FormatParagraphElement or some better name)
+- Add example of using component option/attribute listeners (address form with percentage filled)
+- Add example of using component option/attribute data-binding (data-bind address in address-form, maybe tied to a dropdown address switcher)
+
+- Support formatting-paragraph-elements 'br', 'span', and 'a' as stand-alone elements (not inside p) (and rename to FormatParagraphElement or some better name)
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Support console.log && console.error just because some people naturally expect them on the Frontend
 - Alert user if they attempt to build a component or component slot that shadows an HTML element
@@ -16,6 +19,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 ### 0.8.x
 
 - Prepend/append/insert element operations
+- Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
 
 ### 1.0.0
 
@@ -41,6 +45,7 @@ Example:
   end
 - Support the idea of making any element routable with its dash-cased text by appending #the-element-text
 - Add style tags generated for component instances to HEAD as well, removing when the component instance is removed. That way, some styles are specialized for specific instances with options.
+- Simplified data-binding support for select tag to load its data through data-binding instead of explicit options
   
 ### 1.2.0
 
@@ -164,3 +169,10 @@ Example:
 - Document all exceptions that occur during rendering of Glimmer Web Components instead of silently dying (or the Glimmer DSL in general if that is not already happening)
 - Document how to reuse Ruby code both server-side (backend) and client-side (frontend)
 - Document Style Guide of Glimmer DSL for Web (partially borrowed from Glimmer libui library)
+
+## Components
+
+- Paginator
+- Multi-Checkbox Dropdown
+- Debounce
+- Content Manager (for a resource; inspired by Contact Manager)
