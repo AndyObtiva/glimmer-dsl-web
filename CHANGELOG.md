@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.7.2
+
+- Hello, Component Attribute Listeners! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_attribute_listeners.rb'`
+
 ## 0.7.1
 
 - Fix issue with not being able to pass arguments containing apostrophe (') to glimmer_component helper (provided by GlimmerHelper)

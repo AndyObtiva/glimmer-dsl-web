@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.7.1 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.7.2 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1348,10 +1348,11 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Observer (Data-Binding)!](#hello-observer)
       - [Hello, Data-Binding!](#hello-data-binding)
       - [Hello, Content Data-Binding!](#hello-content-data-binding)
-      - [Hello, Component!](#hello-compoent)
+      - [Hello, Component!](#hello-component)
       - [Hello, Component Slots!](#hello-component-slots)
-      - [Hello, Component Listeners!](#hello-compoent-listeners)
-      - [Hello, Component Listeners (Default Slot)!](#hello-compoent-listeners-default-slot)
+      - [Hello, Component Listeners!](#hello-component-listeners)
+      - [Hello, Component Listeners (Default Slot)!](#hello-component-listeners-default-slot)
+      - [Hello, Component Attribute Listeners!](#hello-component-attribute-listeners)
       - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
       - [Hello, Paragraph!](#hello-paragraph)
       - [Hello, Style!](#hello-style)
@@ -1389,7 +1390,7 @@ Once done, read [Usage](#usage) instructions. Note that for serious app usage, i
 
 ### Rails 8
 
-Rails 8 instructions are not ready yet though they would rely on the `opal --watch` command in the Development environment to generate JavaScript files in the directory that propshaft is setup with, and Rails 8 would rely on the `opal` command to generate JavaScript files for the Production environment. 
+Rails 8 instructions are not ready yet though they would rely on the `opal --watch` command in the Development environment to generate JavaScript files in the directory that propshaft is setup with, and Rails 8 would rely on the `opal` command to generate JavaScript files for the Production environment.
 
 Instructions will be added in the future.
 
@@ -1416,7 +1417,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.7.1'
+gem 'glimmer-dsl-web', '~> 0.7.2'
 ```
 
 Run:
@@ -3757,6 +3758,83 @@ end
 Screenshot:
 
 ![Hello, Component Listeners!](/images/glimmer-dsl-web-samples-hello-hello-component-listeners.gif)
+
+#### Hello, Component Attribute Listeners!
+
+[lib/glimmer-dsl-web/samples/hello/hello_component_attribute_listeners.rb](/lib/glimmer-dsl-web/samples/hello/hello_component_attribute_listeners.rb)
+
+Glimmer HTML DSL Ruby code in the frontend:
+
+```ruby
+require 'glimmer-dsl-web'
+
+unless Object.const_defined?(:AddressTypeSelector)
+  class AddressTypeSelector
+    include Glimmer::Web::Component
+    
+    attribute :address_types, default: []
+    attribute :selected_address_type
+    
+    before_render do
+      self.selected_address_type ||= address_types.first
+    end
+    
+    markup {
+      select(placeholder: 'Select an address type') { |select_element|
+        address_types.each do |address_type|
+          option(value: address_type) { address_type }
+        end
+        
+        # Bidirectionally data-bind select value to selected_address_type attribute on self (component)
+        value <=> [self, :selected_address_type]
+      }
+    }
+    
+    style {
+      r(component_element_selector) {
+        font_size 2.em
+        margin_left 5.px
+      }
+    }
+  end
+end
+
+unless Object.const_defined?(:AddressTypeSelectorPage)
+  class AddressTypeSelectorPage
+    include Glimmer::Web::Component
+    
+    markup {
+      div {
+        h1('Address type for delivery:', style: {display: :inline})
+        
+        address_type_selector(address_types: ['Home', 'Work', 'Other']) {
+          # We can listen to the updates of any attribute/option in a Glimmer Web Component
+          # on_{attribute_name}_update do execute code when component attribute/option with attribute_name is updated
+          # This is an alternative to using Component Listeners, which require that the component explicitly calls notify_listeners,
+          # whereas Component Attribute Listeners get tracked automatically, but depend on a specific attribute
+          # The trade-off is Component Listeners provide more flexibility when needed as they are not bound to specific attributes,
+          # but often Component Attribute Listeners are good enough as a solution for certain problems.
+          on_selected_address_type_update do |address_type|
+            $$.alert("You selected the address type: #{address_type}")
+          end
+        }
+      }
+    }
+  end
+end
+
+Document.ready? do
+  AddressTypeSelectorPage.render
+end
+```
+
+Screenshot:
+
+![Hello, Component Attribute Listeners!](/images/glimmer-dsl-web-samples-hello-hello-component-attribute-listeners.png)
+
+![Hello, Component Attribute Listeners Selected Address Type!](/images/glimmer-dsl-web-samples-hello-hello-component-attribute-listeners-selected-address-type.png)
+
+![Hello, Component Attribute Listeners Selected Address Type Dialog!](/images/glimmer-dsl-web-samples-hello-hello-component-attribute-listeners-selected-address-type-dialog.png)
 
 #### Hello, glimmer_component Rails Helper!
 
