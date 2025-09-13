@@ -476,6 +476,8 @@ module Glimmer
         end
       end
       
+      alias to_s dom
+      
       def children_dom_content
         children.map(&:dom).join
       end

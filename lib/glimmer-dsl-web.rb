@@ -21,10 +21,10 @@
 
 require 'opal'
 
-GLIMMER_DSL_OPAL_ROOT = File.expand_path('../..', __FILE__)
-GLIMMER_DSL_OPAL_LIB = File.join(GLIMMER_DSL_OPAL_ROOT, 'lib')
+GLIMMER_DSL_WEB_ROOT = File.expand_path('../..', __FILE__)
+GLIMMER_DSL_WEB_LIB = File.join(GLIMMER_DSL_WEB_ROOT, 'lib')
  
-$LOAD_PATH.unshift(GLIMMER_DSL_OPAL_LIB)
+$LOAD_PATH.unshift(GLIMMER_DSL_WEB_LIB)
 
 if RUBY_ENGINE != 'opal'
   require 'opal-rails'
@@ -32,12 +32,12 @@ if RUBY_ENGINE != 'opal'
   require 'opal-jquery'
   require 'glimmer/helpers/glimmer_helper'
 else
-#   GLIMMER_DSL_OPAL_MISSING = File.join(GLIMMER_DSL_OPAL_ROOT, 'lib', 'glimmer-dsl-opal', 'missing')
+#   GLIMMER_DSL_WEB_MISSING = File.join(GLIMMER_DSL_WEB_ROOT, 'lib', 'glimmer-dsl-opal', 'missing')
    
-#   $LOAD_PATH.unshift(GLIMMER_DSL_OPAL_MISSING) # missing Ruby classes/methods
+#   $LOAD_PATH.unshift(GLIMMER_DSL_WEB_MISSING) # missing Ruby classes/methods
   # TODO look into making append_path work (causing some trouble right now)
 #   Opal.append_path File.expand_path('../glimmer-dsl-opal/missing', __FILE__)
-#   Opal.append_path GLIMMER_DSL_OPAL_MISSING
+#   Opal.append_path GLIMMER_DSL_WEB_MISSING
   module Kernel
     def include_package(package)
       # No Op (just a shim)

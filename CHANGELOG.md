@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.7.1
+
+- Fix issue with not being able to pass arguments containing apostrophe (') to glimmer_component helper (provided by GlimmerHelper)
+
 ## 0.7.0
 
 - Rename `element-ID` element CSS classes to `glimmer-element-ID` for a more unique class name that nobody else would be using
