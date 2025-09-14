@@ -31,11 +31,12 @@ module Glimmer
         
         def keyword_supported?(keyword, parent: nil)
           keyword = keyword.to_s
-          (
-            FORMATTING_ELEMENT_KEYWORDS.include?(keyword) ||
-            (keyword == 'span' && parent&.keyword == 'p') ||
-            (keyword == 'a' && parent&.keyword == 'p')
-          )
+          parent&.keyword == 'p' &&
+            (
+              FORMATTING_ELEMENT_KEYWORDS.include?(keyword) ||
+              (keyword == 'span') ||
+              (keyword == 'a')
+            )
         end
       
         def format(keyword, *args, &block)
