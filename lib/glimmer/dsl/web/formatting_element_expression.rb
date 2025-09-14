@@ -6,6 +6,8 @@ module Glimmer
   module DSL
     module Web
       class FormattingElementExpression < Expression
+        include GeneralElementExpression
+        
         def can_interpret?(parent, keyword, *args, &block)
           Glimmer::Web::FormattingElementProxy.keyword_supported?(keyword, parent: parent) ||
             Glimmer::Web::ElementProxy.keyword_supported?(keyword)
@@ -15,14 +17,8 @@ module Glimmer
           if Glimmer::Web::FormattingElementProxy.keyword_supported?(keyword, parent: parent)
             Glimmer::Web::FormattingElementProxy.format(keyword, *args, &block)
           else
-            element_expression_instance.interpret(parent, keyword, *args, &block)
+            super(parent, keyword, *args, &block)
           end
-        end
-        
-        private
-        
-        def element_expression_instance
-          @element_expression_instance ||= Glimmer::DSL::Web::ElementExpression.new
         end
       end
     end
