@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.7.3
+
+- Hello, Component Attribute Data-Binding! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_attribute_data_binding.rb'`
+
 ## 0.7.2
 
 - Hello, Component Attribute Listeners! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_attribute_listeners.rb'`

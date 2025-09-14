@@ -6,9 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.7.x
 
-- Add example of using component option/attribute listeners (address form with percentage filled)
-- Add example of using component option/attribute data-binding (data-bind address in address-form, maybe tied to a dropdown address switcher)
-
 - Support formatting-paragraph-elements 'br', 'span', and 'a' as stand-alone elements (not inside p) (and rename to FormatParagraphElement or some better name)
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Support console.log && console.error just because some people naturally expect them on the Frontend
@@ -46,6 +43,7 @@ Example:
 - Support the idea of making any element routable with its dash-cased text by appending #the-element-text
 - Add style tags generated for component instances to HEAD as well, removing when the component instance is removed. That way, some styles are specialized for specific instances with options.
 - Simplified data-binding support for select tag to load its data through data-binding instead of explicit options
+- Simplified data-binding support for radio input tag in a group to load the entire group data through data-binding instead of explicit inputs
   
 ### 1.2.0
 
@@ -162,6 +160,7 @@ Example:
 - Add an example of a multi-page form wizard with breadcrumbs and step numbers while submitting a form via Ajax after filling every page
 - Add nice CSS styling to some samples
 - svg sample
+- Add example of using component option/attribute listeners (address form with percentage filled)
 
 ## Documentation
 

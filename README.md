@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.7.2 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.7.3 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1353,6 +1353,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
       - [Hello, Component Listeners!](#hello-component-listeners)
       - [Hello, Component Listeners (Default Slot)!](#hello-component-listeners-default-slot)
       - [Hello, Component Attribute Listeners!](#hello-component-attribute-listeners)
+      - [Hello, Component Attribute Data-Binding!](#hello-component-attribute-data-binding)
       - [Hello, glimmer_component Rails Helper!](#hello-glimmer_component-rails-helper)
       - [Hello, Paragraph!](#hello-paragraph)
       - [Hello, Style!](#hello-style)
@@ -1417,7 +1418,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.7.2'
+gem 'glimmer-dsl-web', '~> 0.7.3'
 ```
 
 Run:
@@ -2995,367 +2996,357 @@ Glimmer HTML DSL Ruby code in the frontend:
 ```ruby
 require 'glimmer-dsl-web'
 
-unless Object.const_defined?(:Address)
-  Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
-    STATES = {
-      "AK"=>"Alaska",
-      "AL"=>"Alabama",
-      "AR"=>"Arkansas",
-      "AS"=>"American Samoa",
-      "AZ"=>"Arizona",
-      "CA"=>"California",
-      "CO"=>"Colorado",
-      "CT"=>"Connecticut",
-      "DC"=>"District of Columbia",
-      "DE"=>"Delaware",
-      "FL"=>"Florida",
-      "GA"=>"Georgia",
-      "GU"=>"Guam",
-      "HI"=>"Hawaii",
-      "IA"=>"Iowa",
-      "ID"=>"Idaho",
-      "IL"=>"Illinois",
-      "IN"=>"Indiana",
-      "KS"=>"Kansas",
-      "KY"=>"Kentucky",
-      "LA"=>"Louisiana",
-      "MA"=>"Massachusetts",
-      "MD"=>"Maryland",
-      "ME"=>"Maine",
-      "MI"=>"Michigan",
-      "MN"=>"Minnesota",
-      "MO"=>"Missouri",
-      "MS"=>"Mississippi",
-      "MT"=>"Montana",
-      "NC"=>"North Carolina",
-      "ND"=>"North Dakota",
-      "NE"=>"Nebraska",
-      "NH"=>"New Hampshire",
-      "NJ"=>"New Jersey",
-      "NM"=>"New Mexico",
-      "NV"=>"Nevada",
-      "NY"=>"New York",
-      "OH"=>"Ohio",
-      "OK"=>"Oklahoma",
-      "OR"=>"Oregon",
-      "PA"=>"Pennsylvania",
-      "PR"=>"Puerto Rico",
-      "RI"=>"Rhode Island",
-      "SC"=>"South Carolina",
-      "SD"=>"South Dakota",
-      "TN"=>"Tennessee",
-      "TX"=>"Texas",
-      "UT"=>"Utah",
-      "VA"=>"Virginia",
-      "VI"=>"Virgin Islands",
-      "VT"=>"Vermont",
-      "WA"=>"Washington",
-      "WI"=>"Wisconsin",
-      "WV"=>"West Virginia",
-      "WY"=>"Wyoming"
-    }
-    
-    def state_code
-      STATES.invert[state]
-    end
-    
-    def state_code=(value)
-      self.state = STATES[value]
-    end
+Address = Struct.new(:full_name, :street, :street2, :city, :state, :zip_code, keyword_init: true) do
+  STATES = {
+    "AK"=>"Alaska",
+    "AL"=>"Alabama",
+    "AR"=>"Arkansas",
+    "AS"=>"American Samoa",
+    "AZ"=>"Arizona",
+    "CA"=>"California",
+    "CO"=>"Colorado",
+    "CT"=>"Connecticut",
+    "DC"=>"District of Columbia",
+    "DE"=>"Delaware",
+    "FL"=>"Florida",
+    "GA"=>"Georgia",
+    "GU"=>"Guam",
+    "HI"=>"Hawaii",
+    "IA"=>"Iowa",
+    "ID"=>"Idaho",
+    "IL"=>"Illinois",
+    "IN"=>"Indiana",
+    "KS"=>"Kansas",
+    "KY"=>"Kentucky",
+    "LA"=>"Louisiana",
+    "MA"=>"Massachusetts",
+    "MD"=>"Maryland",
+    "ME"=>"Maine",
+    "MI"=>"Michigan",
+    "MN"=>"Minnesota",
+    "MO"=>"Missouri",
+    "MS"=>"Mississippi",
+    "MT"=>"Montana",
+    "NC"=>"North Carolina",
+    "ND"=>"North Dakota",
+    "NE"=>"Nebraska",
+    "NH"=>"New Hampshire",
+    "NJ"=>"New Jersey",
+    "NM"=>"New Mexico",
+    "NV"=>"Nevada",
+    "NY"=>"New York",
+    "OH"=>"Ohio",
+    "OK"=>"Oklahoma",
+    "OR"=>"Oregon",
+    "PA"=>"Pennsylvania",
+    "PR"=>"Puerto Rico",
+    "RI"=>"Rhode Island",
+    "SC"=>"South Carolina",
+    "SD"=>"South Dakota",
+    "TN"=>"Tennessee",
+    "TX"=>"Texas",
+    "UT"=>"Utah",
+    "VA"=>"Virginia",
+    "VI"=>"Virgin Islands",
+    "VT"=>"Vermont",
+    "WA"=>"Washington",
+    "WI"=>"Wisconsin",
+    "WV"=>"West Virginia",
+    "WY"=>"Wyoming"
+  }
   
-    def summary
-      to_h.values.map(&:to_s).reject(&:empty?).join(', ')
-    end
+  def state_code
+    STATES.invert[state]
+  end
+  
+  def state_code=(value)
+    self.state = STATES[value]
+  end
+
+  def summary
+    to_h.values.map(&:to_s).reject(&:empty?).join(', ')
   end
 end
 
-unless Object.const_defined?(:AddressForm)
-  # AddressForm Glimmer Web Component (View component)
-  #
-  # Including Glimmer::Web::Component makes this class a View component and automatically
-  # generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
-  # of the name of the class. AddressForm generates address_form keyword, which can be used
-  # elsewhere in Glimmer HTML DSL code as done inside HelloComponentListeners below.
-  class AddressForm
-    include Glimmer::Web::Component
-    
-    option :address
-    
-    markup {
-      div {
-        div(style: {display: :grid, grid_auto_columns: '80px 260px'}) { |address_div|
-          label('Full Name: ', for: 'full-name-field')
-          input(id: 'full-name-field') {
-            value <=> [address, :full_name]
-          }
-          
-          label('Street: ', for: 'street-field')
-          input(id: 'street-field') {
-            value <=> [address, :street]
-          }
-          
-          label('Street 2: ', for: 'street2-field')
-          textarea(id: 'street2-field') {
-            value <=> [address, :street2]
-          }
-          
-          label('City: ', for: 'city-field')
-          input(id: 'city-field') {
-            value <=> [address, :city]
-          }
-          
-          label('State: ', for: 'state-field')
-          select(id: 'state-field') {
-            Address::STATES.each do |state_code, state|
-              option(value: state_code) { state }
-            end
+# AddressForm Glimmer Web Component (View component)
+#
+# Including Glimmer::Web::Component makes this class a View component and automatically
+# generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
+# of the name of the class. AddressForm generates address_form keyword, which can be used
+# elsewhere in Glimmer HTML DSL code as done inside HelloComponentListeners below.
+class AddressForm
+  include Glimmer::Web::Component
   
-            value <=> [address, :state_code]
-          }
-          
-          label('Zip Code: ', for: 'zip-code-field')
-          input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
-            value <=> [address, :zip_code,
-                        on_write: :to_s,
-                      ]
-          }
-          
-          style {
-            r("#{address_div.selector} *") {
-              margin '5px'
-            }
-            r("#{address_div.selector} input, #{address_div.selector} select") {
-              grid_column '2'
-            }
-          }
+  option :address
+  
+  markup {
+    div {
+      div(style: {display: :grid, grid_auto_columns: '80px 260px'}) { |address_div|
+        label('Full Name: ', for: 'full-name-field')
+        input(id: 'full-name-field') {
+          value <=> [address, :full_name]
         }
         
-        div(style: {margin: 5}) {
-          inner_text <= [address, :summary,
-                          computed_by: address.members + ['state_code'],
-                        ]
+        label('Street: ', for: 'street-field')
+        input(id: 'street-field') {
+          value <=> [address, :street]
         }
-      }
-    }
-  end
-end
-
-unless Object.const_defined?(:AccordionSection)
-  class AccordionSection
-    class Presenter
-      attr_accessor :collapsed, :instant_transition
-      
-      def toggle_collapsed(instant: false)
-        self.instant_transition = instant
-        self.collapsed = !collapsed
-      end
-      
-      def expand(instant: false)
-        self.instant_transition = instant
-        self.collapsed = false
-      end
-      
-      def collapse(instant: false)
-        self.instant_transition = instant
-        self.collapsed = true
-      end
-    end
-    
-    include Glimmer::Web::Component
-    
-    events :expanded, :collapsed
-    
-    option :title
-    
-    attr_reader :presenter
-    
-    before_render do
-      @presenter = Presenter.new
-    end
-    
-    markup {
-      section {
-        # Unidirectionally data-bind the class inclusion of 'collapsed' to the @presenter.collapsed boolean attribute,
-        # meaning if @presenter.collapsed changes to true, the CSS class 'collapsed' is included on the element,
-        # and if it changes to false, the CSS class 'collapsed' is removed from the element.
-        class_name(:collapsed) <= [@presenter, :collapsed]
-        class_name(:instant_transition) <= [@presenter, :instant_transition]
-      
-        header(title, class: 'accordion-section-title') {
-          onclick do |event|
-            @presenter.toggle_collapsed
-            if @presenter.collapsed
-              notify_listeners(:collapsed)
-            else
-              notify_listeners(:expanded)
-            end
+        
+        label('Street 2: ', for: 'street2-field')
+        textarea(id: 'street2-field') {
+          value <=> [address, :street2]
+        }
+        
+        label('City: ', for: 'city-field')
+        input(id: 'city-field') {
+          value <=> [address, :city]
+        }
+        
+        label('State: ', for: 'state-field')
+        select(id: 'state-field') {
+          Address::STATES.each do |state_code, state|
+            option(value: state_code) { state }
           end
+
+          value <=> [address, :state_code]
         }
         
-        div(slot: :section_content, class: 'accordion-section-content')
+        label('Zip Code: ', for: 'zip-code-field')
+        input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+          value <=> [address, :zip_code,
+                      on_write: :to_s,
+                    ]
+        }
+        
+        style {
+          r("#{address_div.selector} *") {
+            margin '5px'
+          }
+          r("#{address_div.selector} input, #{address_div.selector} select") {
+            grid_column '2'
+          }
+        }
+      }
+      
+      div(style: {margin: 5}) {
+        inner_text <= [address, :summary,
+                        computed_by: address.members + ['state_code'],
+                      ]
       }
     }
-    
-    style {
-      r('.accordion-section-title') {
-        font_size 2.em
-        font_weight :bold
-        cursor :pointer
-        padding_left 20
-        position :relative
-        margin_block_start 0.33.em
-        margin_block_end 0.33.em
-      }
-      
-      r('.accordion-section-title::before') {
-        content '"▼"'
-        position :absolute
-        font_size 0.5.em
-        top 10
-        left 0
-      }
-      
-      r('.accordion-section-content') {
-        height 246
-        overflow :hidden
-        transition 'height 0.5s linear'
-      }
-      
-      r("#{component_element_selector}.instant_transition .accordion-section-content") {
-        transition 'initial'
-      }
-      
-      r("#{component_element_selector}.collapsed .accordion-section-title::before") {
-        content '"►"'
-      }
-      
-      r("#{component_element_selector}.collapsed .accordion-section-content") {
-        height 0
-      }
-    }
-  end
+  }
 end
 
-unless Object.const_defined?(:Accordion)
-  class Accordion
-    include Glimmer::Web::Component
+class AccordionSection
+  class Presenter
+    attr_accessor :collapsed, :instant_transition
     
-    events :accordion_section_expanded, :accordion_section_collapsed
+    def toggle_collapsed(instant: false)
+      self.instant_transition = instant
+      self.collapsed = !collapsed
+    end
     
-    markup {
-      # given that no slots are specified, nesting content under the accordion component
-      # in consumer code adds content directly inside the markup root div.
-      div { |accordion|
-        # on render, all accordion sections would have been added by consumers already, so we can
-        # attach listeners to all of them by re-opening their content with `.content { ... }` block
-        on_render do
-          accordion_section_elements = accordion.children
-          accordion_sections = accordion_section_elements.map(&:component)
-          accordion_sections.each_with_index do |accordion_section, index|
-            accordion_section_number = index + 1
+    def expand(instant: false)
+      self.instant_transition = instant
+      self.collapsed = false
+    end
+    
+    def collapse(instant: false)
+      self.instant_transition = instant
+      self.collapsed = true
+    end
+  end
   
-            # ensure only the first section is expanded
-            accordion_section.presenter.collapse(instant: true) if accordion_section_number != 1
+  include Glimmer::Web::Component
   
-            accordion_section.content {
-              on_expanded do
-                other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
-                other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
-                notify_listeners(:accordion_section_expanded, accordion_section_number)
-              end
+  events :expanded, :collapsed
   
-              on_collapsed do
-                notify_listeners(:accordion_section_collapsed, accordion_section_number)
-              end
-            }
+  option :title
+  
+  attr_reader :presenter
+  
+  before_render do
+    @presenter = Presenter.new
+  end
+  
+  markup {
+    section {
+      # Unidirectionally data-bind the class inclusion of 'collapsed' to the @presenter.collapsed boolean attribute,
+      # meaning if @presenter.collapsed changes to true, the CSS class 'collapsed' is included on the element,
+      # and if it changes to false, the CSS class 'collapsed' is removed from the element.
+      class_name(:collapsed) <= [@presenter, :collapsed]
+      class_name(:instant_transition) <= [@presenter, :instant_transition]
+    
+      header(title, class: 'accordion-section-title') {
+        onclick do |event|
+          @presenter.toggle_collapsed
+          if @presenter.collapsed
+            notify_listeners(:collapsed)
+          else
+            notify_listeners(:expanded)
           end
         end
       }
+      
+      div(slot: :section_content, class: 'accordion-section-content')
     }
-  end
+  }
+  
+  style {
+    r('.accordion-section-title') {
+      font_size 2.em
+      font_weight :bold
+      cursor :pointer
+      padding_left 20
+      position :relative
+      margin_block_start 0.33.em
+      margin_block_end 0.33.em
+    }
+    
+    r('.accordion-section-title::before') {
+      content '"▼"'
+      position :absolute
+      font_size 0.5.em
+      top 10
+      left 0
+    }
+    
+    r('.accordion-section-content') {
+      height 246
+      overflow :hidden
+      transition 'height 0.5s linear'
+    }
+    
+    r("#{component_element_selector}.instant_transition .accordion-section-content") {
+      transition 'initial'
+    }
+    
+    r("#{component_element_selector}.collapsed .accordion-section-title::before") {
+      content '"►"'
+    }
+    
+    r("#{component_element_selector}.collapsed .accordion-section-content") {
+      height 0
+    }
+  }
 end
 
-unless Object.const_defined?(:HelloComponentListeners)
-  # HelloComponentListeners Glimmer Web Component (View component)
-  #
-  # This View component represents the main page being rendered,
-  # as done by its `render` class method below
-  class HelloComponentListeners
-    class Presenter
-      attr_accessor :status_message
-      
-      def initialize
-        @status_message = "Accordion section 1 is expanded!"
+class Accordion
+  include Glimmer::Web::Component
+  
+  events :accordion_section_expanded, :accordion_section_collapsed
+  
+  markup {
+    # given that no slots are specified, nesting content under the accordion component
+    # in consumer code adds content directly inside the markup root div.
+    div { |accordion|
+      # on render, all accordion sections would have been added by consumers already, so we can
+      # attach listeners to all of them by re-opening their content with `.content { ... }` block
+      on_render do
+        accordion_section_elements = accordion.children
+        accordion_sections = accordion_section_elements.map(&:component)
+        accordion_sections.each_with_index do |accordion_section, index|
+          accordion_section_number = index + 1
+
+          # ensure only the first section is expanded
+          accordion_section.presenter.collapse(instant: true) if accordion_section_number != 1
+
+          accordion_section.content {
+            on_expanded do
+              other_accordion_sections = accordion_sections.reject {|other_accordion_section| other_accordion_section == accordion_section }
+              other_accordion_sections.each { |other_accordion_section| other_accordion_section.presenter.collapse }
+              notify_listeners(:accordion_section_expanded, accordion_section_number)
+            end
+
+            on_collapsed do
+              notify_listeners(:accordion_section_collapsed, accordion_section_number)
+            end
+          }
+        end
       end
+    }
+  }
+end
+
+# HelloComponentListeners Glimmer Web Component (View component)
+#
+# This View component represents the main page being rendered,
+# as done by its `render` class method below
+class HelloComponentListeners
+  class Presenter
+    attr_accessor :status_message
+    
+    def initialize
+      @status_message = "Accordion section 1 is expanded!"
     end
-    
-    include Glimmer::Web::Component
-    
-    before_render do
-      @presenter = Presenter.new
-      @shipping_address = Address.new(
-        full_name: 'Johnny Doe',
-        street: '3922 Park Ave',
-        street2: 'PO BOX 8382',
-        city: 'San Diego',
-        state: 'California',
-        zip_code: '91913',
-      )
-      @billing_address = Address.new(
-        full_name: 'John C Doe',
-        street: '123 Main St',
-        street2: 'Apartment 3C',
-        city: 'San Diego',
-        state: 'California',
-        zip_code: '91911',
-      )
-      @emergency_address = Address.new(
-        full_name: 'Mary Doe',
-        street: '2038 Ipswitch St',
-        street2: 'Suite 300',
-        city: 'San Diego',
-        state: 'California',
-        zip_code: '91912',
-      )
-    end
-    
-    markup {
-      div {
-        h1(style: {font_style: :italic}) {
-          inner_html <= [@presenter, :status_message]
+  end
+  
+  include Glimmer::Web::Component
+  
+  before_render do
+    @presenter = Presenter.new
+    @shipping_address = Address.new(
+      full_name: 'Johnny Doe',
+      street: '3922 Park Ave',
+      street2: 'PO BOX 8382',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91913',
+    )
+    @billing_address = Address.new(
+      full_name: 'John C Doe',
+      street: '123 Main St',
+      street2: 'Apartment 3C',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91911',
+    )
+    @emergency_address = Address.new(
+      full_name: 'Mary Doe',
+      street: '2038 Ipswitch St',
+      street2: 'Suite 300',
+      city: 'San Diego',
+      state: 'California',
+      zip_code: '91912',
+    )
+  end
+  
+  markup {
+    div {
+      h1(style: {font_style: :italic}) {
+        inner_html <= [@presenter, :status_message]
+      }
+        
+      accordion { # any content nested under component directly is added under its markup root div element
+        accordion_section(title: 'Shipping Address') {
+          section_content { # contribute elements to section_content slot declared in AccordionSection component
+            address_form(address: @shipping_address)
+          }
         }
-          
-        accordion { # any content nested under component directly is added under its markup root div element
-          accordion_section(title: 'Shipping Address') {
-            section_content { # contribute elements to section_content slot declared in AccordionSection component
-              address_form(address: @shipping_address)
-            }
+        
+        accordion_section(title: 'Billing Address') {
+          section_content {
+            address_form(address: @billing_address)
           }
-          
-          accordion_section(title: 'Billing Address') {
-            section_content {
-              address_form(address: @billing_address)
-            }
+        }
+        
+        accordion_section(title: 'Emergency Address') {
+          section_content {
+            address_form(address: @emergency_address)
           }
-          
-          accordion_section(title: 'Emergency Address') {
-            section_content {
-              address_form(address: @emergency_address)
-            }
-          }
-          
-          # on_accordion_section_expanded listener matches event :accordion_section_expanded declared in Accordion component
-          on_accordion_section_expanded { |accordion_section_number|
-            @presenter.status_message = "Accordion section #{accordion_section_number} is expanded!"
-          }
-          
-          on_accordion_section_collapsed { |accordion_section_number|
-            @presenter.status_message = "Accordion section #{accordion_section_number} is collapsed!"
-          }
+        }
+        
+        # on_accordion_section_expanded listener matches event :accordion_section_expanded declared in Accordion component
+        on_accordion_section_expanded { |accordion_section_number|
+          @presenter.status_message = "Accordion section #{accordion_section_number} is expanded!"
+        }
+        
+        on_accordion_section_collapsed { |accordion_section_number|
+          @presenter.status_message = "Accordion section #{accordion_section_number} is collapsed!"
         }
       }
     }
-  end
+  }
 end
 
 Document.ready? do
@@ -3768,59 +3759,55 @@ Glimmer HTML DSL Ruby code in the frontend:
 ```ruby
 require 'glimmer-dsl-web'
 
-unless Object.const_defined?(:AddressTypeSelector)
-  class AddressTypeSelector
-    include Glimmer::Web::Component
-    
-    attribute :address_types, default: []
-    attribute :selected_address_type
-    
-    before_render do
-      self.selected_address_type ||= address_types.first
-    end
-    
-    markup {
-      select(placeholder: 'Select an address type') { |select_element|
-        address_types.each do |address_type|
-          option(value: address_type) { address_type }
-        end
-        
-        # Bidirectionally data-bind select value to selected_address_type attribute on self (component)
-        value <=> [self, :selected_address_type]
-      }
-    }
-    
-    style {
-      r(component_element_selector) {
-        font_size 2.em
-        margin_left 5.px
-      }
-    }
+class AddressTypeSelector
+  include Glimmer::Web::Component
+  
+  attribute :address_types, default: []
+  attribute :selected_address_type
+  
+  before_render do
+    self.selected_address_type ||= address_types.first
   end
+  
+  markup {
+    select { |select_element|
+      address_types.each do |address_type|
+        option(value: address_type) { address_type }
+      end
+      
+      # Bidirectionally data-bind select value to selected_address_type attribute on self (component)
+      value <=> [self, :selected_address_type]
+    }
+  }
+  
+  style {
+    r(component_element_selector) {
+      font_size 2.em
+      margin_left 5.px
+    }
+  }
 end
 
-unless Object.const_defined?(:AddressTypeSelectorPage)
-  class AddressTypeSelectorPage
-    include Glimmer::Web::Component
-    
-    markup {
-      div {
-        h1('Address type for delivery:', style: {display: :inline})
-        
-        address_type_selector(address_types: ['Home', 'Work', 'Other']) {
-          # We can listen to the updates of any attribute/option in a Glimmer Web Component
-          # on_{attribute_name}_update do execute code when component attribute/option with attribute_name is updated
-          # This is an alternative to using Component Listeners, which require that the component explicitly calls notify_listeners,
-          # whereas Component Attribute Listeners get tracked automatically, but depend on a specific attribute
-          # The trade-off is Component Listeners provide more flexibility when needed as they are not bound to specific attributes,
-          # but often Component Attribute Listeners are good enough as a solution for certain problems.
-          on_selected_address_type_update do |address_type|
-            $$.alert("You selected the address type: #{address_type}")
-          end
-        }
+class AddressTypeSelectorPage
+  include Glimmer::Web::Component
+  
+  markup {
+    div {
+      h1('Address type for delivery:', style: {display: :inline})
+      
+      address_type_selector(address_types: ['Home', 'Work', 'Other']) {
+        # We can listen to the updates of any attribute/option in a Glimmer Web Component
+        # on_{attribute_name}_update do execute code when component attribute/option with attribute_name is updated
+        # This is an alternative to using Component Listeners, which require that the component explicitly calls notify_listeners,
+        # whereas Component Attribute Listeners get tracked automatically, but depend on a specific attribute
+        # The trade-off is Component Listeners provide more flexibility when needed as they are not bound to specific attributes,
+        # but often Component Attribute Listeners are good enough as a solution for certain problems.
+        on_selected_address_type_update do |address_type|
+          $$.alert("You selected the address type: #{address_type}")
+        end
       }
     }
-  end
+  }
 end
 
 Document.ready? do
@@ -3835,6 +3822,115 @@ Screenshot:
 ![Hello, Component Attribute Listeners Selected Address Type!](/images/glimmer-dsl-web-samples-hello-hello-component-attribute-listeners-selected-address-type.png)
 
 ![Hello, Component Attribute Listeners Selected Address Type Dialog!](/images/glimmer-dsl-web-samples-hello-hello-component-attribute-listeners-selected-address-type-dialog.png)
+
+#### Hello, Component Attribute Data-Binding!
+
+[lib/glimmer-dsl-web/samples/hello/hello_component_attribute_data_binding.rb](/lib/glimmer-dsl-web/samples/hello/hello_component_attribute_data_binding.rb)
+
+```ruby
+require 'glimmer-dsl-web'
+
+class AddressTypePresenter
+  attr_accessor :address_types, :selected_address_type
+  
+  def initialize(address_types:, selected_address_type: nil)
+    @address_types = address_types
+    @selected_address_type = selected_address_type
+    @selected_address_type ||= address_types.first
+  end
+end
+
+class AddressTypeSelect
+  include Glimmer::Web::Component
+  
+  attribute :address_types, default: []
+  attribute :selected_address_type
+  
+  markup {
+    select { |select_element|
+      address_types.each do |address_type|
+        option(value: address_type) { address_type }
+      end
+      
+      value <=> [self, :selected_address_type]
+    }
+  }
+  
+  style {
+    r(component_element_selector) {
+      font_size 2.em
+      margin_left 5.px
+    }
+  }
+end
+
+class AddressTypeRadioGroup
+  include Glimmer::Web::Component
+  
+  attribute :address_types, default: []
+  attribute :selected_address_type
+  
+  markup {
+    div { |select_element|
+      address_types.each do |address_type|
+        input_id = "radio_address_type_#{address_type}"
+        input(id: input_id, type: 'radio', name: 'radio_address_type', value: address_type) {
+          checked <=> [self, :selected_address_type,
+                       on_read: ->(address_type_string_value) { address_type_string_value == address_type },
+                       on_write: ->(radio_input_boolean_value) { radio_input_boolean_value ? address_type : selected_address_type },
+                      ]
+        }
+        label(for: input_id) { address_type }
+      end
+    }
+  }
+  
+  style {
+    r(component_element_selector) {
+      font_size 2.em
+      margin_top 10.px
+    }
+    r("#{component_element_selector} label") {
+      margin_left 2.px
+      margin_right 10.px
+    }
+  }
+end
+
+class AddressTypeComponentAttributeDataBindingPage
+  include Glimmer::Web::Component
+  
+  before_render do
+    @presenter = AddressTypePresenter.new(address_types: ['Home', 'Work', 'Other'])
+  end
+  
+  markup {
+    div {
+      h1('Address type for delivery:')
+      
+      address_type_select(address_types: @presenter.address_types, selected_address_type: @presenter.selected_address_type) {
+        # Not only can we data-bind attributes on basic HTML elements,
+        # but we can also data-bind custom attributes on Glimmer Web Components
+        selected_address_type <=> [@presenter, :selected_address_type]
+      }
+      
+      address_type_radio_group(address_types: @presenter.address_types, selected_address_type: @presenter.selected_address_type) {
+        # Not only can we data-bind attributes on basic HTML elements,
+        # but we can also data-bind custom attributes on Glimmer Web Components
+        selected_address_type <=> [@presenter, :selected_address_type]
+      }
+    }
+  }
+end
+
+Document.ready? do
+  AddressTypeComponentAttributeDataBindingPage.render
+end
+```
+
+Screenshot:
+
+![Hello, Component Attribute Data-Binding!](/images/glimmer-dsl-web-samples-hello-hello-component-attribute-data-binding.gif)
 
 #### Hello, glimmer_component Rails Helper!
 
