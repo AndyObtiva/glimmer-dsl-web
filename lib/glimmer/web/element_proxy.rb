@@ -28,8 +28,9 @@ module Glimmer
     class ElementProxy
       class << self
         def keyword_supported?(keyword)
-          ELEMENT_KEYWORDS.include?(keyword.to_s) ||
-            FormattingElementProxy::FORMATTING_ELEMENT_KEYWORDS.include?(keyword.to_s)
+          keyword = keyword.to_s
+          ELEMENT_KEYWORDS.include?(keyword) ||
+            FormattingElementProxy::FORMATTING_ELEMENT_KEYWORDS.include?(keyword)
         end
       
         def html_keyword_supported?(keyword)
@@ -1049,3 +1050,4 @@ module Glimmer
 end
 
 require 'glimmer/dsl/web/element_expression'
+require 'glimmer/web/formatting_element_proxy'

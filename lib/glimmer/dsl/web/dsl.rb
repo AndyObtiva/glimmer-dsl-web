@@ -54,7 +54,6 @@ module Glimmer
          data_binding
          shine_data_binding
          property
-         element
        ]
       )
     end

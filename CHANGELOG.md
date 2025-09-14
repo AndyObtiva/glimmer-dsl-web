@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.7.4
+
+- Support formatting-paragraph-elements (e.g. 'br', 'strong', 'em') as stand-alone elements (not inside p)
+
 ## 0.7.3
 
 - Hello, Component Attribute Data-Binding! Sample: `require 'glimmer-dsl-web/samples/hello/hello_component_attribute_data_binding.rb'`

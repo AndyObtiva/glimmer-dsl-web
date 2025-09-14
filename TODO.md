@@ -6,7 +6,9 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.7.x
 
-- Support formatting-paragraph-elements 'br', 'span', and 'a' as stand-alone elements (not inside p) (and rename to FormatParagraphElement or some better name)
+- Support nested formatting elements when outside of a p tag (e.g. em { strong {
+- Render self-closing tags (<br>, <hr>, <img>, <input>, <meta>, <link>) as a single tag without spawning the same tag twice (e.g. <br></br>).
+
 - Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Support console.log && console.error just because some people naturally expect them on the Frontend
 - Alert user if they attempt to build a component or component slot that shadows an HTML element
