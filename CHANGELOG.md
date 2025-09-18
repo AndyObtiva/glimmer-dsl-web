@@ -3,6 +3,7 @@
 ## 0.8.0
 
 - Support formatting-paragraph-elements (e.g. 'br', 'strong', 'em') as stand-alone elements (not inside p)
+- Render void tags (<br>, <hr>, <img>, <input>, <meta>, <link>) as a single tag without generating a closing tag (e.g. NOT <br></br>).
 
 ## 0.7.3
 
