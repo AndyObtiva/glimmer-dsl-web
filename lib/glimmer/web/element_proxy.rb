@@ -41,6 +41,13 @@ module Glimmer
           SVG_ELEMENT_KEYWORDS.include?(keyword.to_s)
         end
       
+        # an HTML element that doesn't need a closing tag
+        # (officially, it's wrong to call it self-closing; it's called void instead)
+        def html_void_keyword?(keyword)
+          HTML_VOID_ELEMENT_KEYWORDS.include?(keyword.to_s)
+        end
+        alias void_keyword? html_void_keyword?
+      
         # NOTE: Avoid using this method until we start supporting ElementProxy subclasses
         # in which case, we must cache them to avoid the slow performance of element_type
         # Factory Method that translates a Glimmer DSL keyword into a ElementProxy object
@@ -87,8 +94,8 @@ module Glimmer
             value = value.to_s.sub('"', '&quot;').sub("'", '&apos;')
             output += " #{attribute}=\"#{value}\""
           end
-          if content.nil?
-            "<#{element}#{attributes} />"
+          if html_void_keyword?(element)
+            "<#{element}#{attributes}>"
           else
             "<#{element}#{attributes}>#{content}</#{element}>"
           end
@@ -105,8 +112,8 @@ module Glimmer
       Event = Struct.new(:widget, keyword_init: true)
       
       HTML_ELEMENT_KEYWORDS = [
-        "a", "abbr", "acronym", "address", "applet", "area", "article", "aside", "audio",
-        "base", "basefont", "bdi", "bdo", "bgsound", "big", "blink", "blockquote", "body",
+        "a", "abbr", "acronym", "address", "applet", "article", "aside", "audio",
+        "basefont", "bdi", "bdo", "bgsound", "big", "blink", "blockquote", "body",
         "button", "canvas", "caption", "center", "cite", "code", "col", "colgroup", "data",
         "datalist", "dd", "decorator", "details", "dfn", "dir", "div", "dl", "dt",
         "element", "embed", "fieldset", "figcaption", "figure", "font", "footer", "form", "frame",
@@ -133,6 +140,11 @@ module Glimmer
       ].map(&:downcase)
  
       ELEMENT_KEYWORDS = HTML_ELEMENT_KEYWORDS + SVG_ELEMENT_KEYWORDS
+      
+      HTML_VOID_ELEMENT_KEYWORDS = %w[
+        area base br col embed hr img input link meta param source track wbr
+        keygen menuitem frame
+      ]
       
       # title is a special attribute because it matches an element tag name (needs special treatment)
       HTML_ELEMENT_SPECIAL_ATTRIBUTES = ['title']
@@ -226,6 +238,11 @@ module Glimmer
       def svg?
         ElementProxy.svg_keyword_supported?(keyword)
       end
+      
+      def html_void?
+        ElementProxy.html_void_keyword?(keyword)
+      end
+      alias void? html_void?
       
       def remove
         return if @removed

@@ -20,6 +20,14 @@ module Glimmer
             super(parent, keyword, *args, &block)
           end
         end
+        
+        def add_content(parent, keyword, *args, &block)
+          if parent.is_a?(String)
+            parent
+          else
+            super(parent, keyword, *args, &block)
+          end
+        end
       end
     end
   end

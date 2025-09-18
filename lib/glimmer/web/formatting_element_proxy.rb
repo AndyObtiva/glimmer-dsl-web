@@ -30,8 +30,11 @@ module Glimmer
         include Glimmer
         
         def keyword_supported?(keyword, parent: nil)
+          # TODO do we need to worry about the parent of the parent being a p tag?
           keyword = keyword.to_s
-          parent&.keyword == 'p' &&
+          parent_keyword = parent.is_a?(Component) ? parent.markup_root&.keyword : parent&.keyword
+          
+          parent_keyword == 'p' &&
             (
               FORMATTING_ELEMENT_KEYWORDS.include?(keyword) ||
               (keyword == 'span') ||
