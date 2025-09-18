@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.7.4
+## 0.8.0
 
 - Support formatting-paragraph-elements (e.g. 'br', 'strong', 'em') as stand-alone elements (not inside p)
 

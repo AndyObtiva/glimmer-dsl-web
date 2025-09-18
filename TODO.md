@@ -4,7 +4,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.7.x
+### 0.8.x
 
 - Render self-closing tags (<br>, <hr>, <img>, <input>, <meta>, <link>) as a single tag without spawning the same tag twice (e.g. <br></br>).
 
@@ -14,7 +14,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 - Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
-### 0.8.x
+### 0.9.x
 
 - Prepend/append/insert element operations
 - Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
