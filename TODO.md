@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.8.x
 
-- Implement `inspect` method for library classes like `ElementProxy`, `ListenerProxy`, and `EventProxy` (especially) to help with troubleshooting.
 - Alert user if they attempt to build a component or component slot that shadows an HTML element
 - Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding

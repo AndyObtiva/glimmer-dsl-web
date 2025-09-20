@@ -1021,6 +1021,16 @@ module Glimmer
         }
       end
       
+      def inspect(basic: false)
+        if basic
+          attributes = {keyword:, args:}
+        else
+          parent_inspect = parent.inspect(basic: true)
+          attributes = {keyword:, args:, parent: parent_inspect}
+        end
+        "#<Glimmer::Web::ElementProxy:0x#{object_id.to_s(16)} ##{element_id} #{attributes}>"
+      end
+      
       private
       
       def base_css_classes
