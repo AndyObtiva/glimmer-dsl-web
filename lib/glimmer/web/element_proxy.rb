@@ -1025,10 +1025,10 @@ module Glimmer
         if basic
           attributes = {keyword:, args:}
         else
-          parent_inspect = parent.inspect(basic: true)
+          parent_inspect = parent.is_a?(Glimmer::Web::ElementProxy) || parent.is_a?(Glimmer::Web::Component) ? parent.inspect(basic: true) : parent.inspect
           attributes = {keyword:, args:, parent: parent_inspect}
         end
-        "#<Glimmer::Web::ElementProxy:0x#{object_id.to_s(16)} ##{element_id} #{attributes}>"
+        "#<#{self.class}:0x#{object_id.to_s(16)} #{keyword}##{element_id} #{attributes}>"
       end
       
       private

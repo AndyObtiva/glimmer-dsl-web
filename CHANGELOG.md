@@ -2,7 +2,8 @@
 
 ## 0.8.1
 
-- Implement `ElementProxy#inspect` method that includes element ID, keyword, args, and parent and prevents recursing through multiple parent levels to improve readability for troubleshooting.
+- Implement `Glimmer::Web::ElementProxy#inspect` method that includes element ID, keyword, args, and parent and prevents recursing through multiple parent levels to improve readability for troubleshooting.
+- Implement `Glimmer::Web::Component#inspect` method that includes element ID, keyword, args, and parent and prevents recursing through multiple parent levels to improve readability for troubleshooting.
 
 ## 0.8.0
 

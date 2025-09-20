@@ -545,6 +545,17 @@ module Glimmer
           can_handle_observation_request?(method_name) or
           markup_root.respond_to?(method_name, include_private)
       end
+      
+      def inspect(basic: false)
+        keyword = self.class.keyword
+        if basic
+          attributes = {keyword:, args:}
+        else
+          parent_inspect = parent.is_a?(Glimmer::Web::ElementProxy) || parent.is_a?(Glimmer::Web::Component) ? parent.inspect(basic: true) : parent.inspect
+          attributes = {keyword:, args:, parent: parent_inspect}
+        end
+        "#<#{self.class}:0x#{object_id.to_s(16)} #{markup_root&.keyword}##{markup_root&.element_id} #{attributes}>"
+      end
 
       private
 
