@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.8.2
+
+- Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
+
 ## 0.8.1
 
 - Implement `Glimmer::Web::ElementProxy#inspect` method that includes element ID, keyword, args, and parent and prevents recursing through multiple parent levels to improve readability for troubleshooting.

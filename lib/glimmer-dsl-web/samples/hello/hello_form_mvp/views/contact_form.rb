@@ -7,14 +7,14 @@ class ContactForm
     form {
       div {
         label('Name: ', for: 'name-field')
-        @name_input = input(type: 'text', id: 'name-field', required: true, autofocus: true) {
+        @name_input = input(:required, :autofocus, type: 'text', id: 'name-field') {
           value <=> [presenter.new_contact, :name]
         }
       }
       
       div {
         label('Email: ', for: 'email-field')
-        @email_input = input(type: 'email', id: 'email-field', required: true) {
+        @email_input = input(:required, type: 'email', id: 'email-field') {
           value <=> [presenter.new_contact, :email]
         }
       }
