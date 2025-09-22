@@ -44,13 +44,22 @@ module Glimmer
       
         def format(keyword, *args, &block)
           content = nil
+          boolean_attributes = []
           if block_given?
             content = block.call.to_s
-          elsif args.any? && !args.first.is_a?(Hash)
+          elsif args.any? && !args.first.is_a?(Hash) && !Glimmer::Web::ElementProxy::HTML_ELEMENT_BOOLEAN_ATTRIBUTES.include?(args.first)
             content = args.first.to_s
+            args = args[1, args.size - 1]
           end
-          attribute_hash = args.last.is_a?(Hash) ? args.last : {}
-          ElementProxy.render_html(keyword, attribute_hash, content)
+          if args.last.is_a?(Hash)
+            attribute_hash = args.last
+            boolean_attributes = args[0, args.size - 1]
+          else
+            attribute_hash = {}
+            boolean_attributes = args
+          end
+          # TODO add boolean_attributes
+          ElementProxy.render_html(keyword, attributes: attribute_hash, boolean_attributes:, content:)
         end
       end
       

@@ -88,16 +88,18 @@ module Glimmer
           @@widget_handling_listener
         end
         
-        def render_html(element, attributes, content = nil)
-          attributes = attributes.reduce('') do |output, option_pair|
+        def render_html(element, attributes:, boolean_attributes: [], content: nil)
+          # TODO adjust this code to accept value-less attributes (Symbols)
+          attributes_string = attributes.reduce('') do |output, option_pair|
             attribute, value = option_pair
             value = value.to_s.sub('"', '&quot;').sub("'", '&apos;')
             output += " #{attribute}=\"#{value}\""
           end
+          boolean_attributes_string = boolean_attributes.to_a.map(&:to_s).join(' ')
           if html_void_keyword?(element)
-            "<#{element}#{attributes}>"
+            "<#{element}#{attributes_string} #{boolean_attributes_string}>"
           else
-            "<#{element}#{attributes}>#{content}</#{element}>"
+            "<#{element}#{attributes_string} #{boolean_attributes_string}>#{content}</#{element}>"
           end
         end
         
@@ -149,6 +151,97 @@ module Glimmer
       # title is a special attribute because it matches an element tag name (needs special treatment)
       HTML_ELEMENT_SPECIAL_ATTRIBUTES = ['title']
 
+      # TODO ensure each attribute is used underneath its element only to prevent issues with people wanting to use
+      # open underneath button as text content, etc...
+      # Provide a method that tests compatibility with boolean attribute based on element name
+      # List from Grok:
+#       allowfullscreenElements: <iframe>
+#       Description: Allows the iframe content to enter fullscreen mode.
+#
+#       asyncElements: <script>
+#       Description: Executes the script asynchronously.
+#
+#       autofocusElements: <button>, <input>, <select>, <textarea>
+#       Description: Automatically focuses the element on page load.
+#
+#       autoplayElements: <audio>, <video>
+#       Description: Starts media playback automatically.
+#
+#       checkedElements: <input> (types: checkbox, radio)
+#       Description: Sets the input as selected by default.
+#
+#       controlsElements: <audio>, <video>
+#       Description: Displays media playback controls.
+#
+#       defaultElements: <track>
+#       Description: Enables the track (e.g., subtitles) by default.
+#
+#       deferElements: <script>
+#       Description: Defers script execution until the document is parsed.
+#
+#       disabledElements: <button>, <fieldset>, <input>, <optgroup>, <option>, <select>, <textarea>
+#       Description: Disables the element, preventing interaction.
+#
+#       formnovalidateElements: <button>, <input> (type: submit)
+#       Description: Bypasses form validation on submission.
+#
+#       inertElements: Any HTML element (global attribute, HTML5.3/WHATWG)
+#       Description: Makes the element non-interactive and non-focusable.
+#
+#       ismapElements: <img>
+#       Description: Indicates the image is part of a server-side image map.
+#
+#       itemscopeElements: Any HTML element (used with Microdata)
+#       Description: Defines a Microdata item scope.
+#
+#       loopElements: <audio>, <video>
+#       Description: Restarts media playback after completion.
+#
+#       multipleElements: <input> (types: email, file), <select>
+#       Description: Allows multiple values (e.g., multiple file selection).
+#
+#       mutedElements: <audio>, <video>
+#       Description: Mutes the media by default.
+#
+#       nomoduleElements: <script>
+#       Description: Indicates the script should not run in browsers supporting ES modules.
+#
+#       novalidateElements: <form>
+#       Description: Disables form validation on submission.
+#
+#       openElements: <details>, <dialog>
+#       Description: Shows the element’s content (expanded for <details>, open for <dialog>).
+#
+#       playsinlineElements: <video>
+#       Description: Plays the video inline (e.g., on iOS, prevents automatic fullscreen).
+#
+#       readonlyElements: <input> (types: text, password, date, etc.), <textarea>
+#       Description: Makes the element read-only, preventing user edits.
+#
+#       requiredElements: <input> (types: text, checkbox, radio, etc.), <select>, <textarea>
+#       Description: Makes the element mandatory in a form.
+#
+#       reversedElements: <ol>
+#       Description: Reverses the order of list items.
+#
+#       selectedElements: <option>
+#       Description: Sets the option as selected by default.
+#
+#       shadowrootclonableElements: <template>
+#       Description: Allows the shadow root to be cloned (Web Components).
+#
+#       shadowrootdelegatesfocusElements: <template>
+#       Description: Delegates focus to the shadow root (Web Components).
+#
+#       shadowrootserializableElements: <template>
+#       Description: Allows the shadow root to be serialized (Web Components).
+#
+      HTML_ELEMENT_BOOLEAN_ATTRIBUTES = %w[
+        allowfullscreen async autofocus autoplay checked controls default defer disabled formnovalidate inert ismap itemscope
+        loop multiple muted nomodule novalidate open playsinline readonly required reversed selected shadowrootclonable
+        shadowrootdelegatesfocus shadowrootserializable
+      ]
+      
       GLIMMER_ATTRIBUTES = [:parent]
       PROPERTY_ALIASES = {
         'inner_html' => 'innerHTML',
@@ -489,9 +582,25 @@ module Glimmer
         # TODO auto-convert known glimmer attributes like parent to data attributes like data-parent
         # TODO check if we need to avoid rendering content block if no content is available
         @dom ||= begin
-          content = args.first.is_a?(String) ? args.first : ''
+          # TODO adjust this code to accept value-less attributes (Symbols)
+          if args.first.is_a?(String)
+            if !HTML_ELEMENT_BOOLEAN_ATTRIBUTES.include?(args.first)
+              content = args.first
+              remaining_args = args[1, args.size - 1]
+            else
+              content = ''
+              remaining_args = args
+            end
+          else
+            content = ''
+            remaining_args = args
+          end
+          remaining_args = remaining_args.to_a
           content += children_dom_content if bulk_render?
-          ElementProxy.render_html(keyword, html_options, content)
+          remaining_args = remaining_args[0...-1] if remaining_args.last.is_a?(Hash)
+          boolean_attributes = remaining_args
+          # TODO rename boolean_attributes to boolean_attributes
+          ElementProxy.render_html(keyword, attributes: html_options, boolean_attributes:, content:)
         end
       end
       
