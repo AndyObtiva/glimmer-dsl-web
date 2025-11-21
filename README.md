@@ -1714,8 +1714,8 @@ the `Rails::ResourceService` class source code to find out what its API is. It c
 if Developers would rather not write the Backend by hand.
 
 `Rails::ResourceService` API:
-- `index(resource: nil, resource_class: nil, singular_resource_name: nil, plural_resource_name: nil, index_resource_url: nil, params: nil) { |response| ... }`
-- `show(resource: nil, resource_class: nil, resource_id: nil, singular_resource_name: nil, plural_resource_name: nil, show_resource_url: nil, params: nil) { |response| ... }`
+- `index(resource: nil, resource_class: nil, singular_resource_name: nil, plural_resource_name: nil, index_resource_url: nil, params: nil) { |response, resources| ... }`
+- `show(resource: nil, resource_class: nil, resource_id: nil, singular_resource_name: nil, plural_resource_name: nil, show_resource_url: nil, params: nil) { |response, resource| ... }`
 - `create(resource: nil, resource_class: nil, resource_attributes: nil, singular_resource_name: nil, plural_resource_name: nil, create_resource_url: nil, params: nil) { |response, created_resource, errors| ... }`
 - `update(resource: nil, resource_class: nil, resource_id: nil, resource_attributes: nil, singular_resource_name: nil, plural_resource_name: nil, update_resource_url: nil, params: nil) { |response, updated_resource, errors| ... }`
 - `destroy(resource: nil, resource_class: nil, resource_id: nil, singular_resource_name: nil, plural_resource_name: nil, destroy_resource_url: nil, params: nil) { |response| ... }`
