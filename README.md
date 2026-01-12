@@ -4807,6 +4807,10 @@ Learn more by reading the [GPG](https://github.com/AndyObtiva/glimmer/blob/maste
 
 F.A.Q. (Frequently Asked Questions):
 
+#### Can I build a modern UI with a modern style/look/feel using Glimmer DSL for Web?
+
+Yes, 100%. Glimmer DSL for Web enables building highly advanced interactions with the simplest code possible. And, styling is just CSS, which is an orthogonal concern. You can apply any CSS style to Glimmer elements given that Glimmer produces real HTML, meaning 100% of what's possible in CSS outside of Glimmer is also possible within Glimmer. Also, you can integrate with any CSS framework (e.g. Tailwind/Bootstrap) if needed. As a result, you can create any modern UI with any modern style/look/feel when using Glimmer DSL for Web.
+
 #### Can I reuse JavaScript libraries from Glimmer DSL for Web in Ruby?
 
 Absolutely. Glimmer DSL for Web can integrate with any JavaScript libraries. You can either load the JavaScript libraries in advance by linking to them in the Rails View/Layout (e.g. linking to JS library CDN URLs) or by including JavaScript files in the lookup directories of Opal Ruby, and adding a Ruby `require('path_to_js_lib')` call in the code. In Ruby, the `$$` global variable gives access to the top-level JavaScript global scope, which enables invocations on any JavaScript objects. For example, `$$.hljs` gives access to the loaded `window.hljs` object for the Highlight.js library, and that enables invoking any functions from that library as needed, like `$$.hljs.highlightAll` to activate code syntax highlighting.
