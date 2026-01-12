@@ -4809,7 +4809,7 @@ F.A.Q. (Frequently Asked Questions):
 
 #### Can I build a modern UI with a modern style/look/feel using Glimmer DSL for Web?
 
-Yes, 100%. Glimmer DSL for Web enables building highly advanced interactions with the simplest code possible. And, styling is just CSS, which is an orthogonal concern. You can apply any CSS style to Glimmer elements given that Glimmer produces real HTML, meaning 100% of what's possible in CSS outside of Glimmer is also possible within Glimmer. Also, you can integrate with any CSS framework (e.g. Tailwind/Bootstrap) if needed. As a result, you can create any modern UI with any modern style/look/feel when using Glimmer DSL for Web.
+Yes, 100%. Glimmer DSL for Web enables building highly advanced interactions with the simplest code possible. And, styling is just CSS, which is an orthogonal concern. You can apply any CSS style to Glimmer elements given that Glimmer produces real HTML, meaning 100% of what's possible in CSS outside of Glimmer is also possible within Glimmer. Glimmer DSL for Web supports applying CSS using CSS/SCSS/SASS files, embedding CSS inside Glimmer Web Components directly with a Ruby CSS DSL, and a hybrid approach when it is useful to combine multiple styling options (like keeping general styles in CSS files and adding specific styles in Glimmer Web Components). Also, you can integrate with any CSS framework (e.g. Tailwind/Bootstrap) if needed. As a result, you can create any modern UI with any modern style/look/feel when using Glimmer DSL for Web.
 
 #### Can I reuse JavaScript libraries from Glimmer DSL for Web in Ruby?
 
