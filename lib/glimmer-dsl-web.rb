@@ -48,7 +48,6 @@ else
     end
   end
   
-  require 'opal-parser'
   require 'native' # move this to opal-async
   require 'opal-async'
   require 'async/ext'
