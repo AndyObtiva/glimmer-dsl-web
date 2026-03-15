@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.8.1 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.8.2 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -121,12 +121,12 @@ Document.ready? do
     form {
       div {
         label('Name: ', for: 'name-field')
-        @name_input = input(type: 'text', id: 'name-field', required: true, autofocus: true)
+        @name_input = input(:required, :autofocus, type: 'text', id: 'name-field')
       }
       
       div {
         label('Email: ', for: 'email-field')
-        @email_input = input(type: 'email', id: 'email-field', required: true)
+        @email_input = input(:required, type: 'email', id: 'email-field')
       }
       
       div {
@@ -1418,7 +1418,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.8.1'
+gem 'glimmer-dsl-web', '~> 0.8.2'
 ```
 
 Run:
@@ -1642,9 +1642,9 @@ Under the hood, HTML element DSL keywords are invoked as Ruby methods.
 
 2- **Arguments (HTML Attributes + Text Content)**
 
-You can set any HTML element attributes by passing as keyword arguments to element methods like `div(id: 'container', class: 'stack')` or `input(type: 'email', required: true)`
+You can set any HTML element attributes by passing as keyword arguments to element methods like `div(id: 'container', class: 'stack')` or `input(:required, type: 'email')`
 
-Also, if the element has a little bit of text content that can fit in one line, it can be passed as the 1st argument like `label('Name: ', for: 'name_field')`, `button('Calculate', class: 'round-button')`, or `span('Mr')`
+Also, if the element has a little bit of text content that can fit in one line, it can be passed as the 1st argument like `label('Name: ', for: 'name_field')`, `button('Calculate', :disabled, class: 'round-button')`, or `span('Mr')`
 
 3- **Content Block (Properties + Listeners + Nested Elements + Text Content)**
 
@@ -1896,12 +1896,12 @@ Document.ready? do
     form {
       div {
         label('Name: ', for: 'name-field')
-        @name_input = input(type: 'text', id: 'name-field', required: true, autofocus: true)
+        @name_input = input(:required, :autofocus, type: 'text', id: 'name-field')
       }
       
       div {
         label('Email: ', for: 'email-field')
-        @email_input = input(type: 'email', id: 'email-field', required: true)
+        @email_input = input(:required, type: 'email', id: 'email-field')
       }
       
       div {

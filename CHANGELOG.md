@@ -2,7 +2,8 @@
 
 ## 0.8.2
 
-- Support value-less attributes for HTML elements (e.g. required or autofocus, by passing as symbols in front of the attributes hash, but after text string if any)
+- Support value-less boolean attributes in HTML elements (e.g. input(:required, :autofocus, id: 'name-field') / p('Hello', :hidden, id: 'product-description')), by passing as symbols before the attributes hash, but after content string if any
+- Fix issue in Hello, Component Slots! that was causing multiple renders of address_footer
 
 ## 0.8.1
 
