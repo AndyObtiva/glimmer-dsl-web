@@ -47,7 +47,7 @@ module Glimmer
           boolean_attributes = []
           if block_given?
             content = block.call.to_s
-          elsif args.any? && !args.first.is_a?(Hash) && !Glimmer::Web::ElementProxy::HTML_ELEMENT_BOOLEAN_ATTRIBUTES.include?(args.first)
+          elsif args.any? && !args.first.is_a?(Hash) && !Glimmer::Web::ElementProxy.element_boolean_attribute?(keyword, args.first)
             content = args.first.to_s
             args = args[1, args.size - 1]
           end
@@ -58,7 +58,6 @@ module Glimmer
             attribute_hash = {}
             boolean_attributes = args
           end
-          # TODO add boolean_attributes
           ElementProxy.render_html(keyword, attributes: attribute_hash, boolean_attributes:, content:)
         end
       end
