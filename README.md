@@ -5,6 +5,10 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+**UPCOMING APRIL 17, 2026 WORKSHOP: "Building Rails SPAs in Frontend Ruby with Glimmer DSL for Web" at [wroclove.rb 2026 Ruby Conference](https://wrocloverb.com/), in Wroclaw, Poland**
+
+**UPCOMING MAY 30, 2026 TALK: "Frontend Ruby on Rails with Glimmer DSL for Web" at [RubyConf Austria 2026](https://rubyconf.at/), in Vienna, Austria**
+
 **(Based on Original [Glimmer](https://github.com/AndyObtiva/glimmer) Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
 **([Fukuoka Prefecture Future IT Initiative 2025 Money Forward Award Winner](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html)) [(Award Announcement)](https://digitalfukuoka.jp/news/info/528/)**
