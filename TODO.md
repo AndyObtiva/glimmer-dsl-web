@@ -6,6 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.8.x
 
+- Consider automatically handling boolean properties set via standard attributes with a value of true
 - Alert user if they attempt to build a component or component slot that shadows an HTML element
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
