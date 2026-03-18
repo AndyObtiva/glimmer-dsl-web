@@ -6,7 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.8.x
 
-- Alert user if they attempt to build a component or component slot that shadows an HTML element
+- Raise an error when attempting to define a component slot that shadows an HTML element
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
 ### 0.9.x
@@ -144,6 +144,7 @@ Example:
 - Consider automatically escaping the element inner_html and String content while providing a `raw` method to allow setting unescaped HTML in a similar way to Rails.
 - Support data-binding of week input to datetime object
 - Support wrapping an existing element as an ElementProxy just like in Glimmer DSL for SWT, to enable integrating with existing pre-rendered elements when needed while being able to dynamically add more content or adjustments to them.
+- Raise an error when attempting to use an attribute that shadows an HTML attribute
 
 ## Issues
 

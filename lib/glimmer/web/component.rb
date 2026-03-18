@@ -171,6 +171,11 @@ module Glimmer
       class << self
         def included(klass)
           if !klass.ancestors.include?(GlimmerSupersedable)
+            if !klass.to_s.include?('::') && Glimmer::Web::ElementProxy::ELEMENT_KEYWORDS.include?(klass.to_s.underscore)
+              raise "Cannot define the Glimmer::Web::Component class \"#{klass.to_s}\" because it shadows the HTML element \"#{klass.to_s.underscore}\"! " +
+                    "Either rename the class (e.g. \"MyApp#{klass.to_s}\") to avoid conflicting with an existing HTML element name or " +
+                    "nest it within a namespace module/class (e.g. \"MyApp::#{klass.to_s}\")!"
+            end
             klass.extend(ClassMethods)
             klass.include(Glimmer)
             klass.prepend(GlimmerSupersedable)

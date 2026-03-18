@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.8.3
+
+- Raise an error when attempting to define a component that shadows an HTML element
+
 ## 0.8.2
 
 - Support value-less boolean attributes in HTML elements (e.g. input(:required, :autofocus, id: 'name-field') / p('Hello', :hidden, id: 'product-description')), by passing as symbols before the attributes hash, but after content string if any
