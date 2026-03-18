@@ -3,6 +3,7 @@
 ## 0.8.3
 
 - Raise an error when attempting to define a component that shadows an HTML element
+- Raise an error when attempting to define a component slot that shadows an HTML element
 
 ## 0.8.2
 

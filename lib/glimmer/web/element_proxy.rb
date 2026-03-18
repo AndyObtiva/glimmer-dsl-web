@@ -221,6 +221,7 @@ module Glimmer
         end
         @slot = options['slot'] || options[:slot]
         @slot = @slot.to_sym if @slot
+        validate_slot!
         ancestor_component.slot_elements[@slot] = self if @slot && ancestor_component
         @args = args
         @block = block
@@ -1116,6 +1117,15 @@ module Glimmer
           style_value.to_s
         end
       end
+      
+      def validate_slot!
+        slot_name = @slot.to_s
+        if Glimmer::Web::ElementProxy::ELEMENT_KEYWORDS.include?(slot_name)
+          raise "Cannot define the Component Slot \"#{slot_name}\" because it shadows the HTML element \"#{slot_name}\"! " +
+                "Rename the Component Slot (e.g. \"my_app_#{slot_name}\") to avoid conflicting with an existing HTML element name!"
+        end
+      end
+      
     end
   end
 end

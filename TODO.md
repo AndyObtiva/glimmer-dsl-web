@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.8.x
 
-- Raise an error when attempting to define a component slot that shadows an HTML element
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
 ### 0.9.x
