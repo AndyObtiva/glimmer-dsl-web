@@ -31,7 +31,7 @@ rails _7.0.8.6_ new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.9.2'
+gem 'glimmer-dsl-web', '~> 0.10.0'
 gem 'opal-rails', '~> 2.0.4'
 ```
 

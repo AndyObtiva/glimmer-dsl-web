@@ -713,6 +713,51 @@ module Glimmer
         end
       end
       
+      def value(raw: false)
+        if rendered?
+          view_to_model_converter = value_converters_for_input_type(type)&.[](:view_to_model)
+          view_value = super()
+          if !raw && view_to_model_converter
+            view_to_model_converter.call(view_value, nil)
+          else
+            view_value
+          end
+        else # this is the value passed by the programmer as per its format in the model (date/time or string)
+          model_to_view_converter = value_converters_for_input_type(type)&.[](:model_to_view)
+          if !raw && model_to_view_converter
+            model_to_view_converter.call(options[:value], nil)
+          else
+            options[:value]
+          end
+        end
+      end
+      
+      def value=(new_value)
+        model_to_view_converter = value_converters_for_input_type(type)&.[](:model_to_view)
+        if rendered?
+          if model_to_view_converter
+            super(model_to_view_converter.call(new_value, nil))
+          else
+            super(new_value)
+          end
+        else
+          the_value = if model_to_view_converter
+            model_to_view_converter.call(super(new_value), nil)
+          else
+            new_value
+          end
+          if keyword == 'textarea'
+            if args.first.is_a?(String)
+              args[0] = the_value
+            else
+              args.prepend(the_value)
+            end
+          else
+            options[:value] = the_value
+          end
+        end
+      end
+      
       def data_bind(property, model_binding)
         element_binding_read_translator = value_converters_for_input_type(type)&.[](:model_to_view)
         element_binding = DataBinding::ElementBinding.new(self, property, translator: element_binding_read_translator)
@@ -936,13 +981,13 @@ module Glimmer
           'number' => {
             model_to_view: -> (value, old_value) { value.to_s },
             view_to_model: -> (value, old_value) {
-              value.include?('.') ? value.to_f : value.to_i
+              value.to_s.include?('.') ? value.to_f : value.to_i
             },
           },
           'range' => {
             model_to_view: -> (value, old_value) { value.to_s },
             view_to_model: -> (value, old_value) {
-              value.include?('.') ? value.to_f : value.to_i
+              value.to_s.include?('.') ? value.to_f : value.to_i
             },
           },
           'datetime-local' => {
@@ -960,7 +1005,7 @@ module Glimmer
             view_to_model: -> (value, old_value) {
               if value.to_s.empty?
                 nil
-              else
+              elsif value.is_a?(String)
                 date = Native(`new Date(Date.parse(#{value}))`)
                 year = Native.call(date, 'getFullYear')
                 month = Native.call(date, 'getMonth') + 1
@@ -968,6 +1013,8 @@ module Glimmer
                 hour = Native.call(date, 'getHours')
                 minute = Native.call(date, 'getMinutes')
                 Time.new(year, month, day, hour, minute)
+              else
+                value
               end
             },
           },
@@ -986,13 +1033,15 @@ module Glimmer
             view_to_model: -> (value, old_value) {
               if value.to_s.empty?
                 nil
-              else
+              elsif value.is_a?(String)
                 year, month, day = value.split('-')
                 if !old_value.to_s.empty?
                   Time.new(year, month, day, old_value.hour, old_value.min)
                 else
                   Time.new(year, month, day)
                 end
+              else
+                value
               end
             },
           },
@@ -1011,14 +1060,16 @@ module Glimmer
             view_to_model: -> (value, old_value) {
               if value.to_s.empty?
                 nil
-              else
+              elsif value.is_a?(String)
                 hour, minute = value.split(':')
                 if !old_value.to_s.empty?
                   Time.new(old_value.year, old_value.month, old_value.day, hour, minute)
-                else
+                elsif value.is_a?(String)
                   now = Time.now
                   Time.new(now.year, now.month, now.day, hour, minute)
                 end
+              else
+                value
               end
             },
           },
@@ -1037,13 +1088,15 @@ module Glimmer
             view_to_model: -> (value, old_value) {
               if value.to_s.empty?
                 nil
-              else
+              elsif value.is_a?(String)
                 year, month = value.split('-')
                 if !old_value.to_s.empty?
                   Time.new(year, month, old_value.day, old_value.hour, old_value.min)
                 else
                   Time.new(year, month)
                 end
+              else
+                value
               end
             },
           },

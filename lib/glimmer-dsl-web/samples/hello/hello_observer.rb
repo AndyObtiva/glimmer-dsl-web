@@ -1,6 +1,6 @@
 require 'glimmer-dsl-web'
 
-unless Object.const_defined?(:NumberHolder) # this is only needed in the sample app, not in real apps
+unless Object.const_defined?(:NumberHolder) # this is only needed in sample selector app due to file reloading, but not in real apps.
   class NumberHolder
     attr_accessor :number
     
@@ -10,7 +10,7 @@ unless Object.const_defined?(:NumberHolder) # this is only needed in the sample 
   end
 end
 
-unless Object.const_defined?(:HelloObserver) # this is only needed in the sample app, not in real apps
+unless Object.const_defined?(:HelloObserver) # this is only needed in sample selector app due to file reloading, but not in real apps.
   class HelloObserver
     include Glimmer::Web::Component
     

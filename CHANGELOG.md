@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.10.0
+
+- Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
+- Update Hello, Input Date/Time! sample to work without data-binding (as data-binding will happen in a new sample)
+- Hello, Input Date/Time Data-Binding! sample: `require 'glimmer-dsl-web/samples/hello/hello_input_date_time_data_binding.rb'`
+
 ## 0.9.2
 
 - Relax opal dependency to '>= 1.8.2', '< 2.0.0' (to enable use of Glimmer DSL for Web with newer versions of Opal)
