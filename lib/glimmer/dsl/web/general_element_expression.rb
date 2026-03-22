@@ -13,12 +13,14 @@ module Glimmer
         
         def add_content(parent, keyword, *args, &block)
           if parent.bulk_render? || parent.rendered? || parent.skip_content_on_render_blocks?
+            # TODO somewhere here we must render with html_mutation (e.g. prepend)
             return_value = super(parent, keyword, *args, &block)
             parent.add_text_content(return_value, on_empty: true) if return_value.is_a?(String)
             parent.post_add_content
             return_value
           else
-            parent.add_content_on_render(&block)
+            # TODO pass *args
+            parent.add_content_on_render(*args, &block)
           end
         end
       end

@@ -6,17 +6,24 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.8.x
 
-- Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
+Automate Rails 8 setup instructions
 
 ### 0.9.x
 
-- Prepend/append/insert element operations
+- Wrap an existing element as a `Glimmer::Web::ElementProxy` just like in Glimmer DSL for SWT, to enable integrating with existing pre-rendered elements when needed while being able to dynamically add more content or adjustments to them.
+- Append element operation alias for `content {}` as `append_element {}`
+- Prepend element operation `element_proxy.prepend_element {}`
+- Before/After element operations `element_proxy.before_element {}` & `element_proxy.after_element {}`
+- Replace element operation `element_proxy.replace_element {}`
+- Replace content element operation `element_proxy.replace_content {}`
+- Update element operation (equivalent of innerHTML)
 - Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
 
 ### 1.0.0
 
 - Optimize Glimmer DSL for Web by not including Opal-Parser (Pull Request provided by hmdne)
 - Automate Rails 7 setup instructions
+- Automate Rails 8 setup instructions
 
 ### 1.1.0
 
@@ -67,6 +74,7 @@ Example:
 - Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
 - Model Proxies (Use Backend Models in the Frontend through Automatically Generated REST Controllers for ActiveRecord models with secure whitelisting of the attributes/instance-methods/class-methods that need to be exposed only. For example, calling Purchases.limit(5) in the Frontend would call a Backend Purchase model indirectly via a PurchaseProxy that securely whitelists all available attributes/methods on Purchase)
 - Model Proxy Observers (Observe Backend Model events like creation, update, destruction, etc... via automatically generated Websocket-based channels for observing Backend Models view Proxy Observers)
+- Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
 ## Performance Optimizations
 
@@ -142,7 +150,6 @@ Example:
 - Consider adding element.children_components to avoid having to go through element.children.map(&:component) manually
 - Consider automatically escaping the element inner_html and String content while providing a `raw` method to allow setting unescaped HTML in a similar way to Rails.
 - Support data-binding of week input to datetime object
-- Support wrapping an existing element as an ElementProxy just like in Glimmer DSL for SWT, to enable integrating with existing pre-rendered elements when needed while being able to dynamically add more content or adjustments to them.
 - Raise an error when attempting to use an attribute that shadows an HTML attribute
 
 ## Issues

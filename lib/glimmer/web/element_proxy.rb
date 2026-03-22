@@ -449,7 +449,7 @@ module Glimmer
         end
       end
       
-      def render(parent: nil, custom_parent_dom_element: nil, brand_new: false)
+      def render(parent: nil, custom_parent_dom_element: nil, brand_new: false, html_mutation: :append)
         parent_selector = parent
         options[:parent] = parent_selector if !parent_selector.to_s.empty?
         if !options[:parent].to_s.empty?
@@ -461,7 +461,7 @@ module Glimmer
         brand_new ||= @dom.nil? || !options[:parent].to_s.empty? || (old_element = dom_element).empty?
         build_dom(layout: !custom_parent_dom_element) # TODO handle custom parent layout by passing parent instead of parent dom element
         if brand_new
-          attach(the_parent_dom_element)
+          attach(the_parent_dom_element, html_mutation:)
         else
           reattach(old_element)
         end
@@ -474,8 +474,8 @@ module Glimmer
       end
       alias rerender render
         
-      def attach(the_parent_dom_element)
-        the_parent_dom_element.append(@dom)
+      def attach(the_parent_dom_element, html_mutation: :append)
+        the_parent_dom_element.send(html_mutation, @dom)
       end
         
       def reattach(old_element)
@@ -568,6 +568,13 @@ module Glimmer
         options[:bulk_render] = original_bulk_render if rendered?
         return_value
       end
+      alias append_element content
+      
+      # TODO consider refactoring methods to become aliases or reuse for a second method for all html mutations like before, after, prepend, etc...
+      def prepend_element(&block)
+        Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, html_mutation: :prepend, &block)
+      end
+      alias append_element content
       
       # Subclasses must override with their own mappings
       def observation_request_to_event_mapping
