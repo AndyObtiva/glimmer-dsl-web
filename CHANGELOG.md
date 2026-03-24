@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.8.4
+
+- Relax dependency on opal-rails to be '>= 2.0.4', '< 4.0.0' (allowing version 3.x to be accepted to support Rails 8)
+
 ## 0.8.3
 
 - Raise an error when attempting to define a component that shadows an HTML element

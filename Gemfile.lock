@@ -307,7 +307,7 @@ DEPENDENCIES
   opal (= 1.8.2)
   opal-async (~> 1.4.1)
   opal-jquery (~> 0.5.2)
-  opal-rails (~> 2.0.4)
+  opal-rails (>= 2.0.4, < 4.0.0)
   opal-rspec (~> 0.8.0.alpha2)
   puts_debuggerer (>= 1.0.1)
   rake (>= 10.1.0, < 14.0.0)
