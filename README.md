@@ -1337,6 +1337,7 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 - [Glimmer DSL for Web](#)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
+    - [Rails 8](#rails-8)
     - [Rails 7](#rails-7)
     - [Standalone (No Rails)](#standalone-no-rails)
   - [Usage](#usage)
@@ -1439,11 +1440,12 @@ Follow [opal-rails](https://github.com/opal/opal-rails) instructions, basically 
 bin/rails g opal:install
 ```
 
-To enable the `glimmer-dsl-web` gem in the frontend, edit `config/initializers/assets.rb` and add the following at the bottom:
+To enable the `glimmer-dsl-web` gem in the frontend, edit `config/initializers/assets.rb` and add the following at the bottom (requires that you also create `manifest.opal.js` as per instructions below):
 
 ```ruby
 Opal.use_gem 'glimmer-dsl-web'
 Opal.append_path Rails.root.join('app', 'assets', 'opal')
+Rails.application.config.assets.precompile += %w[manifest.opal.js]
 ```
 
 To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
@@ -1481,6 +1483,12 @@ Rename `app/assets/javascript` directory to `app/assets/opal`.
 Edit `app/assets/config/manifest.js` and update `//= link_directory ../javascript .js` to `//= link_directory ../opal .js`:
 
 ```js
+//= link_directory ../opal .js
+```
+
+Also, create `app/assets/config/manifest.opal.js` and add the following content to it:
+```js
+//= link_tree ../opal .js
 //= link_directory ../opal .js
 ```
 
