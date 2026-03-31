@@ -1,3 +1,5 @@
+require 'facets/string/underscore'
+
 module Rails
   # ResourceService supports index/show/create/update/destroy REST API calls for any Rails resources
   # Automatically loads the authenticity token from meta[name=csrf-token] content attribute
@@ -101,7 +103,7 @@ module Rails
       
       def singular_resource_name_for_resource_class(resource_class)
         return nil if resource_class.nil?
-        resource_class.to_s.split('::').last.downcase
+        resource_class.to_s.split('::').last.underscore
       end
       
       def build_resource_from_response_object(resource_class:, resource_response_object:)

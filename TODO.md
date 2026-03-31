@@ -39,6 +39,7 @@ Example:
 - Add style tags generated for component instances to HEAD as well, removing when the component instance is removed. That way, some styles are specialized for specific instances with options.
 - Simplified data-binding support for select tag to load its data through data-binding instead of explicit options
 - Simplified data-binding support for radio input tag in a group to load the entire group data through data-binding instead of explicit inputs
+- Support a Rails generator for generating a Model serializer (using ActiveModelSerializers if disereable)
   
 ### 1.2.0
 

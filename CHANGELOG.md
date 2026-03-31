@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.8.5
+
+- Update `Rails::ResourceService` to generate class resource name through correct underscored name (not just downcased)
+
 ## 0.8.4
 
 - Relax dependency on opal-rails to be '>= 2.0.4', '< 4.0.0' (allowing version 3.x to be accepted to support Rails 8)
