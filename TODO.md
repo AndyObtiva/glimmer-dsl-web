@@ -40,6 +40,10 @@ Example:
 - Simplified data-binding support for select tag to load its data through data-binding instead of explicit options
 - Simplified data-binding support for radio input tag in a group to load the entire group data through data-binding instead of explicit inputs
 - Support a Rails generator for generating a Model serializer (using ActiveModelSerializers if disereable)
+- Rails::ResourceService supports nested paths
+- Support a component_scoped_style {} block similar to style, but doesn't need us to prefix all CSS expressions by the component class (or consider making style {} auto nest all rules while providing a global_style alternative)
+- Provide a component.child_components method (or a child_components DSL keyword) without having to use `children.map(&:component)`
+- Provide a element_proxy.root_element method, root_component method, and closest_component method
   
 ### 1.2.0
 
@@ -68,6 +72,7 @@ Example:
 - Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
 - Model Proxies (Use Backend Models in the Frontend through Automatically Generated REST Controllers for ActiveRecord models with secure whitelisting of the attributes/instance-methods/class-methods that need to be exposed only. For example, calling Purchases.limit(5) in the Frontend would call a Backend Purchase model indirectly via a PurchaseProxy that securely whitelists all available attributes/methods on Purchase)
 - Model Proxy Observers (Observe Backend Model events like creation, update, destruction, etc... via automatically generated Websocket-based channels for observing Backend Models view Proxy Observers)
+- If a component takes one argument only, you can pass in NOT as a hash key value
 
 ## Performance Optimizations
 
@@ -145,6 +150,31 @@ Example:
 - Support data-binding of week input to datetime object
 - Support wrapping an existing element as an ElementProxy just like in Glimmer DSL for SWT, to enable integrating with existing pre-rendered elements when needed while being able to dynamically add more content or adjustments to them.
 - Raise an error when attempting to use an attribute that shadows an HTML attribute
+- Rails::ResourceService supports all paths configured in Rails routes.rb (by downloading a blueprint of all routes upon first request and then caching in localStorage, unless a difference occurs that demands updating them)
+- a/button tag auto adds '#' to path for history remembering
+One way of doing this is by caching the current page HTML in localStorage just before processing a Glimmer listener like onclick, and pushing the state attributes (some ID identifying the page structure) and an automatically generated history URL
+That way, when the user uses the browser back link, it remembers every step of the way.
+If an action shouldn't be included in history rememboring, that can be specified:
+onclick do |event|
+  event.do_not_remember_history
+end
+Perhaps, by default this feature id disabled.
+To enable, we set a component attribute available in all components:
+address_form(:_auto_remember_history: true)
+- a/button tag option that auto pushes a path to history while loading a component
+page_component_button(text: product.name, url: product.resource_path, component: ProductInfo, attributes: {product:})
+page_component_link(text: product.name, url: product.resource_path, component: ProductInfo, attributes: {product:})
+
+Behind the scenes, it does:
+a(text, href: url) {
+  onclick do |event|
+    event.prevent_default
+    $$.history.pushState({page_component_navigation: true, attributes: attributes}, "title 1", url);
+    root_component.hide # upon hitting the back button, when we pop history state and find page_component_navigation as true, we unhide the root component and hide the page component we are returning from
+    component.render(attributes)
+  end
+}
+- Is there a benefit of pulling in HTML in the background for a tags when clicked, combining the Hotwire approach with a Frontend approach?
 
 ## Issues
 
