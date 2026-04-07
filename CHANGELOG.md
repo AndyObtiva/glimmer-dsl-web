@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.8.6
+
+- `Glimmer::Util::UrlBuilder` implementation to facilitate building URLs (with protocol scheme, host, path, query params, and fragment)
+
 ## 0.8.5
 
 - Update `Rails::ResourceService` to generate class resource name through correct underscored name (not just downcased)

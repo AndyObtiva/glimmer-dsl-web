@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.8.5 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.8.6 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1423,7 +1423,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.8.5'
+gem 'glimmer-dsl-web', '~> 0.8.6'
 ```
 
 Run:
@@ -1773,6 +1773,28 @@ Note that there are alternative ways of invoking the `Rails::ResourceService.upd
 - `Rails::ResourceService.update(singular_resource_name: 'contact', resource_id: form_contact.id, resource_attributes: {first_name: form_contact.first_name, ...}) { |response, resource, errors| ... }`
 - `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", resource_attributes: {first_name: form_contact.first_name, ...}) { |response, resource, errors| ... }`
 - `Rails::ResourceService.update(update_resource_url: "/contacts/#{form_contact.id}.json", params: {contact: {first_name: form_contact.first_name, ...}}) { |response, resource, errors| ... }`
+
+### Glimmer::Util::UrlBuilder
+
+`Glimmer::Util::UrlBuilder` is a convenience class that facilitate building URLs (with protocol scheme, host, path, query params, and fragment)
+
+First, make sure to require the class file:
+```ruby
+require 'glimmer/util/url_builder'
+```
+
+Usage:
+```ruby
+Glimmer::Util::UrlBuilder.new.scheme('http').host('www.google.com').path('/results').param('q', 'sports').fragment('#yesterday').to_url
+# => 'http://www.google.com/results?q=sports#yesterday'
+```
+
+Or you can start from the URL of the current webpage, and amend the URL with extra params:
+```ruby
+# Current URL: http://www.google.com/results?q=sports
+Glimmer::Util::UrlBuilder.current.param('year', '2036').to_url
+# => 'http://www.google.com/results?q=sports&year=2036'
+```
 
 ## Supported Glimmer DSL Keywords
 
