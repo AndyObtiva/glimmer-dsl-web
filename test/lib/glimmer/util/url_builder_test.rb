@@ -87,6 +87,16 @@ describe Glimmer::Util::UrlBuilder do
     _(url).must_equal 'http://www.google.com/results?q=sports&year=2039'
   end
   
+  it 'builds URL with specified scheme, host, path, and 2 params specified by a hash of string keys' do
+    url = subject.scheme('http').host('www.google.com').path('/results').params('q' => 'sports', 'year' => '2039').to_url
+    _(url).must_equal 'http://www.google.com/results?q=sports&year=2039'
+  end
+  
+  it 'builds URL with specified scheme, host, path, and 2 params specified by a hash of symbol keys' do
+    url = subject.scheme('http').host('www.google.com').path('/results').params(q: 'sports', year: '2039').to_url
+    _(url).must_equal 'http://www.google.com/results?q=sports&year=2039'
+  end
+  
   it 'builds URL with specified scheme, host, path, and query' do
     url = subject.scheme('http').host('www.google.com').path('/results').query('q=sports&year=2039').to_url
     _(url).must_equal 'http://www.google.com/results?q=sports&year=2039'

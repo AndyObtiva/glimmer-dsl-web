@@ -74,6 +74,11 @@ module Glimmer
         self
       end
       
+      def params(params_hash)
+        @params = @params.merge(params_hash)
+        self
+      end
+      
       def query(value)
         return self if value.nil?
         
