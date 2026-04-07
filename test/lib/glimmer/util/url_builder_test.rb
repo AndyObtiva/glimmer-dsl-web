@@ -37,6 +37,11 @@ describe Glimmer::Util::UrlBuilder do
     _(url).must_equal 'http://www.google.com/results'
   end
   
+  it 'builds URL with specified scheme, host, and path ending with .json' do
+    url = subject.scheme('http').host('www.google.com').path('/results.json').to_url
+    _(url).must_equal 'http://www.google.com/results.json'
+  end
+  
   it 'builds URL with specified scheme, host, and nil path' do
     url = subject.scheme('http').host('www.google.com').path(nil).to_url
     _(url).must_equal 'http://www.google.com'
@@ -77,7 +82,7 @@ describe Glimmer::Util::UrlBuilder do
     _(url).must_equal 'http://www.google.com/results'
   end
   
-  it 'builds URL with specified scheme, host, path, and 2 params' do
+  it 'builds URL with specified scheme, host, path, and 2 params specified one by one' do
     url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').param('year', '2039').to_url
     _(url).must_equal 'http://www.google.com/results?q=sports&year=2039'
   end
@@ -132,9 +137,14 @@ describe Glimmer::Util::UrlBuilder do
     _(url).must_equal 'http://www.google.com/results?q=sports#yesterday'
   end
   
-  it 'builds URL with specified URL with everything but port' do
+  it 'builds URL with specified URL' do
     url = subject.url('http://www.google.com/results?q=sports#yesterday').to_url
     _(url).must_equal 'http://www.google.com/results?q=sports#yesterday'
+  end
+  
+  it 'builds URL with specified URL with path ending in .json' do
+    url = subject.url('https://www.google.com/results.json?q=sports#yesterday').to_url
+    _(url).must_equal 'https://www.google.com/results.json?q=sports#yesterday'
   end
   
   it 'builds URL with specified URL with port' do

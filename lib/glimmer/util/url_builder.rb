@@ -26,7 +26,7 @@ module Glimmer
   module Util
     class UrlBuilder
       DEFAULT_SCHEME = 'https'
-      REGEXP_URL = /^(http|https)?(:\/\/)?(([^\/\:]+):?(\d+)?)?(\/[^?#]*)?(\?[^#]*)?(\#.+)?$/
+      REGEXP_URL = /^(https?)?(:\/\/)?(([^\/\:]+):?(\d+)?)?(\/[^?#]*)?(\?[^#]*)?(\#.+)?$/
       
       class << self
         def current

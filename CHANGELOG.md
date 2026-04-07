@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.8.8
+
+- `Glimmer::Util::UrlBuilder` supports `params` to set multiple params at once as a hash
+- Fix issue with `Glimmer::Util::UrlBuilder` when using paths ending with `.json`
+
 ## 0.8.7
 
 - Upgrade to glimmer 0.8.2 as it has a fixed dependency on facets 3.1.0 to avoid the breaking changes of the new facets 3.2.0
