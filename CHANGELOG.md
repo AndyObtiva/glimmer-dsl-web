@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.8.7
+
+- Upgrade to glimmer 0.8.2 as it has a fixed dependency on facets 3.1.0 to avoid the breaking changes of the new facets 3.2.0
+- `Glimmer::Util::UrlBuilder` resiliency against nil and empty params, paths, and fragments
+
 ## 0.8.6
 
 - `Glimmer::Util::UrlBuilder` implementation to facilitate building URLs (with protocol scheme, host, path, query params, and fragment)

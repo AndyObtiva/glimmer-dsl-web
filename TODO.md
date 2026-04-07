@@ -44,6 +44,7 @@ Example:
 - Support a component_scoped_style {} block similar to style, but doesn't need us to prefix all CSS expressions by the component class (or consider making style {} auto nest all rules while providing a global_style alternative)
 - Provide a component.child_components method (or a child_components DSL keyword) without having to use `children.map(&:component)`
 - Provide a element_proxy.root_element method, root_component method, and closest_component method
+- Provide a built-in way of supporting Modals for simpler showing and hiding/removing
   
 ### 1.2.0
 

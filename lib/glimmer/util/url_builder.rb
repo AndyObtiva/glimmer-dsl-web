@@ -41,6 +41,7 @@ module Glimmer
     
       def scheme(value)
         @scheme = value || DEFAULT_SCHEME
+        @scheme = @scheme.gsub(/[:\/]/, '')
         self
       end
       alias protocol scheme
@@ -100,14 +101,14 @@ module Glimmer
       def to_url
         output = "#{@scheme}://#{@host}"
         output += ":#{@port}" if @port
-        output += "#{@path}#{compute_query}#{@fragment}"
+        output += "#{@path&.strip}#{compute_query}#{@fragment&.strip}"
         output
       end
       alias to_s to_url
       alias build to_url
       
       def compute_query
-        computed_query = @params.map { |name, value| "#{name}=#{value}" }.join('&')
+        computed_query = @params.reject { |name, value| value.nil? || value.to_s.empty? }.map { |name, value| "#{name}=#{value}" }.join('&')
         computed_query = "?#{computed_query}" unless computed_query.empty?
         computed_query
       end

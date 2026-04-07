@@ -16,6 +16,8 @@ module Rails
         HTTP.get(index_resource_url, payload: index_show_destroy_resource_params(params: params.to_h)) do |response|
           if response.ok? && !resource_class.nil?
             resource_response_objects = Native(response.body)
+            # TODO consider having index not make the assumpion that resource_response_objects is an array in case it isn't
+            # when including pagination information (maybe test if it is an array first)
             resources = resource_response_objects.map { |resource_response_object| build_resource_from_response_object(resource_class:, resource_response_object:) }
           end
           response_handler.call(response, resources)
@@ -111,6 +113,8 @@ module Rails
         resource_response_object.each { |attribute, value| resource.send("#{attribute}=", value) rescue nil }
         resource
       end
+      
+      # TODO consider offering generic Rails::ResourceService.get, Rails::ResourceService.put, Rails::ResourceService.post, Rails::ResourceService.patch, Rails::ResourceService.delete methods
     end
   end
 end

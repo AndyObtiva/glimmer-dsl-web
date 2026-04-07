@@ -27,9 +27,29 @@ describe Glimmer::Util::UrlBuilder do
     _(url).must_equal 'http://www.google.com'
   end
   
+  it 'builds URL with specified scheme and host where schema includes ://' do
+    url = subject.scheme('http://').host('www.google.com').to_url
+    _(url).must_equal 'http://www.google.com'
+  end
+  
   it 'builds URL with specified scheme, host, and path' do
     url = subject.scheme('http').host('www.google.com').path('/results').to_url
     _(url).must_equal 'http://www.google.com/results'
+  end
+  
+  it 'builds URL with specified scheme, host, and nil path' do
+    url = subject.scheme('http').host('www.google.com').path(nil).to_url
+    _(url).must_equal 'http://www.google.com'
+  end
+  
+  it 'builds URL with specified scheme, host, and empty path (meaning /)' do
+    url = subject.scheme('http').host('www.google.com').path('').to_url
+    _(url).must_equal 'http://www.google.com/'
+  end
+  
+  it 'builds URL with specified scheme, host, and path containing empty spaces only' do
+    url = subject.scheme('http').host('www.google.com').path('  ').to_url
+    _(url).must_equal 'http://www.google.com/'
   end
   
   it 'builds URL with specified scheme, host, and path without forward slash at the beginning' do
@@ -40,6 +60,21 @@ describe Glimmer::Util::UrlBuilder do
   it 'builds URL with specified scheme, host, path, and param' do
     url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').to_url
     _(url).must_equal 'http://www.google.com/results?q=sports'
+  end
+  
+  it 'builds URL with specified scheme, host, path, and nil param' do
+    url = subject.scheme('http').host('www.google.com').path('/results').param('q', nil).to_url
+    _(url).must_equal 'http://www.google.com/results'
+  end
+  
+  it 'builds URL with specified scheme, host, path, and empty param' do
+    url = subject.scheme('http').host('www.google.com').path('/results').param('q', '').to_url
+    _(url).must_equal 'http://www.google.com/results'
+  end
+  
+  it 'builds URL with specified scheme, host, path, and param that becomes empty on a later param call' do
+    url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').param('q', '').to_url
+    _(url).must_equal 'http://www.google.com/results'
   end
   
   it 'builds URL with specified scheme, host, path, and 2 params' do
@@ -65,6 +100,26 @@ describe Glimmer::Util::UrlBuilder do
   it 'builds URL with specified scheme, host, path, param, and fragment' do
     url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').fragment('#yesterday').to_url
     _(url).must_equal 'http://www.google.com/results?q=sports#yesterday'
+  end
+  
+  it 'builds URL with specified scheme, host, path, param, and nil fragment' do
+    url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').fragment(nil).to_url
+    _(url).must_equal 'http://www.google.com/results?q=sports'
+  end
+  
+  it 'builds URL with specified scheme, host, path, param, and empty fragment' do
+    url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').fragment('').to_url
+    _(url).must_equal 'http://www.google.com/results?q=sports#'
+  end
+  
+  it 'builds URL with specified scheme, host, path, param, and fragment containing empty spaces only' do
+    url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').fragment('  ').to_url
+    _(url).must_equal 'http://www.google.com/results?q=sports#'
+  end
+  
+  it 'builds URL with specified scheme, host, path, param, and empty fragment starting with #' do
+    url = subject.scheme('http').host('www.google.com').path('/results').param('q', 'sports').fragment('#').to_url
+    _(url).must_equal 'http://www.google.com/results?q=sports#'
   end
   
   it 'builds URL with specified scheme, host, port, path, param, and fragment' do

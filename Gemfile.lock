@@ -104,9 +104,9 @@ GEM
       hashie (>= 3.4)
       mime-types (>= 1.16, < 3.0)
       oauth2 (~> 1.0)
-    glimmer (2.8.0)
+    glimmer (2.8.2)
       array_include_methods (>= 1.4.0, < 1.6.0)
-      facets (>= 3.1.0, < 4.0.0)
+      facets (= 3.1.0)
     glimmer-dsl-css (1.5.2)
       css_parser (>= 1.0.0, < 2.0.0)
       glimmer (>= 2.0.0, < 3.0.0)
@@ -302,7 +302,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  glimmer (~> 2.8.0)
+  glimmer (~> 2.8.2)
   glimmer-dsl-css (~> 1.5.2)
   glimmer-dsl-xml (~> 1.4.0)
   jeweler (>= 2.3.9, < 3.0.0)
