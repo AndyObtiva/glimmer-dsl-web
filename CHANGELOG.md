@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.8.9
+
+- `Rails::ResourceService.index` supports `root` argument to be able to handle responses that include resources + metadata (e.g. pagination info), providing |response, resources, metadata| to response handler block.
+- `Glimmer::Util::UrlQueryStringBuilder` supports `param`, `params`, and `query` to build a URL query string
+- Fix issue in `Rails::ResourceService.index`, `Rails::ResourceService.show`, `Rails::ResourceService.destroy` with incorrectly passing in query params via payload instead of query string
+
 ## 0.8.8
 
 - `Glimmer::Util::UrlBuilder` supports `params` to set multiple params at once as a hash

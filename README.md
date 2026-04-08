@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.8.8 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.8.9 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1411,7 +1411,7 @@ Please follow these steps to setup.
 Install a Rails 7 gem:
 
 ```
-gem install rails -v7.0.8.8
+gem install rails -v7.0.8.9
 ```
 
 Start a new Rails 7 app:
@@ -1423,7 +1423,7 @@ rails new glimmer_app_server
 Add the following to `Gemfile`:
 
 ```
-gem 'glimmer-dsl-web', '~> 0.8.8'
+gem 'glimmer-dsl-web', '~> 0.8.9'
 ```
 
 Run:
@@ -1726,7 +1726,7 @@ the `Rails::ResourceService` class source code to find out what its API is. It c
 if Developers would rather not write the Backend by hand.
 
 `Rails::ResourceService` API:
-- `index(resource: nil, resource_class: nil, singular_resource_name: nil, plural_resource_name: nil, index_resource_url: nil, params: nil) { |response, resources| ... }`
+- `index(resource: nil, resource_class: nil, singular_resource_name: nil, plural_resource_name: nil, index_resource_url: nil, params: nil, root: nil) { |response, resources, metadata| ... }`
 - `show(resource: nil, resource_class: nil, resource_id: nil, singular_resource_name: nil, plural_resource_name: nil, show_resource_url: nil, params: nil) { |response, resource| ... }`
 - `create(resource: nil, resource_class: nil, resource_attributes: nil, singular_resource_name: nil, plural_resource_name: nil, create_resource_url: nil, params: nil) { |response, created_resource, errors| ... }`
 - `update(resource: nil, resource_class: nil, resource_id: nil, resource_attributes: nil, singular_resource_name: nil, plural_resource_name: nil, update_resource_url: nil, params: nil) { |response, updated_resource, errors| ... }`
@@ -1735,6 +1735,7 @@ if Developers would rather not write the Backend by hand.
 `Rails::ResourceService` follows the 'Convention over Configuration' Rails principle as it auto-derives the URL to call based on the `resource` class and data.
 `resource` can be a Ruby class with attribute method declarations or `attr_accessor` declarations, or a Ruby `Struct` class.
 `Rails::ResourceService` is flexible enough to work with all options.
+If you are making an `index` request that receives pagination `metadata`, make sure to specify the `root` argument as `true` (to determine root key by convention) or by specifying a custom `root` explicitly.
 
 Examples from [ContactPresenter](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app/blob/master/app/assets/opal/contact_manager/presenters/contact_presenter.rb) in the [Contact Manager](#contact-manager) sample:
 
@@ -1776,7 +1777,7 @@ Note that there are alternative ways of invoking the `Rails::ResourceService.upd
 
 ### Glimmer::Util::UrlBuilder
 
-`Glimmer::Util::UrlBuilder` is a convenience class that facilitate building URLs (with protocol scheme, host, path, query params, and fragment)
+`Glimmer::Util::UrlBuilder` is a convenience class that facilitates building URLs (with protocol scheme, host, path, query params, and fragment)
 
 First, make sure to require the class file:
 ```ruby
@@ -1794,6 +1795,21 @@ Or you can start from the URL of the current webpage, and amend the URL with ext
 # Current URL: http://www.google.com/results?q=sports
 Glimmer::Util::UrlBuilder.current.param('year', '2036').to_url
 # => 'http://www.google.com/results?q=sports&year=2036'
+```
+
+### Glimmer::Util::UrlQueryStringBuilder
+
+`Glimmer::Util::UrlQueryStringBuilder` is a convenience class that facilitates building URL query strings
+
+First, make sure to require the class file:
+```ruby
+require 'glimmer/util/url_builder'
+```
+
+Usage:
+```ruby
+subject.with_question_mark.param('q', 'sports').param('year', '2040').to_s
+# => '?q=sports&year=2040'
 ```
 
 ## Supported Glimmer DSL Keywords

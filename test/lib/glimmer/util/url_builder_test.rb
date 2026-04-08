@@ -23,12 +23,12 @@ describe Glimmer::Util::UrlBuilder do
   end
   
   it 'builds URL with specified scheme and host' do
-    url = subject.scheme('http').host('www.google.com').to_url
+    url = subject.scheme('http').host('www.google.com').to_s
     _(url).must_equal 'http://www.google.com'
   end
   
   it 'builds URL with specified scheme and host where schema includes ://' do
-    url = subject.scheme('http://').host('www.google.com').to_url
+    url = subject.scheme('http://').host('www.google.com').build
     _(url).must_equal 'http://www.google.com'
   end
   
