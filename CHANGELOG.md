@@ -1,8 +1,12 @@
 # Change Log
 
+## 0.8.10
+
+- Remove unnecessary `puts` statements from `Rails::ResourceService`
+
 ## 0.8.9
 
-- `Rails::ResourceService.index` supports `root` argument to be able to handle responses that include resources + metadata (e.g. pagination info), providing |response, resources, metadata| to response handler block.
+- `Rails::ResourceService.index` supports `root` argument to be able to handle responses that include resources + metadata under a root (e.g. pagination info), providing |response, resources, metadata| to response handler block.
 - `Glimmer::Util::UrlQueryStringBuilder` supports `param`, `params`, and `query` to build a URL query string
 - Fix issue in `Rails::ResourceService.index`, `Rails::ResourceService.show`, `Rails::ResourceService.destroy` with incorrectly passing in query params via payload instead of query string
 

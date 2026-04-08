@@ -27,8 +27,6 @@ module Rails
               resources = resource_response_objects.map { |resource_response_object| build_resource_from_response_object(resource_class:, resource_response_object:) }
             end
           end
-          puts 'metadata'
-          puts metadata
           response_handler.call(response, resources, metadata) # TODO support 3rd argument for metadata
         end
       end
