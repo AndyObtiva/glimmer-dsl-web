@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.9.0
+
+- component_page_link(text:, component_class:, component_attributes:, page_url:, css_id:, css_class:, css_style:) Glimmer Web Component to instantly render a new page component in the Frontend while changing the browser URL to a shareable bookmarkable URL
+- back_link Glimmer Web Component that renders an anchor tag that can trigger the browser history back button
+- `Glimmer::Util::Debounce.new(&work).call(delay: 300, debounce: true)` to support debouncing repetitive requests, such as those made by a text input filter.
+- Normalize glimmer_component ActiveRecord::Base option values by calling as_json on them automatically
+- Normalize glimmer_component ActiveRecord::Relation option values by calling to_a on them automatically
+- Support `structure {}` as an alias for `markup {}` inside `Glimmer::Web::Component` implementors
+- Hello, Page Component Link! sample
+
 ## 0.8.10
 
 - Remove unnecessary `puts` statements from `Rails::ResourceService`

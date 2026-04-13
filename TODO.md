@@ -4,19 +4,29 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.8.x
+### 0.9.x
 
+- page_component_button
+- back_button
+- forward_link
+- forward_button
+- Provide an API for visiting page components in history via Ruby code if needed
+- Hello, Modal!
+- Should we also look for hashes inside arrays in REsourceService::index when processing metadata ?
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
-### 0.9.x
+### 0.10.x
 
 - Prepend/append/insert element operations
 - Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
+- Support a root in all methods of `Rails::ResourceService`
 
 ### 1.0.0
 
 - Optimize Glimmer DSL for Web by not including Opal-Parser (Pull Request provided by hmdne)
+- Provide Rails 8 setup instructions
 - Automate Rails 7 setup instructions
+- Automate Rails 8 setup instructions
 
 ### 1.1.0
 
@@ -162,20 +172,9 @@ end
 Perhaps, by default this feature id disabled.
 To enable, we set a component attribute available in all components:
 address_form(:_auto_remember_history: true)
-- a/button tag option that auto pushes a path to history while loading a component
-page_component_button(text: product.name, url: product.resource_path, component: ProductInfo, attributes: {product:})
-page_component_link(text: product.name, url: product.resource_path, component: ProductInfo, attributes: {product:})
-
-Behind the scenes, it does:
-a(text, href: url) {
-  onclick do |event|
-    event.prevent_default
-    $$.history.pushState({page_component_navigation: true, attributes: attributes}, "title 1", url);
-    root_component.hide # upon hitting the back button, when we pop history state and find page_component_navigation as true, we unhide the root component and hide the page component we are returning from
-    component.render(attributes)
-  end
-}
 - Is there a benefit of pulling in HTML in the background for a tags when clicked, combining the Hotwire approach with a Frontend approach?
+- Consider automatically deserializing model attributes passed to glimmer_component to a model class/struct if it exists (save model variable name somehow to use for that)
+- a/button tag that can perform custom actions, but link to any URL when triggered
 
 ## Issues
 

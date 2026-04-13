@@ -316,6 +316,11 @@ module Glimmer
         parents_array
       end
       alias ancestors parents
+      
+      def root_parent
+        parents.last
+      end
+      alias root_ancesor root_parent
 
       def find_ancestor(include_self: false, &condition)
         current_element_proxy = self

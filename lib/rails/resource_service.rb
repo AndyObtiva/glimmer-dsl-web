@@ -15,7 +15,7 @@ module Rails
         plural_resource_name ||= "#{singular_resource_name}s"
         index_resource_url ||= "/#{plural_resource_name}.json"
         root = plural_resource_name if root == true
-        index_resource_url = Glimmer::Util::UrlBuilder.new.url(index_resource_url).params(index_show_destroy_resource_params(params: params.to_h)).to_s
+        index_resource_url = Glimmer::Util::UrlBuilder.new.url(index_resource_url).params(params.to_h).to_s
         HTTP.get(index_resource_url) do |response|
           if response.ok? && !resource_class.nil?
             resource_response_objects = Native(response.body)
@@ -37,7 +37,7 @@ module Rails
         singular_resource_name ||= singular_resource_name_for_resource_class(resource_class)
         plural_resource_name ||= "#{singular_resource_name}s"
         show_resource_url ||= "/#{plural_resource_name}/#{resource_id}.json"
-        show_resource_url = Glimmer::Util::UrlBuilder.new.url(show_resource_url).params(index_show_destroy_resource_params(params: params.to_h)).to_s
+        show_resource_url = Glimmer::Util::UrlBuilder.new.url(show_resource_url).params(params.to_h).to_s
         HTTP.get(show_resource_url) do |response|
           if response.ok? && !resource_class.nil?
             resource_response_object = Native(response.body)
@@ -90,12 +90,8 @@ module Rails
         singular_resource_name ||= singular_resource_name_for_resource_class(resource_class)
         plural_resource_name ||= "#{singular_resource_name}s"
         destroy_resource_url ||= "/#{plural_resource_name}/#{resource_id}.json"
-        destroy_resource_url = Glimmer::Util::UrlBuilder.new.url(destroy_resource_url).params(index_show_destroy_resource_params(params: params.to_h)).to_s
+        destroy_resource_url = Glimmer::Util::UrlBuilder.new.url(destroy_resource_url).params(params.to_h).to_s
         HTTP.delete(destroy_resource_url, &response_handler)
-      end
-      
-      def index_show_destroy_resource_params(params: nil)
-        {authenticity_token:}.merge(params.to_h)
       end
       
       def create_update_resource_params(resource: nil, resource_class: nil, resource_attributes: nil, singular_resource_name: nil, params: nil)

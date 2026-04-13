@@ -74,4 +74,6 @@ else
 # else # TODO enable when ready to include a Rails engine in the gem
 #   require_relative 'glimmer/config'
 #   require_relative 'glimmer/engine'
+  require 'glimmer/web/component/page_component_link'
+  require 'glimmer/web/component/back_link'
 end
