@@ -546,7 +546,7 @@ module Glimmer
       end
       
       def root_component
-        markup_root.root_parent.component
+        (markup_root&.root_parent || markup_root)&.component
       end
 
       private

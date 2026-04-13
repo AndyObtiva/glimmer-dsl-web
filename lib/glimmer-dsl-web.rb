@@ -75,5 +75,6 @@ else
 #   require_relative 'glimmer/config'
 #   require_relative 'glimmer/engine'
   require 'glimmer/web/component/page_component_link'
+  require 'glimmer/web/component/page_component_button'
   require 'glimmer/web/component/back_link'
 end

@@ -15,7 +15,9 @@ module Rails
         plural_resource_name ||= "#{singular_resource_name}s"
         index_resource_url ||= "/#{plural_resource_name}.json"
         root = plural_resource_name if root == true
+        path_url = index_resource_url.start_with?('/')
         index_resource_url = Glimmer::Util::UrlBuilder.new.url(index_resource_url).params(params.to_h).to_s
+        index_resource_url = index_resource_url.sub('https://', '') if path_url
         HTTP.get(index_resource_url) do |response|
           if response.ok? && !resource_class.nil?
             resource_response_objects = Native(response.body)
@@ -37,7 +39,9 @@ module Rails
         singular_resource_name ||= singular_resource_name_for_resource_class(resource_class)
         plural_resource_name ||= "#{singular_resource_name}s"
         show_resource_url ||= "/#{plural_resource_name}/#{resource_id}.json"
+        path_url = show_resource_url.start_with?('/')
         show_resource_url = Glimmer::Util::UrlBuilder.new.url(show_resource_url).params(params.to_h).to_s
+        show_resource_url = show_resource_url.sub('https://', '') if path_url
         HTTP.get(show_resource_url) do |response|
           if response.ok? && !resource_class.nil?
             resource_response_object = Native(response.body)
@@ -90,7 +94,9 @@ module Rails
         singular_resource_name ||= singular_resource_name_for_resource_class(resource_class)
         plural_resource_name ||= "#{singular_resource_name}s"
         destroy_resource_url ||= "/#{plural_resource_name}/#{resource_id}.json"
-        destroy_resource_url = Glimmer::Util::UrlBuilder.new.url(destroy_resource_url).params(params.to_h).to_s
+        path_url = destroy_resource_url.start_with?('/')
+        destroy_resource_url = Glimmer::Util::UrlBuilder.new.url(destroy_resource_url).params({authenticity_token:}.merge(params.to_h)).to_s
+        destroy_resource_url = destroy_resource_url.sub('https://', '') if path_url
         HTTP.delete(destroy_resource_url, &response_handler)
       end
       

@@ -1,6 +1,6 @@
 require 'glimmer/web/component/page_component'
 
-class PageComponentLink
+class PageComponentButton
   include Glimmer::Web::Component
   
   attributes :text, :component_class, :component_attributes, :page_url, :css_id, :css_class, :css_style
@@ -10,10 +10,10 @@ class PageComponentLink
     if self.page_url.start_with?('/')
       self.page_url = "#{$$.document.location.origin}#{self.page_url}"
     end
-    @anchor_tag_attributes = {href: page_url}
-    @anchor_tag_attributes[:id] = css_id if css_id
-    @anchor_tag_attributes[:class] = css_class if css_class
-    @anchor_tag_attributes[:style] = css_style if css_style
+    @button_tag_attributes = {href: page_url}
+    @button_tag_attributes[:id] = css_id if css_id
+    @button_tag_attributes[:class] = css_class if css_class
+    @button_tag_attributes[:style] = css_style if css_style
   end
   
   after_render do
@@ -21,7 +21,7 @@ class PageComponentLink
   end
   
   markup {
-    a(text, **@anchor_tag_attributes) {
+    button(text, **@button_tag_attributes) {
       onclick do |event|
         event.prevent_default
         page_component = nil

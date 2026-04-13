@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.9.x
 
-- page_component_button
 - back_button
 - forward_link
 - forward_button

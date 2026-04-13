@@ -99,6 +99,8 @@ Gem::Specification.new do |s|
     "lib/glimmer/web/component.rb",
     "lib/glimmer/web/component/back_link.rb",
     "lib/glimmer/web/component/component_style_container.rb",
+    "lib/glimmer/web/component/page_component.rb",
+    "lib/glimmer/web/component/page_component_button.rb",
     "lib/glimmer/web/component/page_component_link.rb",
     "lib/glimmer/web/element_proxy.rb",
     "lib/glimmer/web/event_proxy.rb",
