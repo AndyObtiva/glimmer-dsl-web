@@ -7,7 +7,7 @@ If you want the newer Rails 7/8 build/watch flow, use [rails_7_8_build_pipeline.
 This guide requires pinning `opal-rails` to the Sprockets-era line:
 
 ```ruby
-gem 'opal-rails', '~> 2.0'
+gem 'opal-rails', '~> 2.0.4'
 ```
 
 Do not use the newer build-pipeline `opal-rails` branch with the setup below without porting the app deliberately.
@@ -32,7 +32,7 @@ Add the following to `Gemfile`:
 
 ```ruby
 gem 'glimmer-dsl-web', '~> 0.8.5'
-gem 'opal-rails', '~> 2.0'
+gem 'opal-rails', '~> 2.0.4'
 ```
 
 Run:
