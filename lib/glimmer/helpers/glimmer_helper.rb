@@ -7,6 +7,7 @@ module GlimmerHelper
   end
   
   def glimmer_component(component_asset_path, *component_args)
+    normalize_active_record_relation_option_values!(component_args.last)
     component_file = component_asset_path.split('/').last # TODO support namespaced components
     component_class_name = component_file.classify # TODO support namespaced components
     next_id_number = GlimmerHelper.next_id_number
@@ -29,6 +30,26 @@ module GlimmerHelper
       content_tag(:div, '', id: component_id, class: ['glimmer_component', component_file]) +
       javascript_include_tag(component_asset_path, "data-turbolinks-track": "reload") +
       content_tag(:script, raw(js_script), id: component_script_tag_id, type: 'application/javascript', "data-turbo-eval": "false", "data-component-args": component_args_json)
+    end
+  end
+    
+  private
+  
+  def normalize_active_record_relation_option_values!(option_values)
+    option_values&.each do |key, value|
+      if value.is_a?(ActiveRecord::Relation)
+        models = value.to_a
+        models = models.map do |model|
+          if model.is_a?(ActiveRecord::Base)
+            model.as_json
+          else
+            model
+          end
+        end
+        option_values[key] = models
+      elsif value.is_a?(ActiveRecord::Base)
+        option_values[key] = value.as_json
+      end
     end
   end
 end

@@ -1,24 +1,3 @@
-# Copyright (c) 2023-2024 Andy Maleh
-#
-# Permission is hereby granted, free of charge, to any person obtaining
-# a copy of this software and associated documentation files (the
-# "Software"), to deal in the Software without restriction, including
-# without limitation the rights to use, copy, modify, merge, publish,
-# distribute, sublicense, and/or sell copies of the Software, and to
-# permit persons to whom the Software is furnished to do so, subject to
-# the following conditions:
-#
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 require 'glimmer'
 require 'glimmer/error'
 require 'glimmer/util/proc_tracker'
@@ -79,6 +58,7 @@ module Glimmer
         def markup(&block)
           @markup_block = block
         end
+        alias structure markup
 
         # TODO in the future support a string value too
         def style(&block)
@@ -129,6 +109,7 @@ module Glimmer
           ".#{component_element_class}"
         end
         alias component_markup_root_selector component_element_selector
+        alias component_structure_root_selector component_element_selector
         
         def component_shortcut_element_class
           self.shortcut_keyword.gsub('_', '-')
@@ -153,6 +134,7 @@ module Glimmer
       # This module was only created to prevent Glimmer from checking method_missing first
       module GlimmerSupersedable
         def method_missing(method_name, *args, &block)
+          # TODO think of a way to hide the unnecessary exception noise that is printed to the user in the browser console whenever this is triggered
           Glimmer::DSL::Engine.interpret(method_name, *args, &block)
         rescue
           super(method_name, *args, &block)
@@ -287,6 +269,7 @@ module Glimmer
       
       attr_reader :markup_root, :parent, :args, :options, :style_block, :component_style, :slot_elements, :events, :default_slot
       alias parent_proxy parent
+      alias structure_root markup_root
 
       def initialize(parent, args, options, &content)
         Glimmer::Web::Component.add_component(self)
@@ -560,6 +543,10 @@ module Glimmer
           attributes = {keyword:, args:, parent: parent_inspect}
         end
         "#<#{self.class}:0x#{object_id.to_s(16)} #{markup_root&.keyword}##{markup_root&.element_id} #{attributes}>"
+      end
+      
+      def root_component
+        (markup_root&.root_parent || markup_root)&.component
       end
 
       private

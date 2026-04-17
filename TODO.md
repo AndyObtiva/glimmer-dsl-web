@@ -4,19 +4,28 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.8.x
+### 0.9.x
 
+- back_button
+- forward_link
+- forward_button
+- Provide an API for visiting page components in history via Ruby code if needed
+- Hello, Modal!
+- Should we also look for hashes inside arrays in REsourceService::index when processing metadata ?
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
-### 0.9.x
+### 0.10.x
 
 - Prepend/append/insert element operations
 - Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
+- Support a root in all methods of `Rails::ResourceService`
 
 ### 1.0.0
 
 - Optimize Glimmer DSL for Web by not including Opal-Parser (Pull Request provided by hmdne)
+- Provide Rails 8 setup instructions
 - Automate Rails 7 setup instructions
+- Automate Rails 8 setup instructions
 
 ### 1.1.0
 
@@ -40,6 +49,11 @@ Example:
 - Simplified data-binding support for select tag to load its data through data-binding instead of explicit options
 - Simplified data-binding support for radio input tag in a group to load the entire group data through data-binding instead of explicit inputs
 - Support a Rails generator for generating a Model serializer (using ActiveModelSerializers if disereable)
+- Rails::ResourceService supports nested paths
+- Support a component_scoped_style {} block similar to style, but doesn't need us to prefix all CSS expressions by the component class (or consider making style {} auto nest all rules while providing a global_style alternative)
+- Provide a component.child_components method (or a child_components DSL keyword) without having to use `children.map(&:component)`
+- Provide a element_proxy.root_element method, root_component method, and closest_component method
+- Provide a built-in way of supporting Modals for simpler showing and hiding/removing
   
 ### 1.2.0
 
@@ -68,6 +82,7 @@ Example:
 - Contribute to Opal-Rails change to create app/assets/opal/application.rb instead of app/assets/javascript/application.js.rb as the latter is confusing (or at least an option)
 - Model Proxies (Use Backend Models in the Frontend through Automatically Generated REST Controllers for ActiveRecord models with secure whitelisting of the attributes/instance-methods/class-methods that need to be exposed only. For example, calling Purchases.limit(5) in the Frontend would call a Backend Purchase model indirectly via a PurchaseProxy that securely whitelists all available attributes/methods on Purchase)
 - Model Proxy Observers (Observe Backend Model events like creation, update, destruction, etc... via automatically generated Websocket-based channels for observing Backend Models view Proxy Observers)
+- If a component takes one argument only, you can pass in NOT as a hash key value
 
 ## Performance Optimizations
 
@@ -145,6 +160,20 @@ Example:
 - Support data-binding of week input to datetime object
 - Support wrapping an existing element as an ElementProxy just like in Glimmer DSL for SWT, to enable integrating with existing pre-rendered elements when needed while being able to dynamically add more content or adjustments to them.
 - Raise an error when attempting to use an attribute that shadows an HTML attribute
+- Rails::ResourceService supports all paths configured in Rails routes.rb (by downloading a blueprint of all routes upon first request and then caching in localStorage, unless a difference occurs that demands updating them)
+- a/button tag auto adds '#' to path for history remembering
+One way of doing this is by caching the current page HTML in localStorage just before processing a Glimmer listener like onclick, and pushing the state attributes (some ID identifying the page structure) and an automatically generated history URL
+That way, when the user uses the browser back link, it remembers every step of the way.
+If an action shouldn't be included in history rememboring, that can be specified:
+onclick do |event|
+  event.do_not_remember_history
+end
+Perhaps, by default this feature id disabled.
+To enable, we set a component attribute available in all components:
+address_form(:_auto_remember_history: true)
+- Is there a benefit of pulling in HTML in the background for a tags when clicked, combining the Hotwire approach with a Frontend approach?
+- Consider automatically deserializing model attributes passed to glimmer_component to a model class/struct if it exists (save model variable name somehow to use for that)
+- a/button tag that can perform custom actions, but link to any URL when triggered
 
 ## Issues
 

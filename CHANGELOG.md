@@ -1,5 +1,40 @@
 # Change Log
 
+## 0.9.0
+
+- page_component_link(text:, component_class:, component_attributes:, page_url:, css_id:, css_class:, css_style:) Glimmer Web Component to instantly render a new page component in the Frontend while changing the browser URL to a shareable bookmarkable URL
+- page_component_button(text:, component_class:, component_attributes:, page_url:, css_id:, css_class:, css_style:) Glimmer Web Component to instantly render a new page component in the Frontend while changing the browser URL to a shareable bookmarkable URL
+- back_link Glimmer Web Component that renders an anchor tag that can trigger the browser history back button
+- `Glimmer::Util::Debounce.new(&work).call(delay: 300, debounce: true)` to support debouncing repetitive requests, such as those made by a text input filter.
+- Normalize glimmer_component ActiveRecord::Base option values by calling as_json on them automatically
+- Normalize glimmer_component ActiveRecord::Relation option values by calling to_a on them automatically
+- Support `structure {}` as an alias for `markup {}` inside `Glimmer::Web::Component` implementors
+- Hello, Page Component Link! sample
+
+## 0.8.10
+
+- Remove unnecessary `puts` statements from `Rails::ResourceService`
+
+## 0.8.9
+
+- `Rails::ResourceService.index` supports `root` argument to be able to handle responses that include resources + metadata under a root (e.g. pagination info), providing |response, resources, metadata| to response handler block.
+- `Glimmer::Util::UrlQueryStringBuilder` supports `param`, `params`, and `query` to build a URL query string
+- Fix issue in `Rails::ResourceService.index`, `Rails::ResourceService.show`, `Rails::ResourceService.destroy` with incorrectly passing in query params via payload instead of query string
+
+## 0.8.8
+
+- `Glimmer::Util::UrlBuilder` supports `params` to set multiple params at once as a hash
+- Fix issue with `Glimmer::Util::UrlBuilder` when using paths ending with `.json`
+
+## 0.8.7
+
+- Upgrade to glimmer 0.8.2 as it has a fixed dependency on facets 3.1.0 to avoid the breaking changes of the new facets 3.2.0
+- `Glimmer::Util::UrlBuilder` resiliency against nil and empty params, paths, and fragments
+
+## 0.8.6
+
+- `Glimmer::Util::UrlBuilder` implementation to facilitate building URLs (with protocol scheme, host, path, query params, and fragment)
+
 ## 0.8.5
 
 - Update `Rails::ResourceService` to generate class resource name through correct underscored name (not just downcased)

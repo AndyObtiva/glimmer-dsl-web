@@ -54,3 +54,9 @@ task :default do
   puts "To run opal specs, visit: http://localhost:9292 "
   system `rackup`
 end
+
+require 'minitest/test_task'
+Minitest::TestTask.create :unit do |t|
+  t.test_globs = ["test/**/*_test.rb"]
+  t.warning = false
+end
