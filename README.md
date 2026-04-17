@@ -1388,250 +1388,34 @@ Learn more about the differences between various [Glimmer](https://github.com/An
 
 ## Setup
 
-You can setup Glimmer DSL for Web in [Rails 7](#rails-7) or [Standalone (No Rails)](#standalone-no-rails).
+You can setup Glimmer DSL for Web in one of the following ways:
+
+- [Rails 7/8 (Build pipeline)](#rails-78-build-pipeline)
+- [Rails 7 (Sprockets pipeline)](#rails-7-sprockets-pipeline)
+- [Standalone (No Rails)](#standalone-no-rails)
 
 Once done, read [Usage](#usage) instructions. Note that for serious app usage, it is recommended to build [components](#hello-component) and use the [`glimmer_component` Rails Helper](#hello-glimmer_component-rails-helper) to embed the top-level Web Frontend component in a Rails View.
 
 (NOTE: Keep in mind this is a Beta. If you run into issues, read the [FAQ](#faq) in case they are addressed there (e.g. [I sometimes get an Opal error that makes no sense in relation to my code. How do I fix it?](https://github.com/AndyObtiva/glimmer-dsl-web/blob/master/README.md#i-sometimes-get-an-opal-error-that-makes-no-sense-in-relation-to-my-code-how-do-i-fix-it)) and try to go back to a [previous revision](https://rubygems.org/gems/glimmer-dsl-web/versions). Also, there is a slight chance any issues you encounter are fixed in master or some other branch that you could check out instead)
 
-### Rails 8
+### Rails 7/8 (Build pipeline)
 
-Rails 8 instructions are not ready yet though they would rely on the `opal --watch` command in the Development environment to generate JavaScript files in the directory that propshaft is setup with, and Rails 8 would rely on the `opal` command to generate JavaScript files for the Production environment.
+For the modern build-based `opal-rails` flow, follow [docs/setup/rails_7_8_build_pipeline.md](docs/setup/rails_7_8_build_pipeline.md).
 
-Instructions will be added in the future.
+This is the recommended setup for:
 
-If you want to help contribute Rails 8 instructions, please look at the Rails 7 instructions and see what needs to be adjusted in light of the first statement above about using `opal --watch` in Development and `opal` in Production.
+- Rails 8 apps
+- Rails 7 apps that you want on the same explicit build/watch flow, whether the host app serves assets with Propshaft or Sprockets
 
-### Rails 7
+It is based on the current `opal-rails` build pipeline and the verified migration path used in the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app). In this flow, Rails just serves the compiled assets from `app/assets/builds`; it does not compile Opal source files at request time.
 
-(NOTE: In the future, we plan to automate the setup steps below. If you would like to help contribute that to the project, please do so and open a Pull Request.)
+If you are migrating an existing app from the legacy request-time pipeline to this build pipeline, start with [docs/setup/rails_7_8_build_pipeline.md](docs/setup/rails_7_8_build_pipeline.md) and the `opal-rails` porting notes at https://github.com/opal/opal-rails/blob/master/PORTING.md.
 
-Please follow these steps to setup.
+### Rails 7 (Sprockets pipeline)
 
-Install a Rails 7 gem:
+For the legacy Rails 7 + Sprockets/request-time compilation flow, follow [docs/setup/rails_7_sprockets_pipeline.md](docs/setup/rails_7_sprockets_pipeline.md).
 
-```
-gem install rails -v7.0.9.0
-```
-
-Start a new Rails 7 app:
-
-```
-rails new glimmer_app_server
-```
-
-Add the following to `Gemfile`:
-
-```
-gem 'glimmer-dsl-web', '~> 0.9.0'
-gem 'opal-rails', '2.0.4' # for Rails 7 use of Sprockets
-```
-
-Run:
-
-```
-bundle
-```
-
-(run `rm -rf tmp/cache` from inside your Rails app if you upgrade your `glimmer-dsl-web` gem version from an older one to clear Opal-Rails's cache)
-
-Follow [opal-rails](https://github.com/opal/opal-rails) instructions, basically running:
-
-```
-bin/rails g opal:install
-```
-
-To enable the `glimmer-dsl-web` gem in the frontend, edit `config/initializers/assets.rb` and add the following at the bottom (requires that you also create `manifest.opal.js` as per instructions below):
-
-```ruby
-Opal.use_gem 'glimmer-dsl-web'
-Opal.append_path Rails.root.join('app', 'assets', 'opal')
-Rails.application.config.assets.precompile += %w[manifest.opal.js]
-```
-
-To enable Opal Browser Debugging in Ruby with the [Source Maps](https://opalrb.com/docs/guides/v1.4.1/source_maps.html) feature, edit `config/initializers/opal.rb` and add the following inside the `Rails.application.configure do; end` block at the bottom of it:
-
-```ruby
-  config.assets.debug = true if Rails.env.development?
-```
-
-Assuming this is a brand new Rails application and you do not have any Rails resources, you can scaffold the welcome resource just for testing purposes.
-
-Run:
-
-```
-rails g scaffold welcome
-```
-
-Run:
-
-```
-rails db:migrate
-```
-
-Add the following to `config/routes.rb` inside the `Rails.application.routes.draw` block:
-
-```ruby
-root to: 'welcomes#index'
-```
-
-Clear the file `app/views/welcomes/index.html.erb` completely from all content.
-
-Rename `app/assets/javascript/application.js.rb` file to `app/assets/javascript/opal_application.rb`.
-
-Rename `app/assets/javascript` directory to `app/assets/opal`.
-
-Edit `app/assets/config/manifest.js` and update `//= link_directory ../javascript .js` to `//= link_directory ../opal .js`:
-
-```js
-//= link_directory ../opal .js
-```
-
-Also, create `app/assets/config/manifest.opal.js` and add the following content to it:
-```js
-//= link_tree ../opal .js
-//= link_directory ../opal .js
-```
-
-Edit `app/views/layouts/application.html.erb` and update `<%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>` to `<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>`:
-
-```erb
-<%= javascript_include_tag "opal_application", "data-turbolinks-track": "reload" %>
-```
-
-Edit and replace `app/assets/opal/opal_application.rb` content with code below (optionally including a require statement for one of the [samples](#samples) below):
-
-```ruby
-require 'glimmer-dsl-web' # brings opal and other dependencies automatically
-
-# Add more require-statements or Glimmer HTML DSL code
-```
-
-```ruby
-require 'glimmer-dsl-web'
-
-require 'glimmer-dsl-web/samples/hello/hello_world.rb'
-```
-
-If the `<body></body>` element (where the Glimmer HTML DSL adds elements by default) is not available when the JS file is loading, you need to put the code inside a `Document.ready? do; end` (but, it is recommended that you load the JS file after the parent element like `<body></body>` is in the page already for faster performance, which is guaranteed automatically by using `glimmer_component`, mentioned in details below):
-
-```ruby
-require 'glimmer-dsl-web'
-
-Document.ready? do
-  require 'glimmer-dsl-web/samples/hello/hello_world.rb'
-end
-```
-
-Example to confirm setup is working:
-
-Glimmer HTML DSL Ruby code in the frontend:
-
-```ruby
-require 'glimmer-dsl-web'
-
-include Glimmer
-
-Document.ready? do
-  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-  div {
-    label(class: 'greeting') {
-      'Hello, World!'
-    }
-  }
-end
-```
-
-That produces:
-
-```html
-<body>
-  <div data-parent="body" class="element element-1">
-    <label class="greeting element element-2">
-      Hello, World!
-    </label>
-  </div>
-</body>
-```
-
-Start the Rails server:
-```
-rails s
-```
-
-Visit `http://localhost:3000`
-
-You should see:
-
-![setup is working](/images/glimmer-dsl-web-setup-example-working.png)
-
-If you want to customize where the top-level element is mounted, just pass a `parent: 'css_selector'` option.
-
-HTML:
-
-```html
-...
-<div id="app-container">
-</div>
-...
-```
-
-Glimmer HTML DSL Ruby code in the frontend:
-
-```ruby
-require 'glimmer-dsl-web'
-
-include Glimmer
-
-Document.ready? do
-  # This will hook into element #app-container and then build HTML inside it using Ruby DSL code
-  div(parent: '#app-container') {
-    label(class: 'greeting') {
-      'Hello, World!'
-    }
-  }
-end
-```
-
-That produces:
-
-```html
-...
-<div id="app-container">
-  <div data-parent="app-container" class="element element-1">
-    <label class="greeting element element-2">
-      Hello, World!
-    </label>
-  </div>
-</div>
-...
-```
-
-You may delete `opal_application.rb` after confirming that the setup works because `glimmer_component` is the recommended way for serious use of Glimmer DSL for Web in Rails web apps.
-
-You may insert a Glimmer component anywhere into a Rails View using `glimmer_component(component_path, *args)` Rails helper. Add `include GlimmerHelper` to `ApplicationHelper` or another Rails helper, and use `<%= glimmer_component("path/to/component", *args) %>` in Views.
-
-To use `glimmer_component`, edit `app/helpers/application_helper.rb` in your Rails application, add `require 'glimmer/helpers/glimmer_helper'` on top and `include GlimmerHelper` inside `module`.
-
-`app/helpers/application_helper.rb` should look like this after the change:
-
-```ruby
-require 'glimmer/helpers/glimmer_helper'
-
-module ApplicationHelper
-  # ...
-  include GlimmerHelper
-  # ...
-end
-```
-
-By default, elements are rendered in bulk for faster performance, meaning you cannot interact with element objects until rendering is done. This is a sensible default because most of the time, there is no need to interact with elements until the full frontend application is fully rendered. That said, if it is preferred every once in a while to render elements piecemeal instead of in bulk, this behavior can be adjusted by passing the option `bulk_render: false` to the top-level component or top-level element (if there is no component).
-
-Note that Turbo is disabled on Glimmer elements/components. You can still use Turbo/Hotwire side by side with Glimmer DSL for Web by using one of the two technologies in every page. But, mixing them in the same pages is not recommended at the moment, so any pages loaded with Glimmer DSL for Web must be loaded without Turbo (e.g. by putting "data-turbo"="false" on anchor "a" tag links to Glimmer pages).
-
-If you run into any issues in setup, refer to the [Sample Glimmer DSL for Web Rails 7 App](https://github.com/AndyObtiva/sample-glimmer-dsl-web-rails7-app) project (in case I forgot to include some setup steps by mistake).
-
-Otherwise, if you still cannot setup successfully (even with the help of the sample project, or if the sample project stops working), please do not hesitate to report an [Issue request](https://github.com/AndyObtiva/glimmer-dsl-web/issues) or fix and submit a [Pull Request](https://github.com/AndyObtiva/glimmer-dsl-web/pulls).
+That guide explicitly pins `opal-rails` to `~> 2.0`. If you are starting a new app or want the newer build/watch workflow, use the build-pipeline guide above instead.
 
 Next, read [Usage](#usage) instructions, and check out [Samples](#samples).
 
