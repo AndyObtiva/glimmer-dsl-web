@@ -54,6 +54,8 @@ Example:
 - Provide a component.child_components method (or a child_components DSL keyword) without having to use `children.map(&:component)`
 - Provide a element_proxy.root_element method, root_component method, and closest_component method
 - Provide a built-in way of supporting Modals for simpler showing and hiding/removing
+- Use `innerText` to set text content inside an HTML element in general.
+- Sanitze content of the String being set on `p` to only have the formatting tags (e.g. `string`, `em`, `sup`, etc...)
   
 ### 1.2.0
 
