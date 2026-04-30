@@ -11,7 +11,7 @@
 
 **([Fukuoka Prefecture Future IT Initiative 2025 Money Forward Award Winner](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html)) [(Award Announcement)](https://digitalfukuoka.jp/news/info/528/)**
 
-(Workshops: **[wroclove.rb 2026 Ruby conference workshop exercises: "Building Rails SPAs in Frontend Ruby with Glimmer DSL for Web"](https://github.com/AndyObtiva/glimmer_commerce)**)
+(**Workshops: [wroclove.rb 2026 Ruby conference workshop exercises: "Building Rails SPAs in Frontend Ruby with Glimmer DSL for Web"](https://github.com/AndyObtiva/glimmer_commerce)**)
 
 **(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) / [Frontend Ruby with Glimmer DSL for Web \[Montreal.rb\]](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE) / [Frontend Ruby with Glimmer DSL for Web \[/dev/mtl 2024\]](https://www.youtube.com/watch?v=J2VIY9DMJo4)) / [Frontend Ruby with Glimmer DSL for Web at Ruby on Rio 2025-06-06 Talk](https://www.youtube.com/watch?v=LY6ulYICuzE)**
 
