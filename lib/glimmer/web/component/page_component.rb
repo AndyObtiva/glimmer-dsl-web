@@ -1,4 +1,5 @@
 module PageComponent
+  # TODO provide the ability to programmatically push a component in and programmatically trigger a page load
   class << self
     def page_url_to_component_mapping
       unless defined?(@@page_url_to_component_mapping)

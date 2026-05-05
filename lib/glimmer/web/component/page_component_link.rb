@@ -23,6 +23,12 @@ class PageComponentLink
   markup {
     a(text, **@anchor_tag_attributes) {
       onclick do |event|
+        # TODO provide the ability to programmatically push a component in
+        # and programmatically trigger a page load
+        # TODO support custom onclick behavior that comes from outside the component as well in case that's needed
+        # especially if needed to determine the component_attributes dynamically ahead of the code below
+        # Maybe there is a need for another listener to execute afterwards as well (like by supporting hooks)
+      
         event.prevent_default
         page_component = nil
         if component_attributes.nil?

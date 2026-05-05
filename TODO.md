@@ -6,11 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.9.x
 
-- back_button
-- forward_link
-- forward_button
-- Provide an API for visiting page components in history via Ruby code if needed
-- Hello, Modal!
 - Should we also look for hashes inside arrays in REsourceService::index when processing metadata ?
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
@@ -29,6 +24,12 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 1.1.0
 
+- back_button
+- forward_link
+- forward_button
+- Provide an API for visiting page components in history via Ruby code if needed
+(we can use page component link, but currently it takes some redundant work, and we don't support unique components per URL when the URL has extra request parameters as it seems we disregard them; we should start supporting them
+- Consider page component custom onclick listeners (or a Ruby block) to calculate the component_attributes on the fly (instead of presetting on a page_component_link or page_component_button
 - Router support to enable friendly URLs when needed
 Example:
   route '#hello-world' do

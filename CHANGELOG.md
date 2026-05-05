@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9.1
+
+- Hello, Modal! Sample: `require 'glimmer-dsl-web/samples/hello/hello_modal.rb'`
+
 ## 0.9.0
 
 - page_component_link(text:, component_class:, component_attributes:, page_url:, css_id:, css_class:, css_style:) Glimmer Web Component to instantly render a new page component in the Frontend while changing the browser URL to a shareable bookmarkable URL
