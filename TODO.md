@@ -6,7 +6,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.9.x
 
-- Should we also look for hashes inside arrays in REsourceService::index when processing metadata ?
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
 
 ### 0.10.x
@@ -177,6 +176,7 @@ address_form(:_auto_remember_history: true)
 - Is there a benefit of pulling in HTML in the background for a tags when clicked, combining the Hotwire approach with a Frontend approach?
 - Consider automatically deserializing model attributes passed to glimmer_component to a model class/struct if it exists (save model variable name somehow to use for that)
 - a/button tag that can perform custom actions, but link to any URL when triggered
+- Should we also look for hashes inside arrays in ResourceService::index when processing metadata?
 
 ## Issues
 
