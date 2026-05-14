@@ -308,7 +308,7 @@ DEPENDENCIES
   jeweler (>= 2.3.9, < 3.0.0)
   minitest (~> 5.25.4)
   minitest-focus (~> 1.4.1)
-  opal (= 1.8.2)
+  opal (>= 1.8.2, < 2.0.0)
   opal-async (~> 1.4.1)
   opal-jquery (~> 0.5.2)
   opal-rails (>= 2.0.4, < 4.0.0)

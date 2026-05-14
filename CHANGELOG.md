@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9.2
+
+- Relax opal dependency to '>= 1.8.2', '< 2.0.0' (to enable use of Glimmer DSL for Web with newer versions of Opal)
+
 ## 0.9.1
 
 - Hello, Modal! Sample: `require 'glimmer-dsl-web/samples/hello/hello_modal.rb'`
