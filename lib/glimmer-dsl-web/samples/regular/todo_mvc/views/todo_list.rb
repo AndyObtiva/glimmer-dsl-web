@@ -5,14 +5,6 @@ class TodoList
   
   option :presenter
   
-  after_render do
-    observe(presenter, :created_todo) do |todo|
-      @todo_ul.content { # re-open todo ul content to add created todo
-        todo_list_item(presenter:, todo:)
-      }
-    end
-  end
-  
   markup {
     main(class: 'main') {
       div(class: 'toggle-all-container') {
@@ -25,14 +17,14 @@ class TodoList
         }
       }
       
-      @todo_ul = ul {
-        # class name is data-bound unidirectionally to the presenter filter attribute,
-        # meaning it would automatically get set to its value whenever presenter.filter changes
+      ul {
         class_name <= [presenter, :filter]
       
-        presenter.todos.each do |todo|
-          todo_list_item(presenter:, todo:)
-        end
+        content(presenter, :todos) {
+          presenter.todos.each do |todo|
+            todo_list_item(presenter:, todo:)
+          end
+        }
       }
     }
   }

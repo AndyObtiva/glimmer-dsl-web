@@ -1,7 +1,6 @@
-Todo = Struct.new(:task, :completed, :editing, :deleted, keyword_init: true) do
+Todo = Struct.new(:task, :completed, :editing, keyword_init: true) do
   alias completed? completed
   alias editing? editing
-  alias deleted? deleted
   
   def active = !completed
   alias active? active

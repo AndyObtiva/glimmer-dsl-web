@@ -6,7 +6,7 @@ class TodoPresenter
   FILTERS = [:all, :active, :completed]
   FILTER_ROUTE_REGEXP = /\#\/([^\/]*)$/
   
-  attr_accessor :can_clear_completed, :active_todo_count, :created_todo
+  attr_accessor :can_clear_completed, :active_todo_count
   attr_reader :todos, :new_todo, :filter
   
   def initialize
@@ -27,7 +27,6 @@ class TodoPresenter
     todos.append(todo)
     observe_todo_completion_to_update_todo_stats(todo)
     new_todo.task = ''
-    self.created_todo = todo # notifies View observer indirectly to add created todo to todo list
   end
   
   def filter=(filter)
@@ -87,7 +86,6 @@ class TodoPresenter
     todos.delete(todo)
     observer_registration = observers_for_todo_stats.delete(todo.object_id)
     observer_registration&.deregister
-    todo.deleted = true # notifies View observer indirectly to delete todo
   end
   
   def observers_for_todo_stats

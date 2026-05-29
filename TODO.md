@@ -141,6 +141,11 @@ Example:
     content_for_each(presenter, :todos) { |todo|
       todo_list_item(presenter:, todo:)
     }
+  # within content (content block has a unique object_id),
+  # todo_list_item will store element in a cache per attributes (doesn't care about each perse)
+  # if content refreshes, then the index of each new nested glimmer web component (todo_list_item)
+  # will lookup cache. If it finds element, it uses it, but moves it to new index if it diverges.
+  # if it does not find element, it builds a new one and inserts it at the index it is at
 - Supporting embedding consumer markup anywhere in a used component by supporting block properties
 - Support integration with standard HTML Web Components
 - Resolve namespaced components by preferring the current namespace module we are in first if no namespace was specified (glimmer library must be aware of current namespace by checking in method_missing and passing that information to the Glimmer DSL Engine in some stack)

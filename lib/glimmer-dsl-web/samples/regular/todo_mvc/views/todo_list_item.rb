@@ -6,43 +6,21 @@ class TodoListItem
   option :presenter
   option :todo
   
-  after_render do
-    # after rendering markup, observe todo deleted attribute and remove component when deleted
-    observe(todo, :deleted) do |deleted|
-      self.remove if deleted
-    end
-  end
-  
   markup {
     li {
-      # Data-bind inclusion of `completed` in `li` `class` attribute unidirectionally to `todo` `completed` attribute,
-      # meaning inclusion/exclusion of `completed` class happens automatically when `todo.completed` boolean value changes.
       class_name(:completed) <= [todo, :completed]
-      
-      # Data-bind inclusion of `active` in `li` `class` attribute unidirectionally to `todo` `completed` attribute, negated,
-      # meaning inclusion/exclusion of `active` class happens automatically when `todo.completed` negated boolean value changes.
       class_name(:active) <= [todo, :completed, on_read: :!]
-      
-      # Data-bind inclusion of `editing` in `li` `class` attribute unidirectionally to `todo` `editing` attribute,
-      # meaning inclusion/exclusion of `editing` class happens automatically when `todo.editing` boolean value changes.
       class_name(:editing) <= [todo, :editing]
       
       div(class: 'view') {
         input(class: 'toggle', type: 'checkbox') {
-          # Data-bind `input` `checked` property bidirectionally to `todo` `completed` attribute
-          # meaning make any changes to the `todo` `completed` attribute value automatically update the `input` `checked` property
-          # and any changes to the `input` `checked` property by the user automatically update the `todo` `completed` attribute value.
-          # `after_write` hook is invoked after writing a new value to the model attribute (`todo` `completed` attribute)
           checked <=> [todo, :completed]
         }
         
         label {
-          # Data-bind `label` inner HTML unidirectionally to `todo.task` (`String` value),
-          # meaning make changes to `todo` `task` attribute automatically update `label` inner HTML.
           inner_html <= [todo, :task]
           
           ondblclick do |event|
-            # if the markup root (li) last child is not an input field, re-open content and add an edit input field
             unless markup_root.children.last.keyword == 'input'
               markup_root.content {
                 edit_todo_input(presenter:, todo:)
