@@ -5,15 +5,13 @@
 [![Gem Version](https://badge.fury.io/rb/glimmer-dsl-web.svg)](http://badge.fury.io/rb/glimmer-dsl-web)
 [![Join the chat at https://gitter.im/AndyObtiva/glimmer](https://badges.gitter.im/AndyObtiva/glimmer.svg)](https://gitter.im/AndyObtiva/glimmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-**UPCOMING MAY 30, 2026 TALK: "Frontend Ruby on Rails with Glimmer DSL for Web" at [RubyConf Austria 2026](https://rubyconf.at/), in Vienna, Austria**
-
 **(Based on Original [Glimmer](https://github.com/AndyObtiva/glimmer) Library Handling World’s Ruby GUI Needs Since 2007. Beware of Imitators!)**
 
 **([Fukuoka Prefecture Future IT Initiative 2025 Money Forward Award Winner](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html)) [(Award Announcement)](https://digitalfukuoka.jp/news/info/528/)**
 
 (**Workshops: [wroclove.rb 2026 Ruby conference workshop exercises: "Building Rails SPAs in Frontend Ruby with Glimmer DSL for Web"](https://github.com/AndyObtiva/glimmer_commerce)**)
 
-**(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) / [Frontend Ruby with Glimmer DSL for Web \[Montreal.rb\]](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE) / [Frontend Ruby with Glimmer DSL for Web \[/dev/mtl 2024\]](https://www.youtube.com/watch?v=J2VIY9DMJo4)) / [Frontend Ruby with Glimmer DSL for Web at Ruby on Rio 2025-06-06 Talk](https://www.youtube.com/watch?v=LY6ulYICuzE)**
+**(Talk Videos: [Intro to Ruby in the Browser](https://youtu.be/4AdcfbI6A4c?si=MmxOrkhIXTDHQoYi) / [Frontend Ruby with Glimmer DSL for Web \[Montreal.rb\]](https://youtu.be/rIZ-ILUv9ME?si=raygUXVPd_7ypWuE) / [Frontend Ruby with Glimmer DSL for Web \[/dev/mtl 2024\]](https://www.youtube.com/watch?v=J2VIY9DMJo4)) / [Frontend Ruby with Glimmer DSL for Web at Ruby on Rio 2025-06-06 Talk](https://www.youtube.com/watch?v=LY6ulYICuzE) / [Frontend Ruby on Rails with Glimmer DSL for Web at RubyConf Austria 2026](https://www.youtube.com/watch?v=qTukq5AcSK0))**
 
 **(Ruby Rogues Podcast: [Building Better Ruby Apps: Glimmer Component Slots and More](https://topenddevs.com/podcasts/ruby-rogues/episodes/building-better-ruby-apps-glimmer-s-component-slots-and-more-ruby-653))**
 
