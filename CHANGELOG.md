@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.10.1
+
+- Support auto-converting HTML element value when set via HTML attributes (kwargs)
+- Simplify Hello, Input Date/Time Data-Binding! sample by setting value via HTML attributes (kwargs) instead of properties (nested method call)
+
 ## 0.10.0
 
 - Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding

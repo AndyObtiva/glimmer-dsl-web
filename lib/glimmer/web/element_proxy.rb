@@ -192,7 +192,7 @@ module Glimmer
           # @ancestor_component is the one tied to this component-internal element as an ancestor
           @ancestor_component = Component.interpretation_stack.last
         end
-        @options = args.last.is_a?(Hash) ? args.last.symbolize_keys : {}
+        extract_options_from_args(args) # sets @options
         if parent.nil?
           options[:parent] ||= Component.interpretation_stack.last&.options&.[](:parent)
           options[:render] ||= Component.interpretation_stack.last&.options&.[](:render)
@@ -1114,6 +1114,14 @@ module Glimmer
       end
       
       private
+      
+      def extract_options_from_args(args)
+        @options = args.last.is_a?(Hash) ? args.last.symbolize_keys : {}
+        if @options.has_key?(:value)
+          @options[:value] = value # ensures setting the converted value instead of the raw value
+        end
+        @options
+      end
       
       def base_css_classes
         framework_css_classes = @parent.nil? ? ["#{CSS_CLASS_GLIMMER}-root"] : []

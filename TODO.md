@@ -4,10 +4,6 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ## Next
 
-### 0.9.x
-
-- Ensure auto-formatting date/time/datetime/week/month values from date/time/datetime objects even without data-binding
-
 ### 0.10.x
 
 - Prepend/append/insert element operations

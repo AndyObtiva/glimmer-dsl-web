@@ -55,50 +55,38 @@ unless Object.const_defined?(:HelloInputDateTime) # this is only needed in sampl
       div {
         div(style: 'display: grid; grid-auto-columns: 130px 260px;') { |container_div|
           label('Date Time: ', for: 'date-time-field')
-          @date_time_field = input(id: 'date-time-field', type: 'datetime-local') {
-            value @time_presenter.date_time
-            
+          @date_time_field = input(id: 'date-time-field', type: 'datetime-local', value: @time_presenter.date_time) {
             oninput do |event|
               @time_presenter.date_time = @date_time_field.value
             end
           }
           
           label('Date: ', for: 'date-field')
-          @date_field = input(id: 'date-field', type: 'date') {
-            value @time_presenter.date_time
-            
+          @date_field = input(id: 'date-field', type: 'date', value: @time_presenter.date_time) {
             oninput do |event|
               @time_presenter.date_time = @date_field.value
             end
           }
     
           label('Time: ', for: 'time-field')
-          @time_field = input(id: 'time-field', type: 'time') {
-            value @time_presenter.date_time
-            
+          @time_field = input(id: 'time-field', type: 'time', value: @time_presenter.date_time) {
             oninput do |event|
               @time_presenter.date_time = @time_field.value
             end
           }
   
           label('Month: ', for: 'month-field')
-          @month_field = input(id: 'month-field', type: 'month') {
-            value @time_presenter.date_time
-            
+          @month_field = input(id: 'month-field', type: 'month', value: @time_presenter.date_time) {
             oninput do |event|
               @time_presenter.date_time = @month_field.value
             end
           }
   
           label('Week: ', for: 'week-field')
-          @week_field = input(id: 'week-field', type: 'week', disabled: true) {
-            value @time_presenter.week_string
-          }
+          @week_field = input(id: 'week-field', type: 'week', disabled: true, value: @time_presenter.week_string)
   
           label('Time String: ', for: 'time-string-field')
-          @time_string_field = input(id: 'time-string-field', type: 'text') {
-            value @time_presenter.date_time_string
-          
+          @time_string_field = input(id: 'time-string-field', type: 'text', value: @time_presenter.date_time_string) {
             oninput do |event|
               @time_presenter.date_time_string = @time_string_field.value
             end
