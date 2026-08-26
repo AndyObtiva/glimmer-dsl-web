@@ -24,8 +24,7 @@ Document.ready? do
           onclick do |event|
             if ([@name_input, @email_input].all? {|input| input.check_validity })
               event.prevent_default
-              # re-open table content and add row
-              @table.content {
+              @table.append {
                 tr {
                   td { @name_input.value }
                   td { @email_input.value }

@@ -21,11 +21,7 @@ class TodoListItem
           inner_html <= [todo, :task]
           
           ondblclick do |event|
-            unless markup_root.children.last.keyword == 'input'
-              markup_root.content {
-                edit_todo_input(presenter:, todo:)
-              }
-            end
+            add_edit_form_on_first_edit
             todo.start_editing
           end
         }
@@ -139,5 +135,17 @@ class TodoListItem
       }
     }
   }
+  
+  private
+  
+  def add_edit_form_on_first_edit
+    unless markup_root.children.last.keyword == 'input'
+      # Adding edit form dynamically prevents rendering extra elements
+      # until they become needed to ensure faster performance
+      markup_root.append {
+        edit_todo_input(presenter:, todo:)
+      }
+    end
+  end
 end
             

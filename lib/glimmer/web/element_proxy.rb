@@ -552,6 +552,7 @@ module Glimmer
         options[:bulk_render] = original_bulk_render if rendered?
         return_value
       end
+      alias append content
       
       # Subclasses must override with their own mappings
       def observation_request_to_event_mapping

@@ -61,7 +61,7 @@ rails _7.0.10_ new glimmer_app_server -a propshaft
 Add the following to `Gemfile`:
 
 ```ruby
-gem 'glimmer-dsl-web', '~> 0.10.1'
+gem 'glimmer-dsl-web', '~> 0.10.2'
 gem 'opal-rails', github: 'opal/opal-rails', branch: 'hmdne/drop-sprockets-and-modernize'
 ```
 

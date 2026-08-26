@@ -510,6 +510,7 @@ module Glimmer
           end
         end
       end
+      alias append content
       
       def remove_all_listeners
         data_bindings.each do |option_binding, model_binding|
