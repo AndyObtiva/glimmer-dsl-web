@@ -2,7 +2,7 @@
 
 ## 0.10.2
 
-- Support `ElementProxy#append {}`/`Glimmer::Web::Component#append {}` as an alias for `content {}` to enable appending elements to the content of a parent element
+- Support `parent.append {}` as an alias for `content {}` on `ElementProxy` and `Glimmer::Web::Component`, which is a method that appends elements to the content of a parent element
 
 ## 0.10.1
 

@@ -6,7 +6,7 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.10.x
 
-- Prepend/append/insert element operations
+- Insert element at index operation
 - Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
 - Support a root in all methods of `Rails::ResourceService`
 

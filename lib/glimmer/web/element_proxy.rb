@@ -445,7 +445,7 @@ module Glimmer
         brand_new ||= @dom.nil? || !options[:parent].to_s.empty? || (old_element = dom_element).empty?
         build_dom(layout: !custom_parent_dom_element) # TODO handle custom parent layout by passing parent instead of parent dom element
         if brand_new
-          attach(the_parent_dom_element)
+          attach(the_parent_dom_element, mutation: self.parent&.mutation || :append)
         else
           reattach(old_element)
         end
@@ -458,8 +458,13 @@ module Glimmer
       end
       alias rerender render
         
-      def attach(the_parent_dom_element)
-        the_parent_dom_element.append(@dom)
+      # TODO should we support an option to prepend (or insert) instead?
+      def attach(the_parent_dom_element, mutation: :append)
+        if mutation == :prepend
+          the_parent_dom_element.prepend(@dom)
+        else
+          the_parent_dom_element.append(@dom)
+        end
       end
         
       def reattach(old_element)
@@ -545,14 +550,27 @@ module Glimmer
         html_options
       end
       
-      def content(bulk_render: false, &block)
+      # TODO consider renaming to child_mutation or add_child_mutation
+      def mutation
+        @mutation || :append
+      end
+      
+      def mutation=(value)
+        @mutation = value
+      end
+      
+      def content(bulk_render: false, mutation: :append, &block)
         original_bulk_render = options[:bulk_render]
         options[:bulk_render] = bulk_render if rendered?
-        return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, &block)
+        return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, mutation:, &block)
         options[:bulk_render] = original_bulk_render if rendered?
         return_value
       end
       alias append content
+      
+      def prepend(bulk_render: false, &block)
+        content(bulk_render:, mutation: :prepend, &block)
+      end
       
       # Subclasses must override with their own mappings
       def observation_request_to_event_mapping

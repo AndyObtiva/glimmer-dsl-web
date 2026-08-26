@@ -512,10 +512,22 @@ module Glimmer
       end
       alias append content
       
+      def prepend(bulk_render: false, &block)
+        @markup_root.prepend(bulk_render:, &block)
+      end
+      
       def remove_all_listeners
         data_bindings.each do |option_binding, model_binding|
           option_binding.unregister_all_observables
         end
+      end
+      
+      def mutation
+        markup_root.mutation
+      end
+      
+      def mutation=(value)
+        markup_root.mutation = value
       end
 
       def method_missing(method_name, *args, &block)
