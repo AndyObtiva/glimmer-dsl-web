@@ -38,131 +38,135 @@ end
 # generates a new Glimmer HTML DSL keyword that matches the lowercase underscored version
 # of the name of the class. AddressForm generates address_form_with_slots keyword, which can be used
 # elsewhere in Glimmer HTML DSL code as done inside HelloComponentSlots below.
-class AddressFormWithSlots
-  include Glimmer::Web::Component
+unless Object.const_defined?(:AddressFormWithSlots)
+  class AddressFormWithSlots
+    include Glimmer::Web::Component
+    
+    option :address
+    
+    # markup block provides the content of the
+    markup {
+      div {
+        # designate this div as a slot with the slot name :address_header to enable
+        # consumers to contribute elements to `address_header {...}` slot
+        div(slot: :address_header, class: 'address-form-header')
+        
+        div(class: 'address-field-container', style: {display: :grid, grid_auto_columns: '80px 260px'}) {
+          label('Full Name: ', for: 'full-name-field')
+          input(id: 'full-name-field') {
+            value <=> [address, :full_name]
+          }
+          
+          @somelabel = label('Street: ', for: 'street-field')
+          input(id: 'street-field') {
+            value <=> [address, :street]
+          }
+          
+          label('Street 2: ', for: 'street2-field')
+          textarea(id: 'street2-field') {
+            value <=> [address, :street2]
+          }
+          
+          label('City: ', for: 'city-field')
+          input(id: 'city-field') {
+            value <=> [address, :city]
+          }
+          
+          label('State: ', for: 'state-field')
+          select(id: 'state-field') {
+            Address::STATES.each do |state_code, state|
+              option(value: state_code) { state }
+            end
   
-  option :address
-  
-  # markup block provides the content of the
-  markup {
-    div {
-      # designate this div as a slot with the slot name :address_header to enable
-      # consumers to contribute elements to `address_header {...}` slot
-      div(slot: :address_header, class: 'address-form-header')
-      
-      div(class: 'address-field-container', style: {display: :grid, grid_auto_columns: '80px 260px'}) {
-        label('Full Name: ', for: 'full-name-field')
-        input(id: 'full-name-field') {
-          value <=> [address, :full_name]
-        }
-        
-        @somelabel = label('Street: ', for: 'street-field')
-        input(id: 'street-field') {
-          value <=> [address, :street]
-        }
-        
-        label('Street 2: ', for: 'street2-field')
-        textarea(id: 'street2-field') {
-          value <=> [address, :street2]
-        }
-        
-        label('City: ', for: 'city-field')
-        input(id: 'city-field') {
-          value <=> [address, :city]
-        }
-        
-        label('State: ', for: 'state-field')
-        select(id: 'state-field') {
-          Address::STATES.each do |state_code, state|
-            option(value: state_code) { state }
-          end
-
-          value <=> [address, :state_code]
-        }
-        
-        label('Zip Code: ', for: 'zip-code-field')
-        input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
-          value <=> [address, :zip_code,
-                      on_write: :to_s,
-                    ]
-        }
-      }
-      
-      div(style: {margin: 5}) {
-        inner_text <= [address, :summary,
-                        computed_by: address.members + ['state_code'],
+            value <=> [address, :state_code]
+          }
+          
+          label('Zip Code: ', for: 'zip-code-field')
+          input(id: 'zip-code-field', type: 'number', min: '0', max: '99999') {
+            value <=> [address, :zip_code,
+                        on_write: :to_s,
                       ]
+          }
+        }
+        
+        div(style: {margin: 5}) {
+          inner_text <= [address, :summary,
+                          computed_by: address.members + ['state_code'],
+                        ]
+        }
+        
+        # designate this div as a slot with the slot name :address_footer to enable
+        # consumers to contribute elements to `address_footer {...}` slot
+        div(slot: :address_footer, class: 'address-form-footer')
       }
-      
-      # designate this div as a slot with the slot name :address_footer to enable
-      # consumers to contribute elements to `address_footer {...}` slot
-      div(slot: :address_footer, class: 'address-form-footer')
     }
-  }
-  
-  style {
-    r('.address-field-container *') {
-      margin 5
+    
+    style {
+      r('.address-field-container *') {
+        margin 5
+      }
+      r('.address-field-container input, .address-field-container select') {
+        grid_column '2'
+      }
     }
-    r('.address-field-container input, .address-field-container select') {
-      grid_column '2'
-    }
-  }
+  end
 end
 
 # HelloComponentSlots Glimmer Web Component (View component)
 #
 # This View component represents the main page being rendered,
 # as done by its `render` class method below
-class HelloComponentSlots
-  include Glimmer::Web::Component
-  
-  before_render do
-    @shipping_address = Address.new(
-      full_name: 'Johnny Doe',
-      street: '3922 Park Ave',
-      street2: 'PO BOX 8382',
-      city: 'San Diego',
-      state: 'California',
-      zip_code: '91913',
-    )
-    @billing_address = Address.new(
-      full_name: 'John C Doe',
-      street: '123 Main St',
-      street2: 'Apartment 3C',
-      city: 'San Diego',
-      state: 'California',
-      zip_code: '91911',
-    )
-  end
-  
-  markup {
-    div {
-      address_form_with_slots(address: @shipping_address) {
-        address_header { # contribute elements to the address_header component slot
-          h1('Shipping Address')
-          legend('This is the address that is used for shipping your purchase.', style: {margin_bottom: 10})
-        }
-        address_footer { # contribute elements to the address_footer component slot
-          p {
-            sub("#{strong('Note:')} #{em('Purchase will be returned if the Shipping Address does not accept it in one week.')}")
+unless Object.const_defined?(:HelloComponentSlots)
+  class HelloComponentSlots
+    include Glimmer::Web::Component
+    
+    before_render do
+      @shipping_address = Address.new(
+        full_name: 'Johnny Doe',
+        street: '3922 Park Ave',
+        street2: 'PO BOX 8382',
+        city: 'San Diego',
+        state: 'California',
+        zip_code: '91913',
+      )
+      @billing_address = Address.new(
+        full_name: 'John C Doe',
+        street: '123 Main St',
+        street2: 'Apartment 3C',
+        city: 'San Diego',
+        state: 'California',
+        zip_code: '91911',
+      )
+    end
+    
+    markup {
+      div {
+        address_form_with_slots(address: @shipping_address) {
+          address_header { # contribute elements to the address_header component slot
+            h1('Shipping Address')
+            legend('This is the address that is used for shipping your purchase.', style: {margin_bottom: 10})
+          }
+          address_footer { # contribute elements to the address_footer component slot
+            p {
+              sub("#{strong('Note:')} #{em('Purchase will be returned if the Shipping Address does not accept it in one week.')}")
+            }
           }
         }
-      }
-      
-      address_form_with_slots(address: @billing_address) {
-        address_header { # contribute elements to the address_header component slot
-          h1('Billing Address')
-          legend('This is the address that is used for your billing method (e.g. credit card).', style: {margin_bottom: 10})
-        }
-        address_footer { # contribute elements to the address_footer component slot
-          p {
-            sub("#{strong('Note:')} #{em('Payment will fail if payment method does not match the Billing Address.')}")
+        
+        address_form_with_slots(address: @billing_address) {
+          address_header { # contribute elements to the address_header component slot
+            h1('Billing Address')
+            legend('This is the address that is used for your billing method (e.g. credit card).', style: {margin_bottom: 10})
+          }
+          address_footer { # contribute elements to the address_footer component slot
+            p {
+              sub("#{strong('Note:')} #{em('Payment will fail if payment method does not match the Billing Address.')}")
+            }
           }
         }
       }
     }
-  }
+  end
 end
 
 Document.ready? do

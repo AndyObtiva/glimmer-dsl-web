@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.10.3
+
+- Support `parent.prepend {}` on `ElementProxy` and `Glimmer::Web::Component`, which is a method that prepends elements to the content of a parent element
+- Support `element.focused` & `element.focused=` methods, including `focused` data-binding support. Note that setting `element.focused=` as `true` gives an element focus, but setting it to `false` does not change focus (you would have to set another element as focused to remove focus from a previous element).
+- Hello, Mutation! sample: `require 'glimmer-dsl-web/samples/hello/hello_mutation.rb'`
+- Hello, Mutation Content Data-Binding! sample: `require 'glimmer-dsl-web/samples/hello/hello_mutation_content_data_binding.rb'`
+
 ## 0.10.2
 
 - Support `parent.append {}` as an alias for `content {}` on `ElementProxy` and `Glimmer::Web::Component`, which is a method that appends elements to the content of a parent element

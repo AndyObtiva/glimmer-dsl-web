@@ -522,12 +522,12 @@ module Glimmer
         end
       end
       
-      def mutation
-        markup_root.mutation
+      def add_child_mutation
+        markup_root.add_child_mutation
       end
       
-      def mutation=(value)
-        markup_root.mutation = value
+      def add_child_mutation=(value)
+        markup_root.add_child_mutation = value
       end
 
       def method_missing(method_name, *args, &block)

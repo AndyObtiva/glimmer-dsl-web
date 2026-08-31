@@ -445,7 +445,7 @@ module Glimmer
         brand_new ||= @dom.nil? || !options[:parent].to_s.empty? || (old_element = dom_element).empty?
         build_dom(layout: !custom_parent_dom_element) # TODO handle custom parent layout by passing parent instead of parent dom element
         if brand_new
-          attach(the_parent_dom_element, mutation: self.parent&.mutation || :append)
+          attach(the_parent_dom_element, add_child_mutation: self.parent&.add_child_mutation || :append)
         else
           reattach(old_element)
         end
@@ -458,9 +458,8 @@ module Glimmer
       end
       alias rerender render
         
-      # TODO should we support an option to prepend (or insert) instead?
-      def attach(the_parent_dom_element, mutation: :append)
-        if mutation == :prepend
+      def attach(the_parent_dom_element, add_child_mutation: :append)
+        if add_child_mutation == :prepend
           the_parent_dom_element.prepend(@dom)
         else
           the_parent_dom_element.append(@dom)
@@ -469,6 +468,17 @@ module Glimmer
         
       def reattach(old_element)
         old_element.replace_with(@dom)
+      end
+      
+      def focused
+        @focused = `#{dom_element}[0] == document.activeElement`
+        @focused
+      end
+      
+      def focused=(value)
+        @focused = value
+        focus if @focused
+        @focused
       end
       
       def mark_rendered
@@ -550,26 +560,25 @@ module Glimmer
         html_options
       end
       
-      # TODO consider renaming to child_mutation or add_child_mutation
-      def mutation
-        @mutation || :append
+      def add_child_mutation
+        @add_child_mutation || :append
       end
       
-      def mutation=(value)
-        @mutation = value
+      def add_child_mutation=(value)
+        @add_child_mutation = value
       end
       
-      def content(bulk_render: false, mutation: :append, &block)
+      def content(bulk_render: false, add_child_mutation: :append, &block)
         original_bulk_render = options[:bulk_render]
         options[:bulk_render] = bulk_render if rendered?
-        return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, mutation:, &block)
+        return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, add_child_mutation:, &block)
         options[:bulk_render] = original_bulk_render if rendered?
         return_value
       end
       alias append content
       
       def prepend(bulk_render: false, &block)
-        content(bulk_render:, mutation: :prepend, &block)
+        content(bulk_render:, add_child_mutation: :prepend, &block)
       end
       
       # Subclasses must override with their own mappings

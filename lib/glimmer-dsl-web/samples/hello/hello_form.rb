@@ -24,18 +24,12 @@ Document.ready? do
           onclick do |event|
             if ([@name_input, @email_input].all? {|input| input.check_validity })
               event.prevent_default
-              puts '@table.content'
-              puts @table.content
-#               @table.append {
-#               @table.prepend {
-              @table.send(rand(2) == 1 ? :append : :prepend) {
+              @table.append {
                 tr {
                   td { @name_input.value }
                   td { @email_input.value }
                 }
               }
-              puts '@table.content'
-              puts @table.content
               @email_input.value = @name_input.value = ''
               @name_input.focus
             end
