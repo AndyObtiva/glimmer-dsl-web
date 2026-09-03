@@ -176,6 +176,7 @@ module Glimmer
       REGEX_CLASS_NAME_SUB_PROPERTY = /^(class_name)_(.*)$/
       
       attr_reader :keyword, :parent, :parent_component, :ancestor_component, :component, :args, :options, :slot, :children, :enabled, :foreground, :background, :removed, :rendered
+      attr_accessor :insert_index # to be used when add_child_mutation is insert_at
       alias rendered? rendered
       alias removed? removed
       
@@ -223,7 +224,14 @@ module Glimmer
       
       # Executes for the parent of a child that just got added
       def post_initialize_child(child)
-        @children << child
+        case parent&.add_child_mutation
+        when :prepend
+          @children.prepend(child)
+        when :insert_at
+          @children.insert(parent&.insert_index, child)
+        else # append
+          @children << child
+        end
         child.render if !bulk_render? && !render_after_create?
       end
       
@@ -445,7 +453,7 @@ module Glimmer
         brand_new ||= @dom.nil? || !options[:parent].to_s.empty? || (old_element = dom_element).empty?
         build_dom(layout: !custom_parent_dom_element) # TODO handle custom parent layout by passing parent instead of parent dom element
         if brand_new
-          attach(the_parent_dom_element, add_child_mutation: self.parent&.add_child_mutation || :append)
+          attach(the_parent_dom_element, add_child_mutation: self.parent&.add_child_mutation, insert_index: self.parent&.insert_index)
         else
           reattach(old_element)
         end
@@ -458,10 +466,17 @@ module Glimmer
       end
       alias rerender render
         
-      def attach(the_parent_dom_element, add_child_mutation: :append)
-        if add_child_mutation == :prepend
+      def attach(the_parent_dom_element, add_child_mutation: :append, insert_index: nil)
+        case add_child_mutation
+        when :prepend
           the_parent_dom_element.prepend(@dom)
-        else
+        when :insert_at
+          if insert_index == the_parent_dom_element.children.size
+            the_parent_dom_element.append(@dom)
+          else
+            the_parent_dom_element.children.eq(insert_index).before(@dom)
+          end
+        else # append
           the_parent_dom_element.append(@dom)
         end
       end
@@ -568,10 +583,10 @@ module Glimmer
         @add_child_mutation = value
       end
       
-      def content(bulk_render: false, add_child_mutation: :append, &block)
+      def content(bulk_render: false, add_child_mutation: :append, insert_index: nil, &block)
         original_bulk_render = options[:bulk_render]
         options[:bulk_render] = bulk_render if rendered?
-        return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, add_child_mutation:, &block)
+        return_value = Glimmer::DSL::Engine.add_content(self, Glimmer::DSL::Web::ElementExpression.new, keyword, add_child_mutation:, insert_index:, &block)
         options[:bulk_render] = original_bulk_render if rendered?
         return_value
       end
@@ -580,6 +595,12 @@ module Glimmer
       def prepend(bulk_render: false, &block)
         content(bulk_render:, add_child_mutation: :prepend, &block)
       end
+      
+      def insert_at(index, bulk_render: false, &block)
+        index = index.to_i if index.is_a?(String) && index.match(/^\d+$/)
+        content(bulk_render:, add_child_mutation: :insert_at, insert_index: index, &block)
+      end
+      alias insert insert_at
       
       # Subclasses must override with their own mappings
       def observation_request_to_event_mapping

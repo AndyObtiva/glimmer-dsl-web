@@ -52,12 +52,14 @@ unless Object.const_defined?(:HelloMutationContentDataBinding) # this is only ne
           }
           
           button('Append list item') {
+            # TODO disable button if nothing is in input
             onclick do
               @list_presenter.append_list_item
             end
           }
           
           button('Prepend list item') {
+            # TODO disable button if nothing is in input
             onclick do
               @list_presenter.prepend_list_item
             end

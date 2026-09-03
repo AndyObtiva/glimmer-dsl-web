@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.10.4
+
+- Support `parent.insert_at(index) {}` on `ElementProxy` and `Glimmer::Web::Component`, which is a method that inserts elements to the content of a parent element at a specified index
+- Update Hello, Mutation! sample with "Insert list item" functionality
+- Update Hello, Mutation Content Data-Binding! sample with "Insert list item" functionality
+
 ## 0.10.3
 
 - Support `parent.prepend {}` on `ElementProxy` and `Glimmer::Web::Component`, which is a method that prepends elements to the content of a parent element
