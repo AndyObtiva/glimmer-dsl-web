@@ -1,4 +1,4 @@
-# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.10.3 (Beta)
+# [<img src="https://raw.githubusercontent.com/AndyObtiva/glimmer/master/images/glimmer-logo-hi-res.png" height=85 />](https://github.com/AndyObtiva/glimmer) Glimmer DSL for Web 0.10.4 (Beta)
 ## Ruby-in-the-Browser Web Frontend Framework
 ### The "Rails" of Frontend Frameworks!!! ([Fukuoka Award Winning](https://andymaleh.blogspot.com/2025/01/glimmer-dsl-for-web-wins-in-fukuoka.html))
 #### Finally, Ruby Developer Productivity, Happiness, and Fun in the Frontend!!!
@@ -1497,6 +1497,52 @@ p(class: 'summary') {
 4- **Operations (Properties + Functions)**
 
 You can get/set any element property or invoke any element function by simply calling the lowercase underscored version of their name in Ruby like `input.check_validity`, `input.value`, and `input.id`.
+
+Additionally, these DOM mutation operations are available as methods on elements/components acting as parents:
+- `parent.append { }` : apprends elements inside the content of the parent
+- `parent.prepend { }` : prepends elements inside the content of the parent
+- `parent.insert_at(index) { }` : inserts elements inside the content of the parent (`insert` is an alias for `insert_at`)
+
+Example:
+
+```ruby
+div {
+  div(class: 'actions') {
+    @input = input(placeholder: 'Enter list item content')
+    
+    @append_button = button('Append list item') {
+      onclick do
+        @list.append { # DOM mutation operation
+          li { @input.value }
+        }
+        @input.value = ''
+        @input.focus
+      end
+    }
+  }
+  
+  @list = ul
+}
+```
+
+Specifically, this line:
+
+```ruby
+@list.append {
+  li { @input.value }
+}
+```
+
+You can append multiple elements too. Here is a different hypothetical example:
+
+```ruby
+@some_div.append {
+  h1 { @post.title }
+  p { @post.content }
+}
+```
+
+DOM mutation operations are useful for adding elements after the fact of initial rendering of the page as triggered by a user action or some system timer.
 
 Next, check out [Samples](#samples).
 
