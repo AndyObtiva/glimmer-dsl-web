@@ -96,8 +96,26 @@ unless Object.const_defined?(:HelloMutationContentDataBinding) # this is only ne
         
         ul {
           content(@list_presenter, :list) {
-            @list_presenter.list.each do |list_item|
-              li { list_item }
+            @list_presenter.list.each_with_index do |list_item, index|
+              li { |current_li|
+                span { list_item }
+                button('Insert before') {
+                  disabled <= [@list_presenter, :edit_list_disabled?, computed_by: :new_list_item]
+                  
+                  onclick do
+                    @list_presenter.insert_index = index
+                    @list_presenter.insert_list_item
+                  end
+                }
+                button('Insert after') {
+                  disabled <= [@list_presenter, :edit_list_disabled?, computed_by: :new_list_item]
+                  
+                  onclick do
+                    @list_presenter.insert_index = index + 1
+                    @list_presenter.insert_list_item
+                  end
+                }
+              }
             end
           }
         }
@@ -115,6 +133,19 @@ unless Object.const_defined?(:HelloMutationContentDataBinding) # this is only ne
       
       r('.actions label[for=insert-index-input]') {
         margin_left -5
+      }
+      
+      r('ul li') {
+        height 22.5
+      }
+      
+      r('ul li button') {
+        display :none
+        margin_left 5
+      }
+      
+      r('ul li:hover button') {
+        display :initial
       }
     }
   end

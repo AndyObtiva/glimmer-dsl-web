@@ -6,9 +6,15 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.10.x
 
-- Insert element at index operation
+- Support `parent.replace {}` on `ElementProxy` and `Glimmer::Web::Component`, to replace parent element
+- Have `ElementProxy#focused` property support bidirectional data-binding (because the user can grab focus by clicking on an element)
+- Support a custom root in all methods of `Rails::ResourceService`
+
+### 0.11.x
+
+- Update `style {}` block to scope
+- Support a global_style {} block similar to style, but enables CSS styles that are not scoped by component
 - Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
-- Support a root in all methods of `Rails::ResourceService`
 
 ### 1.0.0
 
@@ -46,7 +52,6 @@ Example:
 - Simplified data-binding support for radio input tag in a group to load the entire group data through data-binding instead of explicit inputs
 - Support a Rails generator for generating a Model serializer (using ActiveModelSerializers if disereable)
 - Rails::ResourceService supports nested paths
-- Support a component_scoped_style {} block similar to style, but doesn't need us to prefix all CSS expressions by the component class (or consider making style {} auto nest all rules while providing a global_style alternative)
 - Provide a component.child_components method (or a child_components DSL keyword) without having to use `children.map(&:component)`
 - Provide a element_proxy.root_element method, root_component method, and closest_component method
 - Provide a built-in way of supporting Modals for simpler showing and hiding/removing

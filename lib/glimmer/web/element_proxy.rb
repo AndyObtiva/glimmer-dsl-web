@@ -224,11 +224,11 @@ module Glimmer
       
       # Executes for the parent of a child that just got added
       def post_initialize_child(child)
-        case parent&.add_child_mutation
+        case self.add_child_mutation # TODO this is where the problem is.. It's an append instead of an insert_at
         when :prepend
           @children.prepend(child)
         when :insert_at
-          @children.insert(parent&.insert_index, child)
+          @children.insert(self.insert_index, child)
         else # append
           @children << child
         end
@@ -601,6 +601,18 @@ module Glimmer
         content(bulk_render:, add_child_mutation: :insert_at, insert_index: index, &block)
       end
       alias insert insert_at
+      
+      def before(bulk_render: false, &block)
+        return if parent.nil?
+        parent_insert_index = parent.children.index(self)
+        parent.content(bulk_render:, add_child_mutation: :insert_at, insert_index: parent_insert_index, &block)
+      end
+      
+      def after(bulk_render: false, &block)
+        return if parent.nil?
+        parent_insert_index = parent.children.index(self) + 1
+        parent.content(bulk_render:, add_child_mutation: :insert_at, insert_index: parent_insert_index, &block)
+      end
       
       # Subclasses must override with their own mappings
       def observation_request_to_event_mapping
