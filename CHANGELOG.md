@@ -1,8 +1,15 @@
 # Change Log
 
+## 0.10.5
+
+- Support `parent.before {}` & `parent.after {}` on `ElementProxy` and `Glimmer::Web::Component`, to insert elements before or after the parent element.
+- Fixed issue with how `insert_at` was mistakenly adding a newly inserted element to the parent's parent's children
+- Update Hello, Mutation! sample with "Insert before" and "Insert after" functionality
+- [TODO] Update Hello, Mutation Content Data-Binding! sample with "Insert before" and "Insert after" functionality
+
 ## 0.10.4
 
-- Support `parent.insert_at(index) {}` on `ElementProxy` and `Glimmer::Web::Component`, which is a method that inserts elements to the content of a parent element at a specified index
+- Support `parent.insert_at(index) {}` on `ElementProxy` and `Glimmer::Web::Component`, which is a method that inserts elements to the content of a parent element at a specified index.
 - Support `parent.insert(index) {}` alias for `parent.insert_at(index) {}`
 - Update Hello, Mutation! sample with "Insert list item" functionality
 - Update Hello, Mutation Content Data-Binding! sample with "Insert list item" functionality

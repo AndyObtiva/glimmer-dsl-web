@@ -521,6 +521,14 @@ module Glimmer
       end
       alias insert insert_at
       
+      def before(bulk_render: false, &block)
+        @markup_root.before(bulk_render:, &block)
+      end
+      
+      def after(bulk_render: false, &block)
+        @markup_root.after(bulk_render:, &block)
+      end
+      
       def remove_all_listeners
         data_bindings.each do |option_binding, model_binding|
           option_binding.unregister_all_observables

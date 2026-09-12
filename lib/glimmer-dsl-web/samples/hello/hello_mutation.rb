@@ -4,8 +4,12 @@ unless Object.const_defined?(:HelloMutation) # this is only needed in sample sel
   class HelloMutation
     include Glimmer::Web::Component
     
+    before_render do
+      @action_buttons = []
+    end
+    
     after_render do
-      @append_button.disabled = @prepend_button.disabled = @insert_button.disabled = true
+      toggle_action_buttons_disabled(true)
     end
     
     markup {
@@ -20,42 +24,42 @@ unless Object.const_defined?(:HelloMutation) # this is only needed in sample sel
           @input = input(placeholder: 'Enter list item content') {
             oninput do
               if @input.value.to_s.strip == ''
-                @append_button.disabled = @prepend_button.disabled = @insert_button.disabled = true
+                toggle_action_buttons_disabled(true)
               else
-                @append_button.disabled = @prepend_button.disabled = @insert_button.disabled = false
+                toggle_action_buttons_disabled(false)
               end
             end
           }
           
-          @append_button = button('Append list item') {
+          @action_buttons << button('Append list item') {
             onclick do
               @list.append {
-                li { @input.value }
+                new_li
               }
-              @append_button.disabled = @prepend_button.disabled = @insert_button.disabled = true
+              toggle_action_buttons_disabled(true)
               @input.value = ''
               @input.focus
             end
           }
           
-          @prepend_button = button('Prepend list item') {
+          @action_buttons << button('Prepend list item') {
             onclick do
               @list.prepend {
-                li { @input.value }
+                new_li
               }
-              @append_button.disabled = @prepend_button.disabled = @insert_button.disabled = true
+              toggle_action_buttons_disabled(true)
               @input.value = ''
               @input.focus
             end
           }
           
-          @insert_button = button('Insert list item') {
+          @action_buttons << button('Insert list item') {
             onclick do
               index = [@insert_index_input.value.to_i, @list.children.size].min
               @list.insert_at(index) {
-                li { @input.value }
+                new_li
               }
-              @append_button.disabled = @prepend_button.disabled = @insert_button.disabled = true
+              toggle_action_buttons_disabled(true)
               @input.value = ''
               @input.focus
             end
@@ -86,7 +90,52 @@ unless Object.const_defined?(:HelloMutation) # this is only needed in sample sel
       r('.actions label[for=insert-index-input]') {
         margin_left -5
       }
+      
+      r('ul li') {
+        height 22.5
+      }
+      
+      r('ul li button') {
+        display :none
+        margin_left 5
+      }
+      
+      r('ul li:hover button') {
+        display :initial
+      }
     }
+  end
+  
+  private
+  
+  def new_li
+    li { |current_li|
+      span { @input.value }
+      @action_buttons << button('Insert before') {
+        onclick do
+          current_li.before {
+            new_li
+          }
+          toggle_action_buttons_disabled(true)
+          @input.value = ''
+          @input.focus
+        end
+      }
+      @action_buttons << button('Insert after') {
+        onclick do
+          current_li.after {
+            new_li
+          }
+          toggle_action_buttons_disabled(true)
+          @input.value = ''
+          @input.focus
+        end
+      }
+    }
+  end
+  
+  def toggle_action_buttons_disabled(disabled)
+    @action_buttons.each { |action_button| action_button.disabled = disabled }
   end
 end
 
