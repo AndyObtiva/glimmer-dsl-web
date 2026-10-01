@@ -104,7 +104,7 @@ unless Object.const_defined?(:HelloMutation) # this is only needed in sample sel
   
   def new_li
     li { |current_li|
-      span { @input.value }
+      li_span(text: @input.value)
       @action_buttons << button('Insert before') {
         onclick do
           current_li.before {
@@ -121,6 +121,45 @@ unless Object.const_defined?(:HelloMutation) # this is only needed in sample sel
           reset_input_and_button_enablement
         end
       }
+    }
+  end
+  
+  def li_span(text:)
+    li_span_element = span(text) {
+      ondblclick do
+        make_li_editable(li_span_element)
+      end
+    }
+  end
+  
+  def make_li_editable(li_span_element)
+    width = li_span_element.get_bounding_client_rect.width + 20
+    li_input_element = li_span_element.replace {
+      li_input(value: li_span_element.inner_text)
+    }
+    li_input_element.focus
+    li_input_element.select
+  end
+  
+  def li_input(value:)
+    li_input_element = input(type: 'text', value:) {
+      onblur do
+        make_li_readable(li_input_element)
+      end
+      onkeyup do |event|
+        if event.key == 'Enter' || event.keyCode == "\r"
+          make_li_readable(li_input_element)
+        elsif event.key == 'Escape' || event.keyCode == 27
+          make_li_readable(li_input_element, value:) # resets value
+        end
+      end
+    }
+  end
+  
+  def make_li_readable(li_input_element, value: nil)
+    value ||= li_input_element.value
+    li_input_element.replace {
+      li_span(text: value)
     }
   end
   

@@ -6,14 +6,16 @@ Here is a list of tasks to do (moved to CHANGELOG.md once done).
 
 ### 0.10.x
 
-- Support `parent.replace {}` on `ElementProxy` and `Glimmer::Web::Component`, to replace parent element
 - Have `ElementProxy#focused` property support bidirectional data-binding (because the user can grab focus by clicking on an element)
 - Support a custom root in all methods of `Rails::ResourceService`
 
 ### 0.11.x
 
-- Update `style {}` block to scope
+- Update `style {}` block to implicitly scope style selectors by component
 - Support a global_style {} block similar to style, but enables CSS styles that are not scoped by component
+- Update Glimmer DSL for CSS to support CSS property symbol values with underscores that become dashes once converted to string values
+- Update Glimmer DSL for CSS to support nesting rules
+- Update Glimmer DSL for CSS to support at rules other than media (promoting the library to 2.0.0 with all new features)
 - Proxy existing elements, turning them into Glimmer elements (or root only perhaps)
 
 ### 1.0.0

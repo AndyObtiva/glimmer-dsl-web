@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.10.6
+
+- Support `parent.replace {}` on `ElementProxy` and `Glimmer::Web::Component`, to replace parent element
+- Support `element.css(property)` as an alias to `element.style_property(property)` for reading inline style properties
+- Support `element.css(property, value)` as an alias to `element.style_property(property, value)` for writing inline style properties
+- Fix issue with `input_element.select` to select all text within an input element
+- Update Hello, Mutation! sample with Edit via double-click functionality
+- Update Hello, Mutation Content Data-Binding! sample with Edit via double-click functionality
+
 ## 0.10.5
 
 - Support `parent.before {}` & `parent.after {}` on `ElementProxy` and `Glimmer::Web::Component`, to insert elements before or after the parent element.

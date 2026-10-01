@@ -302,6 +302,11 @@ module Glimmer
       def selector
         ".#{element_id}"
       end
+      
+      def select
+        dom_element&.select
+      end
+      alias select_all select
 
       # Root element representing widget. Must be overridden by subclasses if different from div
       def element
@@ -422,6 +427,7 @@ module Glimmer
           enqueue_post_render_method_call(*enqueue_args)
         end
       end
+      alias css style_property
       
       def parent_selector
         @parent&.selector
@@ -603,15 +609,22 @@ module Glimmer
       alias insert insert_at
       
       def before(bulk_render: false, &block)
-        return if parent.nil?
+        return if parent.nil? # TODO there might be a way to loosen this requirement in the future
         parent_insert_index = parent.children.index(self)
         parent.content(bulk_render:, add_child_mutation: :insert_at, insert_index: parent_insert_index, &block)
       end
       
       def after(bulk_render: false, &block)
-        return if parent.nil?
+        return if parent.nil? # TODO there might be a way to loosen this requirement in the future
         parent_insert_index = parent.children.index(self) + 1
         parent.content(bulk_render:, add_child_mutation: :insert_at, insert_index: parent_insert_index, &block)
+      end
+      
+      def replace(bulk_render: false, &block)
+        return if parent.nil? # TODO there might be a way to loosen this requirement in the future
+        after(bulk_render: false, &block).tap do
+          remove
+        end
       end
       
       # Subclasses must override with their own mappings
